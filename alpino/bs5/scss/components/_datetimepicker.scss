@@ -1,0 +1,59 @@
+﻿.dtp {
+    div.dtp-date,
+    div.dtp-time
+    {
+        background: var(--dark-color);
+        color: var(--text-color);
+        div{
+            color: var(--text-color);
+        }
+    }
+
+    > .dtp-content {
+        max-height: 530px !important;
+        background: var(--card-color) !important;
+        > .dtp-date-view {
+            > header.dtp-header {
+                background: var(--card-color);
+                color: var(--text-color);
+            }
+        }
+    }
+
+    .dtp-buttons {
+
+        text-align: center !important;
+        .dtp-btn-ok {
+            margin-left: 10px;
+        }
+
+        .dtp-btn-clear {
+            margin-right: 10px !important;
+        }
+    }
+
+    .p10 {
+        > a {
+            color: $white;
+        }
+    }
+
+    div.dtp-actual-year {
+        font-size: 1.5em;
+        color: $white;
+    }
+
+    table.dtp-picker-days {
+        tr {
+            td {
+                a{
+                    color: var(--text-color);
+                }
+                a.selected {
+                    background: var(--color-200);
+                    color: var(--dark-color);
+                }
+            }
+        }
+    }
+}

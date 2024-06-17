@@ -1,0 +1,107 @@
+﻿.inbox {
+    .mail_list {
+        overflow: hidden;
+        li{            
+            display: flex;
+            &:hover{
+                background:var(--border-color);
+                .media-body{
+                    .media-heading{
+                        a{
+                            color: var(--dark-color);
+                        }
+                    }
+                    .msg{
+                        color: var(--dark-color);
+                    }
+                }
+            }
+
+            &.unread{
+                border-left:2px solid var(--border-color);
+                .media-body{
+                    .media-heading{
+                        a{
+                            color: var(--text-color);
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+
+            .controls {
+                display: inherit;
+                margin-right: 10px;
+                vertical-align: top;                
+                margin-top: 11px;
+
+                .checkbox{
+                    display: inline-block;
+                    
+                    label{
+                        margin: 0;
+                        padding: 10px;
+                    }
+                }
+                
+            }
+
+            .media-body{
+                width: calc(100% - 60px);            
+
+                .thumb{
+                    float: left;
+                    margin-right: 10px;
+                    width: 40px;
+                    margin-top: 5px;
+                }
+
+                .media-heading{
+                    a{
+                        color: var(--text-color);
+                        font-weight: normal;
+
+                        &:hover, &:focus{
+                            text-decoration: none;
+                        }
+                    }
+                    .badge{
+                        margin: 0;
+                    }
+                    small{
+                        font-size: 12px;
+                    }
+                }
+
+                .msg{
+                    margin-bottom: 0px;
+                    color: var(--color-500);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    width: 80%;
+                }
+                @media only screen and (max-width:767px) {  
+                    width: 100%;             
+                }
+            }
+        }
+        
+    }
+
+    .btn-group{
+        box-shadow: none;
+    }
+
+    .bg-gray{
+        background: #e6e6e6;
+    }
+}
+
+@media only screen and (max-width:767px) {    
+    .inbox .mail_list li{
+        .media-body .thumb, .controls{
+            display: none;
+        }
+    }
+}

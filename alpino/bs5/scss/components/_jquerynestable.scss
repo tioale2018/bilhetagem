@@ -1,0 +1,37 @@
+﻿.dd-handle {
+    background-color: var(--color-100) !important;
+    color: var(--dark-color);
+    &:hover {
+        color: #2196F3;
+    }
+}
+
+.nestable-dark-theme {
+    .dd-handle {
+        background: var(--color-200) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+}
+
+.dd3-handle {
+    background: var(--border-color) !important;
+}
+
+.dd3-content {
+    &:hover {
+        color: #2196F3;
+    }
+}
+
+.dd-item{
+    background-color: var(--color-100) !important;
+    .dd-handle{
+        color:var(--text-color) ;
+    }
+}
+
+.nestable-with-handle,.nestable-dark-theme{
+    .dd-handle {
+        color: var(--dark-color);
+    }
+}
