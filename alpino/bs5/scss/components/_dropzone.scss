@@ -1,0 +1,17 @@
+﻿.dropzone {
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--card-color) !important;
+
+    .dz-message {
+        .drag-icon-cph {
+            .material-icons {
+                font-size: 80px;
+                color: var(--color-600);
+            }
+        }
+    }
+}
+
+.dz-drag-hover {
+    border: 1px dashed var(--color-600) !important;
+}

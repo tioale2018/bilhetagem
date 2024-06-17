@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Permitir apenas requisições AJAX/POST
+    RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
+    RewriteCond %{REQUEST_METHOD} !POST [NC]
+    RewriteRule ^ - [F,L]
+
+    # Bloquear acesso direto pela barra de endereço
+    RewriteCond %{HTTP_REFERER} !^http://localhost/ [NC]
+    RewriteCond %{HTTP_REFERER} !^http://localhost/ [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+<FilesMatch "\.php$">
+    Order Deny,Allow
+    Deny from all
+    Allow from env=ALLOW_PHP
+</FilesMatch>
+
+SetEnvIf X-Requested-With "XMLHttpRequest" ALLOW_PHP

@@ -1,0 +1,439 @@
+// Admin Layout (alpino)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: alpino
+// Copyright 2021 WrapTheme
+
+body {
+    @include transition(ease .1s);
+    @include fadeInAnimation('fadeInAnimation');
+    background-color: var(--body-color);
+    color: var(--color-500);
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+        box-shadow: none;
+    }
+    &:not(.btn){
+        color: var(--primary-color);
+    }
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+    color: var(--htext-color);
+}
+
+hr{
+    border-color: var(--border-color);
+}
+
+pre{
+    &.prettyprint{
+        border: 1px solid var(--border-color);
+        .pln{
+            color: var(--text-color);
+        }
+    }
+}
+
+
+// header notifications 
+.notifications {
+    .pulse,
+    .pulse:focus{
+        color: var(--primary-color) !important;
+    }
+
+    .card{
+
+        .card-header{
+            background-color: $dark;
+            color: var(--white-color);
+
+            .nav-tabs{
+                .nav-link{
+                    color: rgba($white, .7);
+                    font-size: 1rem;
+                    border: 0;
+
+                    &.active,
+                    &:hover{
+                        color: var(--secondary-color);
+                        background-color: transparent;
+
+                        &::after{
+                            content: '';
+                            width: 7px;
+                            height: 7px;
+                            background-color: var(--secondary-color);
+                            display: block;
+                            border-radius: 50%;
+                            margin: 5px auto 0;
+                        }
+                    }
+                }
+            }
+        }
+        .card-body.tab-content{
+            height: 330px;
+        }
+    }
+    ul:hover{
+        li{
+            @include transition(ease .1s);
+            opacity: .5;
+        }
+        li:hover{
+            opacity: 1 !important;
+        }
+    }
+}
+
+
+// for card layout height
+.row-deck {
+    >.col,
+    >[class*='col-']{
+        display: flex;
+        align-items: stretch;
+        .card{
+            flex: 1 1 auto;
+        }
+    }
+}
+
+.ls-toggle-menu{
+    .slimScrollDiv{
+        overflow: visible !important;
+        .list{
+            overflow: visible !important;
+        }
+    }
+    .navbar-brand{
+        color: var(--htext-color);
+        border-color: rgba($white, 0.1);
+        a{
+            display: none;
+        }
+        span,.zmdi-menu{
+            color: var(--text-color);
+        }
+    }
+    .sidebar {
+        width: 50px;
+
+        .user-info{
+            color: var(--htext-color);
+            border-color: rgba( var(--white-color), 0.1);
+            span,
+            .zmdi-menu{
+                color: var(--white-color);
+            }
+            .image{
+                padding: 8px !important;
+                img{
+                    box-shadow: none;
+                }
+            }
+            .detail{
+                display: none;
+            }
+        }
+        .menu{
+            .list{
+                margin: 0;
+                a{
+                    padding: 10px 0;
+                    text-align: center;
+                    color: var(--text-color);
+                    @media only screen and (max-width: $break-small){
+                        padding: 8px 0;
+                    }
+
+                    span{
+                        display: none;
+                    }
+                    &:hover{
+                        color:var(--primary-color);
+                    }
+                }
+                li{
+                    position: relative;
+                    &:hover{
+                        .ml-menu{
+                            display: block !important;
+                        }
+                    }
+                    &.open_top{
+                        .ml-menu{
+                            bottom: 0;
+                            top: auto;
+                        }                        
+                    } 
+                    &.active {
+                        background-color: $transparent-bg;
+                        a{
+                            color: var(--white-color);
+                        }
+                        >:first-child{
+    
+                            i, span{
+                                color:var(--primary-color);
+                            }
+                        }
+                    }
+                }
+                .menu-toggle:after,
+                .menu-toggle:before,
+                .progress-container{
+                    display: none;
+                }
+                .ml-menu{
+                    @include transition(all .5s);
+                    @include border-radius(10px);
+                    background: var(--white-color);
+                    min-width: 240px;
+                    display: none !important;
+                    position: absolute;
+                    top: 0;
+                    left: 50px;                    
+                    padding: 15px 15px 15px 5px;
+                    text-align: left;
+                    box-shadow: 0px 10px 50px 0px rgba($dark,0.2);
+
+                    li{
+                        a{
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }        
+    }
+    section.content {
+        margin-left: 50px;
+    }
+}
+
+
+
+
+.rv-btn-toggle{
+    display: none;
+    &:focus,
+    &:hover,
+    &:active{
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+.table{
+    &.c_table{
+        border-collapse: separate !important;
+        border-spacing: 0 5px !important;
+        font-size: $font-size + 2px;
+        color: var(--text-color);
+        tr{
+            background: var(--card-color);
+            color:(--text-color);
+            td, th{
+                border: 0;
+                vertical-align: middle;
+                white-space: nowrap;
+               
+                &:first-child{
+                    border-radius: $border-radius-small 0 0 $border-radius-small;
+                }
+                &:last-child{
+                    border-radius: 0 $border-radius-small $border-radius-small 0;
+                }
+                .checkbox{
+                    @extend .m-b-0;
+                    position: relative;
+                    height: 24px;
+                    width: 24px;
+
+                    label{
+                        position: unset;
+                        padding: 0;
+                    }
+                }
+            }
+            &:hover{
+                background: rgba(var(--white-color), 0.02);
+            }
+        }
+    }
+    &.theme-color{
+        thead{
+            td, th{
+                color: var(--white-color);
+            }
+        }        
+    }
+    tr{
+        th,td{
+            color: var(--text-color);
+        }
+    }
+    &.table-hover>tbody>tr:hover>*{
+        color: var(--text-color);
+    }
+    &.table-striped>tbody>tr:nth-of-type(odd)>*{
+        color: var(--text-color);
+    }
+}
+.menu-container{
+    ul > li > ul > li a:hover,
+    ul.normal-sub > li a:hover{
+        background:var(--primary-color);
+    }
+}
+.fc .fc-toolbar .fc-right .fc-state-active{
+    background:var(--primary-color);
+    color: var(--white-color);
+ }
+.note-editor{
+    &.note-frame{
+        background: var(--card-color);
+        border-color: var(--border-color);
+        .note-editing-area{
+            .note-editable{
+                background: var(--card-color);
+                color: var(--text-color);
+            }
+        }
+        .note-statusbar{
+            background-color: var(--border-color);
+        }
+    }
+}
+
+.inbox-widget{
+    .inbox-inner{
+        &:hover{
+            .inbox-img{
+                img {
+                    border: 2px solid var(--primary-color);
+                    transition: all 150ms linear;
+                }
+            }
+        }
+    }
+}
+
+.blockquote{
+    @include border-radius(3px);
+    @include box-shadow(0 0 10px rgba($dark, 0.1));
+    font-size: $font-size + 6px;
+    border-left: 5px solid $cyan !important;
+    border-color: transparent;
+    line-height: 27px;
+    padding: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.checkbox{
+    &.simple{
+        position: relative;
+        margin: 0;
+        width: 24px;
+        height: 24px;
+        label{
+            position: unset;
+        }
+    }
+    input[type="checkbox"]:checked+label::after{
+        background: var(--primary-color);
+        color: var(--color-fff);
+    }
+}
+
+.irs--flat{
+    .irs-from, .irs-to, .irs-single, .irs-bar,.irs-handle > i:first-child{
+        background-color: var(--primary-color);
+    }
+}
+.table-dark{
+    th{
+        color: var(--white-color) !important;
+    }
+}
+
+@media only screen and (max-width: $break-medium){
+    .hidden-md-down{
+        display: none;
+    }
+}
+
+// Do not add in project
+code{
+    font-size: $font-size;
+}
+:not(pre) > code[class*="language-"],
+pre[class*="language-"]{
+    background: var(--color-500) !important;
+}
+code[class*="language-"],
+pre[class*="language-"]{
+    text-shadow: none !important;
+    color: var(--color-000) !important;
+}
+.table tr td {
+    border-color: var(--border-color);
+    color: var(--color-500);
+    padding: 0.8rem 0.6rem;
+}
+// Chart
+.c3_chart,
+.c3-chart-arc,
+#m_donut_chart{
+    path{
+        stroke: var(--card-color);
+    }
+}
+#area_chart{
+    path{
+        stroke: var(--border-color);
+    }
+}
+.c3-legend-item{
+    text{
+        fill: var(--text-color);
+    }
+}
+.bg-deep-purple         {background-color: #673AB7;}
+.bg-light-blue          {background-color: #03A9F4;}
+.bg-light-green         {background-color: #8BC34A;}
+.bg-lime                {background-color: #82c885;}
+.bg-amber               {background-color: #f9bd65;}
+.bg-deep-orange         {background-color: #FF5722;}
+.bg-brown               {background-color: #795548;}
+.bg-grey                {background-color: #9E9E9E;}
+.bg-blue-grey           {background-color: #607D8B;}
+.error                  {color:red;}
+// responsive css
+@media only screen and (max-width: $break-small - 1px) {
+    .body-header{
+        .row{
+            display: block;
+            .col-auto{
+                margin-top: 20px;
+            }
+        }
+    }
+    #NotificationsDiv{
+        left: 0;
+        right: 0;
+        position: fixed;
+        top: 55px;
+    }
+}
