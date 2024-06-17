@@ -94,8 +94,6 @@
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
                     $('#modalAddParticipante').modal('hide');
                 });
-                //console.log(data);
-                //location.reload();
             }); 
 
 
