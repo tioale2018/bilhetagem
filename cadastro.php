@@ -176,6 +176,12 @@ include_once("./inc/head.php");
                 <div class="card">
                 
                     <div class="body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>Atenção</h4>
+                                <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão "Autorizar" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>
+                            </div>
+                        </div>
                         
                         <div class="row justify-content-end">
                              <div class="col-md-3">
@@ -252,7 +258,7 @@ include_once("./inc/head.php");
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: vconfirmButtonText,
                 cancelButtonText: vcancelButtonText,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 closeOnCancel: true
             }, function (isConfirm) {
             
@@ -272,7 +278,11 @@ include_once("./inc/head.php");
                         
                     });
                 } else if (acao==2) {
-                    location.href="reserva-resumo.php";
+                    $.post('finaliza-reserva.php', {i:id}, function(data){
+                        //location.href="finaliza-reserva.php";
+                        console.log(data);
+                    })
+                        
                 }
                 
             });

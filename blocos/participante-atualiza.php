@@ -19,8 +19,6 @@ $identrada     = $_POST['identrada'];
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
-
-
 $sql1 = "update tbvinculados set  nome=:nome, nascimento=:nascimento, tipo=:tipo, lembrar=:lembrar where id_vinculado=:idvinculado";
 
 $pre1 = $connPDO->prepare($sql1);
@@ -32,13 +30,11 @@ $pre1->bindParam(':idvinculado', $idvinculado, PDO::PARAM_INT);
 
 $pre1->execute();
 
-
-$sql2 = "update tbentrada set id_pacote=:pacote where id_entrada=:identrada";
+$sql2 = "update tbentrada set id_pacote=:pacote, autoriza=0 where id_entrada=:identrada";
 
 $pre2 = $connPDO->prepare($sql2);
 $pre2->bindParam(':pacote', $pacote, PDO::PARAM_INT);
 $pre2->bindParam(':identrada', $identrada, PDO::PARAM_INT);
 
 $pre2->execute();
-
 ?>

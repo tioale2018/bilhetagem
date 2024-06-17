@@ -25,6 +25,8 @@ inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
 where tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda";
 */
 
+
+
 $sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.id_responsavel, tbprevenda.id_evento, tbprevenda.prevenda_status, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.telefone2
 from tbentrada
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
@@ -40,7 +42,6 @@ $pre->execute();
 $row = $pre->fetchAll();
 
 $horaAgora = time();
-
 
 ?>
 <!doctype html>
@@ -204,7 +205,6 @@ include_once("./inc/head.php");
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
                     $.post('./blocos/reserva-finaliza.php', formAtual.serialize(), function(data){
                         console.log(data);
                         swal({
@@ -216,7 +216,6 @@ include_once("./inc/head.php");
                             confirmButtonText: "Ok",
                             closeOnConfirm: false
                         }, function () {
-                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
                             location.reload();
                         });
                         
@@ -264,7 +263,7 @@ include_once("./inc/head.php");
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+       
                     $.post('./blocos/reserva-cancela.php', {i:id}, function(data){
                         console.log(data);
                         swal({
@@ -276,7 +275,7 @@ include_once("./inc/head.php");
                             confirmButtonText: "Ok",
                             closeOnConfirm: false
                         }, function () {
-                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+
                             location.reload();
                         });
                         
@@ -285,13 +284,9 @@ include_once("./inc/head.php");
             });
             
         });
-
-        
-
-
-        
         
     });
+
 </script>
 
 
