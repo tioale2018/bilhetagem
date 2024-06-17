@@ -30,12 +30,6 @@ $rowNum = $pre->rowCount();
     <div class="table-responsive">
         <?php 
         if ($pre->rowCount()>0) { 
-
-            // $sql_busca_pacote = "select * from tbpacotes where ativo=1 and id_evento=".$row[0]['id_evento'];
-            // $pre_busca_pacote = $connPDO->prepare($sql_busca_pacote);
-            // $pre_busca_pacote->execute();
-            // $row_busca_pacote = $pre_busca_pacote->fetchAll();
-            
         ?>
                 
         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -52,7 +46,8 @@ $rowNum = $pre->rowCount();
             </thead>                                
             <tbody>
 
-            <?php  foreach ($row as $key => $value) { ?>
+            <?php  
+            foreach ($row as $key => $value) { ?>
                
                 <tr>
                     <td><?= $row[$key]['nome'] ?></td>
@@ -98,9 +93,9 @@ $rowNum = $pre->rowCount();
 </div>
 
 <script>
-    $('select').selectpicker();
-
     $(document).ready(function(){
+        $('select').selectpicker();
+
         $('body').on('click', '.btnModalEditaParticipante', function() {
             let i = $(this).data('idparticipante');
             let j = $(this).data('idprevenda');

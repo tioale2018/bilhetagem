@@ -48,7 +48,7 @@
                     <div class="card-plain">
                         <div class="header">                            
                             <h5>Error 404</h5>
-                            <span>Page not found</span>
+                            <span>Não atualizar</span>
                         </div>
                         <form class="form">                            
                             <div class="input-group">
