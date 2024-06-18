@@ -21,11 +21,13 @@ $pre->execute();
 
 if ($pre->rowCount()<1) {
     header('Location: index.php');
+    session_destroy();
 } else {
     $row = $pre->fetchAll();
     $_SESSION['row'] = $row;
     $evento_atual = $row[0]['idevento'];
     $_SESSION['evento_atual'] = $row[0]['idevento'];
+    $_SESSION['hash_evento'] = $hash;
 }
 
 
@@ -66,8 +68,6 @@ $row_busca_vinculo = $pre_busca_vinculo->fetchAll();
 $_SESSION['lista_vinculos'] = $row_busca_vinculo;
 //---------------------------------------------------------------------------------------------
 
-
-
 $id               = limparCPF($_POST['cpf']);
 $cpf              = $id;
 $_SESSION['cpf']  = $id;
@@ -75,7 +75,6 @@ $_SESSION['cpf']  = $id;
 $datahora         = time();
 $hoje             = date('Y-m-d', $datahora);
 $crianovaPrevenda = false;
-
 
 
 $dados_responsavel = procuraResponsavel($id);

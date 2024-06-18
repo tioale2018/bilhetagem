@@ -29,6 +29,7 @@ $rowNum = $pre->rowCount();
 <div class="body lista-vinculados">
     <div class="table-responsive">
         <?php 
+        $travaBtEnvia = 'false';
         if ($pre->rowCount()>0) { 
         ?>
                 
@@ -65,6 +66,7 @@ $rowNum = $pre->rowCount();
                     <td class="text-center">
                         <?php 
                             if ($row[$key]['autoriza']==0) {
+                                $travaBtEnvia = 'true';
                                 echo '<a href="#" class="btnModalTermoParticipante" data-id="'.$row[$key]['id_entrada'].'"><span class="badge badge-danger">Autorizar</span></a>';
                             } else {
                                 echo '<span class="badge badge-success">OK</span>';
@@ -73,7 +75,6 @@ $rowNum = $pre->rowCount();
                     </td>
                     <td>
                         <button data-idprevenda="<?= $row[$key]['id_prevenda'] ?>" data-idparticipante="<?= $row[$key]['id_vinculado'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 btnModalEditaParticipante"><i class="zmdi zmdi-edit"></i></button>
-                        
                         <button data-entrada="<?= $row[$key]['id_entrada'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 excluivinculo"><i class="zmdi zmdi-delete"></i></button>
                     </td>
                 </tr>
@@ -82,7 +83,9 @@ $rowNum = $pre->rowCount();
             </tbody>
         </table>
 
-        <?php } else { ?>
+        <?php } else { 
+            $travaBtEnvia = 'true';
+            ?>
 
             <div class="alert alert-danger">
                 <strong>Opa!</strong> Nenhuma criança foi vinculada a este cadastro.
@@ -92,9 +95,12 @@ $rowNum = $pre->rowCount();
     </div>
 </div>
 
+
+<?php if (isset($key)) { ?>
+
 <script>
     $(document).ready(function(){
-        $('select').selectpicker();
+        
 
         $('body').on('click', '.btnModalEditaParticipante', function() {
             let i = $(this).data('idparticipante');
@@ -141,8 +147,13 @@ $rowNum = $pre->rowCount();
                 });
             });
         });
-    })
-    
 
+    });   
+</script>
 
+<?php } ?>
+
+<script>
+    $('select').selectpicker();
+    $('button[name=btnFinaliza]').prop('disabled', <?= $travaBtEnvia ?>);
 </script>

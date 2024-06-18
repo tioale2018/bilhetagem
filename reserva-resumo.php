@@ -17,6 +17,19 @@ $evento_atual      = $_SESSION['evento_atual'];
 $id                = $_SESSION['cpf'];
 $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
+$hashEvento        = $_SESSION['hash_evento'];
+
+$sql = "SELECT count(*) as total  FROM tbentrada WHERE id_prevenda=:idprevenda and previnculo_status=1 and ativo=1 and autoriza=0";
+$pre = $connPDO->prepare($sql);
+$pre->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);
+
+$pre->execute();
+$row = $pre->fetchAll();
+$total = $row[0]['total'];
+
+if ($total>0) {
+    header('Location: cadastro.php');
+} 
 
 /*
 $sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor from tbentrada
@@ -24,8 +37,6 @@ inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
 where tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda";
 */
-
-
 
 $sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.id_responsavel, tbprevenda.id_evento, tbprevenda.prevenda_status, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.telefone2
 from tbentrada
@@ -41,8 +52,18 @@ $pre->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);
 $pre->execute();
 $row = $pre->fetchAll();
 
+if ($pre->rowCount()<1) {
+    session_destroy();
+    header('Location: index.php?i='.$hashEvento);
+}
+
 $horaAgora = time();
 
+//encerra e envia prevenda para operador
+$sql_atualiza_prevenda = "update tbprevenda set prevenda_status=1, pre_reservadatahora='$horaAgora' where id_prevenda=:idprevenda";
+$pre_atualiza_prevenda = $connPDO->prepare($sql_atualiza_prevenda);
+$pre_atualiza_prevenda->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);
+$pre_atualiza_prevenda->execute();
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -50,8 +71,6 @@ $horaAgora = time();
 <?php
 
 include_once("./inc/head.php");
-
-
 
 ?>
 
@@ -128,7 +147,6 @@ include_once("./inc/head.php");
                                                 <td><?= $value['nome'] ?></td>
                                                 <td><?= $value['descricao'] ?></td>
                                                 <td><?= $value['duracao'].'min' ?></td>
-                                                
                                             </tr>
 
                                             <?php }  ?>
@@ -146,11 +164,9 @@ include_once("./inc/head.php");
                             <div class="hidden-print col-md-12 text-right">
                                 <div class="row">
                                     
-                                    <div class="col-3 offset-md-6">
-                                        <button class="btn btn-raised btn-primary btn-round btCancela" type="button">Cancelar reserva</button>
-                                    </div>
+                                    
                                     <div class="col-3">
-                                        <button class="btn btn-raised btn-primary btn-round" type="submit">Confirmar reserva</button>
+                                        <button class="btn btn-raised btn-primary btn-round" type="submit">Nova reserva</button>
                                     </div>
                                 </div>
 
@@ -190,8 +206,6 @@ include_once("./inc/head.php");
             let vtext= "Deseja concluir o cadastro e enviar a solicitação de reserva?";
             let vconfirmButtonText= "Sim";
             let vcancelButtonText= "Não";
-            
-
 
             swal({
                 title: vtitle,

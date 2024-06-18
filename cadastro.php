@@ -191,8 +191,6 @@ include_once("./inc/head.php");
                             <div class="col-md-3">
                                 <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao">Finalizar Cadastro</button>
                             </div>
-                            
-
                         </div>
 
                     </div>
@@ -278,11 +276,7 @@ include_once("./inc/head.php");
                         
                     });
                 } else if (acao==2) {
-                    $.post('finaliza-reserva.php', {i:id}, function(data){
-                        //location.href="finaliza-reserva.php";
-                        console.log(data);
-                    })
-                        
+                    location.href="reserva-resumo.php";                        
                 }
                 
             });
@@ -293,6 +287,8 @@ include_once("./inc/head.php");
                 e.preventDefault();
             }
         })
+
+        
         
     });
 </script>
