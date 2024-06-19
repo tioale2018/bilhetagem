@@ -157,7 +157,6 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                     $('input[name=nome]').val('');
                     $('input[name=email]').val('');
                     $('input[name=telefone]').val('');
-
                     $('input, button').prop('readonly', false);
                 }
 

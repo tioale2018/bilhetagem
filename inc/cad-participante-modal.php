@@ -36,8 +36,8 @@
                                 <label for="" class="form-label">Perfil</label>                            
                                 <select class="form-control p-0" name="pacote" id="fpacote">
                                     <option value="">Escolha</option>
-                                    <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
-                                        <option  value="<?= $v['id_pacote'] ?>"><?= $v['rotulo_cliente'] ?></option>
+                                    <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
+                                        <option  value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pessoas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        #personTable {
+            width: 100%;
+            height: 100vh; /* Tabela ocupa toda a altura da janela */
+            border-collapse: collapse;
+            overflow-y: auto; /* Adiciona rolagem vertical caso necessário */
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <table id="personTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Data de Nascimento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Conteúdo da tabela será inserido aqui via JavaScript -->
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const people = [
+                    { name: "João Silva", phone: "123-456-7890", birthDate: "1990-01-01" },
+                    { name: "Maria Oliveira", phone: "234-567-8901", birthDate: "1992-03-15" },
+                    { name: "Carlos Souza", phone: "345-678-9012", birthDate: "1988-06-30" },
+                    { name: "Ana Costa", phone: "456-789-0123", birthDate: "1995-09-12" },
+                    { name: "Paula Mendes", phone: "567-890-1234", birthDate: "1998-12-25" },
+                    { name: "Rafael Lima", phone: "678-901-2345", birthDate: "1985-11-20" },
+                    { name: "Fernanda Alves", phone: "789-012-3456", birthDate: "1993-04-18" },
+                    { name: "Marcos Pereira", phone: "890-123-4567", birthDate: "1991-07-07" },
+                    { name: "Juliana Fernandes", phone: "901-234-5678", birthDate: "1989-02-10" },
+                    { name: "Bruno Gomes", phone: "012-345-6789", birthDate: "1997-05-22" },
+                    { name: "Clara Martins", phone: "112-233-4455", birthDate: "1987-08-15" },
+                    { name: "Pedro Rocha", phone: "223-344-5566", birthDate: "1994-10-30" },
+                    { name: "Laura Sousa", phone: "334-455-6677", birthDate: "1990-06-14" },
+                    { name: "André Ribeiro", phone: "445-566-7788", birthDate: "1988-12-01" },
+                    { name: "Isabela Araújo", phone: "556-677-8899", birthDate: "1992-01-23" },
+                    { name: "Rodrigo Cardoso", phone: "667-788-9900", birthDate: "1995-03-17" },
+                    { name: "Camila Moreira", phone: "778-899-0011", birthDate: "1989-09-21" },
+                    { name: "Gabriel Barros", phone: "889-900-1122", birthDate: "1991-04-27" },
+                    { name: "Bianca Santana", phone: "990-011-2233", birthDate: "1993-05-30" },
+                    { name: "Felipe Castro", phone: "011-122-3344", birthDate: "1986-11-11" },
+                    { name: "Larissa Silva", phone: "122-233-4455", birthDate: "1990-12-19" },
+                    { name: "Vinícius Alves", phone: "233-344-5566", birthDate: "1988-02-28" },
+                    { name: "Manuela Ferreira", phone: "344-455-6677", birthDate: "1994-07-07" },
+                    { name: "Eduardo Pinto", phone: "455-566-7788", birthDate: "1996-06-09" },
+                    { name: "Mariana Melo", phone: "566-677-8899", birthDate: "1985-03-05" },
+                    { name: "Lucas Araújo", phone: "677-788-9900", birthDate: "1998-08-12" },
+                    { name: "Luiza Costa", phone: "788-899-0011", birthDate: "1987-09-01" },
+                    { name: "Ricardo Nascimento", phone: "899-900-1122", birthDate: "1991-04-15" },
+                    { name: "Renata Lima", phone: "900-011-2233", birthDate: "1993-10-04" },
+                    { name: "Tiago Rodrigues", phone: "011-122-3345", birthDate: "1995-07-20" },
+                    { name: "Patrícia Martins", phone: "122-233-4456", birthDate: "1992-02-11" },
+                    { name: "Thiago Rocha", phone: "233-344-5567", birthDate: "1990-06-16" },
+                    { name: "Daniela Ferreira", phone: "344-455-6678", birthDate: "1989-08-25" },
+                    { name: "Alexandre Barros", phone: "455-566-7789", birthDate: "1987-09-14" },
+                    { name: "Cristina Santana", phone: "566-677-8890", birthDate: "1994-12-10" },
+                    { name: "Victor Castro", phone: "677-788-9901", birthDate: "1986-04-04" },
+                    { name: "Carolina Melo", phone: "788-899-0012", birthDate: "1993-05-18" },
+                    { name: "Roberto Pinto", phone: "899-900-1123", birthDate: "1988-02-22" },
+                    { name: "Débora Alves", phone: "900-011-2234", birthDate: "1991-11-06" },
+                    { name: "Gustavo Costa", phone: "011-122-3346", birthDate: "1992-09-30" },
+                    { name: "Cíntia Araújo", phone: "122-233-4457", birthDate: "1989-12-24" },
+                    { name: "Wagner Ribeiro", phone: "233-344-5568", birthDate: "1987-03-19" },
+                    { name: "Juliana Sousa", phone: "344-455-6679", birthDate: "1990-10-22" },
+                    { name: "Marcelo Cardoso", phone: "455-566-7780", birthDate: "1988-08-12" },
+                    { name: "Fernanda Moreira", phone: "566-677-8891", birthDate: "1991-04-05" },
+                    { name: "Pedro Nascimento", phone: "677-788-9902", birthDate: "1994-06-23" },
+                    { name: "Larissa Santana", phone: "788-899-0013", birthDate: "1989-07-07" },
+                    { name: "Bruno Ferreira", phone: "899-900-1124", birthDate: "1986-09-13" },
+                    { name: "André Castro", phone: "900-011-2235", birthDate: "1992-11-08" },
+                    { name: "Letícia Melo", phone: "011-122-3347", birthDate: "1995-01-15" },
+                    { name: "Fábio Pinto", phone: "122-233-4458", birthDate: "1988-06-04" },
+                    { name: "Tânia Alves", phone: "233-344-5569", birthDate: "1993-08-30" },
+                    { name: "Fernando Araújo", phone: "344-455-6680", birthDate: "1987-05-11" },
+                    { name: "Renata Costa", phone: "455-566-7790", birthDate: "1990-12-29" },
+                    { name: "Paulo Rocha", phone: "566-677-8892", birthDate: "1989-01-18" },
+                    { name: "Mariana Cardoso", phone: "677-788-9903", birthDate: "1992-10-21" },
+                    { name: "Adriana Martins", phone: "788-899-0014", birthDate: "1986-07-31" },
+                    { name: "Rodrigo Moreira", phone: "899-900-1125", birthDate: "1994-03-03" },
+                    { name: "Bianca Ferreira", phone: "900-011-2236", birthDate: "1988-11-24" },
+                    { name: "Ricardo Lima", phone: "011-122-3348", birthDate: "1991-05-29" },
+                    { name: "Natália Castro", phone: "122-233-4459", birthDate: "1989-09-10" },
+                    { name: "Felipe Souza", phone: "233-344-5570", birthDate: "1990-11-15" },
+                    { name: "Amanda Barros", phone: "344-455-6681", birthDate: "1992-06-25" },
+                    { name: "Lucas Santana", phone: "455-566-7791", birthDate: "1986-12-21" },
+                    { name: "Tatiana Araújo", phone: "566-677-8893", birthDate: "1987-10-09" },
+                    { name: "Guilherme Cardoso", phone: "677-788-9904", birthDate: "1993-04-07" },
+                    { name: "Gabriela Melo", phone: "788-899-0015", birthDate: "1995-02-22" },
+                    { name: "Marcos Ferreira", phone: "899-900-1126", birthDate: "1988-03-15" },
+                    { name: "Patrícia Costa", phone: "900-011-2237", birthDate: "1991-08-08" },
+                    { name: "Thiago Nascimento", phone: "011-122-3349", birthDate: "1992-05-20" },
+                    { name: "Carla Alves", phone: "122-233-4460", birthDate: "1989-12-05" },
+                    { name: "João Sousa", phone: "233-344-5571", birthDate: "1987-06-16" },
+                    { name: "Ana Rocha", phone: "344-455-6682", birthDate: "1990-08-28" },
+                    { name: "Fernanda Ribeiro", phone: "455-566-7792", birthDate: "1991-03-13" },
+                    { name: "Daniel Moreira", phone: "566-677-8894", birthDate: "1993-07-26" },
+                    { name: "Renata Melo", phone: "677-788-9905", birthDate: "1988-01-19" },
+                    { name: "Marcelo Ferreira", phone: "788-899-0016", birthDate: "1994-09-17" },
+                    { name: "Juliana Alves", phone: "899-900-1127", birthDate: "1987-02-03" },
+                    { name: "Pedro Nascimento", phone: "900-011-2238", birthDate: "1990-11-26" },
+                    { name: "Carla Costa", phone: "011-122-3350", birthDate: "1992-01-14" },
+                    { name: "Lucas Barros", phone: "122-233-4461", birthDate: "1989-05-06" },
+                    { name: "Mariana Santana", phone: "233-344-5572", birthDate: "1987-08-22" },
+                    { name: "João Araújo", phone: "344-455-6683", birthDate: "1990-02-27" },
+                    { name: "Paula Cardoso", phone: "455-566-7793", birthDate: "1992-04-03" },
+                    { name: "Rodrigo Moreira", phone: "566-677-8895", birthDate: "1988-11-14" },
+                    { name: "Amanda Castro", phone: "677-788-9906", birthDate: "1993-01-25" },
+                    { name: "Felipe Costa", phone: "788-899-0017", birthDate: "1995-03-29" },
+                    { name: "Larissa Melo", phone: "899-900-1128", birthDate: "1987-12-02" },
+                    { name: "Gustavo Ferreira", phone: "900-011-2239", birthDate: "1991-10-17" },
+                    { name: "Luiza Alves", phone: "011-122-3351", birthDate: "1992-03-12" },
+                    { name: "Pedro Souza", phone: "122-233-4462", birthDate: "1989-11-23" },
+                    { name: "Bruna Rocha", phone: "233-344-5573", birthDate: "1987-04-15" },
+                    { name: "Rafael Ribeiro", phone: "344-455-6684", birthDate: "1990-05-05" },
+                    { name: "Fernanda Santana", phone: "455-566-7794", birthDate: "1993-06-16" },
+                    { name: "Marcos Araújo", phone: "566-677-8896", birthDate: "1988-02-21" },
+                    { name: "André Melo", phone: "677-788-9907", birthDate: "1994-08-25" },
+                    { name: "Bianca Cardoso", phone: "788-899-0018", birthDate: "1987-07-10" },
+                    { name: "Vinícius Moreira", phone: "899-900-1129", birthDate: "1991-09-11" },
+                    { name: "Mariana Alves", phone: "900-011-2240", birthDate: "1992-12-29" },
+                    { name: "Gabriel Costa", phone: "011-122-3352", birthDate: "1988-03-28" },
+                    { name: "Renata Barros", phone: "122-233-4463", birthDate: "1990-06-30" },
+                    { name: "Lucas Ferreira", phone: "233-344-5574", birthDate: "1989-07-07" },
+                    { name: "Juliana Santana", phone: "344-455-6685", birthDate: "1987-10-09" },
+                    { name: "Carla Souza", phone: "455-566-7795", birthDate: "1992-09-23" },
+                    { name: "Rafael Araújo", phone: "566-677-8897", birthDate: "1988-12-11" },
+                    { name: "Ana Rocha", phone: "677-788-9908", birthDate: "1991-04-30" },
+                    { name: "Gustavo Cardoso", phone: "788-899-0019", birthDate: "1993-05-28" },
+                    { name: "Fernanda Moreira", phone: "899-900-1130", birthDate: "1995-07-05" },
+                    { name: "Lucas Nascimento", phone: "900-011-2241", birthDate: "1987-01-01" },
+                    { name: "Mariana Lima", phone: "011-122-3353", birthDate: "1990-11-14" },
+                    { name: "Rodrigo Alves", phone: "122-233-4464", birthDate: "1988-05-21" },
+                    { name: "Juliana Costa", phone: "233-344-5575", birthDate: "1992-02-25" },
+                    { name: "Fernanda Barros", phone: "344-455-6686", birthDate: "1989-08-18" },
+                    { name: "Ana Ribeiro", phone: "455-566-7796", birthDate: "1990-04-10" },
+                    { name: "Rafael Santana", phone: "566-677-8898", birthDate: "1993-06-29" },
+                    { name: "Bruno Araújo", phone: "677-788-9909", birthDate: "1987-12-24" },
+                    { name: "Camila Cardoso", phone: "788-899-0020", birthDate: "1991-07-17" },
+                    { name: "Marcos Moreira", phone: "899-900-1131", birthDate: "1992-05-12" }
+        ];
+
+            let currentPosition = 0; // Posição inicial na lista de pessoas
+            let numDisplayedRows = calculateNumRows(); // Número inicial de linhas visíveis
+
+            // Função para calcular o número de linhas visíveis com base na altura da tela
+            function calculateNumRows() {
+                const rowHeight = 60; // Altura estimada de cada linha em pixels
+                const windowHeight = $(window).height(); // Altura da janela do navegador
+                return Math.floor(windowHeight / rowHeight); // Calcula o número de linhas visíveis
+            }
+
+            // Função para gerar a lista de pessoas com base na posição atual
+            function generatePeopleList(startIndex, numRows) {
+                const end = Math.min(startIndex + numRows, people.length);
+                let html = '';
+                for (let i = startIndex; i < end; i++) {
+                    const person = people[i];
+                    html += `<tr><td>${person.name}</td><td>${person.phone}</td><td>${person.birthDate}</td></tr>`;
+                }
+                return html;
+            }
+
+            // Função para atualizar a tabela com as próximas linhas
+            function updateTable() {
+                const tableBody = $('#personTable tbody');
+                tableBody.html(generatePeopleList(currentPosition, numDisplayedRows));
+                currentPosition = (currentPosition + numDisplayedRows) % people.length;
+            }
+
+            // Inicializa a tabela na primeira vez
+            updateTable();
+
+            // Atualiza a tabela ao redimensionar a janela
+            $(window).resize(function() {
+                numDisplayedRows = calculateNumRows(); // Recalcula o número de linhas visíveis
+                updateTable(); // Atualiza a tabela com o novo número de linhas visíveis
+            });
+
+            // Atualiza a tabela automaticamente a cada 5 segundos
+            setInterval(updateTable, 5000);
+        });
+    </script>
+</body>
+</html>

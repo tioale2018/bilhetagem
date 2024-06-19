@@ -84,8 +84,16 @@ $row = $pre->fetchAll();
                                         <tbody>
                                             <?php 
                                             $total = 0;
+                                            $financeiro_detalha = array();
                                             foreach ($row as $key => $value) { 
                                                 $total = $total + $value['valor'];
+
+                                                $financeiro_detalha['identrada'][] = $value['id_entrada'];
+                                                $financeiro_detalha['prevenda'][]  = $idprevenda;
+                                                $financeiro_detalha['apagar'][]    = $value['valor'];
+
+                                                $financeiro_detalha['pgtoinout'][] = 1;
+
                                                 ?>
                                                 
                                             <tr>
@@ -110,17 +118,17 @@ $row = $pre->fetchAll();
                         </div>
                         <form action="" method="post" id="formpgto" class="row">
                             
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
-                                            <th>Valor R$</th>
+                                            
                                             <th>Forma de pagamento</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="text" class="form-control money-dollar" name="pgto" id="pgto" placeholder="Ex: 99,99" required></td>
+                                            
                                             <td>
                                             <select class="form-control show-tick p-0" name="tipopgto" id="ftipopgto" required>
                                                 <option value="">Escolha</option>
@@ -136,7 +144,7 @@ $row = $pre->fetchAll();
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-6 text-right">
+                            <div class="col-md-7 text-right">
                                 <p class="m-b-0"><b>Valor a pagar:</b>
                                  <span id="subtotal" style="display: none"><?= $total ?></span></p>
                                 <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
@@ -144,7 +152,16 @@ $row = $pre->fetchAll();
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
                                 <input type="hidden" name="idprevenda" value="<?= $_GET['item'] ?>">
                                 <hr>
-                                <button class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                                <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
+                                
+                                <input type="hidden" name="pgto" value="<?= $total ?>">
+                                <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
+                                <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
+                                <?php
+                                    $financeiro_detalha_json = json_encode($financeiro_detalha);
+                                ?>
+                                <input type="hidden" name="pgtodetalha" value='<?= htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8') ?>'>
+                                
                                 <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
                             </div>
                         </form>
@@ -165,13 +182,7 @@ $(document).ready(function(){
         let formAtual = $(this);
         e.preventDefault();
 
-        let subtotal = $('#subtotal').html().replace(',','.');
-        let valor = $('#pgto').val();
-        
-        if(subtotal!=valor) {
-            swal("Erro", "Valor informado não confere com o valor total devido", "error");
-        } else {
-            swal({
+        swal({
                     title: "Deseja efetuar este pagamento",
                     text: "Sub texto desta operação",
                     type: "warning",
@@ -183,21 +194,22 @@ $(document).ready(function(){
                     closeOnCancel: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
-                           swal({
-                                  title: "Concluído", 
-                                  text: "Pagamento efetuado com sucesso!",
-                                  showCancelButton: false,
-                                  type: "success"
-                                }, function(){
-                                location.href="controle.php";
-                            })
-                         //console.log(data);
-                        });
+                        if(isConfirm) {
+                            $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
+                                swal({
+                                        title: "Concluído", 
+                                        text: "Pagamento efetuado com sucesso!" + data,
+                                        showCancelButton: false,
+                                        type: "success"
+                                        }, function(){
+                                        location.href="controle.php";
+                                    })
+                                //console.log(data);
+                            });
+                        }
+                        
                     } 
                 });
-        }
-
     });
 });
     

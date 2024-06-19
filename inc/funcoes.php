@@ -21,4 +21,18 @@ function procuraResponsavel($i) {
     }
 }
 
+
+function searchInMultidimensionalArray(array $array, $key, $value) {
+    // Usa array_column para obter uma coluna de valores
+    $column = array_column($array, $key);
+    // Busca o índice do valor procurado na coluna
+    $index = array_search($value, $column);
+    // Se o valor for encontrado, retorna o subarray correspondente
+    if ($index !== false) {
+        return $array[$index];
+    }
+    // Se não for encontrado, retorna null
+    return null;
+}
+
 ?>

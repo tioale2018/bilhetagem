@@ -54,16 +54,9 @@ foreach ($rows as $row) {
     $resultadoFinal[] = array_merge($row, $calculos);
 }
 
-
-// var_dump($resultadoFinal);
 ?>
 
 <hr>
-<?php
-
-
-?>
-
 
 </head>
 <body class="theme-black">
@@ -159,13 +152,21 @@ foreach ($rows as $row) {
 <tbody>
     <?php 
             $total = 0;
+            $financeiro_detalha = array();
             foreach ($resultadoFinal as $key => $value) { 
                 // $total = $total + ($value['adicionalpacote'] * $value['tempoExcedenteMinutos']);
                 $tempoPermanece = calcularPermanenciaEmMinutos($value['datahora_entra'], $value['datahora_saida']);
                 $apagar = $value['adicionalpacote'] * calcularExcedente($value['duracao'], $value['tolerancia'], $tempoPermanece);
                 $total = $total + $apagar;
-                ?>
-                
+                $financeiro_detalha['identrada'][] = $value['id_entrada'];
+                $financeiro_detalha['nome'][] = $value['nome'];
+                $financeiro_detalha['datahora_saida'][] = $value['datahora_saida'];
+                $financeiro_detalha['duracao'][] = $value['duracao'];
+                $financeiro_detalha['tempoPermanece'][] = $tempoPermanece;
+                $financeiro_detalha['apagar'][] = $apagar;
+
+                $financeiro_detalha['pgtoinout'][] = 2;
+    ?>
             <tr>
                 <td><?= $key + 1 ?></td>                                                        
                 <td><?= $value['nome'] ?></td>
@@ -174,9 +175,7 @@ foreach ($rows as $row) {
                 <td><?= $value['duracao'].'min' ?></td>
                 <td><?= $tempoPermanece . "min" ?></td>
                 <!-- <td><?= calcularExcedente($value['duracao'], $value['tolerancia'], $tempoPermanece) ?></td> -->
-                <td> R$ <?= number_format($apagar,2,",",".")  ?>
-                    
-                </td>
+                <td> R$ <?= number_format($apagar,2,",",".")  ?></td>
             </tr>
 
             <?php }  ?>
@@ -197,13 +196,13 @@ foreach ($rows as $row) {
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
-                                            <th>Valor R$</th>
+                                            <th>Valor a pagar</th>
                                             <th>Forma de pagamento</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="text" class="form-control money-dollar" name="pgto" id="pgto" placeholder="Ex: 99,99" required></td>
+                                            <td style="font-weight: bold">R$ <?= number_format($total, 2, ',', '.') ?></td>
                                             <td>
                                             <select class="form-control show-tick p-0" name="tipopgto" id="ftipopgto" required>
                                                 <option value="">Escolha</option>
@@ -212,26 +211,24 @@ foreach ($rows as $row) {
                                                 <option value="3">Dinheiro</option>
                                                 <option value="4">Pix</option>
                                                 <option value="5">Misto</option>
-                                                
                                             </select>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-6 text-right">
-                                <p class="m-b-0"><b>Sub-total:</b> <span id="subtotal"><?= $total ?></span></p>
-                                <p class="m-b-0">Discout: 12.9%</p>
-                                <p class="m-b-0">VAT: 12.9%</p>                                        
-                                <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
-                            </div>                                    
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
                                 <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
                                 <input type="hidden" name="pagasaida" value="true">
+                                <input type="hidden" name="pgto" value="<?= $total ?>">
                                 <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
                                 <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
+                                <?php
+                                    $financeiro_detalha_json = json_encode($financeiro_detalha);
+                                ?>
+                                <input type="hidden" name="pgtodetalha" value='<?= htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8') ?>'>
                                 <hr>
-                                <button class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                                <!-- <button class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button> -->
                                 <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
                             </div>
                         </form>
@@ -242,9 +239,12 @@ foreach ($rows as $row) {
         
     </div>
 </section>
-
-<?php include_once('./inc/javascript.php') ?>
-
+<pre>
+<?php 
+// echo var_dump($financeiro_detalha);
+include_once('./inc/javascript.php') 
+?>
+</pre>
 <script>
 
 $(document).ready(function(){
@@ -252,12 +252,12 @@ $(document).ready(function(){
         let formAtual = $(this);
         e.preventDefault();
 
-        let subtotal = $('#subtotal').html().replace(',','.');
-        let valor = $('#pgto').val();
+        // let subtotal = $('#subtotal').html().replace(',','.');
+        // let valor = $('#pgto').val();
         
-        if(subtotal!=valor) {
-            swal("Erro", "Valor informado não confere com o valor total devido", "error");
-        } else {
+        // if(subtotal!=valor) {
+        //     swal("Erro", "Valor informado não confere com o valor total devido", "error");
+        // } else {
             swal({
                     title: "Deseja efetuar este pagamento",
                     text: "Sub texto desta operação",
@@ -286,7 +286,7 @@ $(document).ready(function(){
                         });
                     } 
                 });
-        }
+        //}
 
     });
 });

@@ -8,10 +8,11 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 
 include('../inc/conexao.php');
 
+//onde se lê "pacote" entenda perfil
 $nome          = $_POST['nome'];
 $nascimento    = $_POST['nascimento'];
 $vinculo       = $_POST['vinculo'];
-$pacote        = $_POST['pacote'];
+$perfil        = $_POST['pacote'];
 $idresponsavel = $_POST['idresponsavel'];
 $idprevenda    = $_POST['idprevenda'];
 
@@ -29,11 +30,12 @@ $pre_insere_vinculo->execute();
 
 $ultimo_id = $connPDO->lastInsertId();
 
-$sql_insere_entrada = "insert into tbentrada (id_prevenda, id_vinculado, previnculo_status, id_pacote) values (:id_prevenda, :id_vinculado, 1, :id_pacote)";
+$sql_insere_entrada = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso) values (:id_prevenda, :id_vinculado, :perfil_acesso)";
 $pre_insere_entrada = $connPDO->prepare($sql_insere_entrada);
 $pre_insere_entrada->bindParam(':id_prevenda', $idprevenda, PDO::PARAM_INT);
 $pre_insere_entrada->bindParam(':id_vinculado', $ultimo_id, PDO::PARAM_INT);
-$pre_insere_entrada->bindParam(':id_pacote', $pacote, PDO::PARAM_INT);
+$pre_insere_entrada->bindParam(':perfil_acesso', $perfil, PDO::PARAM_INT);
+
 $pre_insere_entrada->execute();
 
 ?>

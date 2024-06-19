@@ -8,7 +8,7 @@
                 </div>
                 <div class="modal-body"> 
                     <div class="row clearfix">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="nome" class="form-label">Nome</label>                               
                                 <input name="nome" id="fnome" type="text" class="form-control" placeholder="Nome" required />
@@ -33,12 +33,24 @@
                         </div> 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="" class="form-label">Perfil</label>                            
+                                <select class="form-control show-tick p-0" name="pacote" id="fpacote">
+                                    <option value="">Escolha</option>
+                                    <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
+                                        <option  value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="" class="form-label">Pacote</label>                            
                                 <select class="form-control show-tick p-0" name="pacote" id="fpacote">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
                                         <option  value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?></option>
                                     <?php } ?>
+                                   
                                 </select>
                             </div>
                         </div> 
@@ -58,6 +70,8 @@
 
 <script>
     $(document).ready(function(){
+        $('select').selectpicker();
+        
         $('#modalAddParticipante form').submit(function(event){
             event.preventDefault();
             let Form = $(this).serialize();
@@ -67,7 +81,6 @@
                 $('#modalAddParticipante').modal('hide');
             }); 
         });
-        
 
         $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
             $('#modalAddParticipante form').trigger('reset');

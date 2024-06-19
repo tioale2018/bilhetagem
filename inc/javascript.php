@@ -5,7 +5,6 @@
 
 
 
-
 <!-- Jquery Core Js --> 
 <script src="./assets/bundles/datatablescripts.bundle.js"></script>
 <script src="./assets/js/pages/tables/jquery-datatable.js"></script>

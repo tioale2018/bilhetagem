@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 session_start();
 include_once('../inc/conexao.php');
 
-$participante = intval($_POST['p']);
-$prevenda     = intval($_POST['e']);
+$participante = intval($_POST['i']);
+$prevenda     = intval($_POST['j']);
 
 // $sql = "update tbentrada set previnculo_status=2 where id_entrada=:entrada";
 //$sql = "select * from tbvinculados where id_vinculado=:vinculado";
@@ -33,7 +33,7 @@ $row = $pre->fetchAll();
     </div>
     <div class="modal-body"> 
         <div class="row clearfix">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="form-group">
                     <label for="nome" class="form-label">Nome</label>                               
                     <input name="nome" id="fnome" type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" required />
@@ -59,7 +59,7 @@ $row = $pre->fetchAll();
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Perfil</label>
-                    <select class="form-control p-0" name="pacote" id="fpacote">
+                    <select class="form-control p-0" name="perfil" id="fperfil">
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
                             <option <?= ($v['idperfil']==$row[0]['perfil_acesso']?'selected':'') ?> value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?> </option>
@@ -67,6 +67,18 @@ $row = $pre->fetchAll();
                     </select>
                 </div>
             </div>
+            <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Pacote</label>                            
+                                <select class="form-control show-tick p-0" name="pacote" id="fpacote">
+                                    <option value="">Escolha</option>
+                                    <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
+                                        <option <?= ($v['id_pacote']==$row[0]['id_pacote']?'selected':'') ?>  value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?></option>
+                                    <?php } ?>
+                                   
+                                </select>
+                            </div>
+                        </div> 
             <div class="col-12">
                 <div class="form-group">
                     
@@ -79,9 +91,7 @@ $row = $pre->fetchAll();
         </div>   
     </div>
     <div class="modal-footer">
-        <input type="hidden" name="idresponsavel" value="<?= $_SESSION['dadosResponsavel'][0]['id_responsavel']; ?>">
-        <input type="hidden" name="cpf" value="<?= $_SESSION['dadosResponsavel'][0]['cpf']; ?>">
-        <input type="hidden" name="idprevenda" value="<?= $_SESSION['idPrevenda'] ?>">
+        
         <input type="hidden" name="idvinculado" value="<?= $participante ?>">
         <input type="hidden" name="identrada" value="<?= $row[0]['id_entrada'] ?>">
         
