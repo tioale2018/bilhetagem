@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric(
     die(0);
 }
 include_once('../inc/conexao.php');
+include_once('../inc/funcoes-gerais.php');
 $idprevenda = intval($_POST['i']);
 
 // die($idprevenda);
@@ -18,11 +19,12 @@ inner join tbvinculo on tbvinculo.id_vinculo=tbvinculados.tipo
 where tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda order by nome ";
 */
 
-$sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbentrada.id_pacote, tbpacotes.descricao as pacote, tbprevenda.id_evento, tbentrada.id_prevenda, tbpacotes.rotulo_cliente
+$sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbentrada.id_pacote, tbpacotes.descricao as pacote, tbprevenda.id_evento, tbentrada.id_prevenda, tbpacotes.rotulo_cliente, tbperfil_acesso.titulo as perfil, tbperfil_acesso.idperfil
 FROM tbentrada
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbvinculo on tbvinculados.tipo=tbvinculo.id_vinculo
-inner join tbpacotes on tbpacotes.id_pacote=tbentrada.id_pacote
+left join tbpacotes on tbpacotes.id_pacote=tbentrada.id_pacote
+inner join tbperfil_acesso on tbperfil_acesso.idperfil=tbentrada.perfil_acesso
 inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
 WHERE tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda order by nome";
 
@@ -53,8 +55,9 @@ $rowNum = $pre->rowCount();
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>Nascimento</th>
+                    <th>Nascimento / Idade</th>
                     <th>Vínculo</th>
+                    <th>Perfil</th>
                     <th>Pacote</th>
                     <th>Action</th>
                 </tr>
@@ -66,8 +69,9 @@ $rowNum = $pre->rowCount();
                 <tr>
                     <td><?= $row[$key]['id_vinculado'] ?></td>
                     <td><?= $row[$key]['nome'] ?></td>
-                    <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td>
+                    <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?> (<?= calcularIdade($row[$key]['nascimento']) ?> Anos)</td>
                     <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
+                    <td><?= $row[$key]['perfil'] ?></td>
                     <td>
                         <select class="form-control show-tick p-0" data-identrada="<?= $row[$key]['id_entrada'] ?>">
                             <option value="">Escolha</option>
@@ -80,7 +84,7 @@ $rowNum = $pre->rowCount();
                     <!-- <a href="#modalAddParticipante" data-toggle="modal" data-target="#modalAddParticipante" class="btn btn-icon btn-neutral btn-icon-mini margin-0"><i class="zmdi zmdi-edit"></i></a> -->
                         <!-- <button data-toggle="modal" data-identrada="<?= $row[$key]['id_entrada'] ?>" data-target="#modalAddParticipante" class="btn btn-icon btn-neutral btn-icon-mini margin-0 btnModalAddParticipante"><i class="zmdi zmdi-edit"></i></button> -->
 
-                        <button data-idprevenda="<?= $row[$key]['id_prevenda'] ?>" data-idparticipante="<?= $row[$key]['id_vinculado'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 btnModalAddParticipante"><i class="zmdi zmdi-edit"></i></button>
+                        <button data-idprevenda="<?= $row[$key]['id_prevenda'] ?>" data-idparticipante="<?= $row[$key]['id_vinculado'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 btnModalEditaParticipante"><i class="zmdi zmdi-edit"></i></button>
                         
                         <button class="btn btn-icon btn-neutral btn-icon-mini margin-0 excluivinculo" data-identrada="<?= $row[$key]['id_entrada'] ?>"><i class="zmdi zmdi-delete"></i></button>
                     </td>
@@ -104,18 +108,12 @@ $rowNum = $pre->rowCount();
     document.querySelector('#btnpagamento').dataset.numrow = '<?= $rowNum ?>';
 
     $(document).ready(function(){
-        $('.btnModalAddParticipante').on('click', function(){
+        $('.btnModalEditaParticipante').on('click', function(){
             let i = $(this).data('idparticipante');
             let j = $(this).data('idprevenda');
-            $('#modalAddParticipante').modal();
-            $.post("./blocos/busca-participante.php",{p:i, e:j}, function(data){
-                let dados = JSON.parse(data);
-                $('#fnome').val(dados[0][1]);
-                $('#fnascimento').val(dados[0][2]);
-                $('#fvinculo').val(dados[0][3]);
-                $('#fpacote').val(dados[0][4]);
-                // console.log(data);
-            });  
+            $('#modalEditaParticipante').modal();
+
+            $('#modalEditaParticipante .modal-content').load('./blocos/edita-participante.php', {i: i, j: j});
         })
     })
     

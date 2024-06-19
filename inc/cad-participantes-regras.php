@@ -47,9 +47,10 @@ if (isset($_POST['btnFinaliza'])) {
     header('Location: index.php');
 }
 */
+$evento = $evento_atual;
 
 //---------------------------------------------------------------------------------------------
-$evento = $evento_atual;
+
 //procedimento de busca dos pacotes deste evento
 $sql_busca_pacote = "select * from tbpacotes where ativo=1 and id_evento=".$evento;
 $pre_busca_pacote = $connPDO->prepare($sql_busca_pacote);
@@ -68,6 +69,17 @@ $row_busca_vinculo = $pre_busca_vinculo->fetchAll();
 $_SESSION['lista_vinculos'] = $row_busca_vinculo;
 //---------------------------------------------------------------------------------------------
 
+//procedimento de busca dos perfis deste evento
+$sql_busca_perfis = "select * from tbperfil_acesso where ativo=1 and idevento=".$evento;
+$pre_busca_perfis = $connPDO->prepare($sql_busca_perfis);
+$pre_busca_perfis->execute();
+$row_busca_perfis = $pre_busca_perfis->fetchAll();
+
+$_SESSION['lista_perfis'] = $row_busca_perfis;
+$perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
+
+//---------------------------------------------------------------------------------------------
+
 $id               = limparCPF($_POST['cpf']);
 $cpf              = $id;
 $_SESSION['cpf']  = $id;
@@ -75,7 +87,6 @@ $_SESSION['cpf']  = $id;
 $datahora         = time();
 $hoje             = date('Y-m-d', $datahora);
 $crianovaPrevenda = false;
-
 
 $dados_responsavel = procuraResponsavel($id);
 
@@ -138,6 +149,27 @@ if ($crianovaPrevenda) {
     $pre_prevenda->execute();
 
     $idPrevendaAtual = $connPDO->lastInsertId();
+
+    $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
+    
+
+    //procedimento de busca dos vinculados "lembrar" deste responsavel
+
+    $sql_busca_vinculados = "select * from tbvinculados where lembrar=1 and id_responsavel=$idResponsavel";
+    $pre_busca_vinculados = $connPDO->prepare($sql_busca_vinculados);
+    $pre_busca_vinculados->execute();
+    $row_busca_vinculados = $pre_busca_vinculados->fetchAll();
+
+    //caso exista vinculados com o campo "lembrar=1" para este responsavel, insere na prevenda
+    if ($pre_busca_vinculados->rowCount()>0) {
+        foreach ($row_busca_vinculados as $key => $value) {
+            $idVinculado = $row_busca_vinculados[$key]['id_vinculado'];
+            $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].")";
+            $pre_insere_vinculados = $connPDO->prepare($sql_insere_vinculados);
+            $pre_insere_vinculados->execute();
+        }
+    }
+
     
 }
 $_SESSION['idPrevenda']       = $idPrevendaAtual;

@@ -1,8 +1,12 @@
 <?php include('./inc/head.php') ?>
 <?php include('./inc/conexao.php') ?>
+<?php include('./inc/funcoes-gerais.php') ?>
 
 <?php 
+
+
 $evento = $_SESSION['evento_selecionado'];
+
 //procedimento de busca dos pacotes deste evento
 $sql_busca_pacote = "select * from tbpacotes where ativo=1 and id_evento=".$evento;
 $pre_busca_pacote = $connPDO->prepare($sql_busca_pacote);
@@ -10,7 +14,7 @@ $pre_busca_pacote->execute();
 $row_busca_pacote = $pre_busca_pacote->fetchAll();
 
 $_SESSION['lista_pacotes'] = $row_busca_pacote;
-//-------------------
+//----------------------------------------------------------------------------------------------------------------
 
 
 //procediemnto de busca de tipo de vínculos
@@ -20,7 +24,17 @@ $pre_busca_vinculo->execute();
 $row_busca_vinculo = $pre_busca_vinculo->fetchAll();
 
 $_SESSION['lista_vinculos'] = $row_busca_vinculo;
-//----------------------------------
+//----------------------------------------------------------------------------------------------------------------
+
+//procedimento de busca dos perfis deste evento
+$sql_busca_perfis = "select * from tbperfil_acesso where ativo=1 and idevento=".$evento;
+$pre_busca_perfis = $connPDO->prepare($sql_busca_perfis);
+$pre_busca_perfis->execute();
+$row_busca_perfis = $pre_busca_perfis->fetchAll();
+
+$_SESSION['lista_perfis'] = $row_busca_perfis;
+$perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
+//----------------------------------------------------------------------------------------------------------------
 
 if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
     header('Location: entrada-nova.php');
@@ -82,43 +96,43 @@ $row = $pre->fetchAll();
                         </ul>
                     </div>
                     <div class="body">
-                        <form action="" method="post"  >
+                        <form action="" method="post" id="formResponsavel" >
                         
                         <div class="row clearfix">
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpf'] ?>" />
+                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpf'] ?>" name="cpf" />
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" />
+                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" name="nome" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" />
+                                    <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" name="telefone1" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 2" value="<?= $row[0]['telefone2'] ?>" />
+                                    <input type="text" class="form-control" placeholder="Telefone 2" value="<?= $row[0]['telefone2'] ?>" name="telefone2" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
-                                    <input type="text" class="form-control" placeholder="Email" value="<?= $row[0]['email'] ?>" required />
+                                    <input type="text" class="form-control" placeholder="Email" value="<?= $row[0]['email'] ?>" required name="email" />
                                 </div>
                             </div> 
 
                             <div class="col-md-6">
                                 <div class="form-group js-sweetalert">                                   
-                                     
+                                     <input type="hidden" name="idresponsavel" value="<?= $row[0]['id_responsavel'] ?>">
                                     <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="salvo" type="submit" disabled>Salvar</button>                                
                                 </div>
                             </div> 
@@ -184,12 +198,38 @@ $row = $pre->fetchAll();
 
 <?php include('./inc/entrada-form-modal.php'); ?>
 
+<div class="modal fade" id="modalEditaParticipante" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
 <?php include('./inc/javascript.php'); ?>
 <script>
     $(document).ready(function(){
-        $('form').on('input change', function(){
-            $('button[type=submit]').attr('disabled', false);
+        $('select').selectpicker();
+
+        $('form#formResponsavel').on('input change', function(){
+            $('form#formResponsavel button[type=submit]').attr('disabled', false);
         });
+
+        $('form#formResponsavel').submit(function(e){
+            e.preventDefault();
+            let formAtual = $(this);
+            $.post('./blocos/atualiza-responsavel.php', formAtual.serialize(), function(data){
+                swal({
+                    title: "Dados salvos",
+                    text: "Os dados informados foram salvos com sucesso!" + data,
+                    type: "success",
+                    showCancelButton: false,
+                    closeOnConfirm: true
+                }, function () {
+                    $('form#formResponsavel button[type=submit]').attr('disabled', true);
+                });                
+            });
+            
+        })
 
         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
 

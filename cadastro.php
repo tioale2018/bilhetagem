@@ -185,11 +185,11 @@ include_once("./inc/head.php");
                         
                         <div class="row justify-content-end">
                              <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-primary waves-effect btn-round btAcao">Cancelar cadastro</button>
+                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-primary waves-effect btn-round btAcao-cancela">Cancelar cadastro</button>
                             </div>
 
                             <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao">Finalizar Cadastro</button>
+                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza">Finalizar Cadastro</button>
                             </div>
                         </div>
 
@@ -232,54 +232,47 @@ include_once("./inc/head.php");
             
         })
 
-        $('.btAcao').on('click', function(){
-            let acao = $(this).data('acao');
+        $('.btAcao-cancela').on('click', function(){
             let id = $(this).data('id');
 
-            if (acao==1) {
-                var vtitle="Cancelar agendamento?";
-                var vtext= "Deseja realmente cancelar e excluir esta reserva?";
-                var vconfirmButtonText= "Sim";
-                var vcancelButtonText= "Não";
-            } else if (acao==2) {
-                var vtitle= "Finalizar e enviar reserva";
-                var vtext= "Deseja concluir o cadastro e enviar a solicitação de reserva?";
-                var vconfirmButtonText= "Sim";
-                var vcancelButtonText= "Não";
-            }
-
             swal({
-                title: vtitle,
-                text: vtext,
+                title: "Cancelar agendamento?",
+                text: "Deseja realmente cancelar e excluir esta reserva?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: vconfirmButtonText,
-                cancelButtonText: vcancelButtonText,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
                 closeOnConfirm: true,
                 closeOnCancel: true
             }, function (isConfirm) {
-            
-                if (acao==1) {
+                if (isConfirm) {
+                    // alert('ok');
                     $.post('./blocos/reserva-cancela.php', {i:id}, function(data){
-                        swal({
-                            title: "Operação realizada com sucesso",
-                            text: "Mensagem de agradecimento",
-                            type: "success",
-                            showCancelButton: false,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Ok",
-                            closeOnConfirm: false
-                        }, function () {
-                            location.reload();
-                        });
-                        
+                        location.href="index.php?i=<?= $_SESSION['hash_evento'] ?>";
                     });
-                } else if (acao==2) {
-                    location.href="reserva-resumo.php";                        
                 }
-                
-            });
+            })
+        })
+
+        $('.btAcao-finaliza').on('click', function(){
+            let id = $(this).data('id');
+
+            swal({
+                title: "Finalizar e enviar reserva?",
+                text: "Deseja concluir o cadastro e enviar a solicitação de reserva?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    location.href="reserva-resumo.php";   
+                }
+            })
         });
 
         $('#formCancela').submit(function(e){

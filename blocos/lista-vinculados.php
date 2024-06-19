@@ -10,11 +10,11 @@ session_start();
 include('../inc/conexao.php');
 $idprevenda = intval($_POST['i']);
 
-$sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbvinculados.lembrar, tbentrada.id_pacote, tbpacotes.descricao as pacote, tbprevenda.id_evento, tbentrada.id_prevenda, tbpacotes.rotulo_cliente, tbentrada.autoriza
+$sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbvinculados.lembrar, tbentrada.id_pacote, tbperfil_acesso.titulo as perfil, tbprevenda.id_evento, tbentrada.id_prevenda,  tbentrada.autoriza
 FROM tbentrada
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbvinculo on tbvinculados.tipo=tbvinculo.id_vinculo
-inner join tbpacotes on tbpacotes.id_pacote=tbentrada.id_pacote
+inner join tbperfil_acesso on tbperfil_acesso.idperfil=tbentrada.perfil_acesso
 inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
 WHERE tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda order by nome";
 
@@ -38,9 +38,9 @@ $rowNum = $pre->rowCount();
                 <tr>
                     <th>Nome</th>
                     <th>Nascimento</th>
-                    <th>Vínculo</th>
-                    <th>Lembrar</th>
-                    <th>Pacote</th>
+                    <!-- <th>Vínculo</th>
+                    <th>Lembrar</th> -->
+                    <th>Perfil</th>
                     <th>Autorizar</th>
                     <th>Edita/Exclui</th>
                 </tr>
@@ -53,16 +53,9 @@ $rowNum = $pre->rowCount();
                 <tr>
                     <td><?= $row[$key]['nome'] ?></td>
                     <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td>
-                    <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
-                    <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td>
-                    <td>
-                        <select class="form-control show-tick p-0" data-identrada="<?= $row[$key]['id_entrada'] ?>">
-                            <option value="">Escolha</option>
-                            <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
-                            <option <?= ($v['id_pacote']==$row[$key]['id_pacote']?'selected':'') ?> value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?> (<?= $v['rotulo_cliente'] ?>)</option>
-                            <?php } ?>
-                        </select>
-                    </td>
+                    <!-- <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
+                    <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
+                    <td><?= $row[$key]['perfil'] ?></td>
                     <td class="text-center">
                         <?php 
                             if ($row[$key]['autoriza']==0) {

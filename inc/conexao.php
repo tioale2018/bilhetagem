@@ -1,16 +1,17 @@
 <?php
-if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1' || $_SERVER['HTTP_HOST'] == '192.168.0.12') {
-  // Configurações para ambiente local
-  $servername = "localhost";
+$servername = "localhost";
+ $server_name = $_SERVER['SERVER_NAME'];
+
+if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16') {
+  # code...
   $username = "root";
   $password = "";
   $database = "bdbilhetagem";
 } else {
-  // Configurações para ambiente online
-  $servername = "online_server_hostname";
-  $username = "online_db_username";
-  $password = "online_db_password";
-  $database = "online_db_name";
+  # code...
+  $username = "w3brandcom_userbilhertagem";
+  $password = "tnH0[uPB{b3R";
+  $database = "w3brandcom_bilhetagem";
 }
 
 date_default_timezone_set('America/Sao_Paulo');

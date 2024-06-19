@@ -11,6 +11,7 @@ include_once('../inc/conexao.php');
 $nome          = $_POST['nome'];
 $nascimento    = $_POST['nascimento'];
 $vinculo       = $_POST['vinculo'];
+$perfil        = $_POST['perfil'];
 $pacote        = $_POST['pacote'];
 $idresponsavel = $_POST['idresponsavel'];
 $idprevenda    = $_POST['idprevenda'];
@@ -30,10 +31,11 @@ $pre1->bindParam(':idvinculado', $idvinculado, PDO::PARAM_INT);
 
 $pre1->execute();
 
-$sql2 = "update tbentrada set perfil_acesso=:pacote, autoriza=0 where id_entrada=:identrada";
+$sql2 = "update tbentrada set perfil_acesso=:perfil, id_pacote=:pacote where id_entrada=:identrada";
 
 $pre2 = $connPDO->prepare($sql2);
 $pre2->bindParam(':pacote', $pacote, PDO::PARAM_INT);
+$pre2->bindParam(':perfil', $perfil, PDO::PARAM_INT);
 $pre2->bindParam(':identrada', $identrada, PDO::PARAM_INT);
 
 $pre2->execute();
