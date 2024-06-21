@@ -40,10 +40,10 @@ $row = $pre->fetchAll();
     <div class="container">
         <div class="block-header">
             <div class="row clearfix mt-3">
-                <div class="col-lg-5 col-md-5 col-sm-12">
+                <div class="col-lg-8 col-md-8 col-sm-12">
                     <h2 class="">Controle de recreação: <?= $_SESSION['evento_titulo'] ?></h2>                    
                 </div>            
-                <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{Página 01}</a></li>

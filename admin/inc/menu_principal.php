@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">                
                 <ul class="h-menu">
-                    <li class="open active"><a href="dashboard.php"><i class="zmdi zmdi-home"></i></a></li>
+                    <li class="open active"><a href="controle.php"><i class="zmdi zmdi-home"></i></a></li>
                     <li><a href="javascript:void(0)">Operacional</a>
                         <ul class="sub-menu">
                             <!-- <li><a href="dashboard.php">Relatórios</a></li> -->
