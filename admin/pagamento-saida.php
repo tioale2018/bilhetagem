@@ -38,6 +38,10 @@ $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 $pre->execute();
 
+if ($pre->rowCount()<1) {
+    header('Location: controle.php');
+}
+
 $rows = $pre->fetchAll(PDO::FETCH_ASSOC);
 
 $resultadoFinal = [];
@@ -192,17 +196,16 @@ foreach ($rows as $row) {
                         </div>
                         <form action="" method="post" id="formpgto" class="row">
                             
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
-                                            <th>Valor a pagar</th>
                                             <th>Forma de pagamento</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="font-weight: bold">R$ <?= number_format($total, 2, ',', '.') ?></td>
+                                            
                                             <td>
                                             <select class="form-control show-tick p-0" name="tipopgto" id="ftipopgto" required>
                                                 <option value="">Escolha</option>
@@ -216,6 +219,11 @@ foreach ($rows as $row) {
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="col-md-7 text-right">
+                            <p class="m-b-0"><b>Valor a pagar:</b>
+                                <span id="subtotal" style="display: none"><?= $total ?></span></p>
+                                <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
                             </div>
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
                                 <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
@@ -232,19 +240,30 @@ foreach ($rows as $row) {
                                 <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
                             </div>
                         </form>
+
+                        <form action="" id="formImpressao">
+                            <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
+                            <input type="hidden" value="2" name="entradasaida">
+                            <input type="hidden" value="<?= $chkvinculados ?>" name="vinculados">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
         
     </div>
+    
 </section>
+<iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 <pre>
 <?php 
 // echo var_dump($financeiro_detalha);
 include_once('./inc/javascript.php') 
 ?>
 </pre>
+
+<script src="./js/impressao.js"></script>
+
 <script>
 
 $(document).ready(function(){
@@ -278,10 +297,9 @@ $(document).ready(function(){
                                   showCancelButton: false,
                                   type: "success"
                                 }, function(){
-                                location.href="controle.php";
+                                    //location.href="controle.php";
+                                    printAnotherDocument('comprovante.php', '#formImpressao');
                             })
-                           
-                           
                            //console.log(data);
                         });
                     } 
@@ -290,7 +308,7 @@ $(document).ready(function(){
 
     });
 });
-    
+
 </script>
 
 

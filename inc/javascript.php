@@ -24,7 +24,7 @@
 <script src="./assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script> 
 <script src="./assets/js/pages/forms/basic-form-elements.js"></script> 
 <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
-<script src="./assets/js/pages/ui/dialogs.js"></script>
+<script src="./assets/js/pages/ui/dialogs.js?i=<?= filemtime('./assets/js/pages/ui/dialogs.js'); ?>"></script>
 <!-- <script src="./assets/plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
 
   

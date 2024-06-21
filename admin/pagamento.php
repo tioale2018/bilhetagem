@@ -17,6 +17,12 @@ $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
 $pre->execute();
+
+if ($pre->rowCount()<1) {
+    header('Location: controle.php');
+}
+
+
 $row = $pre->fetchAll();
 
 ?>
@@ -146,7 +152,7 @@ $row = $pre->fetchAll();
                             </div>
                             <div class="col-md-7 text-right">
                                 <p class="m-b-0"><b>Valor a pagar:</b>
-                                 <span id="subtotal" style="display: none"><?= $total ?></span></p>
+                                <span id="subtotal" style="display: none"><?= $total ?></span></p>
                                 <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
                             </div>                                    
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
@@ -165,16 +171,25 @@ $row = $pre->fetchAll();
                                 <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
                             </div>
                         </form>
+
+                        <form action="" id="formImpressao">
+                            <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
+                            <input type="hidden" value="1" name="entradasaida">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
         
     </div>
+    <iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 </section>
+
+
 
 <?php include_once('./inc/javascript.php') ?>
 
+<script src="./js/impressao.js"></script>
 <script>
 
 $(document).ready(function(){
@@ -183,36 +198,38 @@ $(document).ready(function(){
         e.preventDefault();
 
         swal({
-                    title: "Deseja efetuar este pagamento",
-                    text: "Sub texto desta operação",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Sim, efetuar pagamento",
-                    cancelButtonText: "Não, cancelar e retornar",
-                    closeOnConfirm: false,
-                    closeOnCancel: true
-                }, function (isConfirm) {
-                    if (isConfirm) {
-                        if(isConfirm) {
-                            $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
-                                swal({
-                                        title: "Concluído", 
-                                        text: "Pagamento efetuado com sucesso!" + data,
-                                        showCancelButton: false,
-                                        type: "success"
-                                        }, function(){
-                                        location.href="controle.php";
-                                    })
-                                //console.log(data);
-                            });
-                        }
+            title: "Deseja efetuar este pagamento",
+            text: "Sub texto desta operação",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Sim, efetuar pagamento",
+            cancelButtonText: "Não, cancelar e retornar",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                if(isConfirm) {
+                    $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
                         
-                    } 
-                });
+                        swal({
+                                title: "Concluído", 
+                                text: "Pagamento efetuado com sucesso!",
+                                showCancelButton: false,
+                                type: "success"
+                                }, function(){
+                                    //location.href="controle.php";
+                                    printAnotherDocument('comprovante.php', '#formImpressao');
+                            })
+                        //console.log(data);
+                    });
+                }
+                
+            } 
+        });
     });
 });
-    
+
 </script>
 
 

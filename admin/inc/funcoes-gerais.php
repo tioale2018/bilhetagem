@@ -96,4 +96,15 @@ function searchInMultidimensionalArray(array $array, $key, $value) {
     // Se não for encontrado, retorna null
     return null;
 }
+
+function verificaVar($variable) {
+    // Verifica se a variável está definida e se não é nula
+    if (isset($variable)) {
+        // Verifica se a variável é numérica
+        if (is_numeric($variable)) {
+            return true;
+        }
+    }
+    return false;
+}
 ?>

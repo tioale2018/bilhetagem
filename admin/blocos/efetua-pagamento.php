@@ -41,14 +41,16 @@ if (!isset($_POST['pagasaida'])) {
         $numqueries++;
     };
 
-    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:idprevenda, :tp_cobranca, :valor, :forma_pgto, :horapgto)";
-    $tp_cobranca = 1;
+    $tpcobranca = 1;
+    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:idprevenda, $tpcobranca, :valor, :forma_pgto, :horapgto)";
+    
     $pre_efetua_pgto = $connPDO->prepare($sql_efetua_pgto);
     $pre_efetua_pgto->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
-    $pre_efetua_pgto->bindParam(':tp_cobranca', $tp_cobranca, PDO::PARAM_INT);
     $pre_efetua_pgto->bindParam(':valor', $pgto, PDO::PARAM_STR);
     $pre_efetua_pgto->bindParam(':forma_pgto', $tipopgto, PDO::PARAM_STR);
     $pre_efetua_pgto->bindParam(':horapgto', $horaagora, PDO::PARAM_STR);
+
+    $idFinanceiro = $connPDO->lastInsertId();
     // $pre_efetua_pgto->execute();
     if($pre_efetua_pgto->execute()) {
         $numqueries++;
@@ -57,49 +59,38 @@ if (!isset($_POST['pagasaida'])) {
     //echo $numqueries;
     // echo ($numqueries==3?'ok':'erro');
 
-
-        //processar o detalhamento do pagamento em tbfinanceiro_detalha - pagamento na entrada
+        
+    $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+    try {
+        $connPDO->beginTransaction(); // Inicia a transação
+        $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, idfinanceiro, datahorapgto, valorpgto, tipopgto, pgtoinout) VALUES (:idprevenda, :identrada, $idFinanceiro, :datahorapgto, :valorpgto, :tipopgto, 1)";
+        $stmt = $connPDO->prepare($sql_financeiro_detalha);
+    
         $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
-        try {
-            // Supondo que $pdo seja a instância PDO já configurada
-            $connPDO->beginTransaction(); // Inicia a transação
-        
-            // Prepara a declaração uma vez
-            $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, datahorapgto, valorpgto, tipopgto, pgtoinout) 
-                                       VALUES (:idprevenda, :identrada, :datahorapgto, :valorpgto, :tipopgto, 1)";
-            $stmt = $connPDO->prepare($sql_financeiro_detalha);
-        
-            // Decodifica os dados JSON recebidos via POST
-            $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
-        
-            // Itera através dos dados para realizar os inserts
-            $num_records = count($financeiro_detalha['identrada']);
-            for ($i = 0; $i < $num_records; $i++) {
-                // Vincula os valores e executa a declaração
-                $stmt->bindParam(':idprevenda', $idprevenda); // Você precisa definir o valor de idprevenda
-                $stmt->bindParam(':identrada', $financeiro_detalha['identrada'][$i]);
-                $stmt->bindParam(':datahorapgto', $horaagora); 
-                $stmt->bindParam(':valorpgto', $financeiro_detalha['apagar'][$i]);
-                $stmt->bindParam(':tipopgto', $tipopgto);
-                
-                $stmt->execute();
-            }
-        
-            $connPDO->commit(); // Confirma a transação
-        } catch (Exception $e) {
-            $connPDO->rollBack(); // Reverte a transação em caso de erro
-            throw $e; // Re-levanta a exceção
+    
+        $num_records = count($financeiro_detalha['identrada']);
+        for ($i = 0; $i < $num_records; $i++) {
+            $stmt->bindParam(':idprevenda', $idprevenda); // Você precisa definir o valor de idprevenda
+            $stmt->bindParam(':identrada', $financeiro_detalha['identrada'][$i]);
+            $stmt->bindParam(':datahorapgto', $horaagora); 
+            $stmt->bindParam(':valorpgto', $financeiro_detalha['apagar'][$i]);
+            $stmt->bindParam(':tipopgto', $tipopgto);
+            
+            $stmt->execute();
         }
-
+    
+        $connPDO->commit(); // Confirma a transação
+    } catch (Exception $e) {
+        $connPDO->rollBack(); // Reverte a transação em caso de erro
+        throw $e; // Re-levanta a exceção
+    }
 
 } else {
     //procedimento pagamento saída
-    // echo "pagasaida";
     $idprevenda   = $_POST['idprevenda'];
     $horafinaliza = $_POST['horafinaliza'];
     $vinculados   = explode(',', $_POST['vinculados']);
 
-    //$sql_verifca_participantes = "SELECT * FROM tbentrada WHERE previnculo_status=3 and id_prevenda=:idprevenda";
     $sql_verifca_participantes = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$horafinaliza' as datahora_saida
     FROM tbentrada 
     inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
@@ -123,9 +114,6 @@ if (!isset($_POST['pagasaida'])) {
         $i[$value['id_vinculado']]['tolerancia']     = $value['tolerancia'];
         $i[$value['id_vinculado']]['id_entrada']     = $value['id_entrada'];
     }
-
-    //die(var_dump($i));
-    //die($i[16]['nome']);
 
     $status = ($pre_verifca_participantes->rowCount() == count($vinculados)?6:5);
     
@@ -160,52 +148,53 @@ if (!isset($_POST['pagasaida'])) {
     //insere o valor do pagamento
 
     $valor       = $pgto;
-    $tp_cobranca = '4';
+    $tpcobranca  = '4';
     $forma_pgto  = $tipopgto;
 
-    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:id_prevenda, :tp_cobranca, :valor, :forma_pgto, :hora_pgto)";
+    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:id_prevenda, $tpcobranca, :valor, :forma_pgto, :hora_pgto)";
     $pre_movimento_pagamento = $connPDO->prepare($sql_movimento_pagamento);
     $pre_movimento_pagamento->bindParam(':id_prevenda', $idprevenda, PDO::PARAM_INT);
-    $pre_movimento_pagamento->bindParam(':tp_cobranca', $tp_cobranca, PDO::PARAM_INT);
     $pre_movimento_pagamento->bindParam(':valor', $valor, PDO::PARAM_STR);
     $pre_movimento_pagamento->bindParam(':forma_pgto', $forma_pgto, PDO::PARAM_INT);
     $pre_movimento_pagamento->bindParam(':hora_pgto', $horaagora, PDO::PARAM_STR);
     $pre_movimento_pagamento->execute();
 
+    $idFinanceiro = $connPDO->lastInsertId();
+
     //processar o detalhamento do pagamento em tbfinanceiro_detalha - pagamento na saída
     $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
-try {
-    // Supondo que $pdo seja a instância PDO já configurada
-    $connPDO->beginTransaction(); // Inicia a transação
+    try {
+        // Supondo que $pdo seja a instância PDO já configurada
+        $connPDO->beginTransaction(); // Inicia a transação
 
-    // Prepara a declaração uma vez
-    $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, datahorasaida, permanencia, datahorapgto, valorpgto, tipopgto, pgtoinout) 
-                               VALUES (:idprevenda, :identrada, :datahorasaida, :permanencia, :datahorapgto, :valorpgto, :tipopgto, 2)";
-    $stmt = $connPDO->prepare($sql_financeiro_detalha);
+        // Prepara a declaração uma vez
+        $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, idfinanceiro, datahorasaida, permanencia, datahorapgto, valorpgto, tipopgto, pgtoinout) 
+                                VALUES (:idprevenda, :identrada, $idFinanceiro, :datahorasaida, :permanencia, :datahorapgto, :valorpgto, :tipopgto, 2)";
+        $stmt = $connPDO->prepare($sql_financeiro_detalha);
 
-    // Decodifica os dados JSON recebidos via POST
-    $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+        // Decodifica os dados JSON recebidos via POST
+        $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
 
-    // Itera através dos dados para realizar os inserts
-    $num_records = count($financeiro_detalha['identrada']);
-    for ($i = 0; $i < $num_records; $i++) {
-        // Vincula os valores e executa a declaração
-        $stmt->bindParam(':idprevenda', $idprevenda); // Você precisa definir o valor de idprevenda
-        $stmt->bindParam(':identrada', $financeiro_detalha['identrada'][$i]);
-        $stmt->bindParam(':datahorasaida', $financeiro_detalha['datahora_saida'][$i]);
-        $stmt->bindParam(':permanencia', $financeiro_detalha['tempoPermanece'][$i]);
-        $stmt->bindParam(':datahorapgto', $horaagora); 
-        $stmt->bindParam(':valorpgto', $financeiro_detalha['apagar'][$i]);
-        $stmt->bindParam(':tipopgto', $tipopgto);
-        
-        $stmt->execute();
+        // Itera através dos dados para realizar os inserts
+        $num_records = count($financeiro_detalha['identrada']);
+        for ($i = 0; $i < $num_records; $i++) {
+            // Vincula os valores e executa a declaração
+            $stmt->bindParam(':idprevenda', $idprevenda); // Você precisa definir o valor de idprevenda
+            $stmt->bindParam(':identrada', $financeiro_detalha['identrada'][$i]);
+            $stmt->bindParam(':datahorasaida', $financeiro_detalha['datahora_saida'][$i]);
+            $stmt->bindParam(':permanencia', $financeiro_detalha['tempoPermanece'][$i]);
+            $stmt->bindParam(':datahorapgto', $horaagora); 
+            $stmt->bindParam(':valorpgto', $financeiro_detalha['apagar'][$i]);
+            $stmt->bindParam(':tipopgto', $tipopgto);
+            
+            $stmt->execute();
+        }
+
+        $connPDO->commit(); // Confirma a transação
+    } catch (Exception $e) {
+        $connPDO->rollBack(); // Reverte a transação em caso de erro
+        throw $e; // Re-levanta a exceção
     }
-
-    $connPDO->commit(); // Confirma a transação
-} catch (Exception $e) {
-    $connPDO->rollBack(); // Reverte a transação em caso de erro
-    throw $e; // Re-levanta a exceção
-}
 //----------- fim detalhamento -------------
 
 
