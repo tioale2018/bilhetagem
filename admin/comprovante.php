@@ -36,9 +36,7 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     <title>Impressão de comprovante</title>
     <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
     <style>
-        * {
-            font-size: 16px!important;
-        }
+        
     </style>
 
 </head>
