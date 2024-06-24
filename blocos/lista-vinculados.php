@@ -30,6 +30,8 @@ $rowNum = $pre->rowCount();
     <div class="table-responsive">
         <?php 
         $travaBtEnvia = 'false';
+        $textoBtEnvia = 'Finalizar Cadastro';
+        $textoBtErro = 'Autorizações pendentes';
         if ($pre->rowCount()>0) { 
         ?>
                 
@@ -60,6 +62,7 @@ $rowNum = $pre->rowCount();
                         <?php 
                             if ($row[$key]['autoriza']==0) {
                                 $travaBtEnvia = 'true';
+                                $textoBtEnvia = $textoBtErro;
                                 echo '<a href="#" class="btnModalTermoParticipante" data-id="'.$row[$key]['id_entrada'].'"><span class="badge badge-danger">Autorizar</span></a>';
                             } else {
                                 echo '<span class="badge badge-success">OK</span>';
@@ -78,6 +81,7 @@ $rowNum = $pre->rowCount();
 
         <?php } else { 
             $travaBtEnvia = 'true';
+            $textoBtEnvia = $textoBtErro;
             ?>
 
             <div class="alert alert-danger">
@@ -88,12 +92,10 @@ $rowNum = $pre->rowCount();
     </div>
 </div>
 
-
 <?php if (isset($key)) { ?>
 
 <script>
     $(document).ready(function(){
-        
 
         $('body').on('click', '.btnModalEditaParticipante', function() {
             let i = $(this).data('idparticipante');
@@ -148,5 +150,5 @@ $rowNum = $pre->rowCount();
 
 <script>
     $('select').selectpicker();
-    $('button[name=btnFinaliza]').prop('disabled', <?= $travaBtEnvia ?>);
+    $('button[name=btnFinaliza]').prop('disabled', <?= $travaBtEnvia ?>).text('<?= $textoBtEnvia ?>');
 </script>

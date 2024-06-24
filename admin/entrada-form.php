@@ -3,8 +3,6 @@
 <?php include('./inc/funcoes-gerais.php') ?>
 
 <?php 
-
-
 $evento = $_SESSION['evento_selecionado'];
 
 //procedimento de busca dos pacotes deste evento
@@ -15,7 +13,6 @@ $row_busca_pacote = $pre_busca_pacote->fetchAll();
 
 $_SESSION['lista_pacotes'] = $row_busca_pacote;
 //----------------------------------------------------------------------------------------------------------------
-
 
 //procediemnto de busca de tipo de vínculos
 $sql_busca_vinculo = "select * from tbvinculo where ativo=1";
@@ -51,7 +48,6 @@ $row = $pre->fetchAll();
 
 // die(var_dump($row));
 ?>
-
 
 </head>
 <body class="theme-black">
@@ -162,7 +158,6 @@ $row = $pre->fetchAll();
                     </div>
                     <div class="card bloco-vinculados">
                     
-                    
                     </div>
 
                 </div>
@@ -238,7 +233,8 @@ $row = $pre->fetchAll();
             let pacote  = $(this).val();
             // alert( entrada + ' - ' + pacote );
             $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
-                console.log(data);
+                // console.log(data);
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
             });
         });
 
