@@ -21,6 +21,4 @@ if ($total>0) {
 } else {
     echo json_encode(1);
 }
-
-
 ?>
