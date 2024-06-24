@@ -129,7 +129,6 @@ include_once("./inc/head.php");
 
                             <div class="col-md-6">
                                 <div class="form-group">                                   
-                                     
                                     <button class="btn btn-raised btn-primary waves-effect btn-round btsalvar" type="submit" disabled>Salvar</button>                                
                                 </div>
                             </div> 
@@ -140,10 +139,6 @@ include_once("./inc/head.php");
                 </div>
             </div>
         </div>
-
-        <script>
-           
-        </script>
 
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
@@ -160,7 +155,6 @@ include_once("./inc/head.php");
                             </li>                            
                         </ul>
                     </div>
-                    
                     
                     <div class="body">
                         <div class="table-responsive bloco-vinculados">
@@ -197,16 +191,13 @@ include_once("./inc/head.php");
                 </div>
             </div>
         </div>
-        
     </div>
 </section>
 
 <?php include('./inc/cad-participante-modal.php') ?>
-
 <?php include('./inc/javascript.php') ?>
 
 <script>
-    
     $(document).ready(function(){
 
         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: <?= $idPrevendaAtual ?> });
@@ -280,8 +271,6 @@ include_once("./inc/head.php");
                 e.preventDefault();
             }
         })
-
-        
         
     });
 </script>

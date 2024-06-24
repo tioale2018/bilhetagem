@@ -35,6 +35,9 @@ $row = $pre->fetchAll();
 
 $rowNum = $pre->rowCount();
 
+$travaBtEnvia = 'false';
+$textoBtEnvia = 'Efetuar pagamento';
+$textoBtErro = 'Verifique pacotes pendentes'
 // var_dump($row_busca_pacote);
 ?>
 
@@ -64,7 +67,12 @@ $rowNum = $pre->rowCount();
             </thead>                                
             <tbody>
 
-            <?php  foreach ($row as $key => $value) { ?>
+            <?php  foreach ($row as $key => $value) { 
+                if ($row[$key]['id_pacote']==0) {
+                    $travaBtEnvia = 'true';
+                    $textoBtEnvia = $textoBtErro;
+                }
+                ?>
                
                 <tr>
                     <td><?= $row[$key]['id_vinculado'] ?></td>
@@ -94,7 +102,11 @@ $rowNum = $pre->rowCount();
             </tbody>
         </table>
 
-        <?php } else { ?>
+        <?php 
+        } else { 
+            $travaBtEnvia = 'true';
+            $textoBtEnvia = $textoBtErro;          
+            ?>
 
             <div class="alert alert-danger">
                 <strong>Opa!</strong> Nenhuma criança foi vinculada a este cadastro.
@@ -105,9 +117,13 @@ $rowNum = $pre->rowCount();
 </div>
 
 <script>
+
     document.querySelector('#btnpagamento').dataset.numrow = '<?= $rowNum ?>';
+    $('#btnpagamento').prop('disabled', <?= $travaBtEnvia ?>).text('<?= $textoBtEnvia ?>');
 
     $(document).ready(function(){
+        
+
         $('.btnModalEditaParticipante').on('click', function(){
             let i = $(this).data('idparticipante');
             let j = $(this).data('idprevenda');
@@ -115,8 +131,6 @@ $rowNum = $pre->rowCount();
 
             $('#modalEditaParticipante .modal-content').load('./blocos/edita-participante.php', {i: i, j: j});
         })
-    })
-    
-
+    });
 
 </script>
