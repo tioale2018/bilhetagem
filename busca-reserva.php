@@ -13,5 +13,5 @@ include_once("./inc/cad-participantes-regras.php");
 
 <script>
     // history.replaceState(null, null, 'cadastro.php');
-    location.replace('cadastro.php');
+    location.replace('cadastro');
 </script>

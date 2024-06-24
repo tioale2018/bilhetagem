@@ -49,7 +49,7 @@ $row = $pre->fetchAll();
 
 if ($pre->rowCount()<1) {
     session_destroy();
-    header('Location: index.php?i='.$hashEvento);
+    header('Location: /'.$hashEvento);
 }
 
 $horaAgora = time();
@@ -158,7 +158,7 @@ include_once("./inc/head.php");
                                     
                                     
                                     <div class="col-3">
-                                        <a href="index.php?i=<?= $hashEvento ?>" class="btn btn-raised btn-primary btn-round">Nova reserva</a>
+                                        <a href="/<?= $hashEvento ?>" class="btn btn-raised btn-primary btn-round">Nova reserva</a>
                                     </div>
                                 </div>
         

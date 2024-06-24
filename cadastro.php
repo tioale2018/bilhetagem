@@ -270,7 +270,7 @@ include_once("./inc/head.php");
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    location.href="reserva-resumo.php";   
+                    location.href="reserva-resumo";   
                 }
             })
         });

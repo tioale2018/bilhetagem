@@ -9,9 +9,9 @@ if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name =
   $database = "bdbilhetagem";
 } else {
   # code...
-  $username = "w3brandcom_userbilhertagem";
-  $password = "tnH0[uPB{b3R";
-  $database = "w3brandcom_bilhetagem";
+  $username = "brandw3com_userbilhetagem";
+  $password = "@}T)Cupw0e_z";
+  $database = "brandw3com_bdbilhetagem";
 }
 
 date_default_timezone_set('America/Sao_Paulo');
