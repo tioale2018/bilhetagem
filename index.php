@@ -38,11 +38,11 @@ function buscarPorHash($array, $hash) {
     return null;
 }
 
-//$sql = "select hash from tbativa where ativo=1";
-$sql = "select tbativa.hash, tbativa.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto
-from tbativa 
-inner join tbevento on tbativa.idevento=tbevento.id_evento
-where tbativa.ativo=1 and tbevento.status=2";
+//$sql = "select hash from tbevento_ativo where ativo=1";
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto
+from tbevento_ativo 
+inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
+where tbevento_ativo.ativo=1 and tbevento.status=2";
 $pre = $connPDO->prepare($sql);
 $pre->execute();
 $row = $pre->fetchAll();

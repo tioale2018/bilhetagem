@@ -26,7 +26,6 @@ if ( verificaVar($_POST['entradasaida']) || verificaVar($_POST['entradasaida']) 
 $idprevenda   = $_POST['idprevenda'];
 $vinculados   = (isset($_POST['vinculados'])?$_POST['vinculados']:'');
 $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -38,7 +37,6 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     <style>
         
     </style>
-
 </head>
 <body>
 
@@ -46,12 +44,12 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
 //procedimento entrada
 if ($entradasaida==1) { 
 
-    $sql_entrada = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
-inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
-inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
-inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
-inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
-where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
+    $sql_entrada = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome as nomecrianca, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
+    inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
+    inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
+    inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
+    inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
+    where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
     $pre_entrada = $connPDO->prepare($sql_entrada);
     $pre_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -79,26 +77,28 @@ where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($row_entrada as $key => $value) { ?>
                     <tr>
-                        <td style="padding-top: 15px!important">Nome da Criança</td>
+                        <td style="padding-top: 20px!important"><?= $row_entrada[$key]['nomecrianca'] ?></td>
                     </tr>
                     <tr>
-                        <td>Pacote - R$ valor - XXmin</td>
+                        <td>Pacote - R$ <?= $row_entrada[$key]['valor'] ?> - <?= $row_entrada[$key]['duracao'] ?>min</td>
                     </tr>
                     <tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>Início:</td>
-                                    <td>10/01/2000 10:40:20</td>
+                                    <td><?= date('d/m/Y H:i:s', $row_entrada[$key]['datahora_efetiva']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Fim:</td>
-                                    <td>10/01/2000 10:40:20</td>
+                                    <td><?= date('d/m/Y H:i:s', $row_entrada[$key]['datahora_efetiva'] + ($row_entrada[$key]['duracao'] * 60) ); ?></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
+                    <?php }  ?>
                 </tbody>
             </table>
         </div>
@@ -112,41 +112,56 @@ where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
     
 <?php 
 //procedimentosaida
-} elseif ($entradasaida==2) { ?>
+} elseif ($entradasaida==2) { 
+    
+    $sql_saida = "select tbentrada.*, tbvinculados.nome as nomecrianca, tbvinculados.nascimento, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
+    inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
+    inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
+    inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
+    inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
+    where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=:idprevenda";
+    $pre_saida = $connPDO->prepare($sql_saida);
+    $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+
+    $pre_saida->execute();
+    $row_saida = $pre_entrada->fetchAll();
+    
+    ?>
     
     <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Saída: 10/10/2024 00:00</h3>
+            <h3>Saída: <?= $row_saida[0]['datahora_saida'] ?></h3>
             <hr>
         </div>
         <div class="col-12">
             <table>
                 <thead>
                     <tr>
-                        <td>Responsável: Fulano de tal</td>
+                        <td>Responsável: <?= $row_saida[0]['nomeresponsavel'] ?></td>
                     </tr>
                     <tr>
-                        <td>CPF: 123.456.789-00</td>
+                        <td>CPF: <?= $row_saida[0]['cpf'] ?></td>
                     </tr>
                     <tr>
-                        <td>(21) 98765-4321</td>
+                        <td><?= $row_saida[0]['telefone1'] ?></td>
                     </tr>
                 </thead>
                 <tbody>
+                    <?= foreach ($row_saida as $key => $value) { ?>
                     <tr>
-                        <td style="padding-top: 15px!important">Nome da Criança</td>
+                        <td style="padding-top: 15px!important"><?= $row_saida[$key]['nomecrianca'] ?></td>
                     </tr>
                     <tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>Início:</td>
-                                    <td>10/01/2000 10:40:20</td>
+                                    <td><?= date('d/m/Y H:i:s', $row_saida[$key]['datahora_entra']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Saída:</td>
-                                    <td>10/01/2000 10:40:20</td>
+                                    <td><?= date('d/m/Y H:i:s', $row_saida[$key]['datahora_saida']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Permanência:</td>
@@ -155,6 +170,7 @@ where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
                             </table>
                         </td>
                     </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
