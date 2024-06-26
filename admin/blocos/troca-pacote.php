@@ -18,10 +18,31 @@ include_once('../inc/conexao.php');
 $entrada = $_POST['e'];
 $pacote  = $_POST['p'];
 
-$sql = "update tbentrada set id_pacote=:pacote where id_entrada=:entrada";
+
+$sql_pacote = "select * from tbpacotes where ativo=1 and id_pacote=:pacote";
+$pre_pacote = $connPDO->prepare($sql_pacote);
+$pre_pacote->bindParam(':pacote', $pacote, PDO::PARAM_INT);
+$pre_pacote->execute();
+// $row_pacote = $pre_pacote->fetch(PDO::FETCH_ASSOC);
+$row_pacote = $pre_pacote->fetchAll();
+//não valido a existencia desse pacote
+
+var_dump($row_pacote);
+
+$valor      = $row_pacote[0]['valor'];
+$duracao    = $row_pacote[0]['duracao'];
+$tolerancia = $row_pacote[0]['tolerancia'];
+$adicional  = $row_pacote[0]['min_adicional'];
+
+// $sql = "update tbentrada set id_pacote=:pacote where id_entrada=:entrada";
+$sql = "update tbentrada set id_pacote=:pacote, pct_valor=:valor, pct_duracao=:duracao, pct_tolerancia=:tolerancia, pct_valor_adicional=:adicional where id_entrada=:entrada";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':entrada', $entrada, PDO::PARAM_INT);
 $pre->bindParam(':pacote', $pacote, PDO::PARAM_INT);
+$pre->bindParam(':valor', $valor, PDO::PARAM_STR);
+$pre->bindParam(':duracao', $duracao, PDO::PARAM_INT);
+$pre->bindParam(':tolerancia', $tolerancia, PDO::PARAM_INT);
+$pre->bindParam(':adicional', $adicional, PDO::PARAM_STR);
 $pre->execute();
 
 ?>

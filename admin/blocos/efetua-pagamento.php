@@ -137,6 +137,8 @@ if (!isset($_POST['pagasaida'])) {
         $tolerancia  = $i[$value]['tolerancia'];
         $idEntrada   = $i[$value]['id_entrada'];
         $aPagar      = $financeiro_detalha['apagar'][$key];
+
+        $teste= $financeiro_detalha['apagar'][$key];
         
         $a = calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia);
         $tempoExcedente = $a['tempoExcedenteMinutos'];
@@ -150,6 +152,8 @@ if (!isset($_POST['pagasaida'])) {
         $pre_atualiza_entrada->execute();
     }
     
+
+    // die($teste);
     //insere o valor do pagamento
 
     $valor       = $pgto;
