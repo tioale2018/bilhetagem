@@ -34,8 +34,15 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressão de comprovante</title>
     <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
     <style>
-        
+        * {
+            font-family: "Dosis", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
     </style>
 </head>
 <body>
@@ -120,11 +127,12 @@ if ($entradasaida==1) {
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=:idprevenda";
+
     $pre_saida = $connPDO->prepare($sql_saida);
     $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
     $pre_saida->execute();
-    $row_saida = $pre_entrada->fetchAll();
+    $row_saida = $pre_saida->fetchAll();
     
     ?>
     
@@ -148,7 +156,7 @@ if ($entradasaida==1) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?= foreach ($row_saida as $key => $value) { ?>
+                    <?php foreach ($row_saida as $key => $value) { ?>
                     <tr>
                         <td style="padding-top: 15px!important"><?= $row_saida[$key]['nomecrianca'] ?></td>
                     </tr>
@@ -174,7 +182,7 @@ if ($entradasaida==1) {
                 </tbody>
             </table>
         </div>
-        <div class="col-12">
+        <div class="col-12" style="padding-top: 20px!important">
             <p>ATENÇÃO: Será cobrado minuto adicional. Não nos responsabilizamos por objetos perdidos no local.</p>
             <p>Obrigado e volte sempre!</p>
         </div>

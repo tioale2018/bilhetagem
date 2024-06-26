@@ -157,11 +157,8 @@ $row = $pre->fetchAll();
                         </ul>
                     </div>
                     <div class="card bloco-vinculados">
-                    
                     </div>
-
                 </div>
-                
             </div>
         </div> 
 
@@ -175,15 +172,12 @@ $row = $pre->fetchAll();
                                     <a class="btn btn-raised btn-primary waves-effect btn-round" href="entrada-nova.php">Retornar</a>                               
                                 </div>
                             </div>
-
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
                                     <button class="btn btn-raised btn-primary waves-effect btn-round" id="btnpagamento" data-numrow="">Efetuar pagamento</button>                               
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -223,19 +217,21 @@ $row = $pre->fetchAll();
                     $('form#formResponsavel button[type=submit]').attr('disabled', true);
                 });                
             });
-            
         })
 
         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
 
-        $('body').on('change', '.lista-vinculados select',  function(){
+        $('body').on('change', '.lista-vinculados select',  function(e){
+            // $(this).attr('disabled', true);
             let entrada = $(this).data('identrada');
             let pacote  = $(this).val();
-            // alert( entrada + ' - ' + pacote );
-            $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
-                // console.log(data);
+            if (pacote==='') {
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
-            });
+            } else {
+                $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
+                });    
+            }            
         });
 
         $('body').on('click', '.excluivinculo', function(){
@@ -248,7 +244,6 @@ $row = $pre->fetchAll();
         });
 
         $('body').on('click','#btnpagamento', function(event){
-            
             let count = $(this).data('numrow');
             if (count<1) {
                 swal({
@@ -261,7 +256,7 @@ $row = $pre->fetchAll();
                     closeOnConfirm: true
                 });
             } else {
-                location.href='pagamento.php?item=<?= $_GET['item'] ?>'
+                location.href='pagamento.php?item=<?= $_GET['item'] ?>';
             }            
         })
     });

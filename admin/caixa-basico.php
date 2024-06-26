@@ -68,7 +68,7 @@
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="" max="<?= date('Y-m-d', time()) ?>" value="<?= date('Y-m-d', time()) ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= date('Y-m-d', time()) ?>"></div> 
                                 </p>
                                 <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
                                 <p><strong>Ticket ID: </strong> #123456</p>
@@ -123,7 +123,14 @@
 
 <?php include_once('./inc/javascript.php') ?>
 
-
+<script>
+    $(document).ready(function(){
+        $('#dataFiltro').change(function(){
+            var data = $(this).val();
+            window.location = 'caixa-basico.php?data='+data;
+        });
+    })
+</script>
 
 
 </body>
