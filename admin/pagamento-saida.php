@@ -25,7 +25,7 @@ $idprevenda    = $_POST['idprevenda'];
 $tipopgto      = $_POST['tipopgto'];
 $hora_finaliza = $_POST['tempo_agora'];
 
-$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$hora_finaliza' as datahora_saida
+$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$hora_finaliza' as datahora_saida
 FROM tbentrada 
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
@@ -48,9 +48,9 @@ $resultadoFinal = [];
 
 foreach ($rows as $row) {
     $horaEntrada = $row['datahora_entra'];
-    $horaSaida = $hora_finaliza;
-    $pacote = $row['duracao'];
-    $tolerancia = $row['tolerancia'];
+    $horaSaida   = $hora_finaliza;
+    $pacote      = $row['duracao'];
+    $tolerancia  = $row['tolerancia'];
 
     $calculos = calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia);
 
@@ -60,11 +60,9 @@ foreach ($rows as $row) {
 
 ?>
 
-<hr>
-
 </head>
 <body class="theme-black">
-<?php include_once('./inc/pageloader.php') ?>
+<?php //include_once('./inc/pageloader.php') ?>
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -123,16 +121,16 @@ foreach ($rows as $row) {
                     <div class="body">                                
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0"><strong>Data: </strong> 01/01/2000 18:03</p>
+                                <p class="m-b-0"><strong>Data: </strong> <?= date('d/m/Y H:i', $hora_finaliza); ?></p>
                                 <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
-                                <p><strong>Ticket ID: </strong> #123456</p>
+                                <p><strong>Ticket ID: </strong> #<?= $rows[0]['id_prevenda'] ?></p>
                                 
                             </div>
                             <div class="col-md-6 col-sm-6 text-right">
                             <address>
-                                    <strong>{responsável}</strong><br>
-                                    {dado1}<br>
-                                    {dado2}
+                                    <strong><?= $rows[0]['nomeresponsavel'] ?></strong><br>
+                                    <?= $rows[0]['telefone1'] ?><br>
+                                    <?= $rows[0]['email'] ?>
                                 </address>
                             </div>
                         </div>
@@ -232,7 +230,8 @@ foreach ($rows as $row) {
                                 <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
                                 <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
                                 <?php
-                                    $financeiro_detalha_json = json_encode($financeiro_detalha);
+                                    $financeiro_detalha_json        = json_encode($financeiro_detalha);
+                                    $_SESSION['financeiro_detalha'] = htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8');
                                 ?>
                                 <input type="hidden" name="pgtodetalha" value='<?= htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8') ?>'>
                                 <hr>

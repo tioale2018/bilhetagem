@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tbativa`
+-- Estrutura para tabela `tbevento_ativo`
 --
 
-CREATE TABLE `tbativa` (
+CREATE TABLE `tbevento_ativo` (
   `id` int(11) NOT NULL,
   `hash` varchar(250) NOT NULL,
   `ativo` int(11) NOT NULL DEFAULT 1,
@@ -36,10 +36,10 @@ CREATE TABLE `tbativa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tbativa`
+-- Despejando dados para a tabela `tbevento_ativo`
 --
 
-INSERT INTO `tbativa` (`id`, `hash`, `ativo`, `datahora_cria`, `idevento`) VALUES
+INSERT INTO `tbevento_ativo` (`id`, `hash`, `ativo`, `datahora_cria`, `idevento`) VALUES
 (1, '321', 1, '1717542595', 1),
 (2, '123', 1, '1717542595', 2);
 
@@ -662,9 +662,9 @@ INSERT INTO `tbvinculo` (`id_vinculo`, `descricao`, `ativo`) VALUES
 --
 
 --
--- Índices de tabela `tbativa`
+-- Índices de tabela `tbevento_ativo`
 --
-ALTER TABLE `tbativa`
+ALTER TABLE `tbevento_ativo`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -750,9 +750,9 @@ ALTER TABLE `tbvinculo`
 --
 
 --
--- AUTO_INCREMENT de tabela `tbativa`
+-- AUTO_INCREMENT de tabela `tbevento_ativo`
 --
-ALTER TABLE `tbativa`
+ALTER TABLE `tbevento_ativo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --

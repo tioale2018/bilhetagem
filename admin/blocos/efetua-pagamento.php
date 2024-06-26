@@ -60,13 +60,15 @@ if (!isset($_POST['pagasaida'])) {
     // echo ($numqueries==3?'ok':'erro');
 
         
-    $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+     $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+    //$financeiro_detalha = json_decode($_SESSION['financeiro_detalha'], true);
     try {
         $connPDO->beginTransaction(); // Inicia a transação
         $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, idfinanceiro, datahorapgto, valorpgto, tipopgto, pgtoinout) VALUES (:idprevenda, :identrada, $idFinanceiro, :datahorapgto, :valorpgto, :tipopgto, 1)";
         $stmt = $connPDO->prepare($sql_financeiro_detalha);
     
         $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+        //$financeiro_detalha = json_decode($_SESSION['financeiro_detalha'], true);
     
         $num_records = count($financeiro_detalha['identrada']);
         for ($i = 0; $i < $num_records; $i++) {
@@ -90,6 +92,8 @@ if (!isset($_POST['pagasaida'])) {
     $idprevenda   = $_POST['idprevenda'];
     $horafinaliza = $_POST['horafinaliza'];
     $vinculados   = explode(',', $_POST['vinculados']);
+    $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+    // die(var_dump($financeiro_detalha));
 
     $sql_verifca_participantes = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$horafinaliza' as datahora_saida
     FROM tbentrada 
@@ -132,6 +136,7 @@ if (!isset($_POST['pagasaida'])) {
         $pacote      = $i[$value]['duracao'];
         $tolerancia  = $i[$value]['tolerancia'];
         $idEntrada   = $i[$value]['id_entrada'];
+        $aPagar      = $financeiro_detalha['apagar'][$key];
         
         $a = calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia);
         $tempoExcedente = $a['tempoExcedenteMinutos'];
@@ -141,7 +146,7 @@ if (!isset($_POST['pagasaida'])) {
         $sql_atualiza_entrada = "update tbentrada set previnculo_status=4, datahora_saida=$horaSaida, tempo_excede=$tempoExcedente, pgto_extra=$pgtoExtra, pgto_extra_valor=:pgto where id_entrada=$idEntrada";
 
         $pre_atualiza_entrada = $connPDO->prepare($sql_atualiza_entrada);
-        $pre_atualiza_entrada->bindParam(':pgto', $idprevenda, PDO::PARAM_STR);
+        $pre_atualiza_entrada->bindParam(':pgto', $aPagar, PDO::PARAM_STR);
         $pre_atualiza_entrada->execute();
     }
     
@@ -162,18 +167,19 @@ if (!isset($_POST['pagasaida'])) {
     $idFinanceiro = $connPDO->lastInsertId();
 
     //processar o detalhamento do pagamento em tbfinanceiro_detalha - pagamento na saída
-    $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+    
+    //$financeiro_detalha = json_decode($_SESSION['financeiro_detalha'], true);
     try {
         // Supondo que $pdo seja a instância PDO já configurada
         $connPDO->beginTransaction(); // Inicia a transação
 
         // Prepara a declaração uma vez
-        $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, idfinanceiro, datahorasaida, permanencia, datahorapgto, valorpgto, tipopgto, pgtoinout) 
-                                VALUES (:idprevenda, :identrada, $idFinanceiro, :datahorasaida, :permanencia, :datahorapgto, :valorpgto, :tipopgto, 2)";
+        $sql_financeiro_detalha = "INSERT INTO tbfinanceiro_detalha (idprevenda, identrada, idfinanceiro, datahorasaida, permanencia, datahorapgto, valorpgto, tipopgto, pgtoinout) VALUES (:idprevenda, :identrada, $idFinanceiro, :datahorasaida, :permanencia, :datahorapgto, :valorpgto, :tipopgto, 2)";
         $stmt = $connPDO->prepare($sql_financeiro_detalha);
 
         // Decodifica os dados JSON recebidos via POST
         $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
+        //$financeiro_detalha = json_decode($_SESSION['financeiro_detalha'], true);
 
         // Itera através dos dados para realizar os inserts
         $num_records = count($financeiro_detalha['identrada']);

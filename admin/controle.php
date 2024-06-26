@@ -103,7 +103,6 @@ $row = $pre->fetchAll();
                                         <td>
                                             <div class="hora-saida"><?= somarMinutos($value['datahora_entra'], $value['duracao']) ?></div>
                                             <!-- <small>+<?= calculaDuracao($value['tolerancia']); ?></small> -->
-                                            
                                         </td>                                        
                                         <td><span class="tdecorrido"></span></td>
                                         <td class="project-actions">

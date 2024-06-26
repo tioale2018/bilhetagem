@@ -12,7 +12,6 @@ function isPostVariableInteger($varpost) {
     return is_numeric($varpost) && floor($varpost) == $varpost;
 }
 
-
 function isPostVariableInteger($varpost) {
     return is_numeric($varpost) && floor($varpost) == $varpost;
 }
@@ -29,7 +28,6 @@ function checkPostVariable($varpost) {
         return true;
     }
 }
-
 
 include_once("../inc/conexao.php");
 $idevento = $_POST['i'];

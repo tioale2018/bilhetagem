@@ -32,9 +32,6 @@ $row = $pre->fetchAll();
 
 echo json_encode($row);
 */
-?>
-
-<?php
 
 /*
 function calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia) {
@@ -129,7 +126,6 @@ $rows = $pre->fetchAll(PDO::FETCH_ASSOC);
 
 $resultadoFinal = [];
 
-
 foreach ($rows as $row) {
     $horaEntrada = $row['datahora_entra'];
     $horaSaida = $tempoagora;
@@ -144,3 +140,4 @@ foreach ($rows as $row) {
 
 echo json_encode($resultadoFinal);
 
+?>

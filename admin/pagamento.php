@@ -22,7 +22,6 @@ if ($pre->rowCount()<1) {
     header('Location: controle.php');
 }
 
-
 $row = $pre->fetchAll();
 
 ?>

@@ -11,10 +11,10 @@ include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
 
 //valida se é o hash do evento
-$sql = "select tbativa.hash, tbativa.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto
-from tbativa 
-inner join tbevento on tbativa.idevento=tbevento.id_evento
-where tbativa.ativo=1 and tbevento.status=2 and tbativa.hash=:hash";
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto
+from tbevento_ativo 
+inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
+where tbevento_ativo.ativo=1 and tbevento.status=2 and tbevento_ativo.hash=:hash";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':hash', $hash, PDO::PARAM_STR);
 $pre->execute();
@@ -29,7 +29,6 @@ if ($pre->rowCount()<1) {
     $_SESSION['evento_atual'] = $row[0]['idevento'];
     $_SESSION['hash_evento'] = $hash;
 }
-
 
 //---------------------------
 
