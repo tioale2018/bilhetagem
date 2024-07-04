@@ -1,7 +1,7 @@
 <div class="modal fade" id="addResponsavelModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-        <form action="./blocos/adiciona-novo-responsavel.php" method="post"  >
+        <form action="./blocos/adiciona-novo-responsavel.php" method="post">
             <div class="modal-header">
                 <h4 class="title" id="addResponsavelModalLabel">Pré venda</h4>
             </div>
