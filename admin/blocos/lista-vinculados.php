@@ -122,7 +122,6 @@ $textoBtErro = 'Verifique pacotes pendentes'
     $('#btnpagamento').prop('disabled', <?= $travaBtEnvia ?>).text('<?= $textoBtEnvia ?>');
 
     $(document).ready(function(){
-        
 
         $('.btnModalEditaParticipante').on('click', function(){
             let i = $(this).data('idparticipante');
@@ -131,6 +130,8 @@ $textoBtErro = 'Verifique pacotes pendentes'
 
             $('#modalEditaParticipante .modal-content').load('./blocos/edita-participante.php', {i: i, j: j});
         })
+
+        $('select').selectpicker();
     });
 
 </script>

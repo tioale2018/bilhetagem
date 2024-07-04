@@ -200,10 +200,9 @@ $row = $pre->fetchAll();
 </div>
 
 <?php include('./inc/javascript.php'); ?>
+
 <script>
     $(document).ready(function(){
-        $('select').selectpicker();
-
         $('form#formResponsavel').on('input change', function(){
             $('form#formResponsavel button[type=submit]').attr('disabled', false);
         });
@@ -263,7 +262,9 @@ $row = $pre->fetchAll();
             } else {
                 location.href='pagamento.php?item=<?= $_GET['item'] ?>';
             }            
-        })
+        });
+
+        $('select').selectpicker();
     });
 </script>
 

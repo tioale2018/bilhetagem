@@ -8,9 +8,11 @@ if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
 
 $idprevenda = $_GET['item'];
 
-$sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor from tbentrada
+$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2 from tbentrada
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
+inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda
+inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
 where tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda";
 
 $pre = $connPDO->prepare($sql);
@@ -23,6 +25,7 @@ if ($pre->rowCount()<1) {
 }
 
 $row = $pre->fetchAll();
+$hora_finaliza = time();
 
 ?>
 
@@ -59,16 +62,16 @@ $row = $pre->fetchAll();
                     <div class="body">                                
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0"><strong>Data: </strong> 01/01/2000 18:03</p>
+                            <p class="m-b-0"><strong>Data: </strong> <?= date('d/m/Y H:i', $hora_finaliza); ?></p>
                                 <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
-                                <p><strong>Ticket ID: </strong> #123456</p>
+                                <p><strong>Ticket ID: </strong> #<?= $row[0]['id_prevenda'] ?></p>
                                 
                             </div>
                             <div class="col-md-6 col-sm-6 text-right">
                             <address>
-                                    <strong>{responsável}</strong><br>
-                                    {dado1}<br>
-                                    {dado2}
+                                    <strong><?= $row[0]['nomeresponsavel'] ?></strong><br>
+                                    <?= $row[0]['telefone1'] ?><br>
+                                    <?= $row[0]['email'] ?>
                                 </address>
                             </div>
                         </div>
@@ -160,10 +163,14 @@ $row = $pre->fetchAll();
                                 <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
                                 
                                 <input type="hidden" name="pgto" value="<?= $total ?>">
+                                <?php /*
                                 <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
+                                */
+                                ?>
                                 <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
                                 <?php
                                     $financeiro_detalha_json = json_encode($financeiro_detalha);
+                                    //$_SESSION['financeiro_detalha'] = htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8');
                                 ?>
                                 <input type="hidden" name="pgtodetalha" value='<?= htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8') ?>'>
                                 

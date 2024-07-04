@@ -2,7 +2,7 @@
 <div class="modal fade" id="modalAddParticipante" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form action="" method="post">
+            <form action="" method="post" id="formModalParticipante">
                 <div class="modal-header">
                     <h4 class="title" id="modalAddParticipanteLabel">Adicionar participante</h4>
                 </div>
@@ -34,7 +34,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Perfil</label>                            
-                                <select class="form-control show-tick p-0" name="pacote" id="fpacote">
+                                <select class="form-control show-tick p-0" name="perfil" id="fperfil">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
                                         <option  value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?></option>
@@ -54,6 +54,15 @@
                                 </select>
                             </div>
                         </div> 
+                        <div class="col-12">
+                            <div class="form-group">
+                                
+                                <div class="checkbox">
+                                    <input id="lembrarme" name="lembrarme" type="checkbox" value="1">
+                                    <label for="lembrarme">Lembrar este participante?</label>
+                                </div>
+                            </div>
+                        </div> 
                     </div>   
                 </div>
                 <div class="modal-footer">
@@ -70,20 +79,21 @@
 
 <script>
     $(document).ready(function(){
-        $('select').selectpicker();
+        $('select').selectpicker();    
         
-        $('#modalAddParticipante form').submit(function(event){
+        $('#formModalParticipante').submit(function(event){
             event.preventDefault();
             let Form = $(this).serialize();
             $.post( "./blocos/add-participante.php", Form, function(data){
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
                  console.log(data);
+                $('#formModalParticipante').trigger('reset');
                 $('#modalAddParticipante').modal('hide');
             }); 
         });
 
         $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
-            $('#modalAddParticipante form').trigger('reset');
+            $('#formModalParticipante').trigger('reset');
         })
         
     });    

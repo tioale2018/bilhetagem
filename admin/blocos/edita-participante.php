@@ -36,19 +36,19 @@ $row = $pre->fetchAll();
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="nome" class="form-label">Nome</label>                               
-                    <input name="nome" id="fnome" type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" required />
+                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" required />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Nascimento</label>                            
-                    <input name="nascimento" id="fnascimento" type="date" class="form-control" placeholder="Nascimento" value="<?= $row[0]['nascimento'] ?>" />
+                    <input name="nascimento" type="date" class="form-control" placeholder="Nascimento" value="<?= $row[0]['nascimento'] ?>" />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Tipo de vínculo</label>                            
-                    <select name="vinculo" class="form-control show-tick p-0" name="vinculo" id="fvinculo">
+                    <select name="vinculo" class="form-control show-tick p-0" name="vinculo">
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_vinculos'] as $k => $v) { ?>
                             <option <?= ($v['id_vinculo']==$row[0]['id_tipovinculo']?'selected':'') ?>  value="<?= $v['id_vinculo'] ?>" ><?= $v['descricao'] ?></option>
@@ -59,7 +59,7 @@ $row = $pre->fetchAll();
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Perfil</label>
-                    <select class="form-control p-0" name="perfil" id="fperfil">
+                    <select class="form-control p-0" name="perfil">
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
                             <option <?= ($v['idperfil']==$row[0]['perfil_acesso']?'selected':'') ?> value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?> </option>
@@ -70,7 +70,7 @@ $row = $pre->fetchAll();
             <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Pacote</label>                            
-                                <select class="form-control show-tick p-0" name="pacote" id="fpacote">
+                                <select class="form-control show-tick p-0" name="pacote">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
                                         <option <?= ($v['id_pacote']==$row[0]['id_pacote']?'selected':'') ?>  value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?></option>
@@ -109,7 +109,6 @@ $row = $pre->fetchAll();
             let Form = $(this);
             
             $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
-                // console.log(data);
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
                     $('#modalEditaParticipante').modal('toggle');
                     

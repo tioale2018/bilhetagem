@@ -130,7 +130,6 @@ if ($dados_responsavel!=false) {
     $pre_insere_responsavel->bindParam(':email', $email, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':datahora_input', $datahora, PDO::PARAM_STR);
-    
 
     $pre_insere_responsavel->execute();
 
@@ -159,7 +158,6 @@ if ($crianovaPrevenda) {
 
     $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
     
-
     //procedimento de busca dos vinculados "lembrar" deste responsavel
 
     $sql_busca_vinculados = "select * from tbvinculados where lembrar=1 and id_responsavel=$idResponsavel";
