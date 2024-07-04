@@ -160,14 +160,13 @@ foreach ($rows as $row) {
                 $tempoPermanece = calcularPermanenciaEmMinutos($value['datahora_entra'], $value['datahora_saida']);
                 $apagar = $value['adicionalpacote'] * calcularExcedente($value['duracao'], $value['tolerancia'], $tempoPermanece);
                 $total = $total + $apagar;
-                $financeiro_detalha['identrada'][] = $value['id_entrada'];
-                $financeiro_detalha['nome'][] = $value['nome'];
+                $financeiro_detalha['identrada'][]      = $value['id_entrada'];
+                $financeiro_detalha['nome'][]           = $value['nome'];
                 $financeiro_detalha['datahora_saida'][] = $value['datahora_saida'];
-                $financeiro_detalha['duracao'][] = $value['duracao'];
+                $financeiro_detalha['duracao'][]        = $value['duracao'];
                 $financeiro_detalha['tempoPermanece'][] = $tempoPermanece;
-                $financeiro_detalha['apagar'][] = $apagar;
-
-                $financeiro_detalha['pgtoinout'][] = 2;
+                $financeiro_detalha['apagar'][]         = $apagar;
+                $financeiro_detalha['pgtoinout'][]      = 2;
     ?>
             <tr>
                 <td><?= $key + 1 ?></td>                                                        

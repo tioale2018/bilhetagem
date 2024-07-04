@@ -9,12 +9,15 @@
 <script src="./assets/bundles/datatablescripts.bundle.js"></script>
 <script src="./assets/js/pages/tables/jquery-datatable.js"></script>
 
-<script src="./assets/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="./assets/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js -->
-<script src="./assets/plugins/chartjs/Chart.bundle.js"></script> <!-- Chart Plugins Js --> 
-<script src="./assets/plugins/chartjs/polar_area_chart.js"></script><!-- Polar Area Chart Js --> 
+<!-- Jquery Knob-->
+<!-- <script src="./assets/bundles/knob.bundle.js"></script>  -->
+<!-- sparkline Plugin Js -->
+<!-- <script src="./assets/bundles/sparkline.bundle.js"></script>  -->
+<!-- Chart Plugins Js --> 
+<!-- <script src="./assets/plugins/chartjs/Chart.bundle.js"></script>  -->
+<!-- Polar Area Chart Js --> 
+<!-- <script src="./assets/plugins/chartjs/polar_area_chart.js"></script> -->
 
-<script src="./assets/bundles/mainscripts.bundle.js"></script>
 <script src="./assets/js/pages/index.js"></script>
 <script src="./assets/js/pages/charts/polar_area_chart.js"></script>
 
