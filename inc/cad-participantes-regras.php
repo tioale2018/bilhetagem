@@ -87,9 +87,16 @@ $datahora         = time();
 $hoje             = date('Y-m-d', $datahora);
 $crianovaPrevenda = false;
 
+
+
 $dados_responsavel = procuraResponsavel($id);
 
-
+/*
+//---------------------------------------------------
+verifica se o responsável já possui pre venda ativa.
+caso tenha, segue com ela.
+caso não tenha, cria uma nova prevenda e segue com ela 
+*/
 //if ($pre_responsavel->rowCount()>0) {
 if ($dados_responsavel!=false) {    
     // $dados_responsavel = $pre_responsavel->fetchAll();
@@ -134,6 +141,7 @@ if ($dados_responsavel!=false) {
     $dados_responsavel = procuraResponsavel($id);
 }
 
+//----------------------------------------------
 
 if ($crianovaPrevenda) {
     $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, datahora_solicita) values (:id_responsavel, :id_evento, :data_acesso, 9, :datahora_solicita)";
@@ -168,7 +176,6 @@ if ($crianovaPrevenda) {
             $pre_insere_vinculados->execute();
         }
     }
-
     
 }
 $_SESSION['idPrevenda']       = $idPrevendaAtual;

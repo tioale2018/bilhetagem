@@ -44,6 +44,11 @@ $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
 $pre->execute();
+
+if ($pre->rowCount()<1) {
+    header('Location: controle.php');
+}
+
 $row = $pre->fetchAll();
 
 // die(var_dump($row));
