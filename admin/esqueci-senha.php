@@ -1,28 +1,6 @@
 <?php
 require_once './inc/config_session.php';
-
-function obterIP() {
-    // Tenta obter o IP real através de cabeçalhos HTTP
-    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-      $ip = $_SERVER['REMOTE_ADDR'];
-    }
-  
-    // Valida o formato do IP
-    if (filter_var($ip, FILTER_VALIDATE_IP)) {
-      return $ip;
-    } else {
-      return "IP inválido";
-    }
-  }
-  
-  // Exibe o IP do usuário
-  $ipUsuario = obterIP();
-  //echo "Seu endereço IP: $ipUsuario";
-
+/*
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('./inc/conexao.php');
     // Aqui você faria a verificação do usuário (ex. consulta ao banco de dados)
@@ -44,36 +22,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Login ou senha inválidos";
     } else {
         $row_busca_user = $pre_busca_user->fetchAll();
+        // die(var_dump($row_busca_user));
+        //die($row_busca_user[0]['nome']);
         // $user_id = $row_busca_user[0]['id_usuario']; // Exemplo de ID do usuário obtido após verificação
 
+
         // Define a variável de sessão
-        $_SESSION['user_id']     = $row_busca_user[0]['id_usuario'];
+        $_SESSION['user_id'] = $row_busca_user[0]['id_usuario'];
         //$_SESSION['user_evento'] = $row_busca_user[0]['idevento']; 
         $_SESSION['user_perfil'] = $row_busca_user[0]['perfil']; 
-        $_SESSION['user_nome']   = $row_busca_user[0]['nome']; 
-        $_SESSION['user_login']  = $row_busca_user[0]['login']; 
-        
+
         //rever isso no futuro
         $_SESSION['evento_selecionado'] = 0; //$_SESSION['user_evento'];
-
-
-        //procedimento de loginserção no log
-        $acaolog        = "login de usuário";
-        $codigolog      = 1;
-        $horaagora      = time();
-        $sql_insere_log = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$horaagora', $codigolog, '$ipUsuario', '$acaolog')";
-        $pre_insere_log = $connPDO->prepare($sql_insere_log);
-        $pre_insere_log->execute();
-        //fim do procedimento de log
-        
 
         // Redireciona para a página protegida
         header('Location: controle.php');
         exit();
+
     }
     
 }
-
+*/
 if (isset($_SESSION['user_id'])) {
     // Se estiver definida, redireciona para a página do sistema
     header('Location: controle.php');
@@ -140,49 +109,33 @@ if (isset($_SESSION['user_id'])) {
                 <div class="col-lg-5 col-md-12 offset-lg-1">
                     <div class="card-plain">
                         <div class="header">
-                            <h5>Log in</h5>
+                            <h5>Contato</h5>
                         </div>
-                        <form class="form" method="post" action="">
-                            <div class="input-group">
-                                <input name="username" type="text" class="form-control" placeholder="User Name" required>
-                                <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
-                            </div>  
-                            <div class="input-group">
-                                <input name="password" type="password" placeholder="Password" class="form-control" required />
-                                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-                            </div>      
-                            <?php if (isset($erro)) { ?>
-                            <div>
-                                <span class="" style="color: red"><?= $erro ?></span>
-                            </div>
-                            <?php } ?>
+
+                        <div class="body">
+                            <p>Caso tenha esquecido seu login ou senha, entre em contato com o seu supervisor.</p>
+                        </div>
                         
-                        <div class="footer">
-                            <button type="submit" class="btn btn-primary btn-round btn-block">Efetuar Login</button>
-                            
-                            
-                        </div>
-                        </form>
-                        <a href="esqueci-senha" class="link">Esqueceu sua senha?</a>
+                        <a href="./index" class="link">Retornar</a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="company_detail">
                         
                         <h3>Sistema de controle de acessos</h3>
-                        <p>Gerencie bilhetagem, acessos e cadastros de forma eficiente e segura para seus parques e eventos infantis com nossa plataforma online. </p>
+                        <p>Esqueceu seu login ou senha? </p>
                         <div class="footer">
                             <ul  class="social_link list-unstyled">
-                                <li><a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
-                                <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="http://twitter.com/" target="_blank" title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="http://plus.google.com/" target="_blank" title="Google plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
+                                <li><a href="https://www.facebook.com/" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="http://twitter.com/" title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="http://plus.google.com/" title="Google plus"><i class="zmdi zmdi-google-plus"></i></a></li>
                                 
                             </ul>
                             <hr>
                             <ul>
-                                <li><a href="">Contato</a></li>
-                                <li><a href="">FAQ</a></li>
+                                <li><a href="" target="_blank">Contato</a></li>
+                                <li><a href="" target="_blank">FAQ</a></li>
                             </ul>
                         </div>
                     </div>                    

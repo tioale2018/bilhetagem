@@ -139,7 +139,7 @@ if ($entradasaida==1) {
     <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Saída: <?= $row_saida[0]['datahora_saida'] ?></h3>
+            <h3>Saída: <?= date('d/m/Y H:i:s', $row_saida[0]['datahora_saida']) ?></h3>
             <hr>
         </div>
         <div class="col-12">

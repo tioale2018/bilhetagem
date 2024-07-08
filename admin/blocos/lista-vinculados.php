@@ -56,7 +56,6 @@ $textoBtErro = 'Verifique pacotes pendentes'
         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome</th>
                     <th>Nascimento / Idade</th>
                     <th>Vínculo</th>
@@ -75,7 +74,6 @@ $textoBtErro = 'Verifique pacotes pendentes'
                 ?>
                
                 <tr>
-                    <td><?= $row[$key]['id_vinculado'] ?></td>
                     <td><?= $row[$key]['nome'] ?></td>
                     <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?> (<?= calcularIdade($row[$key]['nascimento']) ?> Anos)</td>
                     <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
