@@ -70,14 +70,7 @@ $row = $pre->fetchAll();
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Ticket de entrada</h2>                    
-                </div>            
-                <div class="col-lg-7 col-md-7 col-sm-12">
-                    <ul class="breadcrumb float-md-right padding-0">
-                        <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{Página 01}</a></li>
-                        <li class="breadcrumb-item active">{Página atual}</li>
-                    </ul>
-                </div>
+                </div>   
             </div>
         </div>
 
@@ -86,7 +79,7 @@ $row = $pre->fetchAll();
                 <div class="card">
                     <div class="header">
                         <h2>Dados do responsável</h2>
-                        <ul class="header-dropdown">
+                        <!-- <ul class="header-dropdown">
                             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu slideUp">
                                     <li><a href="javascript:void(0);">Adiciona responsável</a></li>
@@ -94,7 +87,7 @@ $row = $pre->fetchAll();
                                     <li><a href="javascript:void(0);">Limpar</a></li>
                                 </ul>
                             </li>                            
-                        </ul>
+                        </ul> -->
                     </div>
                     <div class="body">
                         <form action="" method="post" id="formResponsavel" >
@@ -152,13 +145,13 @@ $row = $pre->fetchAll();
                         <h2>Crianças/participantes adicionadas</h2>
                         <ul class="header-dropdown">
                             <li><a href="#modalAddParticipante" data-toggle="modal" data-target="#modalAddParticipante"><i class="zmdi zmdi-plus-circle"></i></a></li>
-                            <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                            <!-- <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu slideUp">
                                     <li><a href="javascript:void(0);">Item 1</a></li>
                                     <li><a href="javascript:void(0);">Item 2</a></li>
                                     <li><a href="javascript:void(0);">Item 3</a></li>
                                 </ul>
-                            </li>                            
+                            </li>     -->
                         </ul>
                     </div>
                     <div class="card bloco-vinculados">
@@ -172,6 +165,11 @@ $row = $pre->fetchAll();
                 <div class="card">
                     <div class="body">
                         <div class="row justify-content-end">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <a class="btn btn-raised btn-danger waves-effect btn-round prevenda-exclui" href="">Excluir reserva</a>                               
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
                                     <a class="btn btn-raised btn-primary waves-effect btn-round" href="entrada-nova.php">Retornar</a>                               
@@ -262,6 +260,48 @@ $row = $pre->fetchAll();
             } else {
                 location.href='pagamento.php?item=<?= $_GET['item'] ?>';
             }            
+        });
+
+
+
+
+        
+
+
+
+
+
+        $('body').on('click', '.prevenda-exclui', function(e){
+            e.preventDefault();
+
+            swal({
+                    title: "Confirma esta exclusão?",
+                    text: "Esta ação não pode ser revertida!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, excluir!",
+                    cancelButtonText: "Não",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        
+                        $.post("./blocos/prevenda-exclui.php", { i: <?= $_GET['item'] ?> }, function(data){
+                            window.location.href = 'controle.php';
+                        });
+                        
+                    } 
+                });
+
+
+
+
+            // if (confirm('Confirma esta exclusão?')) {
+            //     $.post("./blocos/exclui-reserva.php", { i: <?= $_GET['item'] ?> }, function(data){
+            //         window.location.href = 'controle.php';
+            //     });
+            // }
         });
 
         $('select').selectpicker();

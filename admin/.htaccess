@@ -1,6 +1,12 @@
 # Ativar o mecanismo de reescrita
 RewriteEngine On
 
+# Permitir que arquivos .php sejam acessados sem a extensão .php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
 # Redirecionar todas as requisições para index.php se o arquivo ou diretório não existir
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

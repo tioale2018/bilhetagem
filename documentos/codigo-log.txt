@@ -1,0 +1,2 @@
+codigo dos logs em tblog (codigolog)
+1 = usuario logado

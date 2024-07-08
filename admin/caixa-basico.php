@@ -3,41 +3,63 @@
 <?php include_once('./inc/conexao.php') ?>
 <?php include_once('./inc/funcao-tempo.php') ?>
 <?php include_once('./inc/funcoes-calculo.php') ?>
+<?php include_once('./inc/funcoes.php') ?>
+
+
+<?php
+/*
+function generateSqlQuery($date) {
+    // Criar um objeto DateTime a partir da data fornecida
+    $dateTime = DateTime::createFromFormat('Y/m/d', $date);
+
+    if ($dateTime === false) {
+        throw new Exception('Data inválida. Use o formato YYYY/MM/DD.');
+    }
+
+    // Obter o timestamp do início do dia
+    $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
+
+    // Obter o timestamp do final do dia
+    $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
+
+    // Criar a query SQL
+    $sql = "SELECT * FROM `tbfinanceiro` WHERE hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp}";
+
+    return $sql;
+}
+*/
+// Exemplo de uso
+/*
+try {
+    $date = '2024/07/08';
+    $query = generateSqlQuery($date);
+    echo $query;
+} catch (Exception $e) {
+    echo 'Erro: ' . $e->getMessage();
+}
+    */
+  
+    
+    if (isset($_GET['d']) && isValidDate($_GET['d'])) {
+        $dataRelata = $_GET['d'];
+    } else {
+        $dataRelata = date('Y-m-d');
+    }
+
+    $sql_busca_pgto = generateSqlQuery($dataRelata);
+    $pre_busca_pgto = $connPDO->prepare($sql_busca_pgto);
+    $pre_busca_pgto->execute();
+    $row_busca_pgto = $pre_busca_pgto->fetchAll();
+
+    $total = 0;
+   
+?>
+
 
 
 </head>
 <body class="theme-black">
-<?php include_once('./inc/pageloader.php') ?>
-
-<div class="overlay_menu">
-    <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
-    <div class="container">        
-        <div class="row clearfix">
-            <div class="card">
-                <div class="body">
-                    <div class="input-group m-b-0">                
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-addon">
-                            <i class="zmdi zmdi-search"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>         
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12">
-                <div class="social">
-                    <a class="icon" href="https://www.facebook.com/thememakkerteam" target="_blank"><i class="zmdi zmdi-facebook"></i></a>
-                    <a class="icon" href="https://www.behance.net/thememakker" target="_blank"><i class="zmdi zmdi-behance"></i></a>
-                    <a class="icon" href="#"><i class="zmdi zmdi-twitter"></i></a>
-                    <a class="icon" href="#"><i class="zmdi zmdi-linkedin"></i></a>                    
-                    <p>Coded by WrapTheme<br> Designed by <a href="http://thememakker.com/" target="_blank">thememakker.com</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="overlay"></div><!-- Overlay For Sidebars -->
+<?php //include_once('./inc/pageloader.php') ?>
 
 <?php include_once('./inc/menu_topo.php') ?>
 <?php include_once('./inc/menu_principal.php') ?>
@@ -47,71 +69,91 @@
     <div class="container">
         <div class="block-header">
             <div class="row clearfix">
-                <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Pagamento Saída</h2>                    
+                <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
+                    <h2>Informação de pagamentos</h2>             
+                       
                 </div>            
-                <div class="col-lg-7 col-md-7 col-sm-12">
+                <!-- <div class="col-lg-7 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
                         <li class="breadcrumb-item active">Basic Elements</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
+
 
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card" id="details">
-                    <div class="body">                                
+                    <div class="body">  
+                    
+                        
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= date('Y-m-d', time()) ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
                                 </p>
-                                <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
-                                <p><strong>Ticket ID: </strong> #123456</p>
                                 
                             </div>
-                            <div class="col-md-6 col-sm-6 text-right">
+                            <!-- <div class="col-md-6 col-sm-6 text-right">
                             <address>
                                     <strong>{responsável}</strong><br>
                                     {dado1}<br>
                                     {dado2}
                                 </address>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="mt-40"></div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="table-responsive">
+                                <div class="table-responsive tabela-caixa">
+
+                                
 <table class="table table-hover">
 <thead>
     <tr>
-        <th>#</th>                                                        
-        <th>Pacote</th>
-        <th>H. Entrada</th>
-        <th>H. Saída</th>
-        <th>Pacote</th>
-        <th>Permanencia</th>
-        <!-- <th>Excedeu</th> -->
+        <th>#Pagto</th>                                                        
+        <th>Ticket venda</th>
+        <th>Cobrança</th>
+        <th>Forma pgto</th>
+        <th>Hora pgto</th>
         <th>Valor</th>
     </tr>
 </thead>
 <tbody>
+<?php if($pre_busca_pgto->rowCount() < 1) { ?>
+        <tr>
+            <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
+        </tr>
+<?php } else { 
 
+    foreach ($row_busca_pgto as $key => $value) {
+        $total = $total + $value['valor'];
+        ?>
+<tr>
+        <th><?= $value['id'] ?></th>       
+        <th><?= $value['id_prevenda'] ?></th>
+        <th><?= $tpcobranca[$value['tp_cobranca']] ?></th>
+        <th><?= $formapgto[$value['forma_pgto']] ?></th>
+        <th><?= date('H:i', strtotime($value['hora_pgto'])) ?></th>
+        <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>
+    </tr>
+        <?php
+    }
+
+ } ?>
         </tbody>
     </table>
+
+    <p>Total: R$ <?= number_format($total, 2, ',', '.') ?></p>
+
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-12">
-                                <h5 id="anotar">Informação de pagamento</h5>
-                            </div>
-                        </div>
+                       
                         
                     </div>
                 </div>
@@ -127,7 +169,7 @@
     $(document).ready(function(){
         $('#dataFiltro').change(function(){
             var data = $(this).val();
-            window.location = 'caixa-basico.php?data='+data;
+            window.location = 'caixa-basico.php?d='+data;
         });
     })
 </script>

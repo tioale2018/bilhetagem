@@ -43,17 +43,17 @@ $row = $pre->fetchAll();
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <h2 class="">Controle de recreação: <?= $_SESSION['evento_titulo'] ?></h2>                    
                 </div>            
-                <div class="col-lg-4 col-md-4 col-sm-12">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{Página 01}</a></li>
                         <li class="breadcrumb-item active">{Página atual}</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
        
-        <?php include_once('./inc/cards-dashboard.php') ?>
+        <?php //include_once('./inc/cards-dashboard.php') ?>
         <?php /* ?>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">

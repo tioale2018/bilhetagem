@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Jul-2024 às 23:10
+-- Tempo de geração: 04-Jul-2024 às 06:32
 -- Versão do servidor: 10.4.14-MariaDB
 -- versão do PHP: 7.2.33
 
@@ -273,19 +273,19 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (216, 63, 37, 4, 4, 0, 1, '1719426152', '1719426835', 5, 1, '6.00', 1, '2.80', 5, '1.00', 0, 0, 2, 1),
 (217, 63, 43, 4, 4, 0, 3, '1719426152', '1719426466', 0, 0, '0.00', 1, '4.70', 90, '1.30', 0, 0, 12, 1),
 (218, 63, 44, 4, 4, 0, 1, '1719426152', '1719426622', 1, 1, '3.00', 1, '2.80', 5, '1.00', 0, 0, 2, 1),
-(219, 64, 37, 4, 4, 0, 4, '1719427953', '1720464510', 17203, 1, '17266.00', 1, '5.60', 60, '1.40', 0, 0, 13, 1),
-(220, 64, 43, 4, 4, 0, 1, '1719427953', '1720464510', 17269, 1, '24102.40', 1, '2.80', 5, '1.00', 0, 0, 2, 1),
-(221, 64, 44, 4, 4, 0, 2, '1719427953', '1720464510', 17263, 1, '17271.00', 1, '3.70', 10, '1.00', 0, 0, 3, 1),
+(219, 64, 37, 4, 3, 0, 4, '1719427953', '', 0, 0, '0.00', 1, '5.60', 60, '1.40', 0, 0, 13, 1),
+(220, 64, 43, 4, 3, 0, 1, '1719427953', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 1),
+(221, 64, 44, 4, 3, 0, 2, '1719427953', '', 0, 0, '0.00', 1, '3.70', 10, '1.00', 0, 0, 3, 1),
 (222, 66, 37, 1, 1, 0, 1, '', '', 0, 0, '0.00', 1, '0.00', 0, '0.00', 0, 0, 0, 0),
 (223, 66, 43, 4, 1, 0, 1, '', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
 (224, 66, 44, 4, 1, 0, 2, '', '', 0, 0, '0.00', 1, '3.70', 10, '1.00', 0, 0, 3, 0),
-(225, 67, 72, 1, 4, 0, 1, '1720067481', '1720464876', 6617, 1, '6618.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
-(226, 67, 75, 3, 4, 0, 1, '1720067481', '1720464876', 6617, 1, '6618.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
+(225, 67, 72, 1, 3, 0, 1, '1720067481', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
+(226, 67, 75, 3, 3, 0, 1, '1720067481', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
 (227, 67, 76, 1, 3, 0, 4, '1720067481', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
 (228, 67, 77, 2, 2, 0, 2, '', '', 0, 0, '0.00', 1, '0.00', 0, '0.00', 0, 0, 0, 0),
-(229, 67, 78, 2, 4, 0, 1, '1720067481', '1720464876', 6617, 1, '6618.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
+(229, 67, 78, 2, 3, 0, 1, '1720067481', '', 0, 0, '0.00', 1, '2.80', 5, '1.00', 0, 0, 2, 0),
 (230, 67, 79, 1, 3, 0, 2, '1720067481', '', 0, 0, '0.00', 1, '0.00', 0, '0.00', 0, 0, 0, 0),
-(231, 67, 80, 2, 4, 0, 2, '1720067481', '1720464876', 6611, 1, '6613.00', 1, '0.00', 0, '0.00', 0, 0, 0, 0);
+(231, 67, 80, 2, 3, 0, 2, '1720067481', '', 0, 0, '0.00', 1, '0.00', 0, '0.00', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -348,110 +348,107 @@ CREATE TABLE `tbfinanceiro` (
   `valor` decimal(10,2) NOT NULL,
   `forma_pgto` int(11) NOT NULL,
   `ativo` int(11) NOT NULL DEFAULT 1,
-  `hora_pgto` varchar(250) NOT NULL,
-  `usuario` int(11) NOT NULL
+  `hora_pgto` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `tbfinanceiro`
 --
 
-INSERT INTO `tbfinanceiro` (`id`, `id_prevenda`, `tp_cobranca`, `valor`, `forma_pgto`, `ativo`, `hora_pgto`, `usuario`) VALUES
-(2, 9, 1, '3.70', 2, 1, '1716235417', 0),
-(3, 5, 4, '9999.99', 4, 1, '1716338530', 0),
-(4, 4, 4, '13008.00', 2, 1, '1716342111', 0),
-(5, 14, 1, '5.60', 1, 1, '1716354350', 0),
-(6, 19, 1, '6.50', 3, 1, '1716417870', 0),
-(7, 14, 4, '2108.00', 4, 1, '1716418027', 0),
-(8, 19, 4, '0.00', 3, 1, '1716418129', 0),
-(9, 9, 4, '41818.00', 2, 1, '1718770100', 0),
-(10, 6, 4, '122331.90', 1, 1, '1718770135', 0),
-(11, 3, 4, '283016.10', 3, 1, '1718775220', 0),
-(12, 2, 4, '50747.00', 1, 1, '1718775270', 0),
-(13, 7, 4, '100977.00', 2, 1, '1718775286', 0),
-(14, 8, 4, '197816.00', 3, 1, '1718775514', 0),
-(15, 27, 1, '3.70', 3, 1, '1718800960', 0),
-(16, 25, 1, '7.50', 1, 1, '1718801379', 0),
-(17, 34, 1, '3.70', 3, 1, '1718801457', 0),
-(18, 27, 4, '0.00', 3, 1, '1718801510', 0),
-(19, 25, 4, '1855.00', 2, 1, '1718912974', 0),
-(20, 25, 4, '2301.00', 3, 1, '1718912991', 0),
-(21, 34, 4, '1849.00', 3, 1, '1718913001', 0),
-(22, 26, 1, '84.60', 4, 1, '1718923688', 0),
-(23, 26, 4, '0.00', 4, 1, '1718923765', 0),
-(24, 26, 4, '0.00', 3, 1, '1718923808', 0),
-(25, 26, 4, '0.00', 2, 1, '1718923835', 0),
-(26, 26, 4, '0.00', 3, 1, '1718923903', 0),
-(27, 26, 4, '0.00', 2, 1, '1718925048', 0),
-(28, 26, 4, '0.00', 2, 1, '1718925099', 0),
-(29, 28, 1, '10.20', 4, 1, '1718925363', 0),
-(30, 29, 1, '3.70', 4, 1, '1718925440', 0),
-(31, 30, 1, '4.70', 3, 1, '1718925539', 0),
-(32, 29, 4, '0.00', 5, 1, '1718926050', 0),
-(33, 17, 1, '4.70', 3, 1, '1718926095', 0),
-(34, 28, 4, '73.00', 3, 1, '1718928501', 0),
-(35, 33, 1, '2.80', 3, 1, '1718930091', 0),
-(36, 46, 1, '21.40', 3, 1, '1718930482', 0),
-(37, 35, 1, '20.60', 2, 1, '1718930697', 0),
-(38, 36, 1, '21.50', 2, 1, '1718930830', 0),
-(39, 37, 1, '3.70', 3, 1, '1718930981', 0),
-(40, 20, 1, '3.70', 4, 1, '1718931667', 0),
-(41, 42, 1, '6.50', 2, 1, '1718931760', 0),
-(42, 47, 1, '26.00', 2, 1, '1718932101', 0),
-(43, 48, 1, '11.20', 2, 1, '1718932201', 0),
-(44, 49, 1, '4.70', 3, 1, '1718932807', 0),
-(45, 50, 1, '11.20', 2, 1, '1718932937', 0),
-(46, 48, 4, '13.00', 3, 1, '1718933025', 0),
-(47, 50, 4, '0.00', 4, 1, '1718933075', 0),
-(48, 28, 4, '148.00', 1, 1, '1718934835', 0),
-(49, 51, 1, '26.20', 4, 1, '1718935498', 0),
-(50, 30, 4, '107.90', 2, 1, '1718935897', 0),
-(51, 52, 1, '25.10', 3, 1, '1718940976', 0),
-(52, 54, 1, '11.10', 4, 1, '1718941548', 0),
-(53, 55, 1, '12.10', 3, 1, '1718941625', 0),
-(54, 56, 1, '12.10', 4, 1, '1718941766', 0),
-(55, 57, 1, '12.10', 3, 1, '1718941966', 0),
-(56, 58, 1, '11.10', 3, 1, '1718942149', 0),
-(57, 17, 4, '231.40', 2, 1, '1718942185', 0),
-(58, 59, 1, '11.20', 3, 1, '1718942359', 0),
-(59, 33, 4, '1202.00', 1, 1, '1719002515', 0),
-(60, 51, 4, '7561.60', 3, 1, '1719002586', 0),
-(61, 58, 4, '2997.00', 2, 1, '1719002701', 0),
-(62, 59, 4, '3194.40', 2, 1, '1719002818', 0),
-(63, 57, 4, '3212.50', 2, 1, '1719002859', 0),
-(64, 52, 4, '6680.10', 3, 1, '1719002938', 0),
-(65, 46, 4, '8502.00', 2, 1, '1719003727', 0),
-(66, 60, 1, '12.10', 2, 1, '1719354311', 0),
-(67, 35, 4, '27768.00', 2, 1, '1719364292', 0),
-(68, 35, 4, '14457.00', 4, 1, '1719364847', 0),
-(69, 36, 4, '24496.60', 2, 1, '1719364904', 0),
-(70, 36, 4, '18582.20', 1, 1, '1719365039', 0),
-(71, 37, 4, '7240.00', 3, 1, '1719366001', 0),
-(72, 20, 4, '7229.00', 2, 1, '1719366034', 0),
-(73, 42, 4, '7229.00', 1, 1, '1719366087', 0),
-(74, 42, 4, '7251.00', 1, 1, '1719367123', 0),
-(75, 47, 4, '10078.60', 1, 1, '1719367648', 0),
-(76, 47, 4, '10088.40', 2, 1, '1719368089', 0),
-(77, 47, 4, '31396.00', 1, 1, '1719403663', 0),
-(78, 54, 4, '23076.00', 2, 1, '1719403707', 0),
-(79, 49, 4, '10091.90', 2, 1, '1719404024', 0),
-(80, 56, 4, '25325.80', 2, 1, '1719404728', 0),
-(81, 60, 4, '1059.50', 2, 1, '1719408637', 0),
-(82, 60, 4, '907.00', 1, 1, '1719409354', 0),
-(83, 60, 4, '920.00', 2, 1, '1719410130', 0),
-(84, 61, 1, '5.60', 2, 1, '1719411538', 0),
-(85, 62, 1, '13.10', 2, 1, '1719411569', 0),
-(86, 62, 4, '0.00', 3, 1, '1719411673', 0),
-(87, 63, 1, '10.30', 2, 1, '1719426152', 0),
-(88, 61, 4, '259.00', 1, 1, '1719426255', 0),
-(89, 62, 4, '436.50', 2, 1, '1719426274', 0),
-(90, 63, 4, '0.00', 2, 1, '1719426475', 0),
-(91, 63, 4, '3.00', 2, 1, '1719426629', 0),
-(92, 63, 4, '6.00', 2, 1, '1719426841', 0),
-(93, 64, 1, '12.10', 2, 1, '1719427953', 0),
-(94, 67, 1, '21.40', 3, 1, '1720067481', 0),
-(95, 64, 4, '58639.40', 2, 1, '1720464520', 0),
-(96, 67, 4, '26467.00', 3, 1, '1720464895', 0);
+INSERT INTO `tbfinanceiro` (`id`, `id_prevenda`, `tp_cobranca`, `valor`, `forma_pgto`, `ativo`, `hora_pgto`) VALUES
+(2, 9, 1, '3.70', 2, 1, '1716235417'),
+(3, 5, 4, '9999.99', 4, 1, '1716338530'),
+(4, 4, 4, '13008.00', 2, 1, '1716342111'),
+(5, 14, 1, '5.60', 1, 1, '1716354350'),
+(6, 19, 1, '6.50', 3, 1, '1716417870'),
+(7, 14, 4, '2108.00', 4, 1, '1716418027'),
+(8, 19, 4, '0.00', 3, 1, '1716418129'),
+(9, 9, 4, '41818.00', 2, 1, '1718770100'),
+(10, 6, 4, '122331.90', 1, 1, '1718770135'),
+(11, 3, 4, '283016.10', 3, 1, '1718775220'),
+(12, 2, 4, '50747.00', 1, 1, '1718775270'),
+(13, 7, 4, '100977.00', 2, 1, '1718775286'),
+(14, 8, 4, '197816.00', 3, 1, '1718775514'),
+(15, 27, 1, '3.70', 3, 1, '1718800960'),
+(16, 25, 1, '7.50', 1, 1, '1718801379'),
+(17, 34, 1, '3.70', 3, 1, '1718801457'),
+(18, 27, 4, '0.00', 3, 1, '1718801510'),
+(19, 25, 4, '1855.00', 2, 1, '1718912974'),
+(20, 25, 4, '2301.00', 3, 1, '1718912991'),
+(21, 34, 4, '1849.00', 3, 1, '1718913001'),
+(22, 26, 1, '84.60', 4, 1, '1718923688'),
+(23, 26, 4, '0.00', 4, 1, '1718923765'),
+(24, 26, 4, '0.00', 3, 1, '1718923808'),
+(25, 26, 4, '0.00', 2, 1, '1718923835'),
+(26, 26, 4, '0.00', 3, 1, '1718923903'),
+(27, 26, 4, '0.00', 2, 1, '1718925048'),
+(28, 26, 4, '0.00', 2, 1, '1718925099'),
+(29, 28, 1, '10.20', 4, 1, '1718925363'),
+(30, 29, 1, '3.70', 4, 1, '1718925440'),
+(31, 30, 1, '4.70', 3, 1, '1718925539'),
+(32, 29, 4, '0.00', 5, 1, '1718926050'),
+(33, 17, 1, '4.70', 3, 1, '1718926095'),
+(34, 28, 4, '73.00', 3, 1, '1718928501'),
+(35, 33, 1, '2.80', 3, 1, '1718930091'),
+(36, 46, 1, '21.40', 3, 1, '1718930482'),
+(37, 35, 1, '20.60', 2, 1, '1718930697'),
+(38, 36, 1, '21.50', 2, 1, '1718930830'),
+(39, 37, 1, '3.70', 3, 1, '1718930981'),
+(40, 20, 1, '3.70', 4, 1, '1718931667'),
+(41, 42, 1, '6.50', 2, 1, '1718931760'),
+(42, 47, 1, '26.00', 2, 1, '1718932101'),
+(43, 48, 1, '11.20', 2, 1, '1718932201'),
+(44, 49, 1, '4.70', 3, 1, '1718932807'),
+(45, 50, 1, '11.20', 2, 1, '1718932937'),
+(46, 48, 4, '13.00', 3, 1, '1718933025'),
+(47, 50, 4, '0.00', 4, 1, '1718933075'),
+(48, 28, 4, '148.00', 1, 1, '1718934835'),
+(49, 51, 1, '26.20', 4, 1, '1718935498'),
+(50, 30, 4, '107.90', 2, 1, '1718935897'),
+(51, 52, 1, '25.10', 3, 1, '1718940976'),
+(52, 54, 1, '11.10', 4, 1, '1718941548'),
+(53, 55, 1, '12.10', 3, 1, '1718941625'),
+(54, 56, 1, '12.10', 4, 1, '1718941766'),
+(55, 57, 1, '12.10', 3, 1, '1718941966'),
+(56, 58, 1, '11.10', 3, 1, '1718942149'),
+(57, 17, 4, '231.40', 2, 1, '1718942185'),
+(58, 59, 1, '11.20', 3, 1, '1718942359'),
+(59, 33, 4, '1202.00', 1, 1, '1719002515'),
+(60, 51, 4, '7561.60', 3, 1, '1719002586'),
+(61, 58, 4, '2997.00', 2, 1, '1719002701'),
+(62, 59, 4, '3194.40', 2, 1, '1719002818'),
+(63, 57, 4, '3212.50', 2, 1, '1719002859'),
+(64, 52, 4, '6680.10', 3, 1, '1719002938'),
+(65, 46, 4, '8502.00', 2, 1, '1719003727'),
+(66, 60, 1, '12.10', 2, 1, '1719354311'),
+(67, 35, 4, '27768.00', 2, 1, '1719364292'),
+(68, 35, 4, '14457.00', 4, 1, '1719364847'),
+(69, 36, 4, '24496.60', 2, 1, '1719364904'),
+(70, 36, 4, '18582.20', 1, 1, '1719365039'),
+(71, 37, 4, '7240.00', 3, 1, '1719366001'),
+(72, 20, 4, '7229.00', 2, 1, '1719366034'),
+(73, 42, 4, '7229.00', 1, 1, '1719366087'),
+(74, 42, 4, '7251.00', 1, 1, '1719367123'),
+(75, 47, 4, '10078.60', 1, 1, '1719367648'),
+(76, 47, 4, '10088.40', 2, 1, '1719368089'),
+(77, 47, 4, '31396.00', 1, 1, '1719403663'),
+(78, 54, 4, '23076.00', 2, 1, '1719403707'),
+(79, 49, 4, '10091.90', 2, 1, '1719404024'),
+(80, 56, 4, '25325.80', 2, 1, '1719404728'),
+(81, 60, 4, '1059.50', 2, 1, '1719408637'),
+(82, 60, 4, '907.00', 1, 1, '1719409354'),
+(83, 60, 4, '920.00', 2, 1, '1719410130'),
+(84, 61, 1, '5.60', 2, 1, '1719411538'),
+(85, 62, 1, '13.10', 2, 1, '1719411569'),
+(86, 62, 4, '0.00', 3, 1, '1719411673'),
+(87, 63, 1, '10.30', 2, 1, '1719426152'),
+(88, 61, 4, '259.00', 1, 1, '1719426255'),
+(89, 62, 4, '436.50', 2, 1, '1719426274'),
+(90, 63, 4, '0.00', 2, 1, '1719426475'),
+(91, 63, 4, '3.00', 2, 1, '1719426629'),
+(92, 63, 4, '6.00', 2, 1, '1719426841'),
+(93, 64, 1, '12.10', 2, 1, '1719427953'),
+(94, 67, 1, '21.40', 3, 1, '1720067481');
 
 -- --------------------------------------------------------
 
@@ -684,14 +681,7 @@ INSERT INTO `tbfinanceiro_detalha` (`iddetalha`, `idprevenda`, `identrada`, `idf
 (205, 67, 229, 0, '', 0, '1720067481', '2.80', 3, 1),
 (206, 67, 230, 0, '', 0, '1720067481', '3.70', 3, 1),
 (207, 67, 231, 0, '', 0, '1720067481', '3.70', 3, 1),
-(208, 67, 227, 0, '', 0, '1720067481', '5.60', 3, 1),
-(209, 64, 221, 95, '1720464510', 17276, '1720464520', '17266.00', 2, 2),
-(210, 64, 220, 95, '1720464510', 17276, '1720464520', '17271.00', 2, 2),
-(211, 64, 219, 95, '1720464510', 17276, '1720464520', '24102.40', 2, 2),
-(212, 67, 231, 96, '1720464876', 6623, '1720464895', '6613.00', 3, 2),
-(213, 67, 229, 96, '1720464876', 6623, '1720464895', '6618.00', 3, 2),
-(214, 67, 226, 96, '1720464876', 6623, '1720464895', '6618.00', 3, 2),
-(215, 67, 225, 96, '1720464876', 6623, '1720464895', '6618.00', 3, 2);
+(208, 67, 227, 0, '', 0, '1720067481', '5.60', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -848,10 +838,10 @@ INSERT INTO `tbprevenda` (`id_prevenda`, `id_responsavel`, `id_evento`, `data_ac
 (61, 18, 1, '2024-06-25', 6, '1719358417', '1719411538', 0, '0.00', '', '1719358429', 1),
 (62, 18, 1, '2024-06-26', 6, '1719411504', '1719411569', 0, '0.00', '', '1719411520', 1),
 (63, 18, 1, '2024-06-26', 6, '1719413405', '1719426152', 0, '0.00', '', '1719413422', 1),
-(64, 18, 1, '2024-06-26', 6, '1719426999', '1719427953', 0, '0.00', '', '1719427015', 1),
+(64, 18, 1, '2024-06-26', 2, '1719426999', '1719427953', 0, '0.00', '', '1719427015', 1),
 (65, 18, 1, '2024-07-03', 0, '1720043617', '', 0, '0.00', '', '', 1),
 (66, 18, 1, '2024-07-03', 1, '1720054366', '', 0, '0.00', '', '', 1),
-(67, 23, 1, '2024-07-04', 5, '1720062960', '1720067481', 0, '0.00', '', '', 2);
+(67, 23, 1, '2024-07-04', 2, '1720062960', '1720067481', 0, '0.00', '', '', 2);
 
 -- --------------------------------------------------------
 
@@ -921,30 +911,6 @@ CREATE TABLE `tbtermo` (
 
 INSERT INTO `tbtermo` (`idtermo`, `idevento`, `dataatualiza`, `useratualiza`, `ativo`, `textotermo`) VALUES
 (1, 1, '1718240040', 1, 1, '<p>Responsável: {{responsavelnome}}</p>\r\n<p>Participante: {{participantenome}} - Idade: {{participanteidade}}</p>\r\n<p>O evento de parque com camas elásticas e tobogãs da empresa denominada Multicenografia Eventos, inscrita sob CNPJ 29.617.436/0001-06 em conformidade com o art. 31 do CDC, informa que exerce atividade de entretenimento, oferecendo aos seus usuários espaço com: Tobogã linear e espiral, Tirolesa, Corredor de rede, Cama elástica, Parede de escalada, Barra de equilíbrio sobre piscina de espuma, Pêndulos com bolas; que contam com equipamentos de última geração e equipe de profissionais altamente capacitada para prestar as orientações quanto a sua correta utilização; que o seu entretenimento disponibilizado aos seus usuários se trata de atividade esportiva de grande impacto físico. Em decorrência das informações acima, assim, o(s) usuário(s) acima identificado(s) firma(m) o presente termo de ciência e liberação de responsabilidade, nos termos a seguir:</p>\r\n            <ol>\r\n                <li>O(s) usuário(s) acima qualificado(s), assim como seu responsável (quando aplicável):<br>\r\n                    Declara(m), para todos os fins de direito, que não possui doenças pré-existentes que possam desencadear algum problema médico advindo do uso dos equipamentos disponibilizados pela fornecedora, e que tem pleno conhecimento dos riscos das atividades de entretenimento disponibilizadas pela Multicenografia Eventos; e assume, voluntariamente, todos os riscos decorrentes dessa atividade, como por exemplo (mas não se limitando) entorses, fraturas, ferimentos, rupturas, arranhões, luxações, contusões etc., e me comprometo a respeitar e cumprir rigorosamente às regras e orientações do estabelecimento pela fornecedora de serviços, isentando a Multicenografia Eventos, de qualquer responsabilidade, civil ou criminal, por danos físicos, emocionais ou materiais, bem comoproblema(s) de saúde pré-existente(s), desconhecido(s) ou não, bem como diagnóstico(s) futuro(s)de doença(s).</li>\r\n                    <li>Autoriza (m) a Multicenografia Eventos a reprimir, e até mesmo proibir, sua permanência em suas dependências, na hipótese de descumprir os termos do Regulamento e das Regras de Segurança, bem como, de ser constatada qualquer alteração comportamental que ponha em risco a minha integridade física, dos menores por mim representados, ou de terceiros; e assumo integral responsabilidade pela reparação dos danos que der causa, sejam eles pessoais, materiais e morais.</li>\r\n                    <li>Autoriza (m) a Multicenografia Eventos e o Shopping a fazer uso dasfilmagens, gravações ou fotografias captadas dentro do seu ambiente, para fins de direito ou de divulgação publicitária, sem que caracterize uso indevido de imagem ou qualquer violação de direitos, bem como, autoriza a utilização das referidas imagens do menor que representa. </li>\r\n                    <li>Autoriza (m) a Multicenografia Eventos, em caso de acidente, a solicitar serviços médicos de emergência e de ambulância do SAMU – Serviço de Atendimento Móvel de Urgência ou do Corpo de Bombeiros Militar.</li>\r\n                    <li>Declara(m) que leu(ram) e têm ciência do Regulamento e das Regras de Segurança do evento, ressaltando que: o(s) usuário(s) necessitam ter altura IGUAL ou SUPERIOR a 90cm, sendo esta a altura mínima para uso do espaço. Não é permitido o ingresso de crianças menores de 90cm, mesmo que acompanhadas de um responsável. Crianças de 90cm a 120cm deverão estar acompanhadas de um responsável, que terá direito a entrada gratuita para acompanhar o menor; crianças a partir de 120cm podem entrar sem acompanhante, desde que o responsável se mantenha no entorno do evento; menores de idade, independente da altura, deverão ter o termo de responsabilidade assinado por um responsável maior de idade para adentrar o parque. É obrigatório apresentar o documento do menor em nossa recepção.</li>\r\n                    <li>É proibido o acesso de maiores de 18 anos, a menos que estes estejam como acompanhantes de um menor de idade.</li>\r\n                    <li>Aceita(m) de forma total e irrestrita todos os seus termos e condições, servindo esta declaração de que o usuário e/ou seu responsável não tem qualquer impedimento e/ou problema de saúde para aderir referido regulamento.</li>\r\n                    <li>Assume(m) a responsabilidade civil e criminal pela veracidade de todas as informações acima preenchidas, declarando serem verídicas e regulares.</li>\r\n                    <li>O responsável pelo menor declara, para todos os fins de direito, que o representa legalmente, e que o autoriza à prática da atividade fornecida pela Multicenografia Eventos, e que tem conhecimento do risco acima, concordando que todos os efeitos deste documento se apliquem também ao menor usuário sob sua responsabilidade.</li>\r\n                    <li>Declara(m) que leu/leram e compreendeu/compreenderam atentamente os termos deste documento, concordando com o mesmo, assinando-o voluntariamente.\r\n                    As informações aqui contidas são confidenciais, e possuem apenas a finalidade de atender ao comando estabelecido pelo art. 31 do Código de Defesa do Consumidor. Caso alguma parte deste acordo seja considerada nula, anulável ou não aplicável à legislação brasileira, por determinação judicial, a parte remanescente permanecerá em pleno vigor e efeito. O presente Termo de Responsabilidade tem a validade por tempo indeterminado, a contar da presente data.</li>\r\n            </ol>\r\n            <p>Fica, desde já, eleito o Tribunal de Justiça do Estado para a solução de quaisquer questões referentes ao presente termo.</p>\r\n            <p>{{cidadetermo}}, {{datahoje}}</p>');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbuserlog`
---
-
-CREATE TABLE `tbuserlog` (
-  `id` int(11) NOT NULL,
-  `idusuario` int(11) NOT NULL,
-  `datahora` varchar(250) NOT NULL,
-  `codigolog` int(11) NOT NULL,
-  `ipusuario` varchar(300) NOT NULL,
-  `acao` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `tbuserlog`
---
-
-INSERT INTO `tbuserlog` (`id`, `idusuario`, `datahora`, `codigolog`, `ipusuario`, `acao`) VALUES
-(1, 1, '1720464183', 1, '::1', 'login de usuário'),
-(2, 1, '1720464299', 1, '::1', 'login de usuário'),
-(3, 1, '1720464392', 1, '::1', 'login de usuário');
 
 -- --------------------------------------------------------
 
@@ -1183,12 +1149,6 @@ ALTER TABLE `tbtermo`
   ADD PRIMARY KEY (`idtermo`);
 
 --
--- Índices para tabela `tbuserlog`
---
-ALTER TABLE `tbuserlog`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Índices para tabela `tbusuarios`
 --
 ALTER TABLE `tbusuarios`
@@ -1238,13 +1198,13 @@ ALTER TABLE `tbevento_ativo`
 -- AUTO_INCREMENT de tabela `tbfinanceiro`
 --
 ALTER TABLE `tbfinanceiro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de tabela `tbfinanceiro_detalha`
 --
 ALTER TABLE `tbfinanceiro_detalha`
-  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT de tabela `tbimpressos`
@@ -1281,12 +1241,6 @@ ALTER TABLE `tbresponsavel`
 --
 ALTER TABLE `tbtermo`
   MODIFY `idtermo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `tbuserlog`
---
-ALTER TABLE `tbuserlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tbusuarios`
