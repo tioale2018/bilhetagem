@@ -95,7 +95,6 @@ $pre_eventos_usuario->execute();
                         <div class="footer">
                             <a href="" class="btn btn-primary btn-round btn-block logoff">Logoff</a>                            
                         </div>
-                        <a href="javascript:void(0);" class="link">Need Help?</a>
                     </div>
                 </div>
             </div>
