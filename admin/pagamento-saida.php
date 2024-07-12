@@ -64,34 +64,7 @@ foreach ($rows as $row) {
 <body class="theme-black">
 <?php //include_once('./inc/pageloader.php') ?>
 
-<div class="overlay_menu">
-    <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
-    <div class="container">        
-        <div class="row clearfix">
-            <div class="card">
-                <div class="body">
-                    <div class="input-group m-b-0">                
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-addon">
-                            <i class="zmdi zmdi-search"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>         
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12">
-                <div class="social">
-                    <a class="icon" href="https://www.facebook.com/thememakkerteam" target="_blank"><i class="zmdi zmdi-facebook"></i></a>
-                    <a class="icon" href="https://www.behance.net/thememakker" target="_blank"><i class="zmdi zmdi-behance"></i></a>
-                    <a class="icon" href="#"><i class="zmdi zmdi-twitter"></i></a>
-                    <a class="icon" href="#"><i class="zmdi zmdi-linkedin"></i></a>                    
-                    <p>Coded by WrapTheme<br> Designed by <a href="http://thememakker.com/" target="_blank">thememakker.com</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="overlay"></div><!-- Overlay For Sidebars -->
 
 <?php include_once('./inc/menu_topo.php') ?>
@@ -105,13 +78,13 @@ foreach ($rows as $row) {
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Pagamento Saída</h2>                    
                 </div>            
-                <div class="col-lg-7 col-md-7 col-sm-12">
+                <!-- <div class="col-lg-7 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
                         <li class="breadcrumb-item active">Basic Elements</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
 

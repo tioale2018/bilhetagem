@@ -46,13 +46,13 @@ $hora_finaliza = time();
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Pagamento na entrada</h2>
                 </div>            
-                <div class="col-lg-7 col-md-7 col-sm-12">
+                <!-- <div class="col-lg-7 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">{Página 01}</a></li>
                         <li class="breadcrumb-item active">{Página atual}</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
 

@@ -39,7 +39,7 @@ function buscarPorHash($array, $hash) {
 }
 
 //$sql = "select hash from tbevento_ativo where ativo=1";
-$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
 where tbevento_ativo.ativo=1 and tbevento.status=2";
@@ -157,8 +157,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             // alert('ok')
             swal({
-                title: "HTML <small>Title</small>!",
-                text: "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f7f7f7; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\"><h2 style=\"color: #333;\">Regras e Termos de Uso</h2><p style=\"color: #666;\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\"color: #666; margin-left: 20px;\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\"color: #666;\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>",
+                title: "Regras e termos de uso",
+                text: "<?= $dadosEvento['regras_home'] ?>",
                 html: true
             });
         });
