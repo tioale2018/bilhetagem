@@ -33,15 +33,21 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressão de comprovante</title>
-    <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css"> -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet"> -->
     <style>
         * {
-            font-family: "Dosis", sans-serif;
+            /* font-family: "Dosis", sans-serif; */
+            font-family:tahoma;
             font-weight: 600;
             font-style: normal;
+            font-size: 11pt;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>

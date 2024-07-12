@@ -2,6 +2,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <meta name="description" content="">
+<meta name="robots" content="noindex, nofollow">
 
 <title>Sistema de Bilhetagem</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
