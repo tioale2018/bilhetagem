@@ -2,12 +2,12 @@
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];
 
- if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16') {
+ //if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16') {
   # code...
   $username = "root";
   $password = "";
   $database = "bdbilhetagem";
-} elseif ($server_name == 'w3brand.com.br') {
+if ($server_name == 'w3brand.com.br') {
   //homologa w3brand
   # code...
   $username = "brandw3com_userbilhetagem";

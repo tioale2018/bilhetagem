@@ -125,7 +125,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                     <div class="company_detail">
                         <h3><?= $dadosEvento['titulo'] ?></h3>
                         <p>Realize o seu cadastro aqui para facilitar o procedimento de acesso ao parque.</p>                        
-                        <div class="footer">
+                        <!-- <div class="footer">
                             <ul  class="social_link list-unstyled">
                                 <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
                                 <li><a href="https://www.facebook.com/" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
@@ -138,7 +138,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                                 <li><a href="" target="_blank">Sobre nós</a></li>
                                 <li><a href="" target="_blank">FAQ</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>                    
                 </div>
                 
@@ -186,5 +186,70 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         })
     })
 </script>
+
+<script>
+$(document).ready(function() {
+    // Função para aplicar a máscara de CPF
+    function aplicarMascaraCPF(cpf) {
+        return cpf.replace(/(\d{3})(\d)/, "$1.$2")
+                  .replace(/(\d{3})(\d)/, "$1.$2")
+                  .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+
+    // Validação do CPF
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+        
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+            return false; // Verifica se o CPF tem 11 dígitos e não é uma sequência de números iguais
+        }
+
+        let soma = 0;
+        let resto;
+
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.charAt(i - 1)) * (11 - i);
+        }
+        resto = (soma * 10) % 11;
+        if ((resto === 10) || (resto === 11)) {
+            resto = 0;
+        }
+        if (resto !== parseInt(cpf.charAt(9))) {
+            return false;
+        }
+
+        soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.charAt(i - 1)) * (12 - i);
+        }
+        resto = (soma * 10) % 11;
+        if ((resto === 10) || (resto === 11)) {
+            resto = 0;
+        }
+        return resto === parseInt(cpf.charAt(10));
+    }
+
+    // Máscara e validação do CPF no campo de entrada
+    $('input[name="cpf"]').on('input', function() {
+        let cpf = $(this).val();
+        $(this).val(aplicarMascaraCPF(cpf));
+        
+        // Validação do CPF
+        if (!validarCPF(cpf)) {
+            $(this).css('border', '2px solid red'); // Borda vermelha se o CPF for inválido
+            $('button[type="submit"]').prop('disabled', true); // Impede o submit
+        } else {
+            $(this).css('border', ''); // Reseta a borda
+            $('button[type="submit"]').prop('disabled', false); // Permite o submit
+        }
+    });
+
+    // Reseta a borda ao corrigir o CPF
+    $('input[name="cpf"]').on('focus', function() {
+        $(this).css('border', '');
+    });
+});
+</script>
+
 </body>
 </html>

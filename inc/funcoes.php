@@ -35,4 +35,20 @@ function searchInMultidimensionalArray(array $array, $key, $value) {
     return null;
 }
 
+
+function calcularIdade($dataNascimento) {
+    // Cria um objeto DateTime a partir da data de nascimento
+    $dataNascimentoObj = new DateTime($dataNascimento);
+    // Obtém a data atual
+    $dataAtual = new DateTime();
+    // Calcula a diferença entre a data atual e a data de nascimento
+    $idade = $dataAtual->diff($dataNascimentoObj);
+    // Retorna a idade em anos
+    return $idade->y;
+}
+
+// Exemplo de uso
+// $dataNascimento = "1990-07-15";
+// echo "Idade: " . calcularIdade($dataNascimento) . " anos";
+
 ?>
