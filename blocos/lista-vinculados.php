@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric(
 session_start();
 
 include('../inc/conexao.php');
+include('../inc/funcoes.php');
 $idprevenda = intval($_POST['i']);
 
 $sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbvinculados.lembrar, tbentrada.id_pacote, tbperfil_acesso.titulo as perfil, tbprevenda.id_evento, tbentrada.id_prevenda,  tbentrada.autoriza
@@ -24,6 +25,11 @@ $pre->execute();
 $row = $pre->fetchAll();
 
 $rowNum = $pre->rowCount();
+
+
+// Exemplo de uso
+// $dataNascimento = "1990-07-15";
+// echo "Idade: " . calcularIdade($dataNascimento) . " anos";
 ?>
 
 <div class="body lista-vinculados">
@@ -39,10 +45,10 @@ $rowNum = $pre->rowCount();
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Nascimento</th>
-                    <!-- <th>Vínculo</th>
-                    <th>Lembrar</th> -->
-                    <th>Perfil</th>
+                    <!-- <th>Nascimento</th> 
+                    <th>Vínculo</th>
+                    <th>Lembrar</th>
+                    <th>Perfil</th> -->
                     <th>Autorizar</th>
                     <th>Edita/Exclui</th>
                 </tr>
@@ -53,11 +59,14 @@ $rowNum = $pre->rowCount();
             foreach ($row as $key => $value) { ?>
                
                 <tr>
-                    <td><?= $row[$key]['nome'] ?></td>
-                    <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td>
+                    <td>
+                        <div><?= $row[$key]['nome'] ?></div>
+                        <div><?= calcularIdade($row[$key]['nascimento']) ?> Anos</div>
+                    </td>
+                    <!-- <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td> -->
                     <!-- <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
                     <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
-                    <td><?= $row[$key]['perfil'] ?></td>
+                    <!-- <td><?= $row[$key]['perfil'] ?></td> -->
                     <td class="text-center">
                         <?php 
                             if ($row[$key]['autoriza']==0) {
