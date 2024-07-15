@@ -24,13 +24,44 @@ function calculateAge($birthdate) {
     $age = $currentDate->diff($birthDate)->y;
     return $age;
 }
-
+/*
 function formatDate($timestamp) {
     // Define o locale para português
     setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
     
     // Formata a data usando strftime
     $formattedDate = strftime('%d de %B de %Y', $timestamp);
+    
+    // Retorna a data formatada
+    return $formattedDate;
+}
+
+*/
+
+function formatDate($timestamp) {
+    // Array com os nomes dos meses em português
+    $months = [
+        1 => 'janeiro',
+        2 => 'fevereiro',
+        3 => 'março',
+        4 => 'abril',
+        5 => 'maio',
+        6 => 'junho',
+        7 => 'julho',
+        8 => 'agosto',
+        9 => 'setembro',
+        10 => 'outubro',
+        11 => 'novembro',
+        12 => 'dezembro'
+    ];
+    
+    // Extrai o dia, mês e ano do timestamp
+    $day = date('d', $timestamp);
+    $month = date('n', $timestamp);
+    $year = date('Y', $timestamp);
+
+    // Monta a data formatada
+    $formattedDate = sprintf('%d de %s de %d', $day, $months[$month], $year);
     
     // Retorna a data formatada
     return $formattedDate;

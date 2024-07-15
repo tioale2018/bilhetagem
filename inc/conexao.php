@@ -24,7 +24,9 @@ if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name =
   $password = "i#U9ZPP-IB3V";
   $database = "rapidcom_bdbilhetagem";
 }
+
 date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
 
 try {
   $connPDO = new PDO("mysql:host=$servername;dbname=$database", $username, $password);

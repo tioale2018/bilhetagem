@@ -171,7 +171,7 @@ if (isset($_SESSION['user_id'])) {
                         
                         <h3>Sistema de controle de acessos</h3>
                         <p>Gerencie bilhetagem, acessos e cadastros de forma eficiente e segura para seus parques e eventos infantis com nossa plataforma online. </p>
-                        <div class="footer">
+                        <!-- <div class="footer">
                             <ul  class="social_link list-unstyled">
                                 <li><a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
                                 <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
@@ -184,7 +184,7 @@ if (isset($_SESSION['user_id'])) {
                                 <li><a href="">Contato</a></li>
                                 <li><a href="">FAQ</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>                    
                 </div>
             </div>

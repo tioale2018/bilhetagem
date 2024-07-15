@@ -47,6 +47,9 @@ function calcularIdade($dataNascimento) {
     return $idade->y;
 }
 
+#função para calcular a data de nascimento com base no timestamp a ser informado
+
+
 // Exemplo de uso
 // $dataNascimento = "1990-07-15";
 // echo "Idade: " . calcularIdade($dataNascimento) . " anos";

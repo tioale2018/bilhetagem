@@ -26,6 +26,7 @@ error_reporting(E_ALL);
 }
 
 date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
 
 try {
   $connPDO = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
