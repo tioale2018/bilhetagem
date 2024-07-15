@@ -124,7 +124,7 @@ if (isset($_SESSION['user_id'])) {
                         
                         <h3>Sistema de controle de acessos</h3>
                         <p>Esqueceu seu login ou senha? </p>
-                        <div class="footer">
+                        <!-- <div class="footer">
                             <ul  class="social_link list-unstyled">
                                 <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
                                 <li><a href="https://www.facebook.com/" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
@@ -137,7 +137,7 @@ if (isset($_SESSION['user_id'])) {
                                 <li><a href="" target="_blank">Contato</a></li>
                                 <li><a href="" target="_blank">FAQ</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>                    
                 </div>
             </div>

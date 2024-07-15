@@ -14,16 +14,17 @@ include('../inc/funcoes.php');
 // var_dump($_SESSION['dadosResponsavel']);
 
 $nome          = $_POST['nome'];
-$cpf           = $_POST['cpf'];
+// $cpf           = $_POST['cpf'];
 $telefone1     = $_POST['telefone1'];
 $telefone2     = $_POST['telefone2'];
 $email         = $_POST['email'];
 $idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
-$sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
+// $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
+$sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
 $pre_atualiza_responsavel = $connPDO->prepare($sql_atualiza_responsavel);
 $pre_atualiza_responsavel->bindParam(':nome', $nome, PDO::PARAM_STR);
-$pre_atualiza_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+// $pre_atualiza_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':email', $email, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':telefone2', $telefone2, PDO::PARAM_STR);

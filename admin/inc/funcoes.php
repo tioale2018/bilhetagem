@@ -74,5 +74,4 @@ $formapgto[3] = "Dinheiro";
 $formapgto[4] = "Pix";
 $formapgto[5] = "Misto";
 
-
 ?>

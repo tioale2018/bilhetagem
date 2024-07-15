@@ -1,23 +1,3 @@
-﻿<?php 
-//$currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-//die($currentPath);
-/*
-$url = (isset($_GET['url'])) ? $_GET['url']:'home.php';
-    $url = array_filter(explode('/',$url));
-    
-    $file = $url[0].'.php';
-    
-    if(is_file($file)){
-        include $file;
-    }
-    // else{
-    //     include '404.php';
-    // }   
-    
-    die('aqui')
-*/
-?>
-
 
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -91,7 +71,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                         </div>
                         <form class="form" method="post" action="busca-reserva.php">                            
                             <div class="input-group">
-                                <input name="cpf" type="text" class="form-control" placeholder="CPF" required>
+                                <input name="cpf" type="text" class="form-control" placeholder="CPF" maxlength="14" pattern="\d*" required>
                                 <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
                             </div>
                             <div class="blocks">
@@ -188,17 +168,19 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 </script>
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
     // Função para aplicar a máscara de CPF
     function aplicarMascaraCPF(cpf) {
-        return cpf.replace(/(\d{3})(\d)/, "$1.$2")
-                  .replace(/(\d{3})(\d)/, "$1.$2")
-                  .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        return cpf
+            .replace(/\D/g, '') // Remove caracteres não numéricos
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
     }
 
     // Validação do CPF
     function validarCPF(cpf) {
-        cpf = cpf.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+        cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
         
         if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
             return false; // Verifica se o CPF tem 11 dígitos e não é uma sequência de números iguais
@@ -235,7 +217,7 @@ $(document).ready(function() {
         $(this).val(aplicarMascaraCPF(cpf));
         
         // Validação do CPF
-        if (!validarCPF(cpf)) {
+        if (!validarCPF(cpf.replace(/\D/g, ''))) {
             $(this).css('border', '2px solid red'); // Borda vermelha se o CPF for inválido
             $('button[type="submit"]').prop('disabled', true); // Impede o submit
         } else {
@@ -247,8 +229,17 @@ $(document).ready(function() {
     // Reseta a borda ao corrigir o CPF
     $('input[name="cpf"]').on('focus', function() {
         $(this).css('border', '');
+        let cpf = $(this).val().replace(/\D/g, '');
+        $(this).val(aplicarMascaraCPF(cpf));
+    });
+
+    // Remove a máscara ao perder o foco
+    $('input[name="cpf"]').on('blur', function() {
+        let cpf = $(this).val().replace(/\D/g, '');
+        $(this).val(cpf);
     });
 });
+
 </script>
 
 </body>

@@ -1,21 +1,22 @@
-﻿<?php 
+<?php
 /*
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('Location: index.php');
-}
+} 
 */
 session_start();
 
 if (!isset($_SESSION['dadosResponsavel'])) {
     header('Location: index.php');
 }
-//include_once("./inc/cad-participantes-regras.php");
+// include_once("./inc/cad-participantes-regras.php");
 
 $row               = $_SESSION['row'];
 $evento_atual      = $_SESSION['evento_atual'];
 $id                = $_SESSION['cpf'];
 $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -99,7 +100,7 @@ include_once("./inc/head.php");
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= $id ?>" />
+                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= $id ?>" maxlength="14" pattern="\d*" readonly />
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -274,6 +275,7 @@ include_once("./inc/head.php");
         
     });
 </script>
+
 
 
 </body>

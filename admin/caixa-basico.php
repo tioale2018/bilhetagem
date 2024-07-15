@@ -5,7 +5,6 @@
 <?php include_once('./inc/funcoes-calculo.php') ?>
 <?php include_once('./inc/funcoes.php') ?>
 
-
 <?php
 /*
 function generateSqlQuery($date) {
@@ -39,7 +38,6 @@ try {
 }
     */
   
-    
     if (isset($_GET['d']) && isValidDate($_GET['d'])) {
         $dataRelata = $_GET['d'];
     } else {
@@ -51,11 +49,8 @@ try {
     $pre_busca_pgto->execute();
     $row_busca_pgto = $pre_busca_pgto->fetchAll();
 
-    $total = 0;
-   
+    $total = 0;   
 ?>
-
-
 
 </head>
 <body class="theme-black">
@@ -83,7 +78,6 @@ try {
             </div>
         </div>
 
-
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card" id="details">
@@ -96,7 +90,6 @@ try {
                                         <div class="col-md-3"><strong>Data:</strong></div> 
                                         <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
                                 </p>
-                                
                             </div>
                             <!-- <div class="col-md-6 col-sm-6 text-right">
                             <address>
@@ -110,7 +103,6 @@ try {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive tabela-caixa">
-
                                 
 <table class="table table-hover">
 <thead>
@@ -133,7 +125,7 @@ try {
     foreach ($row_busca_pgto as $key => $value) {
         $total = $total + $value['valor'];
         ?>
-<tr>
+    <tr>
         <th><?= $value['id'] ?></th>       
         <th><?= $value['id_prevenda'] ?></th>
         <th><?= $tpcobranca[$value['tp_cobranca']] ?></th>
@@ -153,7 +145,6 @@ try {
                                 </div>
                             </div>
                         </div>
-                       
                         
                     </div>
                 </div>
@@ -173,7 +164,6 @@ try {
         });
     })
 </script>
-
 
 </body>
 </html>
