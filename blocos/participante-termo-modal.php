@@ -112,7 +112,7 @@ $variables = [
             <div class="col-md-12">
                 <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
                 <div class="">
-                    <input id="assinatermo" name="assinatermo" type="checkbox" value="1" required>
+                    <input id="assinatermo" name="assinatermo" type="checkbox" value="1" required style="display: inline">
                     <label for="assinatermo">Confirmo que li o termo e estou de acordo com suas condições.</label>
                 </div>
             </div>
