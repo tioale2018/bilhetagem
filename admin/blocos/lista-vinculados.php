@@ -56,12 +56,12 @@ $textoBtErro = 'Verifique pacotes pendentes'
         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Nascimento / Idade</th>
-                    <th>Vínculo</th>
-                    <th>Perfil</th>
-                    <th>Pacote</th>
-                    <th>Action</th>
+                    <th width="20%">Nome</th>
+                    <th width="20%">Nascimento / Idade</th>
+                    <th width="10%">Vínculo</th>
+                    <th width="10%">Perfil</th>
+                    <th width="30%">Pacote</th>
+                    <th width="10%">Action</th>
                 </tr>
             </thead>                                
             <tbody>
@@ -75,7 +75,10 @@ $textoBtErro = 'Verifique pacotes pendentes'
                
                 <tr>
                     <td><?= $row[$key]['nome'] ?></td>
-                    <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?> (<?= calcularIdade($row[$key]['nascimento']) ?> Anos)</td>
+                    <td>
+                        <div><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></div>
+                        <div>(<?= calcularIdade($row[$key]['nascimento']) ?> Anos)</div>
+                    </td>
                     <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
                     <td><?= $row[$key]['perfil'] ?></td>
                     <td>
