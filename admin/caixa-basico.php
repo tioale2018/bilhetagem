@@ -130,7 +130,7 @@ try {
         <th><?= $value['id_prevenda'] ?></th>
         <th><?= $tpcobranca[$value['tp_cobranca']] ?></th>
         <th><?= $formapgto[$value['forma_pgto']] ?></th>
-        <th><?= date('H:i', strtotime($value['hora_pgto'])) ?></th>
+        <th><?= date('H:i:s', strtotime($value['hora_pgto'])) ?></th>
         <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>
     </tr>
         <?php
