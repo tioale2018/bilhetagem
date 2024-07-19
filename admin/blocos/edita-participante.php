@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 session_start();
 include_once('../inc/conexao.php');
+include_once('../inc/funcoes.php');
 
 $participante = intval($_POST['i']);
 $prevenda     = intval($_POST['j']);
@@ -42,13 +43,13 @@ $row = $pre->fetchAll();
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Nascimento</label>                            
-                    <input name="nascimento" type="date" class="form-control" placeholder="Nascimento" value="<?= $row[0]['nascimento'] ?>" />
+                    <input name="nascimento" id="nascEdita" type="text" class="form-control" value="<?= convertDateToDMY($row[0]['nascimento']) ?>" pattern="\d{2}/\d{2}/\d{4}" required placeholder="dd/mm/aaaa" />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Tipo de vínculo</label>                            
-                    <select name="vinculo" class="form-control show-tick p-0" name="vinculo">
+                    <select name="vinculo" class="form-control show-tick p-0" name="vinculo" required>
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_vinculos'] as $k => $v) { ?>
                             <option <?= ($v['id_vinculo']==$row[0]['id_tipovinculo']?'selected':'') ?>  value="<?= $v['id_vinculo'] ?>" ><?= $v['descricao'] ?></option>
@@ -59,7 +60,7 @@ $row = $pre->fetchAll();
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Perfil</label>
-                    <select class="form-control p-0" name="perfil">
+                    <select class="form-control p-0" name="perfil" required>
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
                             <option <?= ($v['idperfil']==$row[0]['perfil_acesso']?'selected':'') ?> value="<?= $v['idperfil'] ?>"><?= $v['titulo'] ?> </option>
@@ -68,17 +69,17 @@ $row = $pre->fetchAll();
                 </div>
             </div>
             <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="" class="form-label">Pacote</label>                            
-                                <select class="form-control show-tick p-0" name="pacote">
-                                    <option value="">Escolha</option>
-                                    <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
-                                        <option <?= ($v['id_pacote']==$row[0]['id_pacote']?'selected':'') ?>  value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?></option>
-                                    <?php } ?>
-                                   
-                                </select>
-                            </div>
-                        </div> 
+                <div class="form-group">
+                    <label for="" class="form-label">Pacote</label>                            
+                    <select class="form-control show-tick p-0" name="pacote" required>
+                        <option value="">Escolha</option>
+                        <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
+                            <option <?= ($v['id_pacote']==$row[0]['id_pacote']?'selected':'') ?>  value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?></option>
+                        <?php } ?>
+                        
+                    </select>
+                </div>
+            </div> 
             <div class="col-12">
                 <div class="form-group">
                     
@@ -100,27 +101,10 @@ $row = $pre->fetchAll();
     </div>
 </form>
 
-<script>
-    $(document).ready(function(){
-        $('select').selectpicker();
-
-        $('#formEditaParticipante').submit(function(e){
-            e.preventDefault();
-            let Form = $(this);
-            
-            $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
-                    $('#modalEditaParticipante').modal('toggle');
-                    
-                });
-
-            });
-        });
-    });
-</script>
 
 <script>
 $(document).ready(function() {
+    /*
     // Função para calcular a idade com base na data de nascimento
     function calculateAge(date) {
         const today = new Date();
@@ -147,6 +131,80 @@ $(document).ready(function() {
 
     // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
     $('#fnascimento').trigger('change');
+    */
+
+    function calculateAge(date) {
+            const today = new Date();
+            const birthDate = new Date(date);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+    // Monitorar alterações no campo de data de nascimento
+    $('#nascEdita').on('change', function() {
+        const birthDate = $(this).val();
+        if (birthDate) {
+            const age = calculateAge(birthDate);
+            $('#idade').text(age);
+            $('#infoNascimento').show();
+        } else {
+            $('#infoNascimento').hide();
+        }
+    });
+
+    // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
+    $('#nascEdita').trigger('change');
+
+   
+    $('#nascEdita').mask('00/00/0000');
+
+    // Validação personalizada para verificar se a data é válida
+    $('#nascEdita').on('input blur', function() {
+        var date = $(this).val();
+        if (!isValidDate(date) && date.length === 10) {
+            $(this).addClass('invalid');
+        } else {
+            $(this).removeClass('invalid');
+        }
+    });
+
+    function isValidDate(dateString) {
+        var parts = dateString.split("/");
+        if (parts.length !== 3) return false;
+
+        var day = parseInt(parts[0], 10);
+        var month = parseInt(parts[1], 10) - 1; // meses são baseados em zero
+        var year = parseInt(parts[2], 10);
+
+        var date = new Date(year, month, day);
+        return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
+    }
+      
+    $('select').selectpicker();
+
+    $('#formEditaParticipante').submit(function(e){
+        e.preventDefault();
+        let Form = $(this);
+
+        var dateInput = $('#nascEdita').val();
+        if (!isValidDate(dateInput)) {
+            
+            $('#nascEdita').val('');
+            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+            $('#nascEdita').focus();
+        } else {
+
+            $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
+                    $('#modalEditaParticipante').modal('toggle');
+                });
+
+            });
+        }
+    });
 });
 </script>
-

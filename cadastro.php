@@ -6,9 +6,10 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 */
 session_start();
 
-if (!isset($_SESSION['dadosResponsavel'])) {
-    header('Location: index.php');
+if ((!isset($_SESSION['dadosResponsavel'])) || (!$_SESSION['dadosResponsavel']) ) {
+    header('Location: /'.$_SESSION['hash_evento']);
 }
+
 // include_once("./inc/cad-participantes-regras.php");
 
 $row               = $_SESSION['row'];
@@ -26,7 +27,11 @@ $idPrevendaAtual   = $_SESSION['idPrevenda'];
 include_once("./inc/head.php");
 
 ?>
-
+<style>
+.invalid {
+    border: 2px solid red;
+}
+</style>
 </head>
 <body class="theme-black">
 <!-- Page Loader -->
@@ -36,7 +41,10 @@ include_once("./inc/head.php");
         <p>Aguarde</p>        
     </div>
 </div>
+<?php
 
+
+?>
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
@@ -66,7 +74,6 @@ include_once("./inc/head.php");
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
-
 
 <?php //include('./inc/menu_topo.php') ?>
 <?php //include('./inc/menu_principal.php') ?>
@@ -173,8 +180,7 @@ include_once("./inc/head.php");
                     <div class="body">
                         <div class="row">
                             <div class="col-12">
-                                <h4>Atenção</h4>
-                                <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão "Autorizar" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>
+                            <?= $row[0]['regras_cadastro'] ?>
                             </div>
                         </div>
                         
@@ -241,7 +247,7 @@ include_once("./inc/head.php");
                 if (isConfirm) {
                     // alert('ok');
                     $.post('./blocos/reserva-cancela.php', {i:id}, function(data){
-                        location.href="index.php?i=<?= $_SESSION['hash_evento'] ?>";
+                        location.href="/<?= $_SESSION['hash_evento'] ?>";
                     });
                 }
             })
@@ -272,8 +278,22 @@ include_once("./inc/head.php");
                 e.preventDefault();
             }
         })
-        
+
+        $('input[name=telefone1]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                $('input[name=telefone1]').mask(mask, options);
+            }
+        });
+
+        $('input[name=telefone2]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                $('input[name=telefone2]').mask(mask, options);
+            }
+        });
     });
+
 </script>
 
 

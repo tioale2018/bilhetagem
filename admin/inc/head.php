@@ -45,3 +45,4 @@ if (!basename($_SERVER['PHP_SELF'])=='index.php') {
     <link rel="stylesheet" href="../assets/css/color_skins.css">
 
     <script src="../assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>

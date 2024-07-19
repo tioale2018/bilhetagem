@@ -10,14 +10,14 @@
                     <div class="row clearfix">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="nome" class="form-label">Nome <span id="infoNascimento">(Idade: <span id="idade">2</span> anos</span>)</label>                                
+                                <label for="nome" class="form-label">Nome <span id="infoNascimento">(Idade: <span id="idade">2</span> anos)</span></label>                                
                                 <input name="nome" id="fnome" type="text" class="form-control" placeholder="Nome" required />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Nascimento</label>                            
-                                <input name="nascimento" id="fnascimento" type="date" class="form-control" placeholder="Nascimento" />
+                                <input name="nascimento" id="fnascimento" type="text" placeholder="dd/mm/aaaa" class="form-control" placeholder="Nascimento" pattern="\d{2}/\d{2}/\d{4}" required />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -81,47 +81,6 @@
     </div>
 </div>
 
-
-<script>
-    $(document).ready(function(){
-        
-        $('#modalAddParticipante form').submit(function(event){
-            event.preventDefault();
-            let Form = $(this).serialize();
-            let i = 1;
-
-            $.post( "./blocos/add-participante.php", Form, function(data){
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
-                    $('#modalAddParticipante').modal('hide');
-                });
-            }); 
-
-
-        });
-       
-        /*
-            $.post( "./blocos/add-participante.php", Form, function(data){
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
-                    
-                    
-                    
-                    
-                });
-                //console.log(data);
-                //location.reload();
-            }); 
-
-            */
-
-        
-
-        $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
-            $('#modalAddParticipante form').trigger('reset');
-        })
-    
-    });    
-</script>
-
 <script>
 $(document).ready(function() {
     // Função para calcular a idade com base na data de nascimento
@@ -137,7 +96,7 @@ $(document).ready(function() {
     }
 
     // Monitorar alterações no campo de data de nascimento
-    $('#fnascimento').on('change', function() {
+    $('input[name=nascimento]').on('change', function() {
         const birthDate = $(this).val();
         if (birthDate) {
             const age = calculateAge(birthDate);
@@ -149,6 +108,74 @@ $(document).ready(function() {
     });
 
     // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
-    $('#fnascimento').trigger('change');
+    $('input[name=nascimento]').trigger('change');
+
+   
+    $('input[name=nascimento]').mask('00/00/0000');
+
+    // Validação personalizada para verificar se a data é válida
+    $('input[name=nascimento]').on('input blur', function() {
+        var date = $(this).val();
+        if (!isValidDate(date) && date.length === 10) {
+            $(this).addClass('invalid');
+        } else {
+            $(this).removeClass('invalid');
+        }
+    });
+
+    function isValidDate(dateString) {
+        var parts = dateString.split("/");
+        if (parts.length !== 3) return false;
+
+        var day = parseInt(parts[0], 10);
+        var month = parseInt(parts[1], 10) - 1; // meses são baseados em zero
+        var year = parseInt(parts[2], 10);
+
+        var date = new Date(year, month, day);
+        return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
+    }
+
+    // Prevenir submissão de formulário se a data for inválida
+    /*
+    $('#formModalAddParticipante').on('submit', function(event) {
+        var dateInput = $('input[name=nascimento]').val();
+        if (!isValidDate(dateInput)) {
+           
+        }
+    });
+*/
+     // Prevenir submissão de formulário se a data for inválida
+     $('#formModalAddParticipante').on('submit', function(event) {
+        event.preventDefault();
+        let Form = $(this).serialize();
+        let i = 1;
+
+        var dateInput = $('input[name=nascimento]').val();
+        if (!isValidDate(dateInput)) {
+            
+            $('input[name=nascimento]').val('');
+            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+            $('input[name=nascimento]').focus();
+        } else {
+            //$('#modalAddParticipante form').submit(function(event){
+              //  event.preventDefault();
+
+                $.post( "./blocos/add-participante.php", Form, function(data){
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
+                        $('#modalAddParticipante').modal('hide');
+                        $('#modalAddParticipante form').trigger('reset');
+                    });
+                }); 
+
+            //});            
+
+        }
+    });
+
+
+    $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
+        $('#modalAddParticipante form').trigger('reset');
+     })
+        
 });
 </script>
