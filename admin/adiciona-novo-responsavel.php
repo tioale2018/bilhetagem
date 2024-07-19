@@ -4,14 +4,14 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     die(0);
 }
-require_once '../inc/config_session.php';
-require_once '../inc/functions.php';
-require_once '../inc/funcoes.php';
+require_once './inc/config_session.php';
+require_once './inc/functions.php';
+require_once './inc/funcoes.php';
 
 // Verifica a sessão
 verificarSessao();
 
-include_once('../inc/conexao.php');
+include_once('./inc/conexao.php');
 $evento       = $_SESSION['evento_selecionado'];
 $evento_atual = $evento;
 
@@ -101,5 +101,5 @@ if ($crianovaPrevenda) {
 }
 
 $ultimo_id_prevenda = $idPrevendaAtual;
-header('Location: ../entrada-form.php?item='.$ultimo_id_prevenda);
+header('Location: ./entrada-form?item='.$ultimo_id_prevenda);
 ?>

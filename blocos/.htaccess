@@ -3,7 +3,7 @@
 
     # Definir variáveis de ambiente para localhost e servidor online
     SetEnvIf Host ^localhost LOCAL_ENV
-    SetEnvIf Host ^www\.w3brand\.com\.br ONLINE_ENV
+    SetEnvIf Host ^www\.rapidticket\.com\.br ONLINE_ENV
 
     # Permitir apenas requisições AJAX/POST
     RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
@@ -17,7 +17,7 @@
 
     # Bloquear acesso direto pela barra de endereço para ambiente online
     RewriteCond %{ENV:ONLINE_ENV} ^1$
-    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?w3brand\.com\.br/ [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?rapidticket\.com\.br/ [NC]
     RewriteRule ^ - [F,L]
 </IfModule>
 
@@ -30,4 +30,4 @@
 SetEnvIf X-Requested-With "XMLHttpRequest" ALLOW_PHP
 
 # Página de erro personalizada para 403 Forbidden
-ErrorDocument 403 /403.php
+ErrorDocument 403 /403.ph

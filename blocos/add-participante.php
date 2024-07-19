@@ -7,10 +7,11 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 
 include('../inc/conexao.php');
+include('../inc/funcoes.php');
 
 //onde se lê "pacote" entenda perfil
 $nome          = $_POST['nome'];
-$nascimento    = $_POST['nascimento'];
+$nascimento    = convertDateToYMD($_POST['nascimento']);
 $vinculo       = $_POST['vinculo'];
 $perfil        = $_POST['pacote'];
 $idresponsavel = $_POST['idresponsavel'];

@@ -19,7 +19,7 @@ function buscarPorHash($array, $hash) {
 }
 
 //$sql = "select hash from tbevento_ativo where ativo=1";
-$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
 where tbevento_ativo.ativo=1 and tbevento.status=2";
@@ -48,6 +48,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         height: auto;
     }
 </style>
+
 </head>
 
 <body class="theme-black">
@@ -128,8 +129,9 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 </div>
 
 <!-- Jquery Core Js -->
-<script src="assets/bundles/libscripts.bundle.js"></script>
-<script src="assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 
+<!-- <script src="assets/bundles/libscripts.bundle.js"></script> -->
+ <!-- Lib Scripts Plugin Js --> 
+<!-- <script src="assets/bundles/vendorscripts.bundle.js"></script>  -->
 <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
 <script>
     $(document).ready(function(){
@@ -148,7 +150,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             let cpf = $(this).val();
             $.post('./blocos/busca-dados.php', {cpf:cpf}, function(data){
                 let dados = JSON.parse(data);
-                console.log(data);
+                //console.log(data);
                 if (Array.isArray(dados) && dados.length > 0) {
                     $('input[name=nome]').val(dados[0].nome);
                     $('input[name=email]').val(dados[0].email);
@@ -237,6 +239,13 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
     $('input[name="cpf"]').on('blur', function() {
         let cpf = $(this).val().replace(/\D/g, '');
         $(this).val(cpf);
+    });
+
+    $('input[name=telefone]').mask('(00) 0000-00000', {
+        onKeyPress: function(val, e, field, options) {
+            var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+            $('input[name=telefone]').mask(mask, options);
+        }
     });
 });
 

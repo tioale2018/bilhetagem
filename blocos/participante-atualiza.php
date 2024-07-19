@@ -7,9 +7,10 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 session_start();
 include_once('../inc/conexao.php');
+include_once('../inc/funcoes.php');
 
 $nome          = $_POST['nome'];
-$nascimento    = $_POST['nascimento'];
+$nascimento    = convertDateToYMD($_POST['nascimento']);
 $vinculo       = $_POST['vinculo'];
 $pacote        = $_POST['pacote'];
 $idresponsavel = $_POST['idresponsavel'];

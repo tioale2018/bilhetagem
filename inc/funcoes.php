@@ -54,4 +54,33 @@ function calcularIdade($dataNascimento) {
 // $dataNascimento = "1990-07-15";
 // echo "Idade: " . calcularIdade($dataNascimento) . " anos";
 
+
+function convertDateToYMD($date) {
+    // Verifica se a data está no formato dd/mm/yyyy usando expressão regular
+    if (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $matches)) {
+        $day = $matches[1];
+        $month = $matches[2];
+        $year = $matches[3];
+        // Retorna a data no formato yyyy-mm-dd
+        return "$year-$month-$day";
+    } else {
+        // Retorna falso se a data não estiver no formato esperado
+        return "1900-01-01";
+    }
+}
+
+function convertDateToDMY($date) {
+    // Tenta converter a data usando strtotime
+    $timestamp = strtotime($date);
+    
+    // Verifica se a conversão foi bem-sucedida
+    if ($timestamp) {
+        // Retorna a data no formato desejado
+        return date('d/m/Y', $timestamp);
+    } else {
+        // Retorna falso se a conversão falhar
+        return "01/01/1900";
+    }
+}
+
 ?>

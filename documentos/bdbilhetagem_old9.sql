@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/07/2024 às 07:08
+-- Tempo de geração: 12/07/2024 às 02:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -286,58 +286,15 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (229, 67, 78, 2, 4, 0, 1, '1720067481', '1720464876', 6617, 1, 6618.00, 1, 2.80, 5, 1.00, 0, 0, 2, 0),
 (230, 67, 79, 1, 4, 0, 2, '1720067481', '1720740174', 11199, 1, 15612.80, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
 (231, 67, 80, 2, 4, 0, 2, '1720067481', '1720464876', 6611, 1, 6613.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(232, 68, 37, 4, 4, 0, 3, '1720740490', '1721083081', 5608, 1, 7306.00, 1, 4.70, 90, 1.30, 0, 0, 12, 0),
-(233, 68, 43, 4, 4, 0, 4, '1720740490', '1721083081', 5637, 1, 7910.00, 1, 5.60, 60, 1.40, 0, 0, 13, 0),
+(232, 68, 37, 4, 3, 0, 3, '1720740490', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 0),
+(233, 68, 43, 4, 3, 0, 4, '1720740490', '', 0, 0, 0.00, 1, 5.60, 60, 1.40, 0, 0, 13, 0),
 (234, 68, 44, 4, 4, 0, 4, '1720740490', '1720742764', 0, 0, 0.00, 1, 5.60, 60, 1.40, 0, 0, 13, 0),
 (235, 69, 81, 1, 3, 0, 1, '1720740599', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
 (236, 70, 82, 5, 4, 0, 5, '1720740803', '1720741956', 6, 1, 15.00, 1, 35.00, 60, 1.00, 0, 0, 10, 0),
 (237, 71, 83, 5, 3, 0, 5, '1720740889', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
 (238, 72, 37, 4, 3, 0, 2, '1720742671', '', 0, 0, 0.00, 1, 3.70, 10, 1.00, 0, 0, 3, 0),
 (239, 72, 43, 4, 2, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(240, 72, 44, 4, 3, 0, 1, '1720742671', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 0),
-(241, 73, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(242, 73, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(243, 73, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(244, 74, 84, 2, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(245, 75, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(246, 75, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(247, 75, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(248, 76, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(249, 76, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(250, 76, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(251, 77, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(252, 77, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(253, 77, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(254, 78, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(255, 78, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(256, 78, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(257, 78, 85, 2, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(258, 79, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 1),
-(259, 79, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(260, 79, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(261, 80, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(262, 80, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(263, 80, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(264, 81, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(265, 81, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(266, 81, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(267, 82, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(268, 82, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(269, 82, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(270, 82, 86, 0, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(271, 82, 87, 0, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(272, 82, 88, 0, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(273, 82, 89, 0, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(274, 82, 90, 1, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(275, 82, 91, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(276, 83, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(277, 83, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(278, 83, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(279, 84, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(280, 84, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(281, 84, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(282, 85, 92, 1, 3, 0, 2, '1721365583', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0),
-(283, 85, 93, 2, 3, 0, 3, '1721365583', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, 0);
+(240, 72, 44, 4, 3, 0, 1, '1720742671', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -355,17 +312,16 @@ CREATE TABLE `tbevento` (
   `status` int(11) NOT NULL DEFAULT 1,
   `modo_pgto` int(11) NOT NULL,
   `hash` varchar(300) NOT NULL,
-  `regras_home` varchar(2500) NOT NULL,
-  `regras_cadastro` varchar(2500) NOT NULL
+  `regras_home` varchar(2500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbevento`
 --
 
-INSERT INTO `tbevento` (`id_evento`, `titulo`, `local`, `cidade`, `inicio`, `fim`, `status`, `modo_pgto`, `hash`, `regras_home`, `regras_cadastro`) VALUES
-(1, 'Metropolitan Parque Multi', 'Metropolitan', 'Rio de Janeiro', '1715180400', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>'),
-(2, 'Park Shopping Cmapo grande', 'campo grande', 'São Paulo', '', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>');
+INSERT INTO `tbevento` (`id_evento`, `titulo`, `local`, `cidade`, `inicio`, `fim`, `status`, `modo_pgto`, `hash`, `regras_home`) VALUES
+(1, 'Metropolitan Parque Multi', 'Metropolitan', 'Rio de Janeiro', '1715180400', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>'),
+(2, 'Park Shopping Cmapo grande', 'campo grande', 'São Paulo', '', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>');
 
 -- --------------------------------------------------------
 
@@ -516,9 +472,7 @@ INSERT INTO `tbfinanceiro` (`id`, `id_prevenda`, `tp_cobranca`, `valor`, `forma_
 (104, 70, 4, 15.00, 2, 1, '1720742051', 0),
 (105, 66, 4, 214.00, 1, 1, '1720742575', 0),
 (106, 72, 1, 6.50, 2, 1, '1720742671', 0),
-(107, 68, 4, 0.00, 1, 1, '1720742772', 0),
-(108, 68, 4, 15216.00, 1, 1, '1721083090', 0),
-(109, 85, 1, 8.40, 2, 1, '1721365583', 0);
+(107, 68, 4, 0.00, 1, 1, '1720742772', 0);
 
 -- --------------------------------------------------------
 
@@ -776,11 +730,7 @@ INSERT INTO `tbfinanceiro_detalha` (`iddetalha`, `idprevenda`, `identrada`, `idf
 (230, 66, 222, 105, '1720742555', 112, '1720742575', 107.00, 1, 2),
 (231, 72, 240, 0, '', 0, '1720742671', 2.80, 2, 1),
 (232, 72, 238, 0, '', 0, '1720742671', 3.70, 2, 1),
-(233, 68, 234, 107, '1720742764', 38, '1720742772', 0.00, 1, 2),
-(234, 68, 233, 108, '1721083081', 5710, '1721083090', 7910.00, 1, 2),
-(235, 68, 232, 108, '1721083081', 5710, '1721083090', 7306.00, 1, 2),
-(236, 85, 282, 0, '', 0, '1721365583', 3.70, 2, 1),
-(237, 85, 283, 0, '', 0, '1721365583', 4.70, 2, 1);
+(233, 68, 234, 107, '1720742764', 38, '1720742772', 0.00, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -942,24 +892,11 @@ INSERT INTO `tbprevenda` (`id_prevenda`, `id_responsavel`, `id_evento`, `data_ac
 (65, 18, 1, '2024-07-03', 0, '1720043617', '', 0, 0.00, '', '', 1),
 (66, 18, 1, '2024-07-03', 6, '1720054366', '1720735853', 0, 0.00, '', '', 1),
 (67, 23, 1, '2024-07-04', 6, '1720062960', '1720067481', 0, 0.00, '', '', 2),
-(68, 18, 1, '2024-07-11', 6, '1720740391', '1720740490', 0, 0.00, '', '', 2),
+(68, 18, 1, '2024-07-11', 5, '1720740391', '1720740490', 0, 0.00, '', '', 2),
 (69, 24, 1, '2024-07-11', 2, '1720740551', '1720740599', 0, 0.00, '', '', 2),
 (70, 25, 2, '2024-07-11', 6, '1720740668', '1720740803', 0, 0.00, '', '', 2),
 (71, 26, 2, '2024-07-11', 2, '1720740843', '1720740889', 0, 0.00, '', '', 2),
-(72, 18, 1, '2024-07-11', 2, '1720742654', '1720742671', 0, 0.00, '', '', 2),
-(73, 18, 1, '2024-07-15', 0, '1721069209', '', 0, 0.00, '', '', 1),
-(74, 27, 1, '2024-07-15', 1, '1721069298', '', 0, 0.00, '', '1721070773', 1),
-(75, 18, 1, '2024-07-15', 0, '1721072970', '', 0, 0.00, '', '', 1),
-(76, 18, 1, '2024-07-15', 0, '1721072990', '', 0, 0.00, '', '', 1),
-(77, 18, 1, '2024-07-15', 0, '1721073040', '', 0, 0.00, '', '', 1),
-(78, 18, 1, '2024-07-15', 1, '1721077914', '', 0, 0.00, '', '1721081476', 1),
-(79, 18, 1, '2024-07-15', 0, '1721081994', '', 0, 0.00, '', '', 1),
-(80, 18, 1, '2024-07-15', 0, '1721082457', '', 0, 0.00, '', '', 1),
-(81, 18, 1, '2024-07-18', 0, '1721324952', '', 0, 0.00, '', '', 1),
-(82, 18, 1, '2024-07-18', 0, '1721325057', '', 0, 0.00, '', '', 1),
-(83, 18, 1, '2024-07-18', 0, '1721340021', '', 0, 0.00, '', '', 1),
-(84, 18, 1, '2024-07-18', 9, '1721340171', '', 0, 0.00, '', '', 1),
-(85, 28, 1, '2024-07-19', 2, '1721361778', '1721365583', 0, 0.00, '', '', 2);
+(72, 18, 1, '2024-07-11', 2, '1720742654', '1720742671', 0, 0.00, '', '', 2);
 
 -- --------------------------------------------------------
 
@@ -1001,7 +938,7 @@ INSERT INTO `tbresponsavel` (`id_responsavel`, `nome`, `cpf`, `email`, `telefone
 (15, 'jose do patrocinio', '696961', 'jose@patrocinio', '23434534', '', '0000-00-00', '1716401048', 1),
 (16, 'Daniel.. bbb', '11109588704', 'B@c.com', '21818181818', '', '0000-00-00', '1716417612', 1),
 (17, 'd', '1119588703', '', '', '', '0000-00-00', '1716419253', 1),
-(18, 'alessandro pinto', '07316221704', 'ale@ale.com.br', '(45) 46545-45', '(54) 54565-4654', '0000-00-00', '1717532948', 1),
+(18, 'alessandro silkkk', '07316221704', 'ale@ale.com.br', '11111111111', '22222222222222', '0000-00-00', '1717532948', 1),
 (19, 'alessandro silkkk', '7316221704', 'ale@ale.com.br', '11111111111', '22222222222222', '0000-00-00', '1720043542', 1),
 (20, 'alessandro silkkk', '7316221704', 'ale@ale.com.br', '11111111111', '22222222222222', '0000-00-00', '1720054183', 1),
 (21, 'alessandro silkkk', '7316221704', 'ale@ale.com.br', '11111111111', '22222222222222', '0000-00-00', '1720054239', 1),
@@ -1009,9 +946,7 @@ INSERT INTO `tbresponsavel` (`id_responsavel`, `nome`, `cpf`, `email`, `telefone
 (23, 'fulano das candongas', '7316221700', 'fulano@candonga.com', '987954654', '65465465', '0000-00-00', '1720062960', 1),
 (24, 'tiozao qualquer', '98765432122', 'tio@zao.com', '564654654', '', '0000-00-00', '1720740551', 1),
 (25, 'nosso pai', '5454554654', 'pai@nosso', '54654654', '', '0000-00-00', '1720740668', 1),
-(26, 'odin', '987987987', 'odin@odin', '54654654654', '1321321', '0000-00-00', '1720740843', 1),
-(27, 'asdas', '13143939796', 'dasda@asdas', '12312', '', '0000-00-00', '1721069298', 1),
-(28, 'ba kbasj lkj', '81395931097', 'asdas@sdsdff', '454654654', '654654654', '0000-00-00', '1721361778', 1);
+(26, 'odin', '987987987', 'odin@odin', '54654654654', '1321321', '0000-00-00', '1720740843', 1);
 
 -- --------------------------------------------------------
 
@@ -1059,9 +994,7 @@ INSERT INTO `tbuserlog` (`id`, `idusuario`, `datahora`, `codigolog`, `ipusuario`
 (2, 1, '1720464299', 1, '::1', 'login de usuário'),
 (3, 1, '1720464392', 1, '::1', 'login de usuário'),
 (4, 1, '1720735777', 1, '::1', 'login de usuário'),
-(5, 1, '1720742548', 1, '::1', 'login de usuário'),
-(6, 1, '1721082752', 1, '127.0.0.1', 'login de usuário'),
-(7, 1, '1721360112', 1, '127.0.0.1', 'login de usuário');
+(5, 1, '1720742548', 1, '::1', 'login de usuário');
 
 -- --------------------------------------------------------
 
@@ -1083,7 +1016,7 @@ CREATE TABLE `tbusuarios` (
 --
 
 INSERT INTO `tbusuarios` (`id_usuario`, `nome`, `login`, `senha`, `perfil`, `ativo`) VALUES
-(1, 'Usuario Master', 'master@user', 'e19d5cd5af0378da05f63f891c7467af', 1, 1);
+(1, 'Usuario Master', 'master@user', '86fa9bbea68969018513bb2956af832d', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1162,7 +1095,7 @@ INSERT INTO `tbvinculados` (`id_vinculado`, `id_responsavel`, `nome`, `nasciment
 (34, 16, 'Nenena', '2024-05-30', 2, 0),
 (35, 16, 'Carlinhos ', '2024-05-13', 3, 0),
 (36, 18, 'joazinho', '2000-05-05', 3, 0),
-(37, 18, 'ei pessoinha 123', '2010-01-06', 2, 1),
+(37, 18, 'ei pessoinha 22', '2024-06-01', 2, 1),
 (38, 18, 'oooooooooooo', '2024-06-19', 2, 0),
 (39, 18, 'mais uim', '2024-06-14', 1, 0),
 (40, 18, 'palito', '2000-05-05', 2, 0),
@@ -1208,17 +1141,7 @@ INSERT INTO `tbvinculados` (`id_vinculado`, `id_responsavel`, `nome`, `nasciment
 (80, 23, 'bla bla bla', '2024-07-30', 2, 1),
 (81, 24, 'kid 01', '2024-02-06', 1, 0),
 (82, 25, 'kids algum', '2022-08-17', 1, 0),
-(83, 26, 'thor', '2021-11-17', 1, 0),
-(84, 27, 'pluft', '2022-01-13', 1, 0),
-(85, 18, 'outro ser', '2024-07-20', 2, 0),
-(86, 18, 'asdasd', '0000-00-00', 0, 0),
-(87, 18, 'sdfsd', '0000-00-00', 0, 0),
-(88, 18, 'asdas', '0000-00-00', 0, 0),
-(89, 18, 'asdasd', '0000-00-00', 0, 0),
-(90, 18, 'sdsdfs', '0000-00-00', 1, 0),
-(91, 18, 'filho de ogum', '2010-10-10', 1, 0),
-(92, 28, 'sdfsdfsdf', '2019-06-06', 2, 0),
-(93, 28, 'outro ser', '2010-02-01', 1, 0);
+(83, 26, 'thor', '2021-11-17', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1350,7 +1273,7 @@ ALTER TABLE `tbvinculo`
 -- AUTO_INCREMENT de tabela `tbentrada`
 --
 ALTER TABLE `tbentrada`
-  MODIFY `id_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=284;
+  MODIFY `id_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT de tabela `tbevento`
@@ -1368,13 +1291,13 @@ ALTER TABLE `tbevento_ativo`
 -- AUTO_INCREMENT de tabela `tbfinanceiro`
 --
 ALTER TABLE `tbfinanceiro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT de tabela `tbfinanceiro_detalha`
 --
 ALTER TABLE `tbfinanceiro_detalha`
-  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
+  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT de tabela `tbimpressos`
@@ -1398,13 +1321,13 @@ ALTER TABLE `tbperfil_acesso`
 -- AUTO_INCREMENT de tabela `tbprevenda`
 --
 ALTER TABLE `tbprevenda`
-  MODIFY `id_prevenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_prevenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT de tabela `tbresponsavel`
 --
 ALTER TABLE `tbresponsavel`
-  MODIFY `id_responsavel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_responsavel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `tbtermo`
@@ -1416,7 +1339,7 @@ ALTER TABLE `tbtermo`
 -- AUTO_INCREMENT de tabela `tbuserlog`
 --
 ALTER TABLE `tbuserlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbusuarios`
@@ -1434,7 +1357,7 @@ ALTER TABLE `tbusuarios_evento`
 -- AUTO_INCREMENT de tabela `tbvinculados`
 --
 ALTER TABLE `tbvinculados`
-  MODIFY `id_vinculado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id_vinculado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de tabela `tbvinculo`
