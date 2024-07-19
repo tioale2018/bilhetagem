@@ -56,6 +56,7 @@ $pre_eventos_usuario->execute();
                                 $row_eventos_usuario = $pre_eventos_usuario->fetchAll();
                             ?>
                             <ul class="list-group">
+                                
                                 <?php foreach ($row_eventos_usuario as $key => $value) { ?>
                                     <li class="list-group-item"><a href="" class="sel-evento" data-idevento="<?= $value['idevento'] ?>"><?= $value['titulo'] . " (" . $value['cidade'] . ")"; ?></a></li>
                                 <?php } ?>

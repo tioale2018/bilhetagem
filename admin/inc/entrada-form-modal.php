@@ -135,6 +135,7 @@
         
         $('#formModalParticipante').submit(function(event){
             event.preventDefault();
+            $('#formModalParticipante button[type="submit"]').prop('disabled', true);
             let Form = $(this).serialize();
 
             var dateInput = $('input[name=nascimento]').val();
@@ -143,10 +144,12 @@
                 $('input[name=nascimento]').val('');
                 alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
                 $('input[name=nascimento]').focus();
+                $('#formModalParticipante button[type="submit"]').prop('disabled', false);
             } else {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
                     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
+                    $('#formModalParticipante button[type="submit"]').prop('disabled', false);
                     $('#formModalParticipante').trigger('reset');
                     $('#modalAddParticipante').modal('hide');
                 }); 

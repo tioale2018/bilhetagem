@@ -186,11 +186,11 @@ include_once("./inc/head.php");
                         
                         <div class="row justify-content-end">
                              <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-primary waves-effect btn-round btAcao-cancela">Cancelar cadastro</button>
+                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-danger waves-effect btn-round btAcao-cancela">Cancelar cadastro</button>
                             </div>
 
                             <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza">Finalizar Cadastro</button>
+                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza">Finalizar Pré-Cadastro</button>
                             </div>
                         </div>
 
@@ -235,7 +235,7 @@ include_once("./inc/head.php");
 
             swal({
                 title: "Cancelar agendamento?",
-                text: "Deseja realmente cancelar e excluir esta reserva?",
+                text: "Deseja realmente cancelar e excluir esta pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -257,8 +257,8 @@ include_once("./inc/head.php");
             let id = $(this).data('id');
 
             swal({
-                title: "Finalizar e enviar reserva?",
-                text: "Deseja concluir o cadastro e enviar a solicitação de reserva?",
+                title: "Finalizar e enviar pré-cadastro?",
+                text: "Deseja concluir o cadastro e enviar a solicitação de pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",

@@ -11,7 +11,7 @@ include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
 
 //valida se é o hash do evento
-$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_cadastro
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_cadastro, tbevento.msg_fimreserva
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
 where tbevento_ativo.ativo=1 and tbevento.status=2 and tbevento_ativo.hash=:hash";
@@ -24,10 +24,10 @@ if ($pre->rowCount()<1) {
     session_destroy();
 } else {
     $row = $pre->fetchAll();
-    $_SESSION['row'] = $row;
-    $evento_atual = $row[0]['idevento'];
+    $_SESSION['row']          = $row;
+    $evento_atual             = $row[0]['idevento'];
     $_SESSION['evento_atual'] = $row[0]['idevento'];
-    $_SESSION['hash_evento'] = $hash;
+    $_SESSION['hash_evento']  = $hash;
 }
 
 //---------------------------

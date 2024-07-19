@@ -36,8 +36,8 @@ $rowNum = $pre->rowCount();
     <div class="table-responsive">
         <?php 
         $travaBtEnvia = 'false';
-        $textoBtEnvia = 'Finalizar Cadastro';
-        $textoBtErro = 'Autorizações pendentes';
+        $textoBtEnvia = 'Finalizar pré-cadastro';
+        $textoBtErro = 'Verificar pendências';
         if ($pre->rowCount()>0) { 
         ?>
                 
@@ -136,19 +136,22 @@ $rowNum = $pre->rowCount();
                 closeOnConfirm: false,
                 closeOnCancel: true
             }, function (isConfirm) {
-                $.post('./blocos/participante-exclui.php', {i:p}, function(data){
-                    swal({
-                        title: "Operação realizada com sucesso",
-                        text: "Mensagem de agradecimento",
-                        type: "success",
-                        showCancelButton: false,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Ok",
-                        closeOnConfirm: true
-                    }, function () {
-                        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $row[$key]['id_prevenda'] ?> });
+                if (isConfirm) {
+                    $.post('./blocos/participante-exclui.php', {i:p}, function(data){
+                        swal({
+                            title: "Operação realizada com sucesso",
+                            text: "Mensagem de agradecimento",
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: true
+                        }, function () {
+                            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $row[$key]['id_prevenda'] ?> });
+                        });
                     });
-                });
+                }
+
             });
         });
 

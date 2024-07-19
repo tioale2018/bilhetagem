@@ -102,7 +102,7 @@ $row = $pre->fetchAll();
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpf'] ?>" name="cpf" />
+                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpf'] ?>" name="cpf" readonly />
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -242,14 +242,7 @@ $row = $pre->fetchAll();
             }            
         });
 
-        $('body').on('click', '.excluivinculo', function(){
-            let entrada = $(this).data('identrada');
-            if (confirm('Confirma esta exclusão?')) {
-                $.post("./blocos/exclui-vinculo.php", { e: entrada }, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
-                });
-            }
-        });
+      
 
         $('body').on('click','#btnpagamento', function(event){
             let count = $(this).data('numrow');

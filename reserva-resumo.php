@@ -7,7 +7,7 @@ if (!isset($_SESSION['dadosResponsavel'])) {
 //include_once("./inc/cad-participantes-regras.php");
 include('./inc/conexao.php');
 
-// $row               = $_SESSION['row'];
+$evento            = $_SESSION['row'];
 $evento_atual      = $_SESSION['evento_atual'];
 $id                = $_SESSION['cpf'];
 $dados_responsavel = $_SESSION['dadosResponsavel'];
@@ -85,7 +85,7 @@ include_once("./inc/head.php");
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Reserva realizada</h2>
+                    <h2>Pré cadastro realizado</h2>
                 </div>            
                 <!-- <div class="col-lg-7 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right padding-0">
@@ -148,17 +148,18 @@ include_once("./inc/head.php");
                             </div>
                         </div>
 
+                        <div>
+                        <?= $evento[0]['msg_fimreserva'] ?>
+                        </div>
+
                         <hr>
-                        
-                        
-                            
                                                    
                             <div class="hidden-print col-md-12 text-right">
                                 <div class="row">
                                     
                                     
                                     <div class="col-3">
-                                        <a href="/<?= $hashEvento ?>" class="btn btn-raised btn-primary btn-round">Nova reserva</a>
+                                        <a href="/<?= $hashEvento ?>" class="btn btn-raised btn-primary btn-round">Retornar</a>
                                     </div>
                                 </div>
         
