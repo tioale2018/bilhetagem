@@ -1,7 +1,7 @@
 <div class="modal fade" id="addResponsavelModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-        <form action="./adiciona-novo-responsavel" method="post">
+        <form action="./adiciona-novo-responsavel" method="post" id="formAddResponsavelModal">
             <div class="modal-header">
                 <h4 class="title" id="addResponsavelModalLabel">Pré venda</h4>
             </div>
@@ -58,7 +58,9 @@
 <script>
     $(document).ready(function(){
         $('body').on('change', '#cpf', function(){
-            let i = $(this).val();
+            let i = $(this).val().replace(/\D/g, '');
+            // $(this).val(i);
+
             $.post('./blocos/procura-responsavel.php', {id:i}, function(data){
                 $('form')[0].reset();
                 $('#cpf').val(i);
@@ -162,5 +164,13 @@
             $('input[name=telefone2]').mask(mask, options);
         }
     });
+
+    $('#formAddResponsavelModal').on('submit', function(e) {
+        $('#formAddResponsavelModal button[type="submit"]').prop('disabled', true);
+    })
+
+    $('#addResponsavelModal').on('hidden.bs.modal', function (e) {
+        $('#formAddResponsavelModal').trigger('reset');
+    })
 });
 </script>

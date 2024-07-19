@@ -19,7 +19,7 @@ function buscarPorHash($array, $hash) {
 }
 
 //$sql = "select hash from tbevento_ativo where ativo=1";
-$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro, tbevento.regras_parque
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
 where tbevento_ativo.ativo=1 and tbevento.status=2";
@@ -69,6 +69,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                         <div class="header">
                             <h5>Preencha o cadastro</h5>
                             <span>Dados do responsável pelos participantes</span>
+                            <p>Acesse aqui as <a href="" class="regrasparque">regras do parque</a></p>
                         </div>
                         <form class="form" method="post" action="busca-reserva.php">                            
                             <div class="input-group">
@@ -91,7 +92,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                             </div>              
                             <div class="checkbox">
                                 <input id="termos" type="checkbox" name="termos" required>
-                                <label for="termos">Li e concordo com as  <a href="" id="regras">regras e termos de uso dos dados</a>.</label>
+                                <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
                             </div>                            
                         
                             <div class="footer">
@@ -128,6 +129,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
     </div>
 </div>
 
+
+
 <!-- Jquery Core Js -->
 <!-- <script src="assets/bundles/libscripts.bundle.js"></script> -->
  <!-- Lib Scripts Plugin Js --> 
@@ -139,8 +142,17 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             // alert('ok')
             swal({
-                title: "Regras e termos de uso",
+                title: "Termos de uso",
                 text: "<?= $dadosEvento['regras_home'] ?>",
+                html: true
+            });
+        });
+
+        $('.regrasparque').click(function(e){
+            e.preventDefault();
+            swal({
+                title: "Regras do parque",
+                text: "<?= $dadosEvento['regras_parque'] ?>",
                 html: true
             });
         });

@@ -45,12 +45,6 @@ $textoBtErro = 'Verifique pacotes pendentes'
     <div class="table-responsive">
         <?php 
         if ($pre->rowCount()>0) { 
-
-            // $sql_busca_pacote = "select * from tbpacotes where ativo=1 and id_evento=".$row[0]['id_evento'];
-            // $pre_busca_pacote = $connPDO->prepare($sql_busca_pacote);
-            // $pre_busca_pacote->execute();
-            // $row_busca_pacote = $pre_busca_pacote->fetchAll();
-            
         ?>
                 
         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -61,7 +55,7 @@ $textoBtErro = 'Verifique pacotes pendentes'
                     <th width="10%">Vínculo</th>
                     <th width="10%">Perfil</th>
                     <th width="30%">Pacote</th>
-                    <th width="10%">Action</th>
+                    <th width="10%">Ações</th>
                 </tr>
             </thead>                                
             <tbody>
@@ -119,10 +113,9 @@ $textoBtErro = 'Verifique pacotes pendentes'
 
 <script>
 
+$(document).ready(function(){
     document.querySelector('#btnpagamento').dataset.numrow = '<?= $rowNum ?>';
     $('#btnpagamento').prop('disabled', <?= $travaBtEnvia ?>).text('<?= $textoBtEnvia ?>');
-
-    $(document).ready(function(){
 
         $('.btnModalEditaParticipante').on('click', function(){
             let i = $(this).data('idparticipante');
@@ -133,6 +126,32 @@ $textoBtErro = 'Verifique pacotes pendentes'
         })
 
         $('select').selectpicker();
+
+        $('body').on('click', '.excluivinculo', function(){
+            let entrada = $(this).data('identrada');
+
+            swal({
+                    title: "Confirma esta exclusão?",
+                    text: "Esta ação não pode ser revertida!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, excluir!",
+                    cancelButtonText: "Não",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post("./blocos/exclui-vinculo.php", { e: entrada }, function(data){
+                            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idprevenda ?> });
+                        });
+                    } 
+                });
+
+          
+        });
+
+
     });
 
 </script>

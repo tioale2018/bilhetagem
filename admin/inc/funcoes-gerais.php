@@ -107,4 +107,21 @@ function verificaVar($variable) {
     }
     return false;
 }
+
+function obterNomeESobrenome($nomeCompleto) {
+    // Divide o nome completo em partes usando o espaço como delimitador
+    $partes = explode(' ', $nomeCompleto);
+    
+    // Se o nome completo tiver apenas uma palavra, retorna ela mesma
+    if (count($partes) == 1) {
+        return $nomeCompleto;
+    }
+
+    // Obtem a primeira e a última parte do nome
+    $primeiroNome = $partes[0];
+    $ultimoSobrenome = $partes[count($partes) - 1];
+    
+    // Retorna o primeiro nome e o último sobrenome
+    return $primeiroNome . ' ' . $ultimoSobrenome;
+}
 ?>

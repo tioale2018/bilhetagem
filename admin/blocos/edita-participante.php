@@ -159,7 +159,6 @@ $(document).ready(function() {
     // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
     $('#nascEdita').trigger('change');
 
-   
     $('#nascEdita').mask('00/00/0000');
 
     // Validação personalizada para verificar se a data é válida
@@ -188,6 +187,7 @@ $(document).ready(function() {
 
     $('#formEditaParticipante').submit(function(e){
         e.preventDefault();
+        $('#formEditaParticipante button[type=submit]').prop('disabled', true);
         let Form = $(this);
 
         var dateInput = $('#nascEdita').val();
@@ -196,10 +196,12 @@ $(document).ready(function() {
             $('#nascEdita').val('');
             alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
             $('#nascEdita').focus();
+            $('#formEditaParticipante button[type=submit]').prop('disabled', false);
         } else {
 
             $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
+                    $('#formEditaParticipante button[type=submit]').prop('disabled', false);
                     $('#modalEditaParticipante').modal('toggle');
                 });
 

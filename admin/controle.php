@@ -12,7 +12,7 @@ include_once('./inc/funcoes-gerais.php');
 
 <?php
 
-$sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel
+$sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbpacotes.descricao as nomepacote
 FROM tbentrada 
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
@@ -75,14 +75,18 @@ $row = $pre->fetchAll();
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="body project_report">
+                    <div>
+                        <p>Total de pessoas: <?= count($row) ?></p>
+                        <p>Capacidade: <?= $_SESSION['evento']['capacidade'] ?> </p>
+                    </div>
                         <div class="table-responsive">
                             <table class="table m-b-0 table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nome/Responsável</th>
-                                        <th>Idade</th>
                                         <th>Hora entrada</th>
                                         <th>Hora saída</th>
+                                        <th>Pacote</th>
                                         <th>Tempo Decorrido</th>
                                         <th>Saída</th>
                                     </tr>
@@ -92,18 +96,21 @@ $row = $pre->fetchAll();
                                     <?php  foreach ($row as $key => $value) {     ?>
                                     <tr>
                                         <td class="project-title">
-                                            <h6><a href="#"><?= $value['nome'] ?></a></h6>
+                                            <h6><a href="#"><?= obterNomeESobrenome($value['nome']) . '('.calcularIdade($value['nascimento']).' Anos)' ?></a></h6>
                                             <small>Resp.: <?= $value['responsavel'] ?></small>
                                         </td>
-                                        <td><?= calcularIdade($value['nascimento']) ?> Anos</td>
                                         <td>
                                             <div class="hora-entrada"><?= date('H:i:s', $value['datahora_entra']) ?></div>
-                                            <small><?= calculaDuracao($value['duracao']); ?></small>
                                         </td>
                                         <td>
                                             <div class="hora-saida"><?= somarMinutos($value['datahora_entra'], $value['duracao']) ?></div>
                                             <!-- <small>+<?= calculaDuracao($value['tolerancia']); ?></small> -->
-                                        </td>                                        
+                                        </td> 
+                                        <td>
+                                            <div class="nome-pacote"><?= calculaDuracao($value['duracao']); ?></div>
+                                            <small><?= $value['nomepacote'] ?></small>
+                                        </td>
+
                                         <td><span class="tdecorrido"></span></td>
                                         <td class="project-actions">
                                             <!-- <a href="#modalSaida" data-toggle="modal" data-target="#modalSaida" class="btn btn-neutral btn-sm"><i class="zmdi zmdi-sign-in"></i></a> -->
@@ -117,6 +124,8 @@ $row = $pre->fetchAll();
                                     
                                 </tbody>
                             </table>
+
+                            
                         </div>
                     </div>
                 </div>
