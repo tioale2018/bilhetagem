@@ -34,7 +34,7 @@ if (!isset($_SESSION['user_ip']) || !isset($_SESSION['user_agent'])) {
 if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
     session_unset();
     session_destroy();
-    header('Location: index.php');
+    header('Location: /admin/');
     exit();
 }
 

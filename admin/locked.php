@@ -69,20 +69,6 @@ $pre_eventos_usuario->execute();
 
                         </div>
                         
-                        <!-- <div class="footer">
-                            <ul  class="social_link list-unstyled">
-                                <li><a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
-                                <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="http://twitter.com/" target="_blank" title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="http://plus.google.com/" target="_blank" title="Google plus"><i class="zmdi zmdi-google-plus"></i></a></li>
-                                
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a href="">Contato</a></li>
-                                <li><a href="">FAQ</a></li>
-                            </ul>
-                        </div> -->
                     </div>                    
                 </div>
                 <div class="col-lg-5 col-md-12 offset-lg-1">

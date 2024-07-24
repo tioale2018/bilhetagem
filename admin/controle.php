@@ -43,34 +43,11 @@ $row = $pre->fetchAll();
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <h2 class="">Controle de recreação: <?= $_SESSION['evento_titulo'] ?></h2>                    
                 </div>            
-                <!-- <div class="col-lg-4 col-md-4 col-sm-12">
-                    <ul class="breadcrumb float-md-right padding-0">
-                        <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">{Página 01}</a></li>
-                        <li class="breadcrumb-item active">{Página atual}</li>
-                    </ul>
-                </div> -->
             </div>
         </div>
        
         <?php //include_once('./inc/cards-dashboard.php') ?>
-        <?php /* ?>
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card">
-                    <div class="body">
-                        <form>
-                            <div class="row clearfix">
-                                <div class="center">
-                                    <button type="button" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">LOGIN</button>          
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php */ ?>
+        
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
                 <div class="card">
@@ -113,7 +90,6 @@ $row = $pre->fetchAll();
 
                                         <td><span class="tdecorrido"></span></td>
                                         <td class="project-actions">
-                                            <!-- <a href="#modalSaida" data-toggle="modal" data-target="#modalSaida" class="btn btn-neutral btn-sm"><i class="zmdi zmdi-sign-in"></i></a> -->
                                             <button data-idprevenda="<?= $value['id_prevenda'] ?>" type="button" data-toggle="modal" data-target="#modalSaida" class="btn btn-neutral btn-sm btnModalSaida"><i class="zmdi zmdi-sign-in"></i></button>
                                         </td>
                                     </tr>
@@ -124,8 +100,6 @@ $row = $pre->fetchAll();
                                     
                                 </tbody>
                             </table>
-
-                            
                         </div>
                     </div>
                 </div>
@@ -135,67 +109,17 @@ $row = $pre->fetchAll();
 </section>
 
 <?php include_once('./inc/controle-modal.php') ?>
-
-
 <?php include_once('./inc/javascript.php') ?>
 
+<?php if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
 <script>
-    /*
-    document.addEventListener('DOMContentLoaded', function() {
-        // Seleciona todos os elementos que mostram o tempo decorrido
-        var elementosTempoDecorrido = document.querySelectorAll('.tdecorrido');
-
-        // Função para calcular o tempo decorrido
-        function calcularTempoDecorrido(horaEntrada) {
-            var agora = new Date();
-            var horaAtual = agora.getHours();
-            var minutoAtual = agora.getMinutes();
-            var segundoAtual = agora.getSeconds();
-
-            var partesHoraEntrada = horaEntrada.split(':');
-            var horaEntrada = parseInt(partesHoraEntrada[0]);
-            var minutoEntrada = parseInt(partesHoraEntrada[1]);
-            var segundoEntrada = parseInt(partesHoraEntrada[2]);
-
-            var diferencaHoras = horaAtual - horaEntrada;
-            var diferencaMinutos = minutoAtual - minutoEntrada;
-            var diferencaSegundos = segundoAtual - segundoEntrada;
-
-            // Garante que os valores da diferença estejam dentro do intervalo correto
-            if (diferencaSegundos < 0) {
-                diferencaSegundos += 60;
-                diferencaMinutos--;
-            }
-            if (diferencaMinutos < 0) {
-                diferencaMinutos += 60;
-                diferencaHoras--;
-            }
-            if (diferencaHoras < 0) {
-                diferencaHoras += 24;
-            }
-
-            // Formata a diferença para o formato HH:MM:SS
-            var horasFormatadas = ('0' + diferencaHoras).slice(-2);
-            var minutosFormatados = ('0' + diferencaMinutos).slice(-2);
-            var segundosFormatados = ('0' + diferencaSegundos).slice(-2);
-
-            return horasFormatadas + ':' + minutosFormatados + ':' + segundosFormatados;
-        }
-
-        // Função para atualizar o tempo decorrido a cada segundo
-        function atualizarTempoDecorrido() {
-            elementosTempoDecorrido.forEach(function(elemento) {
-                var horaEntrada = elemento.parentNode.previousElementSibling.innerText;
-                var tempoDecorrido = calcularTempoDecorrido(horaEntrada);
-                elemento.innerText = tempoDecorrido;
-            });
-        }
-
-        // Chama a função para atualizar o tempo decorrido a cada segundo
-        setInterval(atualizarTempoDecorrido, 1000);
-    });
-    */
+   // Função para recarregar a página
+   function recarregarPagina() {
+        location.reload();
+    }
+    setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?> ); 
 </script>
+<?php } ?>
 
 
 <script>

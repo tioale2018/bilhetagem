@@ -1,12 +1,10 @@
 <?php include_once('./inc/head.php') ?>
-
 <?php include_once('./inc/conexao.php') ?>
 <?php include_once('./inc/funcao-tempo.php') ?>
 <?php include_once('./inc/funcoes-calculo.php') ?>
 <?php include_once('./inc/funcoes.php') ?>
 
 <?php
-
 function generateSqlQuery($date) {
     $dateTime = DateTime::createFromFormat('Y-m-d', $date);
 
@@ -18,7 +16,8 @@ function generateSqlQuery($date) {
     $sql = "SELECT * FROM tbfinanceiro WHERE ativo=1 AND hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp}";
     return $sql;
 }
-  
+
+
     if (isset($_GET['d']) && isValidDate($_GET['d'])) {
         $dataRelata = $_GET['d'];
     } else {
@@ -46,7 +45,8 @@ function generateSqlQuery($date) {
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
-                    <h2>Informação de pagamentos</h2>             
+                    <h2>Informação de pagamentos</h2>     
+                    <?= $sql_busca_pgto; ?>        
                        
                 </div>            
                 <!-- <div class="col-lg-7 col-md-7 col-sm-12">
@@ -102,7 +102,6 @@ function generateSqlQuery($date) {
             <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
         </tr>
 <?php } else { 
-
     foreach ($row_busca_pgto as $key => $value) {
         $total = $total + $value['valor'];
         ?>
@@ -141,7 +140,7 @@ function generateSqlQuery($date) {
     $(document).ready(function(){
         $('#dataFiltro').change(function(){
             var data = $(this).val();
-            window.location = 'caixa-basico.php?d='+data;
+            window.location = 'caixa-produtos?d='+data;
         });
     })
 </script>
