@@ -71,35 +71,22 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                             <span>Dados do responsável pelos participantes</span>
                             <p>Acesse aqui as <a href="" class="regrasparque">regras do parque</a></p>
                         </div>
-                        <form class="form" method="post" action="busca-reserva.php">                            
-                            <div class="input-group">
-                                <input name="cpf" type="text" class="form-control" placeholder="CPF" maxlength="14" pattern="\d*" required>
-                                <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
-                            </div>
-                            <div class="blocks">
+
+                        <div class="area-form-index">
+                            <form class="form" method="post" action="" id="form-busca-cpf">                            
                                 <div class="input-group">
-                                    <input name="nome" type="text" class="form-control" placeholder="Nome" required>
-                                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" maxlength="14" pattern="\d*" required>
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
                                 </div>
-                                <div class="input-group">
-                                    <input name="email" type="text" placeholder="E-mail" class="form-control" required />
-                                    <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                            
+                                <div class="footer">
+                                    <input type="hidden" name="hashevento" value="<?= $_GET['i'] ?>">
+                                    <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
                                 </div>
-                                <div class="input-group">
-                                    <input name="telefone" type="text" placeholder="Telefone" class="form-control" required />
-                                    <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-                                </div>              
-                            </div>              
-                            <div class="checkbox">
-                                <input id="termos" type="checkbox" name="termos" required>
-                                <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
-                            </div>                            
+                            </form>
+
+                        </div>
                         
-                            <div class="footer">
-                                <input type="hidden" name="hashevento" value="<?= $_GET['i'] ?>">
-                                <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
-                            </div>
-                        </form>
                         
                     </div>
                 </div>
@@ -138,7 +125,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
 <script>
     $(document).ready(function(){
-        $('#regras').click(function(e){
+        $('body').on('click', '#regras', function(e){
             e.preventDefault();
             // alert('ok')
             swal({
@@ -148,7 +135,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             });
         });
 
-        $('.regrasparque').click(function(e){
+        $('body').on('click','.regrasparque', function(e){
             e.preventDefault();
             swal({
                 title: "Regras do parque",
@@ -157,6 +144,29 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             });
         });
 
+        $('#form-busca-cpf').on('submit', function(e) {
+            e.preventDefault();
+            let dadosForm = $(this).serialize();
+
+            $.post('./form-index.php', dadosForm, function(response) {
+                $('.area-form-index').html(response);
+            }).fail(function(xhr) {
+                console.log("Ocorreu um erro: " + xhr.status + " " + xhr.statusText);
+            });
+
+        });
+
+        $('body').on('submit', '#form-busca-reserva', function(e) {
+           
+            if (!$('input[name="termos"]').is(':checked')) {
+                e.preventDefault(); // Impede o envio do formulário
+                alert('Por favor, leia e aceite os termos de uso antes de continuar.');
+            }
+           
+        });
+
+
+/*
         $('input[name=cpf]').change(function(){
             $('.blocks input, button').prop('readonly', true);
             let cpf = $(this).val();
@@ -178,6 +188,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 
             })
         })
+        */
     })
 </script>
 
@@ -259,6 +270,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             $('input[name=telefone]').mask(mask, options);
         }
     });
+
+    
 });
 
 </script>

@@ -13,7 +13,14 @@
                     </li>
                     <!-- <li><a href="javascript:void(0)">Cadastro</a></li>
                     <li><a href="javascript:void(0)">Relatório</a></li> -->
-                    <li><a href="caixa-basico">Livro Caixa</a></li>
+                    
+                    <li><a href="javascript:void(0)">Relatórios</a>
+                        <ul class="sub-menu">
+                            <!-- <li><a href="dashboard">Relatórios</a></li> -->
+                            <li><a href="caixa-basico">Caixa geral</a></li>
+                            <li><a href="caixa-produtos">Produtos vendidos</a></li>
+                        </ul>
+                    </li>
                     <li><a href="troca-evento">Trocar evento</a></li>
                 </ul>
             </div>

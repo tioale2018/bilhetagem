@@ -81,5 +81,15 @@ $row = $pre->fetchAll();
 <?php include('./inc/entrada-nova-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
 
+
+<?php if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
+<script>
+   // Função para recarregar a página
+   function recarregarPagina() {
+        location.reload();
+    }
+    setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?> ); 
+</script>
+<?php } ?>
 </body>
 </html>

@@ -6,11 +6,11 @@ function verificarSessao() {
     if (!isset($_SESSION['user_id'])) {
         // Se não estiver definida, redireciona para a página de login
 
-        header('Location: index.php');
+        header('Location: /admin/');
         exit();
     } else {
         if ( (!isset($_SESSION['evento_selecionado'])) || $_SESSION['evento_selecionado']==0) {
-            header('Location: locked.php');
+            header('Location: locked');
             exit();
         }
     }

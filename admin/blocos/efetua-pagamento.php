@@ -19,7 +19,6 @@ $horaagora  = time();
 
 //algoritmo para caso a saída seja zero pagamento
 if (!isset($_POST['pagasaida'])) {
-
     //procedimento para o pagamento na entrada
     $numqueries = 0;
 
