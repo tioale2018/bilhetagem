@@ -20,7 +20,7 @@
                                 <input name="nascimento" type="text" class="form-control" pattern="\d{2}/\d{2}/\d{4}" required placeholder="dd/mm/aaaa"/>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="form-label">Tipo de vínculo</label>                            
                                 <select name="vinculo" class="form-control show-tick p-0" required>
@@ -31,7 +31,7 @@
                                 </select>
                             </div>
                         </div> 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="form-label">Perfil</label>                            
                                 <select class="form-control show-tick p-0" name="perfil" required>
@@ -42,7 +42,7 @@
                                 </select>
                             </div>
                         </div> 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Pacote</label>                            
                                 <select class="form-control show-tick p-0" name="pacote" required>
@@ -53,7 +53,7 @@
                                    
                                 </select>
                             </div>
-                        </div> 
+                        </div>  -->
                         <div class="col-12">
                             <div class="form-group">
                                 

@@ -32,7 +32,7 @@ function checkPostVariable($varpost) {
 
 include_once("../inc/conexao.php");
 $idevento = $_POST['i'];
-$idUser  = $_SESSION['user_id'];
+$idUser   = $_SESSION['user_id'];
 
 // $sql_eventos_usuario = "SELECT * FROM tbusuarios_evento where ativo=1 and idusuario=:iduser and idevento=:idevento";
 $sql_eventos_usuario = "SELECT tbusuarios_evento.*, tbevento.titulo, tbevento.cidade, tbevento.local, tbevento.capacidade, tbevento.tempo_atualiza FROM tbusuarios_evento

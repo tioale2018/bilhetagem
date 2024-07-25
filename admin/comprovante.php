@@ -38,17 +38,54 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet"> -->
     <style>
+         @page {
+            size: auto;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            body, html {
+                max-width: 80mm; /* Ajuste esta medida conforme a largura do papel da Elgin i8 */
+            }
+
+            /* Impedir quebras de página */
+            * {
+                page-break-inside: avoid;
+                page-break-before: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Especificamente para elementos de bloco e containers */
+            div, section, article, header, footer, p, table {
+                page-break-inside: avoid;
+            }
+        }
+
         * {
             /* font-family: "Dosis", sans-serif; */
             font-family:tahoma;
-            font-weight: 600;
+            font-weight: 500;
             font-style: normal;
             font-size: 11pt;
+        
+            page-break-before: avoid; /* Evita quebra de página antes do elemento */
+            page-break-after: avoid;  /* Evita quebra de página depois do elemento */
+            page-break-inside: avoid; /* Evita quebra de página dentro do elemento */
+        }
+
+        /* Especificamente para divs, cabeçalhos, parágrafos, etc. */
+        div, h1, h2, h3, h4, h5, h6, p {
+            page-break-inside: avoid;
         }
         body, html {
             margin: 0;
             padding: 0;
         }
+       
     </style>
 </head>
 <body>
