@@ -13,10 +13,12 @@ function generateSqlQuery($date) {
     }
     $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
     $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
-    $sql = "SELECT * FROM tbfinanceiro WHERE ativo=1 AND hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp}";
+   // $sql = "SELECT count(id_pacote) as total_vendido, pct_nome, pct_valor, pct_duracao FROM tbentrada where datahora_entra BETWEEN {$startTimestamp} AND {$endTimestamp} group by id_pacote order by total_vendido";
+
+    $sql = "SELECT count(tbentrada.id_pacote) as total_vendido, tbentrada.pct_nome, tbentrada.pct_valor, tbentrada.pct_duracao, tbprevenda.id_evento FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN  {$startTimestamp} AND {$endTimestamp} group by tbentrada.id_pacote order by total_vendido";
+    // $sql = "SELECT * FROM tbfinanceiro WHERE ativo=1 AND hora_pgto BETWEEN ";
     return $sql;
 }
-
 
     if (isset($_GET['d']) && isValidDate($_GET['d'])) {
         $dataRelata = $_GET['d'];
@@ -29,7 +31,6 @@ function generateSqlQuery($date) {
     $pre_busca_pgto->execute();
     $row_busca_pgto = $pre_busca_pgto->fetchAll();
 
-    $total = 0;   
 ?>
 
 </head>
@@ -45,17 +46,8 @@ function generateSqlQuery($date) {
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
-                    <h2>Informação de pagamentos</h2>     
-                    <?= $sql_busca_pgto; ?>        
-                       
-                </div>            
-                <!-- <div class="col-lg-7 col-md-7 col-sm-12">
-                    <ul class="breadcrumb float-md-right padding-0">
-                        <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
-                        <li class="breadcrumb-item active">Basic Elements</li>
-                    </ul>
-                </div> -->
+                    <h2>Informação de pagamentos</h2>        
+                </div>
             </div>
         </div>
 
@@ -63,7 +55,6 @@ function generateSqlQuery($date) {
             <div class="col-lg-12">
                 <div class="card" id="details">
                     <div class="body">  
-                    
                         
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
@@ -72,55 +63,40 @@ function generateSqlQuery($date) {
                                         <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
                                 </p>
                             </div>
-                            <!-- <div class="col-md-6 col-sm-6 text-right">
-                            <address>
-                                    <strong>{responsável}</strong><br>
-                                    {dado1}<br>
-                                    {dado2}
-                                </address>
-                            </div> -->
                         </div>
                         <div class="mt-40"></div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive tabela-caixa">
-                                
-<table class="table table-hover">
-<thead>
-    <tr>
-        <th>#Pagto</th>                                                        
-        <th>Ticket venda</th>
-        <th>Cobrança</th>
-        <th>Forma pgto</th>
-        <th>Hora pgto</th>
-        <th>Valor</th>
-    </tr>
-</thead>
-<tbody>
-<?php if($pre_busca_pgto->rowCount() < 1) { ?>
-        <tr>
-            <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
-        </tr>
-<?php } else { 
-    foreach ($row_busca_pgto as $key => $value) {
-        $total = $total + $value['valor'];
-        ?>
-    <tr>
-        <th><?= $value['id'] ?></th>       
-        <th><?= $value['id_prevenda'] ?></th>
-        <th><?= $tpcobranca[$value['tp_cobranca']] ?></th>
-        <th><?= $formapgto[$value['forma_pgto']] ?></th>
-        <th><?= date('H:i', $value['hora_pgto']) ?></th>
-        <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>
-    </tr>
-        <?php
-    }
+                <table class="table table-hover">
+                    <thead>
+                        <tr>                                                  
+                            <th>Nome do pacote</th>
+                            <th>Valor</th>
+                            <th>Duração</th>
+                            <th>Qtde. vendida</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($pre_busca_pgto->rowCount() < 1) { ?>
+                            <tr>
+                                <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
+                            </tr>
+                    <?php } else { 
+                        foreach ($row_busca_pgto as $key => $value) {
+                            ?>
+                        <tr>
+                            <th><?= $value['pct_nome'] ?></th>
+                            <th><?= number_format($value['pct_valor'], 2, ',', '.') ?></th>       
+                            <th><?= $value['pct_duracao'] ?></th>       
+                            <th><?= $value['total_vendido'] ?></th>       
+                        </tr>
+                            <?php
+                        }
 
- } ?>
-        </tbody>
-    </table>
-
-    <p>Total: R$ <?= number_format($total, 2, ',', '.') ?></p>
+                    } ?>
+                            </tbody>
+                </table>
 
                                 </div>
                             </div>

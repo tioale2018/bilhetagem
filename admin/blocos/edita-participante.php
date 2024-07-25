@@ -46,7 +46,7 @@ $row = $pre->fetchAll();
                     <input name="nascimento" id="nascEdita" type="text" class="form-control" value="<?= convertDateToDMY($row[0]['nascimento']) ?>" pattern="\d{2}/\d{2}/\d{4}" required placeholder="dd/mm/aaaa" />
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label">Tipo de vínculo</label>                            
                     <select name="vinculo" class="form-control show-tick p-0" name="vinculo" required>
@@ -57,7 +57,7 @@ $row = $pre->fetchAll();
                     </select>
                 </div>
             </div> 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label">Perfil</label>
                     <select class="form-control p-0" name="perfil" required>
@@ -68,7 +68,7 @@ $row = $pre->fetchAll();
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="form-group">
                     <label for="" class="form-label">Pacote</label>                            
                     <select class="form-control show-tick p-0" name="pacote" required>
@@ -79,7 +79,7 @@ $row = $pre->fetchAll();
                         
                     </select>
                 </div>
-            </div> 
+            </div>  -->
             <div class="col-12">
                 <div class="form-group">
                     
@@ -104,34 +104,6 @@ $row = $pre->fetchAll();
 
 <script>
 $(document).ready(function() {
-    /*
-    // Função para calcular a idade com base na data de nascimento
-    function calculateAge(date) {
-        const today = new Date();
-        const birthDate = new Date(date);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDifference = today.getMonth() - birthDate.getMonth();
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    }
-
-    // Monitorar alterações no campo de data de nascimento
-    $('#fnascimento').on('change', function() {
-        const birthDate = $(this).val();
-        if (birthDate) {
-            const age = calculateAge(birthDate);
-            $('#idade').text(age);
-            $('#infoNascimento').show();
-        } else {
-            $('#infoNascimento').hide();
-        }
-    });
-
-    // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
-    $('#fnascimento').trigger('change');
-    */
 
     function calculateAge(date) {
             const today = new Date();
