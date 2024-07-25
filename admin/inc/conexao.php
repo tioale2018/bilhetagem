@@ -1,7 +1,12 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+
+// Inicia a sessão
+//session_start();
+
 
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];
