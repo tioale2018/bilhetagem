@@ -86,8 +86,9 @@ $row = $pre->fetchAll();
         <input type="hidden" name="idvinculado" value="<?= $participante ?>">
         <input type="hidden" name="identrada" value="<?= $row[0]['id_entrada'] ?>">
         
-        <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" name="btaddparticipante">Salvar e adicionar</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary btn-round waves-effect addparticipante" name="btaddparticipante">Salvar e adicionar</button>
+        
     </div>
 </form>
 
