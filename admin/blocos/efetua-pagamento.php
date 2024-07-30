@@ -14,7 +14,7 @@ include_once('../inc/funcao-tempo.php');
 
 $idprevenda = $_POST['idprevenda'];
 $pgto       = $_POST['pgto'];
-$tipopgto   = $_POST['tipopgto'];
+$tipopgto   = (isset($_POST['tipopgto']) ? $_POST['tipopgto'] : 0); //$_POST['tipopgto'];
 $horaagora  = time();
 
 //algoritmo para caso a saída seja zero pagamento
@@ -88,9 +88,9 @@ if (!isset($_POST['pagasaida'])) {
 
 } else {
     //procedimento pagamento saída
-    $idprevenda   = $_POST['idprevenda'];
-    $horafinaliza = $_POST['horafinaliza'];
-    $vinculados   = explode(',', $_POST['vinculados']);
+    $idprevenda         = $_POST['idprevenda'];
+    $horafinaliza       = $_POST['horafinaliza'];
+    $vinculados         = explode(',', $_POST['vinculados']);
     $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
     // die(var_dump($financeiro_detalha));
 

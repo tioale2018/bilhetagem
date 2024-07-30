@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/07/2024 às 06:45
+-- Tempo de geração: 25/07/2024 às 06:24
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -290,7 +290,7 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (232, 68, 37, 4, 4, 0, 3, '1720740490', '1721083081', 5608, 1, 7306.00, 1, 4.70, 90, 1.30, 0, 0, 12, '', 0),
 (233, 68, 43, 4, 4, 0, 4, '1720740490', '1721083081', 5637, 1, 7910.00, 1, 5.60, 60, 1.40, 0, 0, 13, '', 0),
 (234, 68, 44, 4, 4, 0, 4, '1720740490', '1720742764', 0, 0, 0.00, 1, 5.60, 60, 1.40, 0, 0, 13, '', 0),
-(235, 69, 81, 1, 4, 0, 1, '1720740599', '1722310782', 26163, 1, 26165.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
+(235, 69, 81, 1, 3, 0, 1, '1720740599', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (236, 70, 82, 5, 4, 0, 5, '1720740803', '1720741956', 6, 1, 15.00, 1, 35.00, 60, 1.00, 0, 0, 10, '', 0),
 (237, 71, 83, 5, 3, 0, 5, '1720740889', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (238, 72, 37, 4, 4, 0, 2, '1720742671', '1721431400', 11466, 1, 11469.00, 1, 3.70, 10, 1.00, 0, 0, 3, '', 0),
@@ -299,7 +299,7 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (241, 73, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (242, 73, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (243, 73, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(244, 74, 84, 2, 4, 0, 3, '1721868724', '1722309216', 7240, 1, 9427.60, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 1),
+(244, 74, 84, 2, 3, 0, 3, '1721868724', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 1),
 (245, 75, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (246, 75, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (247, 75, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
@@ -309,9 +309,9 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (251, 77, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (252, 77, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (253, 77, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(254, 78, 37, 4, 4, 0, 1, '1721868785', '1722309203', 7334, 1, 7335.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(254, 78, 37, 4, 3, 0, 1, '1721868785', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (255, 78, 43, 4, 2, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
-(256, 78, 44, 4, 4, 0, 1, '1721868785', '1722309203', 7334, 1, 7335.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(256, 78, 44, 4, 3, 0, 1, '1721868785', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (257, 78, 85, 2, 2, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
 (258, 79, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
 (259, 79, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
@@ -334,30 +334,30 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (276, 83, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (277, 83, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (278, 83, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(279, 84, 37, 4, 4, 0, 1, '1721869039', '1722299448', 7167, 1, 7168.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
-(280, 84, 43, 4, 4, 0, 1, '1721869039', '1722299448', 7167, 1, 7168.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
-(281, 84, 44, 4, 4, 0, 1, '1721869039', '1722299448', 7167, 1, 7168.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(279, 84, 37, 4, 3, 0, 1, '1721869039', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(280, 84, 43, 4, 3, 0, 1, '1721869039', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(281, 84, 44, 4, 3, 0, 1, '1721869039', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (282, 85, 92, 1, 3, 0, 2, '1721365583', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (283, 85, 93, 2, 3, 0, 3, '1721365583', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (284, 86, 37, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (285, 86, 43, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (286, 86, 44, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(287, 87, 37, 4, 4, 0, 1, '1722298753', '1722298764', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(287, 87, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
 (288, 87, 43, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (289, 87, 44, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (290, 88, 37, 4, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (291, 88, 43, 4, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (292, 88, 44, 4, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
 (293, 89, 37, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(294, 89, 43, 4, 4, 0, 1, '1722297949', '1722298697', 6, 1, 7.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 1),
+(294, 89, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
 (295, 89, 44, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(296, 90, 37, 4, 4, 0, 2, '1722299535', '1722299555', 0, 0, 0.00, 1, 3.70, 10, 1.00, 0, 0, 3, 'Lojista', 1),
+(296, 90, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 1),
 (297, 90, 43, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (298, 90, 44, 4, 0, 0, 0, '', '', 0, 0, 0.00, 0, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (299, 91, 94, 2, 3, 0, 4, '1721428177', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(300, 92, 95, 1, 4, 0, 1, '1722299692', '1722299699', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(301, 78, 96, 2, 4, 0, 1, '1721868785', '1722309203', 7334, 1, 7335.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
-(302, 78, 97, 3, 4, 0, 1, '1721868785', '1722309203', 7334, 1, 7335.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
+(300, 92, 95, 1, 1, 0, 1, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
+(301, 78, 96, 2, 3, 0, 1, '1721868785', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
+(302, 78, 97, 3, 3, 0, 1, '1721868785', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
 (303, 93, 37, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (304, 93, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (305, 93, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
@@ -365,19 +365,10 @@ INSERT INTO `tbentrada` (`id_entrada`, `id_prevenda`, `id_vinculado`, `perfil_ac
 (307, 94, 43, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (308, 94, 44, 4, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
 (309, 94, 98, 1, 1, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(310, 74, 99, 4, 4, 0, 3, '1721868724', '1722309216', 7240, 1, 9427.60, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 0),
+(310, 74, 99, 4, 3, 0, 3, '1721868724', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 0),
 (311, 88, 100, 2, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
 (312, 88, 101, 1, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
-(313, 88, 102, 1, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
-(314, 87, 103, 2, 4, 0, 2, '1722298753', '1722298764', 0, 0, 0.00, 1, 3.70, 10, 1.00, 0, 0, 3, 'Lojista', 0),
-(315, 95, 37, 4, 3, 0, 3, '1722310817', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 0),
-(316, 95, 43, 4, 3, 0, 1, '1722310817', '', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0),
-(317, 95, 44, 4, 3, 0, 3, '1722310817', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 0),
-(318, 95, 100, 4, 3, 0, 2, '1722310817', '', 0, 0, 0.00, 1, 3.70, 10, 1.00, 0, 0, 3, 'Lojista', 0),
-(319, 96, 37, 4, 2, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(320, 96, 43, 4, 2, 0, 0, '', '', 0, 0, 0.00, 1, 0.00, 0, 0.00, 0, 0, 0, '', 0),
-(321, 96, 44, 4, 3, 0, 3, '1722311046', '', 0, 0, 0.00, 1, 4.70, 90, 1.30, 0, 0, 12, 'Outros', 0),
-(322, 96, 100, 4, 3, 0, 2, '1722311046', '', 0, 0, 0.00, 1, 3.70, 10, 1.00, 0, 0, 3, 'Lojista', 0);
+(313, 88, 102, 1, 4, 0, 1, '1721869216', '1721869285', 0, 0, 0.00, 1, 2.80, 5, 1.00, 0, 0, 2, 'Visit ante 2.8', 0);
 
 -- --------------------------------------------------------
 
@@ -400,18 +391,16 @@ CREATE TABLE `tbevento` (
   `regras_parque` varchar(2500) NOT NULL,
   `msg_fimreserva` varchar(2500) NOT NULL,
   `capacidade` int(11) NOT NULL,
-  `tempo_atualiza` int(11) NOT NULL,
-  `mostra_tempo` int(11) NOT NULL,
-  `tempo_tela` int(11) NOT NULL
+  `tempo_atualiza` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbevento`
 --
 
-INSERT INTO `tbevento` (`id_evento`, `titulo`, `local`, `cidade`, `inicio`, `fim`, `status`, `modo_pgto`, `hash`, `regras_home`, `regras_cadastro`, `regras_parque`, `msg_fimreserva`, `capacidade`, `tempo_atualiza`, `mostra_tempo`, `tempo_tela`) VALUES
-(1, 'Metropolitan Parque Multi', 'Metropolitan', 'Rio de Janeiro', '1715180400', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget varius neque. Morbi id convallis mauris, et ultricies nunc. Nunc tristique sodales tincidunt. Maecenas vel placerat nibh. Vivamus vehicula porta aliquet. Ut suscipit neque eu lobortis facilisis. Curabitur in aliquet mauris. </p> <p>Sed feugiat nulla eget lorem fringilla, et rutrum purus aliquet. Suspendisse est nunc, efficitur id tincidunt nec, suscipit sagittis ipsum. Donec tortor ex, semper a elementum quis, lacinia egestas nibh. Nullam vitae maximus metus. Vestibulum faucibus, ligula quis molestie dignissim, nibh lorem tincidunt tortor, vitae malesuada ipsum urna eu ligula.</p>', '<h2>Obrigado!</h2> <h3>Dirija-se à fila!</h3>', 100, 0, 1, 1000),
-(2, 'Park Shopping Cmapo grande', 'campo grande', 'São Paulo', '', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget varius neque. Morbi id convallis mauris, et ultricies nunc. Nunc tristique sodales tincidunt. Maecenas vel placerat nibh. Vivamus vehicula porta aliquet. Ut suscipit neque eu lobortis facilisis. Curabitur in aliquet mauris. </p> <p>Sed feugiat nulla eget lorem fringilla, et rutrum purus aliquet. Suspendisse est nunc, efficitur id tincidunt nec, suscipit sagittis ipsum. Donec tortor ex, semper a elementum quis, lacinia egestas nibh. Nullam vitae maximus metus. Vestibulum faucibus, ligula quis molestie dignissim, nibh lorem tincidunt tortor, vitae malesuada ipsum urna eu ligula.</p>', '<h2>Obrigado!</h2> <h3>Dirija-se à fila!</h3>', 100, 0, 1, 3600);
+INSERT INTO `tbevento` (`id_evento`, `titulo`, `local`, `cidade`, `inicio`, `fim`, `status`, `modo_pgto`, `hash`, `regras_home`, `regras_cadastro`, `regras_parque`, `msg_fimreserva`, `capacidade`, `tempo_atualiza`) VALUES
+(1, 'Metropolitan Parque Multi', 'Metropolitan', 'Rio de Janeiro', '1715180400', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget varius neque. Morbi id convallis mauris, et ultricies nunc. Nunc tristique sodales tincidunt. Maecenas vel placerat nibh. Vivamus vehicula porta aliquet. Ut suscipit neque eu lobortis facilisis. Curabitur in aliquet mauris. </p> <p>Sed feugiat nulla eget lorem fringilla, et rutrum purus aliquet. Suspendisse est nunc, efficitur id tincidunt nec, suscipit sagittis ipsum. Donec tortor ex, semper a elementum quis, lacinia egestas nibh. Nullam vitae maximus metus. Vestibulum faucibus, ligula quis molestie dignissim, nibh lorem tincidunt tortor, vitae malesuada ipsum urna eu ligula.</p>', '<h2>Obrigado!</h2> <h3>Dirija-se à fila!</h3>', 100, 0),
+(2, 'Park Shopping Cmapo grande', 'campo grande', 'São Paulo', '', '', 2, 0, '0', '<div style=\\\"font-family: Arial, sans-serif; text-align: left\\\"><p style=\\\"color: #666; padding-bottom: 10px;\\\">Ao utilizar este serviço, você concorda com os seguintes termos:</p><ol style=\\\"color: #666; margin-left: 20px;\\\"><li>Os usuários devem respeitar os direitos de propriedade intelectual de terceiros.</li><li>Não é permitido utilizar este serviço para atividades ilegais ou antiéticas.</li><li>O conteúdo gerado pelos usuários deve ser adequado e respeitoso.</li><li>Os usuários são responsáveis por manter a segurança de suas contas.</li></ol><p style=\\\"color: #666;\\\">Ao continuar, você concorda em cumprir estas regras e termos de uso.</p></div>', '<h4>Atenção</h4>                                 <p>Antes de finalizar o seu pedido, certifique-se de ter autorizado cada um dos participantes contidos nesta solicitação. Para isso, basta clicar no botão \"Autorizar\" ao lado do nome do participante, ler o termo até o final, marcar a caixa de confirmação e clicar no botão salvar. Caso seja feito alguma edição nos dados do participante, será necessário realizar esta operação novamente. </p>', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget varius neque. Morbi id convallis mauris, et ultricies nunc. Nunc tristique sodales tincidunt. Maecenas vel placerat nibh. Vivamus vehicula porta aliquet. Ut suscipit neque eu lobortis facilisis. Curabitur in aliquet mauris. </p> <p>Sed feugiat nulla eget lorem fringilla, et rutrum purus aliquet. Suspendisse est nunc, efficitur id tincidunt nec, suscipit sagittis ipsum. Donec tortor ex, semper a elementum quis, lacinia egestas nibh. Nullam vitae maximus metus. Vestibulum faucibus, ligula quis molestie dignissim, nibh lorem tincidunt tortor, vitae malesuada ipsum urna eu ligula.</p>', '<h2>Obrigado!</h2> <h3>Dirija-se à fila!</h3>', 100, 0);
 
 -- --------------------------------------------------------
 
@@ -562,7 +551,7 @@ INSERT INTO `tbfinanceiro` (`id`, `id_prevenda`, `tp_cobranca`, `valor`, `forma_
 (104, 70, 4, 15.00, 2, 1, '1720742051', 0),
 (105, 66, 4, 214.00, 1, 1, '1720742575', 0),
 (106, 72, 1, 6.50, 2, 1, '1720742671', 0),
-(107, 68, 4, 0.00, 0, 1, '1720742772', 0),
+(107, 68, 4, 0.00, 1, 1, '1720742772', 0),
 (108, 68, 4, 15216.00, 1, 1, '1721083090', 0),
 (109, 85, 1, 8.40, 2, 1, '1721365583', 0),
 (110, 91, 1, 5.60, 2, 1, '1721428177', 0),
@@ -571,21 +560,7 @@ INSERT INTO `tbfinanceiro` (`id`, `id_prevenda`, `tp_cobranca`, `valor`, `forma_
 (113, 78, 1, 11.20, 1, 1, '1721868785', 0),
 (114, 84, 1, 8.40, 1, 1, '1721869039', 0),
 (115, 88, 1, 16.80, 2, 1, '1721869216', 0),
-(116, 88, 4, 0.00, 4, 1, '1721869296', 0),
-(117, 89, 1, 2.80, 1, 1, '1722297949', 0),
-(118, 89, 4, 7.00, 1, 1, '1722298703', 0),
-(119, 87, 1, 6.50, 2, 1, '1722298753', 0),
-(120, 87, 4, 0.00, 0, 1, '1722298775', 0),
-(121, 84, 4, 21504.00, 1, 1, '1722299457', 0),
-(122, 90, 1, 3.70, 2, 1, '1722299535', 0),
-(123, 90, 4, 0.00, 0, 1, '1722299567', 0),
-(124, 92, 1, 2.80, 3, 1, '1722299692', 0),
-(125, 92, 4, 0.00, 0, 1, '1722299708', 0),
-(126, 78, 4, 29340.00, 2, 1, '1722309209', 0),
-(127, 74, 4, 18855.20, 2, 1, '1722309222', 0),
-(128, 69, 4, 26165.00, 2, 1, '1722310787', 0),
-(129, 95, 1, 15.90, 2, 1, '1722310817', 0),
-(130, 96, 1, 8.40, 2, 1, '1722311046', 0);
+(116, 88, 4, 0.00, 4, 1, '1721869296', 0);
 
 -- --------------------------------------------------------
 
@@ -870,33 +845,7 @@ INSERT INTO `tbfinanceiro_detalha` (`iddetalha`, `idprevenda`, `identrada`, `idf
 (257, 88, 311, 116, '1721869285', 1, '1721869296', 0.00, 4, 2),
 (258, 88, 292, 116, '1721869285', 1, '1721869296', 0.00, 4, 2),
 (259, 88, 291, 116, '1721869285', 1, '1721869296', 0.00, 4, 2),
-(260, 88, 290, 116, '1721869285', 1, '1721869296', 0.00, 4, 2),
-(261, 89, 294, 0, '', 0, '1722297949', 2.80, 1, 1),
-(262, 89, 294, 118, '1722298697', 12, '1722298703', 7.00, 1, 2),
-(263, 87, 287, 0, '', 0, '1722298753', 2.80, 2, 1),
-(264, 87, 314, 0, '', 0, '1722298753', 3.70, 2, 1),
-(265, 87, 314, 120, '1722298764', 0, '1722298775', 0.00, 0, 2),
-(266, 87, 287, 120, '1722298764', 0, '1722298775', 0.00, 0, 2),
-(267, 84, 281, 121, '1722299448', 7173, '1722299457', 7168.00, 1, 2),
-(268, 84, 280, 121, '1722299448', 7173, '1722299457', 7168.00, 1, 2),
-(269, 84, 279, 121, '1722299448', 7173, '1722299457', 7168.00, 1, 2),
-(270, 90, 296, 0, '', 0, '1722299535', 3.70, 2, 1),
-(271, 90, 296, 123, '1722299555', 0, '1722299567', 0.00, 0, 2),
-(272, 92, 300, 0, '', 0, '1722299692', 2.80, 3, 1),
-(273, 92, 300, 125, '1722299699', 0, '1722299708', 0.00, 0, 2),
-(274, 78, 302, 126, '1722309203', 7340, '1722309209', 7335.00, 2, 2),
-(275, 78, 301, 126, '1722309203', 7340, '1722309209', 7335.00, 2, 2),
-(276, 78, 256, 126, '1722309203', 7340, '1722309209', 7335.00, 2, 2),
-(277, 78, 254, 126, '1722309203', 7340, '1722309209', 7335.00, 2, 2),
-(278, 74, 310, 127, '1722309216', 7342, '1722309222', 9427.60, 2, 2),
-(279, 74, 244, 127, '1722309216', 7342, '1722309222', 9427.60, 2, 2),
-(280, 69, 235, 128, '1722310782', 26170, '1722310787', 26165.00, 2, 2),
-(281, 95, 316, 0, '', 0, '1722310817', 2.80, 2, 1),
-(282, 95, 318, 0, '', 0, '1722310817', 3.70, 2, 1),
-(283, 95, 315, 0, '', 0, '1722310817', 4.70, 2, 1),
-(284, 95, 317, 0, '', 0, '1722310817', 4.70, 2, 1),
-(285, 96, 322, 0, '', 0, '1722311046', 3.70, 2, 1),
-(286, 96, 321, 0, '', 0, '1722311046', 4.70, 2, 1);
+(260, 88, 290, 116, '1721869285', 1, '1721869296', 0.00, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -1059,34 +1008,32 @@ INSERT INTO `tbprevenda` (`id_prevenda`, `id_responsavel`, `id_evento`, `data_ac
 (66, 18, 1, '2024-07-03', 6, '1720054366', '1720735853', 0, 0.00, '', '', 1),
 (67, 23, 1, '2024-07-04', 6, '1720062960', '1720067481', 0, 0.00, '', '', 2),
 (68, 18, 1, '2024-07-11', 6, '1720740391', '1720740490', 0, 0.00, '', '', 2),
-(69, 24, 1, '2024-07-11', 6, '1720740551', '1720740599', 0, 0.00, '', '', 2),
+(69, 24, 1, '2024-07-11', 2, '1720740551', '1720740599', 0, 0.00, '', '', 2),
 (70, 25, 2, '2024-07-11', 6, '1720740668', '1720740803', 0, 0.00, '', '', 2),
 (71, 26, 2, '2024-07-11', 2, '1720740843', '1720740889', 0, 0.00, '', '', 2),
 (72, 18, 1, '2024-07-11', 5, '1720742654', '1720742671', 0, 0.00, '', '', 2),
 (73, 18, 1, '2024-07-15', 0, '1721069209', '', 0, 0.00, '', '', 1),
-(74, 27, 1, '2024-07-15', 6, '1721069298', '1721868724', 0, 0.00, '', '1721070773', 1),
+(74, 27, 1, '2024-07-15', 2, '1721069298', '1721868724', 0, 0.00, '', '1721070773', 1),
 (75, 18, 1, '2024-07-15', 0, '1721072970', '', 0, 0.00, '', '', 1),
 (76, 18, 1, '2024-07-15', 0, '1721072990', '', 0, 0.00, '', '', 1),
 (77, 18, 1, '2024-07-15', 0, '1721073040', '', 0, 0.00, '', '', 1),
-(78, 18, 1, '2024-07-15', 6, '1721077914', '1721868785', 0, 0.00, '', '1721081476', 1),
+(78, 18, 1, '2024-07-15', 2, '1721077914', '1721868785', 0, 0.00, '', '1721081476', 1),
 (79, 18, 1, '2024-07-15', 0, '1721081994', '', 0, 0.00, '', '', 1),
 (80, 18, 1, '2024-07-15', 0, '1721082457', '', 0, 0.00, '', '', 1),
 (81, 18, 1, '2024-07-18', 0, '1721324952', '', 0, 0.00, '', '', 1),
 (82, 18, 1, '2024-07-18', 0, '1721325057', '', 0, 0.00, '', '', 1),
 (83, 18, 1, '2024-07-18', 0, '1721340021', '', 0, 0.00, '', '', 1),
-(84, 18, 1, '2024-07-18', 6, '1721340171', '1721869039', 0, 0.00, '', '1721414351', 1),
+(84, 18, 1, '2024-07-18', 2, '1721340171', '1721869039', 0, 0.00, '', '1721414351', 1),
 (85, 28, 1, '2024-07-19', 2, '1721361778', '1721365583', 0, 0.00, '', '', 2),
 (86, 18, 1, '2024-07-19', 0, '1721416605', '', 0, 0.00, '', '', 1),
-(87, 18, 1, '2024-07-19', 6, '1721422333', '1722298753', 0, 0.00, '', '1721422435', 1),
+(87, 18, 1, '2024-07-19', 1, '1721422333', '', 0, 0.00, '', '1721422435', 1),
 (88, 18, 1, '2024-07-19', 6, '1721422444', '1721869216', 0, 0.00, '', '1721422618', 1),
-(89, 18, 1, '2024-07-19', 6, '1721423263', '1722297949', 0, 0.00, '', '1721425767', 1),
-(90, 18, 1, '2024-07-19', 6, '1721427378', '1722299535', 0, 0.00, '', '1721427716', 1),
+(89, 18, 1, '2024-07-19', 1, '1721423263', '', 0, 0.00, '', '1721425767', 1),
+(90, 18, 1, '2024-07-19', 1, '1721427378', '', 0, 0.00, '', '1721427716', 1),
 (91, 29, 1, '2024-07-19', 2, '1721428099', '1721428177', 0, 0.00, '', '', 2),
-(92, 30, 1, '2024-07-19', 6, '1721428559', '1722299692', 0, 0.00, '', '', 2),
+(92, 30, 1, '2024-07-19', 1, '1721428559', '', 0, 0.00, '', '', 2),
 (93, 18, 1, '2024-07-24', 0, '1721843964', '', 0, 0.00, '', '', 1),
-(94, 18, 1, '2024-07-24', 9, '1721851266', '', 0, 0.00, '', '', 1),
-(95, 18, 1, '2024-07-30', 2, '1722310802', '1722310817', 0, 0.00, '', '', 2),
-(96, 18, 1, '2024-07-30', 2, '1722311024', '1722311046', 0, 0.00, '', '', 2);
+(94, 18, 1, '2024-07-24', 9, '1721851266', '', 0, 0.00, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -1193,14 +1140,7 @@ INSERT INTO `tbuserlog` (`id`, `idusuario`, `datahora`, `codigolog`, `ipusuario`
 (7, 1, '1721360112', 1, '127.0.0.1', 'login de usuário'),
 (8, 1, '1721414621', 1, '::1', 'login de usuário'),
 (9, 1, '1721427745', 1, '::1', 'login de usuário'),
-(10, 1, '1721853261', 1, '127.0.0.1', 'login de usuário'),
-(11, 1, '1722296840', 1, '127.0.0.1', 'login de usuário'),
-(12, 1, '1722298690', 1, '127.0.0.1', 'login de usuário'),
-(13, 1, '1722301107', 1, '127.0.0.1', 'login de usuário'),
-(14, 1, '1722303321', 1, '127.0.0.1', 'login de usuário'),
-(15, 1, '1722305001', 1, '127.0.0.1', 'login de usuário'),
-(16, 1, '1722309198', 1, '127.0.0.1', 'login de usuário'),
-(17, 1, '1722310177', 1, '127.0.0.1', 'login de usuário');
+(10, 1, '1721853261', 1, '127.0.0.1', 'login de usuário');
 
 -- --------------------------------------------------------
 
@@ -1366,8 +1306,7 @@ INSERT INTO `tbvinculados` (`id_vinculado`, `id_responsavel`, `nome`, `nasciment
 (99, 27, 'fulaninho zero', '2019-10-10', 2, 0),
 (100, 18, 'asdasdas', '2000-05-05', 2, 1),
 (101, 18, 'aasdasda', '2010-10-10', 1, 0),
-(102, 18, 'menorzim', '2016-06-06', 2, 0),
-(103, 18, 'menozim', '2005-05-05', 2, 0);
+(102, 18, 'menorzim', '2016-06-06', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -1499,7 +1438,7 @@ ALTER TABLE `tbvinculo`
 -- AUTO_INCREMENT de tabela `tbentrada`
 --
 ALTER TABLE `tbentrada`
-  MODIFY `id_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
+  MODIFY `id_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=314;
 
 --
 -- AUTO_INCREMENT de tabela `tbevento`
@@ -1517,13 +1456,13 @@ ALTER TABLE `tbevento_ativo`
 -- AUTO_INCREMENT de tabela `tbfinanceiro`
 --
 ALTER TABLE `tbfinanceiro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT de tabela `tbfinanceiro_detalha`
 --
 ALTER TABLE `tbfinanceiro_detalha`
-  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
+  MODIFY `iddetalha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
 
 --
 -- AUTO_INCREMENT de tabela `tbimpressos`
@@ -1547,7 +1486,7 @@ ALTER TABLE `tbperfil_acesso`
 -- AUTO_INCREMENT de tabela `tbprevenda`
 --
 ALTER TABLE `tbprevenda`
-  MODIFY `id_prevenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id_prevenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de tabela `tbresponsavel`
@@ -1565,7 +1504,7 @@ ALTER TABLE `tbtermo`
 -- AUTO_INCREMENT de tabela `tbuserlog`
 --
 ALTER TABLE `tbuserlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `tbusuarios`
@@ -1583,7 +1522,7 @@ ALTER TABLE `tbusuarios_evento`
 -- AUTO_INCREMENT de tabela `tbvinculados`
 --
 ALTER TABLE `tbvinculados`
-  MODIFY `id_vinculado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id_vinculado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de tabela `tbvinculo`

@@ -47,6 +47,7 @@ $tpcobranca[2] = "Saida";
 $tpcobranca[3] = "Extra";
 $tpcobranca[4] = "Saída + Extra";
 
+$formapgto[0] = "N/A";
 $formapgto[1] = "Cartão de crédito";
 $formapgto[2] = "Cartão de debito";
 $formapgto[3] = "Dinheiro";

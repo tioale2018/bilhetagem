@@ -167,6 +167,7 @@ foreach ($rows as $row) {
                         <form action="" method="post" id="formpgto" class="row">
                             
                             <div class="col-md-4">
+                            <?php if ($total>0) { ?>
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
@@ -177,6 +178,8 @@ foreach ($rows as $row) {
                                         <tr>
                                             
                                             <td>
+                                               
+
                                             <select class="form-control show-tick p-0" name="tipopgto" id="ftipopgto" required>
                                                 <option value="">Escolha</option>
                                                 <option value="1">Cartão de crédito</option>
@@ -185,10 +188,12 @@ foreach ($rows as $row) {
                                                 <option value="4">Pix</option>
                                                 <option value="5">Misto</option>
                                             </select>
+                                           
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <?php }  ?>
                             </div>
                             <div class="col-md-7 text-right">
                             <p class="m-b-0"><b>Valor a pagar:</b>
@@ -208,7 +213,7 @@ foreach ($rows as $row) {
                                 <input type="hidden" name="pgtodetalha" value='<?= htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8') ?>'>
                                 <hr>
                                 <!-- <button class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button> -->
-                                <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
+                                <button class="btn btn-raised btn-primary btn-round" type="submit"><?= ($total>0?'Efetuar pagamento':'Efetuar saída') ?> </button>
                             </div>
                         </form>
 
@@ -249,12 +254,12 @@ $(document).ready(function(){
         //     swal("Erro", "Valor informado não confere com o valor total devido", "error");
         // } else {
             swal({
-                    title: "Deseja efetuar este pagamento",
+                    title: "Deseja efetuar est<?= ($total>0?'e pagamento':'a saída') ?>",
                     text: "Sub texto desta operação",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Sim, efetuar pagamento",
+                    confirmButtonText: "Sim, efetuar <?= ($total>0?'pagamento':'saída') ?>",
                     cancelButtonText: "Não, cancelar e retornar",
                     closeOnConfirm: false,
                     closeOnCancel: true
@@ -264,12 +269,12 @@ $(document).ready(function(){
                         $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
                             swal({
                                   title: "Concluído", 
-                                  text: data + " Pagamento efetuado com sucesso!",
+                                  text: data + "Efetuado com sucesso!",
                                   showCancelButton: false,
                                   type: "success"
                                 }, function(){
-                                    //location.href="controle.php";
-                                    printAnotherDocument('comprovante.php', '#formImpressao');
+                                    location.href="controle.php";
+                                    //printAnotherDocument('comprovante.php', '#formImpressao');
                             })
                            //console.log(data);
                         });

@@ -8,7 +8,8 @@ include_once('./inc/funcoes-gerais.php');
     .expired {
         background-color: #f7a8ad;
     }
-</style>
+
+    </style>
 
 <?php
 
@@ -107,6 +108,9 @@ $row = $pre->fetchAll();
         </div>
     </div>
 </section>
+
+
+
 
 <?php include_once('./inc/controle-modal.php') ?>
 <?php include_once('./inc/javascript.php') ?>
