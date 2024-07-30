@@ -18,7 +18,6 @@
 <!-- <script src="../assets/plugins/chartjs/polar_area_chart.js"></script> -->
 <!-- Polar Area Chart Js --> 
 
-
 <!-- <script src="../assets/js/pages/index.js"></script> -->
 <!-- <script src="../assets/js/pages/charts/polar_area_chart.js"></script> -->
 
@@ -30,3 +29,9 @@
 <script src="../assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
 <script src="../assets/js/pages/ui/dialogs.js?i=<?= filemtime('../assets/js/pages/ui/dialogs.js'); ?>"></script>
 <script src="../assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+<?php 
+
+include_once('./inc/conta-tempo.php');
+
+?>

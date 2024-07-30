@@ -34,7 +34,7 @@ $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padra
 //----------------------------------------------------------------------------------------------------------------
 
 if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
-    header('Location: entrada-nova.php');
+    header('Location: entrada-nova');
 }
 
 $idprevenda = $_GET['item'];
@@ -46,7 +46,7 @@ $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 $pre->execute();
 
 if ($pre->rowCount()<1) {
-    header('Location: controle.php');
+    header('Location: controle');
 }
 
 $row = $pre->fetchAll();
@@ -178,7 +178,7 @@ $row = $pre->fetchAll();
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
-                                    <a class="btn btn-raised btn-primary waves-effect btn-round" href="entrada-nova.php">Retornar</a>                               
+                                    <a class="btn btn-raised btn-primary waves-effect btn-round" href="entrada-nova">Retornar</a>                               
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -278,7 +278,7 @@ $row = $pre->fetchAll();
                 }, function (isConfirm) {
                     if (isConfirm) {
                         
-                        $.post("./blocos/prevenda-exclui.php", { i: <?= $_GET['item'] ?> }, function(data){
+                        $.post("./blocos/prevenda-exclui", { i: <?= $_GET['item'] ?> }, function(data){
                             window.location.href = 'controle.php';
                         });
                         

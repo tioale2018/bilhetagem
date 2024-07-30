@@ -11,7 +11,7 @@
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];
 
- if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16' || $server_name == 'host003') {
+ if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16' || $server_name == 'host.bilhetagem') {
   # code...
   $username = "root";
   $password = "";

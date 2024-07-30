@@ -76,7 +76,7 @@ $textoBtErro = 'Verifique pacotes pendentes'
                     <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
                     <td><?= $row[$key]['perfil'] ?></td>
                     <td>
-                        <select class="form-control show-tick p-0" data-identrada="<?= $row[$key]['id_entrada'] ?>">
+                        <select class="form-control p-0" data-identrada="<?= $row[$key]['id_entrada'] ?>">
                             <option value="">Escolha</option>
                             <?php foreach ($_SESSION['lista_pacotes'] as $k => $v) { ?>
                             <option <?= ($v['id_pacote']==$row[$key]['id_pacote']?'selected':'') ?> value="<?= $v['id_pacote'] ?>"><?= $v['descricao'] ?> (<?= $v['rotulo_cliente'] ?>)</option>

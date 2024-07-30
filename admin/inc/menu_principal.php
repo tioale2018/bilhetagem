@@ -11,6 +11,13 @@
                             <li><a href="entrada-nova">Nova entrada</a></li>
                         </ul>
                     </li>
+                    <li><a href="javascript:void(0)">Impressão</a>
+                        <ul class="sub-menu">
+                            <!-- <li><a href="dashboard">Relatórios</a></li> -->
+                            <li><a href="reimprime">Re-imprimir entrada</a></li>
+                        </ul>
+                    </li>
+
                     <!-- <li><a href="javascript:void(0)">Cadastro</a></li>
                     <li><a href="javascript:void(0)">Relatório</a></li> -->
                     

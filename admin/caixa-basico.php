@@ -26,6 +26,7 @@ function generateSqlQuery($date) {
     }
 
     $sql_busca_pgto = generateSqlQuery($dataRelata);
+    // die($sql_busca_pgto);
     $pre_busca_pgto = $connPDO->prepare($sql_busca_pgto);
     $pre_busca_pgto->execute();
     $row_busca_pgto = $pre_busca_pgto->fetchAll();
@@ -88,7 +89,7 @@ function generateSqlQuery($date) {
 <table class="table table-hover">
 <thead>
     <tr>
-        <th>#Pagto</th>                                                        
+                                                                
         <th>Ticket venda</th>
         <th>Cobrança</th>
         <th>Forma pgto</th>
@@ -99,7 +100,7 @@ function generateSqlQuery($date) {
 <tbody>
 <?php if($pre_busca_pgto->rowCount() < 1) { ?>
         <tr>
-            <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
+            <td colspan="6" style="text-align: center">Nenhum resultado encontrado</td>
         </tr>
 <?php } else { 
 
@@ -107,7 +108,7 @@ function generateSqlQuery($date) {
         $total = $total + $value['valor'];
         ?>
     <tr>
-        <th><?= $value['id'] ?></th>       
+            
         <th><?= $value['id_prevenda'] ?></th>
         <th><?= $tpcobranca[$value['tp_cobranca']] ?></th>
         <th><?= $formapgto[$value['forma_pgto']] ?></th>
