@@ -42,6 +42,8 @@
     </div>
 </div>
 
+<div class="loader-aguarde"></div>
+
 
 <script>
 $(document).ready(function(){
