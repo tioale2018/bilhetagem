@@ -56,7 +56,7 @@ if ($pre->rowCount()>0) {
     <div class="blocks">
         <div class="input-group">
             <input name="nome" type="text" class="form-control" placeholder="Nome" required value="<?= $var_nome ?>">
-            <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+            <span class="input-group-addon"><i class="material-icons">spellcheck</i></span>
         </div>
         
         <div class="input-group">
