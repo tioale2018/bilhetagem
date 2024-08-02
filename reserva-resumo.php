@@ -6,6 +6,7 @@ if (!isset($_SESSION['dadosResponsavel'])) {
 }
 //include_once("./inc/cad-participantes-regras.php");
 include('./inc/conexao.php');
+include('./inc/funcoes.php');
 
 $evento            = $_SESSION['row'];
 $evento_atual      = $_SESSION['evento_atual'];
@@ -104,20 +105,13 @@ include_once("./inc/head.php");
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0"><strong>Data: </strong> <?= date('d/m/Y H:i', $horaAgora) ?></p>
-                                <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
-                                <p><strong>Ticket ID: </strong> #<?= $row['0']['id_prevenda'] ?></p>
-                                
-                            </div>
-                            <div class="col-md-6 col-sm-6" style="text-align: right">
-                            <address>
-                                    <strong><?= $row['0']['nomeresponsavel'] ?></strong><br>
-                                    <?= $row['0']['telefone1'] ?><br>
-                                    
-                                </address>
+                                <p class="m-b-0"><strong>Responsável: </strong> <?= $row['0']['nomeresponsavel'] ?></p>
+                                <p class="m-b-0"><strong>CPF: </strong> <?= formatarCPF($row['0']['cpf']) ?></p>
+                                <p class="m-b-0"><strong>Telefone: </strong> <?= $row['0']['telefone1'] ?><br></p>                                
                             </div>
                         </div>
                         <div class="mt-40"></div>
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-md-12">
                                 <div class="table-responsive">
                                     <table class="table table-hover">

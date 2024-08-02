@@ -74,7 +74,7 @@ $rowNum = $pre->rowCount();
                                 $textoBtEnvia = $textoBtErro;
                                 echo '<a href="#" class="btnModalTermoParticipante" data-id="'.$row[$key]['id_entrada'].'"><span class="badge badge-danger">Autorizar</span></a>';
                             } else {
-                                echo '<span class="badge badge-success">OK</span>';
+                                echo '<span class="badge badge-success">Autorizado</span>';
                             }
                         ?>
                     </td>

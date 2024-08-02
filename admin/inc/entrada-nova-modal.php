@@ -24,7 +24,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone1" class="form-label">Telefone 1</label>
-                                    <input id="telefone1" name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="" />
+                                    <input id="telefone1" name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -36,7 +36,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>
-                                    <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="" required />
+                                    <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="" />
                                 </div>
                             </div> 
 

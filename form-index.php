@@ -58,17 +58,18 @@ if ($pre->rowCount()>0) {
             <input name="nome" type="text" class="form-control" placeholder="Nome" required value="<?= $var_nome ?>">
             <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
         </div>
-        <div class="input-group">
-            <input name="email" type="email" placeholder="E-mail" class="form-control" required value="<?= $var_email ?>" />
-            <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-        </div>
+        
         <div class="input-group">
             <input name="telefone" type="text" placeholder="Telefone" class="form-control" required value="<?= $var_telefone ?>" />
-            <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-        </div>              
+            <span class="input-group-addon"><i class="material-icons">phone</i></span>
+        </div>   
+        <div class="input-group">
+            <input name="email" type="email" placeholder="E-mail" class="form-control" value="<?= $var_email ?>" />
+            <span class="input-group-addon"><i class="material-icons">email</i></span>
+        </div>           
     </div>              
     <div class="checkbox">
-        <input id="termos" type="checkbox" name="termos">
+        <input id="termos" type="checkbox" name="termos" required>
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
     </div>                            
 
@@ -84,7 +85,12 @@ if ($pre->rowCount()>0) {
         $('input[name="nome"]').focus();
 
         
-
+        $('input[name=telefone]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                $('input[name=telefone]').mask(mask, options);
+            }
+        });
         
     });
 </script>

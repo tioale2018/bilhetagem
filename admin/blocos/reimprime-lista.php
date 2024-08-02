@@ -14,7 +14,9 @@ $hoje = date('Y-m-d', time());
 
 $sql_busca = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel FROM tbprevenda 
 inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel 
-WHERE tbprevenda.prevenda_status=2 and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
+WHERE tbprevenda.prevenda_status in (2,5,6) and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
+
+// die($sql_busca);
 
 $res_busca = $connPDO->prepare($sql_busca);
 $res_busca->bindParam(':cpf', $cpf);
@@ -32,6 +34,7 @@ if (count($row_busca)>0) {
                     <th>Ticket</th>                                                        
                     <th>Responsável</th>
                     <th>H. Entrada</th>
+                    <th>H. Saída</th>
                     <th>Imprimir</th>
                 </tr>
             </thead>                                
@@ -41,6 +44,7 @@ if (count($row_busca)>0) {
                     <td><?= $value['id_prevenda'] ?></td>
                     <td><?= $value['nome_responsavel'] ?></td>
                     <td><?= date('d/m/Y H:i:s', $value['datahora_efetiva']); ?></td>
+                    <td><?= ($value['prevenda_status']==6?date('d/m/Y H:i:s', $value['datahora_efetiva_saida']):'<span style="color:red">Ativa</span>'); ?></td>
                     <td>
                         <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
                     </td>
@@ -74,7 +78,7 @@ if (count($row_busca)>0) {
 
             $.ajax({
                 method: "POST",
-                url: './comprovante.php',
+                url: './blocos/reimprime-comprovante.php',
                 data: {idprevenda: prevenda, entradasaida: 1},
                 success: function(data) {
                     var printFrame = document.getElementById('printFrame');

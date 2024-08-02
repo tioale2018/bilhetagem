@@ -2,11 +2,7 @@
 <?php include('./inc/conexao.php') ?>
 <?php 
 
-$sql = "SELECT tbprevenda.id_prevenda, tbresponsavel.id_responsavel, tbresponsavel.nome, tbresponsavel.cpf, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.prevenda_status FROM tbprevenda inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
-where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1";
-$pre = $connPDO->prepare($sql);
-$pre->execute();
-$row = $pre->fetchAll();
+
 
 ?>
 </head>
@@ -44,33 +40,8 @@ $row = $pre->fetchAll();
                             </li>                            
                         </ul>
                     </div>
-                    <div class="body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>Acesso</th>
-                                        <th>Responsável</th>
-                                        <th>CPF</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>                                
-                                <tbody>
-                                    <?php  foreach ($row as $key => $value) { ?>
-                                    <tr>
-                                        <td><?= date('d/m/Y', $value['datahora_solicita']) ?></td>
-                                        <td><?= $value['nome'] ?></td>
-                                        <td><?= $value['cpf'] ?></td>
-                                        <td><span class="badge badge-default"><?=  ($value['prevenda_status']==1?'Agendado':'Outro') ?></span></td>
-                                        <td>
-                                            <a class="btn btn-icon btn-neutral btn-icon-mini margin-0" href="entrada-form?item=<?=  $value['id_prevenda'] ?>"><i class="zmdi zmdi-sign-in"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="body" id="entrada-nova-lista">
+                        
                     </div>
                 </div>
             </div>
@@ -82,7 +53,7 @@ $row = $pre->fetchAll();
 <?php include('./inc/javascript.php') ?>
 
 
-<?php if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
+<?php /* if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
 <script>
    // Função para recarregar a página
    function recarregarPagina() {
@@ -90,6 +61,33 @@ $row = $pre->fetchAll();
     }
     setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?> ); 
 </script>
-<?php } ?>
+<?php } */ ?>
+
+<script>
+
+$(document).ready(function(){
+    $('#entrada-nova-lista').load('./blocos/entrada-nova-lista.php', { i: 1 });
+
+    <?php if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
+    function recarregarPagina() {
+        $('#entrada-nova-lista').load('./blocos/entrada-nova-lista.php', { i: 1 }, function(response, status, xhr) {
+            if (status == "error") {
+                window.location.reload();
+            } else {
+                try {
+                    var jsonResponse = JSON.parse(response);
+                    if (jsonResponse.error === 'session_expired') {
+                        window.location.reload();
+                    }
+                } catch (e) {
+                    // A resposta não é um JSON válido, continue normalmente
+                }
+            }
+        });
+    }
+    setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?>);
+    <?php } ?>
+})
+</script>
 </body>
 </html>
