@@ -125,7 +125,7 @@ if ($dados_responsavel!=false) {
 
     $pre_insere_responsavel = $connPDO->prepare($sql_insere_responsavel);
 
-    $pre_insere_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_INT);
+    $pre_insere_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':nome', $nome, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':email', $email, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);

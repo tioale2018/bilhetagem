@@ -273,8 +273,11 @@ $(document).ready(function(){
                                   showCancelButton: false,
                                   type: "success"
                                 }, function(){
+                                    <?php if($total>0) { ?>
+                                    printAnotherDocument('comprovante.php', '#formImpressao');
+                                    <?php } else { ?>
                                     location.href="controle.php";
-                                    //printAnotherDocument('comprovante.php', '#formImpressao');
+                                    <?php } ?>
                             })
                            //console.log(data);
                         });

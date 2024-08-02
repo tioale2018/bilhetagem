@@ -1,11 +1,16 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 $servername = "localhost";
 $server_name = $_SERVER['SERVER_NAME'];
 
+$username = "root";
+$password = "";
+$database = "bdbilhetagem";
+
+/*
 if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16' || $server_name == 'host.bilhetagem') {
   # code...
   $username = "root";
@@ -13,6 +18,20 @@ if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name =
   $database = "bdbilhetagem";
 
 } elseif ($server_name == 'w3brand.com.br') {
+  //homologa w3brand
+  # code...
+  $username = "brandw3com_userbilhetagem";
+  $password = "@}T)Cupw0e_z";
+  $database = "brandw3com_bdbilhetagem";
+} elseif ($server_name == 'rapidticket.com.br') {
+  //produção rapidticket
+  $username = "rapidcom_userbilhetagem";
+  $password = "i#U9ZPP-IB3V";
+  $database = "rapidcom_bdbilhetagem";
+}
+  */
+
+if ($server_name == 'w3brand.com.br') {
   //homologa w3brand
   # code...
   $username = "brandw3com_userbilhetagem";

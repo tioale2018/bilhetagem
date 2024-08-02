@@ -1,9 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Definir variáveis de ambiente para localhost e servidor online
+    # Definir variáveis de ambiente para localhost, servidor online e novo host
     SetEnvIf Host ^localhost LOCAL_ENV
     SetEnvIf Host ^www\.rapidticket\.com\.br ONLINE_ENV
+    SetEnvIf Host ^host\.bilhetagem BILHETAGEM_ENV
 
     # Permitir apenas requisições AJAX/POST
     RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
@@ -19,6 +20,11 @@
     RewriteCond %{ENV:ONLINE_ENV} ^1$
     RewriteCond %{HTTP_REFERER} !^https?://(www\.)?rapidticket\.com\.br/ [NC]
     RewriteRule ^ - [F,L]
+
+    # Bloquear acesso direto pela barra de endereço para novo host
+    RewriteCond %{ENV:BILHETAGEM_ENV} ^1$
+    RewriteCond %{HTTP_REFERER} !^http://host\.bilhetagem/ [NC]
+    RewriteRule ^ - [F,L]
 </IfModule>
 
 <FilesMatch "\.php$">
@@ -31,4 +37,3 @@ SetEnvIf X-Requested-With "XMLHttpRequest" ALLOW_PHP
 
 # Página de erro personalizada para 403 Forbidden
 ErrorDocument 403 /403.php
-

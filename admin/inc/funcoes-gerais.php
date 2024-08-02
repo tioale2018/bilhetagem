@@ -124,4 +124,18 @@ function obterNomeESobrenome($nomeCompleto) {
     // Retorna o primeiro nome e o último sobrenome
     return $primeiroNome . ' ' . $ultimoSobrenome;
 }
+
+function geraDatasSQL($date) {
+    $dateTime = DateTime::createFromFormat('Y-m-d', $date);
+
+    if ($dateTime === false) {
+        throw new Exception('Data inválida. Use o formato YYYY-MM-DD.');
+    }
+
+    $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
+    $endTimestamp   = $dateTime->setTime(23, 59, 59)->getTimestamp();
+    $i['start']     = $startTimestamp;
+    $i['end']       = $endTimestamp;
+    return $i;
+}
 ?>

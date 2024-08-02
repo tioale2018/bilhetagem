@@ -135,16 +135,6 @@ $(document).ready(function() {
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
 
-    // Prevenir submissão de formulário se a data for inválida
-    /*
-    $('#formModalAddParticipante').on('submit', function(event) {
-        var dateInput = $('input[name=nascimento]').val();
-        if (!isValidDate(dateInput)) {
-           
-        }
-    });
-*/
-     // Prevenir submissão de formulário se a data for inválida
      $('#formModalAddParticipante').on('submit', function(event) {
         event.preventDefault();
         let Form = $(this).serialize();
@@ -157,8 +147,6 @@ $(document).ready(function() {
             alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
             $('input[name=nascimento]').focus();
         } else {
-            //$('#modalAddParticipante form').submit(function(event){
-              //  event.preventDefault();
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
                     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
@@ -166,9 +154,6 @@ $(document).ready(function() {
                         $('#modalAddParticipante form').trigger('reset');
                     });
                 }); 
-
-            //});            
-
         }
     });
 
