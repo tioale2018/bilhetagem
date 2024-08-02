@@ -43,6 +43,8 @@ $row = $pre->fetchAll();
 
 ?>
 
+
+
 <div class="body project_report">
     <div>
         <p>Total de pessoas: <?= count($row) ?></p>
@@ -148,6 +150,8 @@ $row = $pre->fetchAll();
 
 
         $('.btnModalSaida').on('click', function(){
+            $('.loader-aguarde').show();
+
             let i = $(this).data('idprevenda');
             $('#modalSaida').modal();
             
@@ -221,6 +225,7 @@ $row = $pre->fetchAll();
                 // Adicionar a tabela à div desejada
                 $('#tabelaDados').append(tabela);
 
+                $('.loader-aguarde').hide();
             });  
                 
         });
