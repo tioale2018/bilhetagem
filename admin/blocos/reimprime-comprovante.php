@@ -10,7 +10,8 @@ if ( $_SERVER['REQUEST_METHOD']!="POST" ) {
 // require_once './inc/config_session.php';
 require_once '../inc/conexao.php';
 require_once '../inc/funcoes-gerais.php';
-/*
+require_once '../inc/funcoes.php';
+require_once '../inc/funcoes-calculo.php';/*
 if (!isset($_SESSION['user_id'])) {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
@@ -101,11 +102,12 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
     */
-    $sql_entrada = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome as nomecrianca, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
+    $sql_entrada = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome as nomecrianca, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbfinanceiro_detalha.tipopgto, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
     inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
     inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
+    inner join tbfinanceiro_detalha on tbfinanceiro_detalha.identrada=tbentrada.id_entrada
     where tbentrada.id_prevenda=:idprevenda";
 
     $pre_entrada = $connPDO->prepare($sql_entrada);
@@ -119,7 +121,6 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     <div class="row">
         <div class="col-12">
             <h3>Entrada: <?= date('d/m/Y H:i:s', $row_entrada[0]['datahora_efetiva']) ?></h3>
-            <hr>
         </div>
         <div class="col-12">
             <table>
@@ -135,7 +136,9 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($row_entrada as $key => $value) { ?>
+                    <?php 
+                    $total = 0;
+                    foreach ($row_entrada as $key => $value) { ?>
                     <tr>
                         <td style="padding-top: 20px!important"><?= $row_entrada[$key]['nomecrianca'] ?></td>
                     </tr>
@@ -156,13 +159,19 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
                             </table>
                         </td>
                     </tr>
-                    <?php }  ?>
+                    <?php 
+                $total = $total + $row_entrada[$key]['valor'];
+                }  
+                ?>
                 </tbody>
             </table>
         </div>
         <div class="col-12">
+            <p>Valor pago na entrada: R$ <?= number_format($total, 2, ',', '.') ?></p> 
+            <p>Tipo de pagamento: <?= $formapgto[$row_entrada[0]['tipopgto']] ?></p>
+        </div>
+        <div class="col-12">
             <p>ATENÇÃO: Será cobrado minuto adicional. Não nos responsabilizamos por objetos perdidos no local.</p>
-            <p>Obrigado e volte sempre!</p>
         </div>
 
     </div>
@@ -186,12 +195,12 @@ if ($entradasaida==2) {
     $row_saida = $pre_saida->fetchAll();
     
     ?>
-    
+    <hr>
     <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <h3>Saída: <?= date('d/m/Y H:i:s', $row_saida[0]['datahora_saida']) ?></h3>
-            <hr>
+            
         </div>
         <div class="col-12">
             <table>
@@ -207,7 +216,10 @@ if ($entradasaida==2) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($row_saida as $key => $value) { ?>
+                    <?php foreach ($row_saida as $key => $value) {
+                        $entrada = $row_saida[$key]['datahora_entra'];
+                        $saida = $row_saida[$key]['datahora_saida'];
+                         ?>
                     <tr>
                         <td style="padding-top: 15px!important"><?= $row_saida[$key]['nomecrianca'] ?></td>
                     </tr>
@@ -224,7 +236,7 @@ if ($entradasaida==2) {
                                 </tr>
                                 <tr>
                                     <td>Permanência:</td>
-                                    <td>10:40:20</td>
+                                    <td><?= formatMinutesToHours(calcularPermanenciaEmMinutos($entrada, $saida)) ?></td>
                                 </tr>
                             </table>
                         </td>
@@ -234,7 +246,6 @@ if ($entradasaida==2) {
             </table>
         </div>
         <div class="col-12" style="padding-top: 20px!important">
-            <p>ATENÇÃO: Será cobrado minuto adicional. Não nos responsabilizamos por objetos perdidos no local.</p>
             <p>Obrigado e volte sempre!</p>
         </div>
 

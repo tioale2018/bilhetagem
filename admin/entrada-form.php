@@ -1,6 +1,7 @@
 <?php include('./inc/head.php') ?>
 <?php include('./inc/conexao.php') ?>
 <?php include('./inc/funcoes-gerais.php') ?>
+<?php include('./inc/funcoes.php') ?>
 
 <?php 
 $evento = $_SESSION['evento_selecionado'];
@@ -278,7 +279,7 @@ $row = $pre->fetchAll();
                 }, function (isConfirm) {
                     if (isConfirm) {
                         
-                        $.post("./blocos/prevenda-exclui", { i: <?= $_GET['item'] ?> }, function(data){
+                        $.post("./blocos/prevenda-exclui.php", { i: <?= $_GET['item'] ?> }, function(data){
                             window.location.href = 'controle.php';
                         });
                         

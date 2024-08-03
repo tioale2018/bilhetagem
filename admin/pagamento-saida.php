@@ -12,6 +12,7 @@ if ( !isset($_POST['tipopgto']) ) {
 <?php include_once('./inc/conexao.php') ?>
 <?php include_once('./inc/funcao-tempo.php') ?>
 <?php include_once('./inc/funcoes-calculo.php') ?>
+<?php include_once('./inc/funcoes.php') ?>
 
 <?php
 if (!isset($_POST['chkvinculado'])) {
@@ -25,7 +26,7 @@ $idprevenda    = $_POST['idprevenda'];
 $tipopgto      = $_POST['tipopgto'];
 $hora_finaliza = $_POST['tempo_agora'];
 
-$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$hora_finaliza' as datahora_saida
+$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$hora_finaliza' as datahora_saida
 FROM tbentrada 
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
@@ -102,6 +103,7 @@ foreach ($rows as $row) {
                             <div class="col-md-6 col-sm-6 text-right">
                             <address>
                                     <strong><?= $rows[0]['nomeresponsavel'] ?></strong><br>
+                                    <?= formatarCPF($rows[0]['cpf']) ?><br>
                                     <?= $rows[0]['telefone1'] ?><br>
                                     <?= $rows[0]['email'] ?>
                                 </address>

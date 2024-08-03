@@ -110,7 +110,7 @@ include_once('../inc/funcao-tempo.php');
 $idprevenda = intval($_POST['p']);
 $tempoagora = time();
 
-$sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional, '$tempoagora' as temponow 
+$sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional, '$tempoagora' as temponow 
 FROM tbentrada 
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
@@ -134,7 +134,6 @@ foreach ($rows as $row) {
 
     $calculos = calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia);
 
-    // Combina os dados originais com os cálculos
     $resultadoFinal[] = array_merge($row, $calculos);
 }
 

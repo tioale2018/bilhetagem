@@ -16,6 +16,10 @@
                                     <td width="80%" id="nomeresponsavel"></td>
                                 </tr>
                                 <tr>
+                                    <td scope="row">CPF</td>
+                                    <td id="cpf"></td>
+                                </tr>
+                                <tr>
                                     <td scope="row">Telefone 1</td>
                                     <td id="tel1"></td>
                                 </tr>

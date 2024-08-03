@@ -83,7 +83,7 @@ function convertTimestampToBRT($timestamp) {
     return $dt->format('H:i:s');
 }
 
-
+/*
 function searchInMultidimensionalArray(array $array, $key, $value) {
     // Usa array_column para obter uma coluna de valores
     $column = array_column($array, $key);
@@ -96,7 +96,7 @@ function searchInMultidimensionalArray(array $array, $key, $value) {
     // Se não for encontrado, retorna null
     return null;
 }
-
+*/
 function verificaVar($variable) {
     // Verifica se a variável está definida e se não é nula
     if (isset($variable)) {

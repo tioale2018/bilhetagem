@@ -44,14 +44,13 @@ $row = $pre->fetchAll();
 ?>
 
 
-
 <div class="body project_report">
     <div>
         <p>Total de pessoas: <?= count($row) ?></p>
         <p>Capacidade: <?= $_SESSION['evento']['capacidade'] ?> </p>
     </div>
         <div class="table-responsive">
-            <table class="table m-b-0 table-hover">
+            <table class="table m-b-0 table-hover tabela-lista-controle">
                 <thead>
                     <tr>
                         <th>Nome/Responsável</th>
@@ -97,56 +96,13 @@ $row = $pre->fetchAll();
         </div>
 </div>
 
-
+<script src="./js/controle-lista.js"></script>
 <script>
+    
     $(document).ready(function(){
-
-        function updateElapsedTime() {
-            $('tr').each(function() {
-                var horaEntrada = $(this).find('.hora-entrada').text();
-                var horaSaida = $(this).find('.hora-saida').text();
-                if (horaEntrada && horaSaida) {
-                    var partsEntrada = horaEntrada.split(':');
-                    var partsSaida = horaSaida.split(':');
-
-                    // Criar DateTime para a entrada e saída, usando a data atual para os componentes de data
-                    var now = new Date();
-                    var entradaDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), partsEntrada[0], partsEntrada[1], partsEntrada[2]);
-                    var saidaDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), partsSaida[0], partsSaida[1], partsSaida[2]);
-
-                    // Calcular o tempo decorrido
-                    var elapsed = new Date(now - entradaDate);
-
-                    var hours = String(elapsed.getUTCHours()).padStart(2, '0');
-                    var minutes = String(elapsed.getUTCMinutes()).padStart(2, '0');
-                    var seconds = String(elapsed.getUTCSeconds()).padStart(2, '0');
-
-                    var timeString = hours + ':' + minutes + ':' + seconds;
-                    $(this).find('.tdecorrido').text(timeString);
-
-                    // Verificar se o tempo atual excede a hora de saída
-                    if (now > saidaDate) {
-                        $(this).addClass('expired');
-                    } else {
-                        $(this).removeClass('expired');
-                    }
-                }
-            });
-        }
 
     setInterval(updateElapsedTime, 1000);
     updateElapsedTime();
-
-    function calcularPermanenciaEmMinutos(entradaTimestamp, saidaTimestamp) {
-        // Calcula a diferença em segundos entre os dois timestamps
-        const diferencaEmSegundos = saidaTimestamp - entradaTimestamp;
-        
-        // Converte a diferença de segundos para minutos
-        const diferencaEmMinutos = diferencaEmSegundos / 60;
-        
-        // Retorna o resultado arredondado para o inteiro mais próximo
-        return Math.round(diferencaEmMinutos);
-    }
 
 
         $('.btnModalSaida').on('click', function(){
@@ -158,14 +114,12 @@ $row = $pre->fetchAll();
             $.post("./blocos/busca-prevenda.php",{p:i}, function(data){
                 let dados = JSON.parse(data);
 
-                console.log(dados);
                 $('#nomeresponsavel').html(dados[0]['responsavel']);
+                $('#cpf').html(formatCPF(dados[0]['cpf']));
                 $('#tel1').html(dados[0]['telefone1']);
                 $('#tel2').html(dados[0]['telefone2']);
                 $('#idprevenda').val(dados[0]['id_prevenda']);
                 $('#tempo_agora').val(dados[0]['temponow']);
-                
-                // console.log(JSON.stringify(dados));
 
                 $('#tabelaDados').empty();
             
@@ -184,15 +138,9 @@ $row = $pre->fetchAll();
                     )
                 );
                 
-                // Adicionar cabeçalho à tabela
                 tabela.append(cabecalho);
-
-                // let total=0;
-                
-                // Criar o corpo da tabela
                 let corpoTabela = $('<tbody>');
-                
-                // Iterar sobre os dados e adicionar cada linha à tabela
+
                 dados.forEach(function(dado) {
                     let checkboxDiv   = $('<div>').addClass('checkbox');
                     let checkboxInput = $('<input>').attr('type', 'checkbox').addClass('checkbox chkmark').attr('name', 'chkvinculado[]').attr('id', 'checkbox_' + dado.id_entrada).attr('value', dado.id_vinculado).prop('checked', true);
@@ -229,32 +177,6 @@ $row = $pre->fetchAll();
             });  
                 
         });
-
-/*
-        function convertTimestampToBRT(timestamp) {
-            var date = new Date(timestamp * 1000); // Convert to milliseconds
-
-            // Use toLocaleString to get the time in "America/Sao_Paulo" timezone
-            var options = { 
-                timeZone: 'America/Sao_Paulo', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                hour12: false 
-            };
-            
-            return date.toLocaleString('pt-BR', options);
-        }
-
-        var timestamp = 1716235417;
-        var brtTime = convertTimestampToBRT(timestamp);
-
-        // $('#current-time').text(brtTime);
-        console.log(brTime);
-        */
-
-       
-
         
     });
 </script>

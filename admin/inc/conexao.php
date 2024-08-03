@@ -9,13 +9,17 @@
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];
 
+ $username = "root";
+$password = "";
+$database = "bdbilhetagem";
+/*
  if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16' || $server_name == 'host.bilhetagem') {
   # code...
-  $username = "root";
-  $password = "";
-  $database = "bdbilhetagem";
+  
 
-} elseif ($server_name == 'w3brand.com.br') {
+} else
+*/
+if ($server_name == 'w3brand.com.br') {
   //homologa w3brand
   # code...
   $username = "brandw3com_userbilhetagem";

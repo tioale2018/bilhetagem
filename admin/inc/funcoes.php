@@ -5,6 +5,14 @@ function limparCPF($cpf) {
     return $cpf;
 }
 
+function formatarCPF($cpf) {
+    $cpf = preg_replace('/[^0-9]/', '', $cpf);
+    $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+    // Formata o CPF no padrão 000.000.000-00
+    $cpf_formatado = substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
+    return $cpf_formatado;
+}
+
 function procuraResponsavel($i) {
     // $id              = limparCPF($i); //$GLOBALS['id'];
     $sql_responsavel = "select * from tbresponsavel where id_responsavel=:cpf";
@@ -81,6 +89,22 @@ function convertDateToDMY($date) {
         // Retorna falso se a conversão falhar
         return "01/01/1900";
     }
+}
+
+
+function formatMinutesToHours($totalMinutes) {
+    // Calcula o número de horas
+    $hours = floor($totalMinutes / 60);
+    
+    // Calcula o número de minutos restantes
+    $minutes = $totalMinutes % 60;
+    
+    // Formata as horas e minutos para garantir dois dígitos
+    $formattedHours = str_pad($hours, 2, '0', STR_PAD_LEFT);
+    $formattedMinutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    
+    // Retorna o resultado no formato HH:MM
+    return "$formattedHours:$formattedMinutes";
 }
 
 ?>
