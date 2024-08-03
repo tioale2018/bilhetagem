@@ -17,7 +17,7 @@ $pgto       = $_POST['pgto'];
 $tipopgto   = (isset($_POST['tipopgto']) ? $_POST['tipopgto'] : 0); //$_POST['tipopgto'];
 $horaagora  = time();
 
-//algoritmo para caso a saída seja zero pagamento
+
 if (!isset($_POST['pagasaida'])) {
     //procedimento para o pagamento na entrada
     $numqueries = 0;
@@ -120,7 +120,7 @@ if (!isset($_POST['pagasaida'])) {
 
     $status = ($pre_verifca_participantes->rowCount() == count($vinculados)?6:5);
     
-    $sql_atualiza_prevenda = "update tbprevenda set prevenda_status=$status where id_prevenda=:idprevenda";
+    $sql_atualiza_prevenda = "update tbprevenda set prevenda_status=$status, datahora_efetiva_saida='$horaagora' where id_prevenda=:idprevenda";
     $pre_atualiza_prevenda = $connPDO->prepare($sql_atualiza_prevenda);
     $pre_atualiza_prevenda->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     $pre_atualiza_prevenda->execute();

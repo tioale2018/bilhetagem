@@ -102,7 +102,7 @@ $hora_finaliza = time();
                                                 <td><?= $value['nome'] ?></td>
                                                 <td><?= $value['descricao'] ?></td>
                                                 <td><?= $value['duracao'].'min' ?></td>
-                                                <td><?= $value['valor'] ?></td>
+                                                <td>R$ <?= number_format($value['valor'], 2, ',', '.') ?></td>
                                             </tr>
 
                                             <?php }  ?>

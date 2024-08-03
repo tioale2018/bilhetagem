@@ -10,21 +10,21 @@ include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
 $cpf  = $_POST['cpf'];
+
 $hoje = date('Y-m-d', time());
 
-$sql_busca = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel FROM tbprevenda 
-inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel 
+$sql_busca_imprime = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel FROM tbprevenda 
+inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
 WHERE tbprevenda.prevenda_status in (2,5,6) and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
+// die($sql_busca_imprime);
 
-// die($sql_busca);
+$res_busca_imprime = $connPDO->prepare($sql_busca_imprime);
+$res_busca_imprime->bindParam(':cpf', $cpf, PDO::PARAM_INT);
+$res_busca_imprime->execute();
+$row_busca_imprime = $res_busca_imprime->fetchAll();
 
-$res_busca = $connPDO->prepare($sql_busca);
-$res_busca->bindParam(':cpf', $cpf);
-$res_busca->execute();
-$row_busca = $res_busca->fetchAll();
-
-if (count($row_busca)>0) {
-   
+// echo "aqui: " . $cpf;
+if ($res_busca_imprime->rowCount()>0) {  
 ?>
 <div class="card">
     <div class="body">
@@ -39,18 +39,17 @@ if (count($row_busca)>0) {
                 </tr>
             </thead>                                
             <tbody>
-                <?php foreach ($row_busca as $key => $value) { ?>
+                <?php foreach ($row_busca_imprime as $key => $value) { ?>
                 <tr>
                     <td><?= $value['id_prevenda'] ?></td>
                     <td><?= $value['nome_responsavel'] ?></td>
                     <td><?= date('d/m/Y H:i:s', $value['datahora_efetiva']); ?></td>
                     <td><?= ($value['prevenda_status']==6?date('d/m/Y H:i:s', $value['datahora_efetiva_saida']):'<span style="color:red">Ativa</span>'); ?></td>
                     <td>
-                        <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
+                        <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-tipo="<?= ($value['prevenda_status']==6?'2':'1'); ?>" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
                     </td>
                 </tr>
                 <?php } ?>
-
         </table>
     </div>
 </div>
@@ -64,22 +63,21 @@ if (count($row_busca)>0) {
 <?php }  ?>
 <iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 
+<!-- <script src="./js/impressao.js"></script> -->
 
-<script src="./js/impressao.js"></script>
-
-
-    <script>
+<script>
     $(document).ready(function() {
         $('body').on('click', '.reimprime', function(e) {
             e.preventDefault();
             // printAnotherDocument('comprovante.php', '#formImpressao');
             
             var prevenda = $(this).data('ticket');
+            var tipo = $(this).data('tipo');
 
             $.ajax({
                 method: "POST",
                 url: './blocos/reimprime-comprovante.php',
-                data: {idprevenda: prevenda, entradasaida: 1},
+                data: {idprevenda: prevenda, entradasaida: tipo},
                 success: function(data) {
                     var printFrame = document.getElementById('printFrame');
                     var printFrameWindow = printFrame.contentWindow || printFrame;
