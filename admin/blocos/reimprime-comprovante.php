@@ -110,6 +110,8 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     inner join tbfinanceiro_detalha on tbfinanceiro_detalha.identrada=tbentrada.id_entrada
     where tbentrada.id_prevenda=:idprevenda";
 
+    // die($sql_entrada);
+
     $pre_entrada = $connPDO->prepare($sql_entrada);
     $pre_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -123,7 +125,7 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
             <h3>Entrada: <?= date('d/m/Y H:i:s', $row_entrada[0]['datahora_efetiva']) ?></h3>
         </div>
         <div class="col-12">
-            <table>
+            <t  able>
                 <thead>
                     <tr>
                         <td>Responsável: <?= $row_entrada[0]['nomeresponsavel'] ?></td>

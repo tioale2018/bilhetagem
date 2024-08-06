@@ -73,7 +73,6 @@ function generateSqlQuery($date) {
                         <tr>                                                  
                             <th>Nome do pacote</th>
                             <th>Valor</th>
-                            <th>Duração</th>
                             <th>Qtde. vendida</th>
                         </tr>
                     </thead>
@@ -87,8 +86,7 @@ function generateSqlQuery($date) {
                             ?>
                         <tr>
                             <th><?= $value['pct_nome'] ?></th>
-                            <th><?= number_format($value['pct_valor'], 2, ',', '.') ?></th>       
-                            <th><?= $value['pct_duracao'] ?></th>       
+                            <th><?= number_format($value['pct_valor'], 2, ',', '.') ?></th>          
                             <th><?= $value['total_vendido'] ?></th>       
                         </tr>
                             <?php

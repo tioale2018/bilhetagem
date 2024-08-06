@@ -5,6 +5,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
     // __halt_compiler();
     die(0);
 }
+session_start();
 
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
@@ -15,13 +16,15 @@ $hoje = date('Y-m-d', time());
 
 $sql_busca_imprime = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel FROM tbprevenda 
 inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
-WHERE tbprevenda.prevenda_status in (2,5,6) and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
+WHERE tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status in (2,5,6) and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
 // die($sql_busca_imprime);
 
 $res_busca_imprime = $connPDO->prepare($sql_busca_imprime);
 $res_busca_imprime->bindParam(':cpf', $cpf, PDO::PARAM_INT);
 $res_busca_imprime->execute();
 $row_busca_imprime = $res_busca_imprime->fetchAll();
+
+// die("<pre>".var_dump($row_busca_imprime)."</pre>");
 
 // echo "aqui: " . $cpf;
 if ($res_busca_imprime->rowCount()>0) {  

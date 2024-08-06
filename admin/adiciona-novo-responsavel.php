@@ -15,7 +15,7 @@ include_once('./inc/conexao.php');
 $evento       = $_SESSION['evento_selecionado'];
 $evento_atual = $evento;
 
-$cpf       = $_POST['cpf'];
+$cpf       = limparCPF($_POST['cpf']);
 $nome      = $_POST['nome'];
 $telefone1 = $_POST['telefone1'];
 $telefone2 = $_POST['telefone2'];
@@ -40,7 +40,7 @@ if ($_POST['idresponsavel']=='') {
 
     $pre_insere_responsavel = $connPDO->prepare($sql_insere_responsavel);
 
-    $pre_insere_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_INT);
+    $pre_insere_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':nome', $nome, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':email', $email, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);
