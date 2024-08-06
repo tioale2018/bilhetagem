@@ -35,6 +35,9 @@ inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsav
 WHERE tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda and tbentrada.id_vinculado in ($lst_vinculos)
 order by tbentrada.datahora_entra";
 
+// die($sql);
+
+
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 $pre->execute();
@@ -222,7 +225,7 @@ foreach ($rows as $row) {
                         <form action="" id="formImpressao">
                             <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
                             <input type="hidden" value="2" name="entradasaida">
-                            <input type="hidden" value="<?= $chkvinculados ?>" name="vinculados">
+                            <input type="hidden" value="<?= $lst_vinculos ?>" name="vinculados">
                         </form>
                     </div>
                 </div>
@@ -275,7 +278,8 @@ $(document).ready(function(){
                                   showCancelButton: false,
                                   type: "success"
                                 }, function(){
-                                    <?php if($total>0) { ?>
+                                    <?php // if($total>0) { ?>
+                                        <?php if(1==1) { ?>
                                     printAnotherDocument('comprovante.php', '#formImpressao');
                                     <?php } else { ?>
                                     location.href="controle.php";

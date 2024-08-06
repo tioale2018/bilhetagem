@@ -30,6 +30,7 @@ if ( verificaVar($_POST['entradasaida']) || verificaVar($_POST['entradasaida']) 
 $idprevenda   = $_POST['idprevenda'];
 $vinculados   = (isset($_POST['vinculados'])?$_POST['vinculados']:'');
 $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -95,6 +96,7 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
 <body>
 
 <?php 
+// die($vinculados);
 //procedimento entrada
 if ($entradasaida==1) { 
 
@@ -183,10 +185,12 @@ if ($entradasaida==1) {
     inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
-    where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=:idprevenda";
+    where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=:idprevenda and tbentrada.id_vinculado in (:vinculados)";
 
+    // die($sql_saida);
     $pre_saida = $connPDO->prepare($sql_saida);
     $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+    $pre_saida->bindParam(':vinculados', $vinculados, PDO::PARAM_STR);
 
     $pre_saida->execute();
     $row_saida = $pre_saida->fetchAll();
@@ -215,31 +219,40 @@ if ($entradasaida==1) {
                 <tbody>
                     <?php 
                     $total = 0;
-                    foreach ($row_saida as $key => $value) { 
-                        $entrada = $row_saida[$key]['datahora_entra'];
-                        $saida = $row_saida[$key]['datahora_saida'];
+                    foreach ($row_saida as $k => $v) { 
+                        $entrada = $row_saida[$k]['datahora_entra'];
+                        $saida = $row_saida[$k]['datahora_saida'];
+                        $total = $row_saida[$k]['pgto_extra_valor'] + $total;
+
+                        $dados_pessoa = calcularTempoPermanencia($row_saida[$k]['datahora_entra'], $row_saida[$k]['datahora_saida'], $row_saida[$k]['pct_duracao'], $row_saida[$k]['pct_tolerancia']);
                         ?>
                     <tr>
-                        <td style="padding-top: 15px!important"><?= $row_saida[$key]['nomecrianca'] ?></td>
+                        <td style="padding-top: 15px!important"><?= $row_saida[$k]['nomecrianca'] ?></td>
                     </tr>
                     <tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>Início:</td>
-                                    <td><?= date('d/m/Y H:i', $row_saida[$key]['datahora_entra']); ?></td>
+                                    <!-- <td><?= date('d/m/Y H:i', $row_saida[$k]['datahora_entra']); ?></td> -->
+                                    <td><?= $dados_pessoa['horaEntrada'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>Saída:</td>
-                                    <td><?= date('d/m/Y H:i', $row_saida[$key]['datahora_saida']); ?></td>
+                                    <!-- <td><?= date('d/m/Y H:i', $row_saida[$k]['datahora_saida']); ?></td> -->
+                                    <td><?= $dados_pessoa['horaSaida'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>Permanência:</td>
-                                    <td><?= formatMinutesToHours(calcularPermanenciaEmMinutos($entrada, $saida)) ?></td>
+                                    <td><?= $dados_pessoa['tempoPermanenciaMinutos'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>Excedente</td>
-                                    <td>...</td>
+                                    <td><?= $dados_pessoa['tempoExcedenteMinutos'] + $row_saida[$k]['pct_tolerancia'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Valor</td>
+                                    <td><?= $row_saida[$k]['pgto_extra_valor'] ?></td>
                                 </tr>
                                 <tr></tr>
                             </table>
@@ -250,7 +263,7 @@ if ($entradasaida==1) {
             </table>
         </div>
         <div class="col-12">
-
+            <p>Valor total: R$ <?= number_format($total, 2, ',', '.') ?></p> 
         </div>
         <div class="col-12" style="padding-top: 20px!important">
             <p>Obrigado e volte sempre!</p>

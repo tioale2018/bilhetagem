@@ -158,7 +158,6 @@ $row = $pre->fetchAll();
                         $('<td>').append(checkboxDiv),
                         $('<td>').text(dado.nome),
                         $('<td>').text(dado.horaEntrada),
-                        //$('<td>').text(new Date().getTime()),
                         $('<td>').text(dado.horaSaida),
                         $('<td>').text(dado.duracao),
                         $('<td>').text(permanencia)
@@ -177,6 +176,8 @@ $row = $pre->fetchAll();
             });  
                 
         });
+
+        // $('#tabelaDados').dataTable();
         
     });
 </script>

@@ -31,7 +31,8 @@ if (!isset($_POST['pagasaida'])) {
         $numqueries++;
     };
 
-    $sql_status_entrada = "update tbentrada set previnculo_status=3, datahora_entra=:horaagora  where id_prevenda=:idprevenda and previnculo_status=1";
+    //autoriza=2 refere-se a liberação ou autorização dada pelo operador do sistema no ato da efetivação da entrada do participante
+    $sql_status_entrada = "update tbentrada set previnculo_status=3, datahora_entra=:horaagora, autoriza=2  where id_prevenda=:idprevenda and previnculo_status=1";
     $pre_status_entrada = $connPDO->prepare($sql_status_entrada);
     $pre_status_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     $pre_status_entrada->bindParam(':horaagora', $horaagora, PDO::PARAM_STR);
