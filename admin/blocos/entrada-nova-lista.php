@@ -16,21 +16,18 @@ if (!isset($_SESSION['evento'])) {
 
 $datasHoje = geraDatasSQL(date('Y-m-d'));
 
-$sql = "SELECT tbprevenda.id_prevenda, tbresponsavel.id_responsavel, tbresponsavel.nome, tbresponsavel.cpf, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.prevenda_status FROM tbprevenda inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
-where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and datahora_solicita between ". $datasHoje['start'] ." and ". $datasHoje['end'];
+$sql = "SELECT tbprevenda.id_prevenda, tbresponsavel.id_responsavel, tbresponsavel.nome, tbresponsavel.cpf, tbprevenda.data_acesso, tbprevenda.pre_reservadatahora, tbprevenda.prevenda_status FROM tbprevenda inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
+where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbprevenda.pre_reservadatahora between ". $datasHoje['start'] ." and ". $datasHoje['end'];
 $pre = $connPDO->prepare($sql);
 $pre->execute();
 $row = $pre->fetchAll();
-
-
 ?>
-
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
         <thead>
             <tr>
-                <th>Acesso</th>
+                <th>Pre-Reserva em</th>
                 <th>Responsável</th>
                 <th>CPF</th>
                 <th>Status</th>
@@ -44,7 +41,7 @@ $row = $pre->fetchAll();
             
                 foreach ($row as $key => $value) { ?>
                 <tr>
-                    <td><?= date('d/m/Y', $value['datahora_solicita']) ?></td>
+                    <td><?= date('d/m/Y H:i', $value['pre_reservadatahora']) ?></td>
                     <td><?= $value['nome'] ?></td>
                     <td><?= $value['cpf'] ?></td>
                     <td><span class="badge badge-default"><?=  ($value['prevenda_status']==1?'Agendado':'Outro') ?></span></td>
@@ -57,7 +54,6 @@ $row = $pre->fetchAll();
                 ?>
                 <tr><td colspan="5" style="text-align: center">Nenhum registro encontrado</td></tr>
             <?php } ?>
-
         </tbody>
     </table>
 </div>
