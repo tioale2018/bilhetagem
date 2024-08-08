@@ -14,7 +14,7 @@
                     <li><a href="javascript:void(0)">Impressão</a>
                         <ul class="sub-menu">
                             <!-- <li><a href="dashboard">Relatórios</a></li> -->
-                            <li><a href="reimprime">Re-imprimir entrada</a></li>
+                            <li><a href="reimprime">Re-imprimir comprovante</a></li>
                         </ul>
                     </li>
 

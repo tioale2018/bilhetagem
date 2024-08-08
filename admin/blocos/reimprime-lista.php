@@ -14,9 +14,28 @@ $cpf  = $_POST['cpf'];
 
 $hoje = date('Y-m-d', time());
 
-$sql_busca_imprime = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel FROM tbprevenda 
-inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
-WHERE tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status in (2,5,6) and data_acesso='$hoje' and tbresponsavel.cpf=:cpf";
+
+$datafim = $_POST['datafim'];
+$datainicio = $_POST['datainicio'];
+
+function sql_busca_imprime($datainicio, $datafim, $cpf) {
+    // Converter as datas para timestamps
+    $timestamp_inicio = strtotime($datainicio);
+    $timestamp_fim = strtotime($datafim) + 86400; // Adicionar 86400 segundos (1 dia) ao timestamp de fim
+
+    // Construir a consulta SQL
+    $sql_busca_imprime = "SELECT tbprevenda.*, tbresponsavel.nome as nome_responsavel 
+                          FROM tbprevenda 
+                          INNER JOIN tbresponsavel ON tbresponsavel.id_responsavel = tbprevenda.id_responsavel
+                          WHERE tbprevenda.id_evento = ".$_SESSION['evento_selecionado']." 
+                          AND tbprevenda.prevenda_status IN (2, 5, 6) 
+                          AND tbprevenda.datahora_efetiva BETWEEN $timestamp_inicio AND $timestamp_fim
+                          AND tbresponsavel.cpf = :cpf order by datahora_efetiva desc";
+    
+    return $sql_busca_imprime;
+}
+
+$sql_busca_imprime = sql_busca_imprime($datainicio, $datafim, $cpf);
 // die($sql_busca_imprime);
 
 $res_busca_imprime = $connPDO->prepare($sql_busca_imprime);

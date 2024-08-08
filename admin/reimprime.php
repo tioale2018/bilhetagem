@@ -25,16 +25,31 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Re-impressão de comprovante de entrada</h2>
-                        
+                        <h2>Re-impressão de comprovante</h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
                             <form action="" method="post" id="formreimpressao">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label for="cpf" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" class="form-control" placeholder="CPF" value="" id="cpf" required maxlength="14" pattern="\d*" />
+                                <div class="">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="cpf" class="form-label">CPF</label>
+                                            <input name="cpf" type="text" class="form-control" placeholder="CPF" value="" id="cpf" required maxlength="14" pattern="\d*" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Data início</label>
+                                            <input name="datainicio" type="date" class="form-control" placeholder="" value="<?php echo date('Y-m-d'); ?>" id="" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Data fim</label>
+                                            <input name="datafim" type="date" class="form-control" placeholder="" value="<?php echo date('Y-m-d'); ?>" id="" required />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -44,17 +59,15 @@
                                     </div>
                                 </div>  
                             </form>
-
                         </div>
                     </div>
-                   
                 </div>
             </div>
 
+            <div class="col-lg-12 col-md-12 lista-entradas"></div>
 
-            <div class="col-lg-12 col-md-12 lista-entradas">
-                
-            </div>
+
+            
 
         </div> 
     </div>

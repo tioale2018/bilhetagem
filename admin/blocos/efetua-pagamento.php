@@ -138,22 +138,22 @@ if (!isset($_POST['pagasaida'])) {
         $idEntrada   = $i[$value]['id_entrada'];
         $aPagar      = $financeiro_detalha['apagar'][$key];
 
-        $teste= $financeiro_detalha['apagar'][$key];
+        $teste       = $financeiro_detalha['apagar'][$key];
         
         $a = calcularTempoPermanencia($horaEntrada, $horaSaida, $pacote, $tolerancia);
-        $tempoExcedente = $a['tempoExcedenteMinutos'];
-        $pgtoExtra = ($a['tempoExcedenteMinutos']>0?1:0);
+        $tempoExcedente     = $a['tempoExcedenteMinutos'];
+        $tempoPermanencia   = $a['tempoPermanenciaMinutos'];
+        $pgtoExtra          = ($a['tempoExcedenteMinutos']>0?1:0);
         
         //tbentrada set previnculo_status=4, datahora_saida=time(), tempo_excede=tempo, pgto_extra=0/1 
-        $sql_atualiza_entrada = "update tbentrada set previnculo_status=4, datahora_saida=$horaSaida, tempo_excede=$tempoExcedente, pgto_extra=$pgtoExtra, pgto_extra_valor=:pgto where id_entrada=$idEntrada";
+        $sql_atualiza_entrada = "update tbentrada set previnculo_status=4, datahora_saida=$horaSaida, tempo_excede=$tempoExcedente, tempo_permanencia=$tempoPermanencia, pgto_extra=$pgtoExtra, pgto_extra_valor=:pgto where id_entrada=$idEntrada";
+        // die($sql_atualiza_entrada);
 
         $pre_atualiza_entrada = $connPDO->prepare($sql_atualiza_entrada);
         $pre_atualiza_entrada->bindParam(':pgto', $aPagar, PDO::PARAM_STR);
         $pre_atualiza_entrada->execute();
     }
     
-
-    // die($teste);
     //insere o valor do pagamento
 
     $valor       = $pgto;

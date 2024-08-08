@@ -8,11 +8,11 @@
             </div>
         </li>
         
-        <li class="search_bar">
-            <!-- <div class="input-group">                
+       <!--  <li class="search_bar">
+            <div class="input-group">                
                 <input type="text" class="form-control" placeholder="Search...">
-            </div> -->
-        </li>
+            </div>
+        </li> -->
         <li class="dropdown" style="visibility: hidden!important"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="zmdi zmdi-apps"></i></a>
             <ul class="dropdown-menu pullDown">
                 <li><a href="mail-inbox.php"><i class="zmdi zmdi-email m-r-10"></i><span>Mail</span></a></li>
