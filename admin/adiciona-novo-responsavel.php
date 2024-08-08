@@ -71,7 +71,7 @@ if ($pre_busca_prevenda->rowCount()>0) {
 }
 
 if ($crianovaPrevenda) {
-    $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, datahora_solicita, origem_prevenda) values (:id_responsavel, :id_evento, :data_acesso, 1, :datahora_solicita, 2)";
+    $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, datahora_solicita, origem_prevenda, pre_reservadatahora) values (:id_responsavel, :id_evento, :data_acesso, 1, :datahora_solicita, 2, $datahora)";
     $pre_prevenda = $connPDO->prepare($sql_prevenda);
     $pre_prevenda->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
     $pre_prevenda->bindParam(':id_evento', $evento_atual, PDO::PARAM_INT);
