@@ -49,12 +49,12 @@ if (!isset($_POST['pagasaida'])) {
     $pre_efetua_pgto->bindParam(':valor', $pgto, PDO::PARAM_STR);
     $pre_efetua_pgto->bindParam(':forma_pgto', $tipopgto, PDO::PARAM_STR);
     $pre_efetua_pgto->bindParam(':horapgto', $horaagora, PDO::PARAM_STR);
-
-    $idFinanceiro = $connPDO->lastInsertId();
+    
     // $pre_efetua_pgto->execute();
     if($pre_efetua_pgto->execute()) {
         $numqueries++;
     };
+    $idFinanceiro = $connPDO->lastInsertId();
 
     //echo $numqueries;
     // echo ($numqueries==3?'ok':'erro');

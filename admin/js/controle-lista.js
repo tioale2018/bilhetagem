@@ -1,3 +1,4 @@
+/*
 function calcularPermanenciaEmMinutos(entradaTimestamp, saidaTimestamp) {
     // Calcula a diferença em segundos entre os dois timestamps
     const diferencaEmSegundos = saidaTimestamp - entradaTimestamp;
@@ -7,6 +8,17 @@ function calcularPermanenciaEmMinutos(entradaTimestamp, saidaTimestamp) {
     
     // Retorna o resultado arredondado para o inteiro mais próximo
     return Math.round(diferencaEmMinutos);
+}
+*/
+function calcularPermanenciaEmMinutos(entradaTimestamp, saidaTimestamp) {
+    // Calcula a diferença em segundos entre os dois timestamps
+    const diferencaEmSegundos = saidaTimestamp - entradaTimestamp;
+    
+    // Converte a diferença de segundos para minutos completos
+    const diferencaEmMinutos = diferencaEmSegundos / 60;
+    
+    // Retorna o valor inteiro, descartando os segundos restantes
+    return Math.floor(diferencaEmMinutos);
 }
 
 function formatCPF(cpf) {

@@ -226,6 +226,7 @@ foreach ($rows as $row) {
                             <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
                             <input type="hidden" value="2" name="entradasaida">
                             <input type="hidden" value="<?= $lst_vinculos ?>" name="vinculados">
+                            <input type="hidden" value="" name="tipopgtoprint">
                         </form>
                     </div>
                 </div>
@@ -248,6 +249,11 @@ include_once('./inc/javascript.php')
 <script>
 
 $(document).ready(function(){
+    $('#ftipopgto').on('change', function(){
+        let valor = $(this).val();
+        $('input[name="tipopgtoprint"]').val(valor);
+    });
+    
     $('#formpgto').submit(function(e){
         let formAtual = $(this);
         e.preventDefault();
@@ -270,7 +276,6 @@ $(document).ready(function(){
                     closeOnCancel: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        
                         $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
                             swal({
                                   title: "Concluído", 
