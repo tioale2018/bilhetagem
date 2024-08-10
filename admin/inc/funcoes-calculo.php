@@ -24,6 +24,7 @@ function calculaExcedente($horaEntrada, $horaSaida, $duracao, $tolerancia) {
 }
 */
 
+/*
 function calcularPermanenciaEmMinutos($entradaTimestamp, $saidaTimestamp) {
     // Calcula a diferença em segundos entre os dois timestamps
     $diferencaEmSegundos = $saidaTimestamp - $entradaTimestamp;
@@ -33,6 +34,18 @@ function calcularPermanenciaEmMinutos($entradaTimestamp, $saidaTimestamp) {
     
     // Retorna o resultado arredondado para o inteiro mais próximo
     return round($diferencaEmMinutos);
+}
+
+*/
+function calcularPermanenciaEmMinutos($entradaTimestamp, $saidaTimestamp) {
+    // Calcula a diferença em segundos entre os dois timestamps
+    $diferencaEmSegundos = $saidaTimestamp - $entradaTimestamp;
+    
+    // Converte a diferença de segundos para minutos completos
+    $diferencaEmMinutos = $diferencaEmSegundos / 60;
+    
+    // Retorna o valor inteiro, descartando os segundos restantes
+    return floor($diferencaEmMinutos);
 }
 
 

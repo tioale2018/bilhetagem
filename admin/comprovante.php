@@ -107,6 +107,7 @@ if ($entradasaida==1) {
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     inner join tbfinanceiro_detalha on tbfinanceiro_detalha.identrada=tbentrada.id_entrada
     where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
+    
     $pre_entrada = $connPDO->prepare($sql_entrada);
     $pre_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -179,18 +180,18 @@ if ($entradasaida==1) {
 <?php 
 //procedimentosaida
 } elseif ($entradasaida==2) { 
-    
+        
     $sql_saida = "select tbentrada.*, tbvinculados.nome as nomecrianca, tbvinculados.nascimento, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor, tbprevenda.datahora_efetiva, tbresponsavel.nome as nomeresponsavel, tbresponsavel.telefone1, tbresponsavel.cpf from tbentrada
     inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
     inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
-    where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=:idprevenda and tbentrada.id_vinculado in (:vinculados)";
+    where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=$idprevenda and tbentrada.id_vinculado in ($vinculados)";
 
     // die($sql_saida);
     $pre_saida = $connPDO->prepare($sql_saida);
-    $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
-    $pre_saida->bindParam(':vinculados', $vinculados, PDO::PARAM_STR);
+    // $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+    // $pre_saida->bindParam(':vinculados', $vinculados, PDO::PARAM_STR);
 
     $pre_saida->execute();
     $row_saida = $pre_saida->fetchAll();
@@ -264,6 +265,9 @@ if ($entradasaida==1) {
         </div>
         <div class="col-12">
             <p>Valor total: R$ <?= number_format($total, 2, ',', '.') ?></p> 
+            <?php if (isset($_POST['tipopgto']) && $_POST['tipopgto']!=0) { ?>
+            <p>Tipo de pagamento: <?= $formapgto[$_POST['tipopgto']] ?></p>
+            <?php } ?>
         </div>
         <div class="col-12" style="padding-top: 20px!important">
             <p>Obrigado e volte sempre!</p>
