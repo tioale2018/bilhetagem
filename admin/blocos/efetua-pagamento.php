@@ -16,7 +16,7 @@ $idprevenda = $_POST['idprevenda'];
 $pgto       = $_POST['pgto'];
 $tipopgto   = (isset($_POST['tipopgto']) ? $_POST['tipopgto'] : 0); //$_POST['tipopgto'];
 $horaagora  = time();
-
+$usuario = $_SESSION['user_id'];
 
 if (!isset($_POST['pagasaida'])) {
     //procedimento para o pagamento na entrada
@@ -42,7 +42,7 @@ if (!isset($_POST['pagasaida'])) {
     };
 
     $tpcobranca = 1;
-    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:idprevenda, $tpcobranca, :valor, :forma_pgto, :horapgto)";
+    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:idprevenda, $tpcobranca, :valor, :forma_pgto, :horapgto, $usuario)";
     
     $pre_efetua_pgto = $connPDO->prepare($sql_efetua_pgto);
     $pre_efetua_pgto->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
@@ -160,7 +160,7 @@ if (!isset($_POST['pagasaida'])) {
     $tpcobranca  = '4';
     $forma_pgto  = $tipopgto;
 
-    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:id_prevenda, $tpcobranca, :valor, :forma_pgto, :hora_pgto)";
+    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:id_prevenda, $tpcobranca, :valor, :forma_pgto, :hora_pgto, $usuario)";
     $pre_movimento_pagamento = $connPDO->prepare($sql_movimento_pagamento);
     $pre_movimento_pagamento->bindParam(':id_prevenda', $idprevenda, PDO::PARAM_INT);
     $pre_movimento_pagamento->bindParam(':valor', $valor, PDO::PARAM_STR);

@@ -63,7 +63,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modalEditaParticipante" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" id="formParticipanteContent">
@@ -71,7 +70,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modalTermoParticipante" tabindex="-1" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg " role="document">
@@ -109,7 +107,6 @@ $(document).ready(function() {
 
     // Disparar o evento change para lidar com casos onde o campo já está preenchido no carregamento da página
     $('input[name=nascimento]').trigger('change');
-
    
     $('input[name=nascimento]').mask('00/00/0000');
 
@@ -150,8 +147,9 @@ $(document).ready(function() {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
                     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
-                        $('#modalAddParticipante').modal('hide');
-                        $('#modalAddParticipante form').trigger('reset');
+                        // $('#modalAddParticipante').modal('hide');
+                        // $('#modalAddParticipante form').trigger('reset');
+                        location.reload();
                     });
                 }); 
         }
