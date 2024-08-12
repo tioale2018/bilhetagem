@@ -21,7 +21,7 @@ function generateSqlQuery($date) {
     $sql = "SELECT sum(valor) as valor, forma_pgto, hora_pgto, tbprevenda.id_evento
     FROM tbfinanceiro
     inner join tbprevenda on tbprevenda.id_prevenda=tbfinanceiro.id_prevenda
-    where tbprevenda.id_evento=1 and tbfinanceiro.ativo=1 and tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp} 
+    where tbfinanceiro.forma_pgto>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbfinanceiro.ativo=1 and tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp} 
     GROUP by tbfinanceiro.forma_pgto";
 
     return $sql;
@@ -34,6 +34,7 @@ function generateSqlQuery($date) {
     }
 
     $sql_busca_pgto = generateSqlQuery($dataRelata);
+    // die("<pre>".$sql_busca_pgto."</pre>");
     $pre_busca_pgto = $connPDO->prepare($sql_busca_pgto);
     $pre_busca_pgto->execute();
     $row_busca_pgto = $pre_busca_pgto->fetchAll();
