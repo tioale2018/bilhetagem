@@ -125,13 +125,9 @@ include_once("./inc/head.php");
                     <div class="header">
                         <h2>Adicionar participantes</h2>
                         <ul class="header-dropdown">
-                            <li><a href="#modalAddParticipante" data-toggle="modal" data-target="#modalAddParticipante"><i class="zmdi zmdi-plus-circle"></i></a></li>
-                            <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                <ul class="dropdown-menu slideUp">
-                                    <li><a href="javascript:void(0);">...</a></li>
-                                    <li><a href="javascript:void(0);">...</a></li>
-                                </ul>
-                            </li>                            
+                            
+                            <li><a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante">Adicionar participante</a></li>
+                            
                         </ul>
                     </div>
                     
@@ -205,7 +201,7 @@ include_once("./inc/head.php");
             let id = $(this).data('id');
 
             swal({
-                title: "Cancelar agendamento?",
+                title: "Cancelar pré-cadastro?",
                 text: "Deseja realmente cancelar e excluir esta pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
@@ -229,7 +225,7 @@ include_once("./inc/head.php");
 
             swal({
                 title: "Finalizar e enviar pré-cadastro?",
-                text: "Deseja concluir o cadastro e enviar a solicitação de pré-cadastro?",
+                text: "Deseja concluir e enviar o pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",

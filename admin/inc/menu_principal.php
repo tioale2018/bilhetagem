@@ -26,6 +26,7 @@
                             <!-- <li><a href="dashboard">Relatórios</a></li> -->
                             <li><a href="caixa-basico">Caixa geral</a></li>
                             <li><a href="caixa-produtos">Produtos vendidos</a></li>
+                            <li><a href="caixa-tipopgto">Por tipo de pagamento</a></li>
                         </ul>
                     </li>
                     <li><a href="troca-evento">Trocar evento</a></li>

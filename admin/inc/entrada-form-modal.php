@@ -148,10 +148,12 @@
             } else {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
-                    $('#formModalParticipante button[type="submit"]').prop('disabled', false);
-                    $('#formModalParticipante').trigger('reset');
-                    $('#modalAddParticipante').modal('hide');
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> }, function(){
+                        location.reload();
+                    });
+                    // $('#formModalParticipante button[type="submit"]').prop('disabled', false);
+                    // $('#formModalParticipante').trigger('reset');
+                    // $('#modalAddParticipante').modal('hide');
                 }); 
             }
 
