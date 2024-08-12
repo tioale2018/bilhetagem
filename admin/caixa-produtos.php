@@ -15,7 +15,7 @@ function generateSqlQuery($date) {
     $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
    // $sql = "SELECT count(id_pacote) as total_vendido, pct_nome, pct_valor, pct_duracao FROM tbentrada where datahora_entra BETWEEN {$startTimestamp} AND {$endTimestamp} group by id_pacote order by total_vendido";
 
-    $sql = "SELECT count(tbentrada.id_pacote) as total_vendido, tbentrada.pct_nome, tbentrada.pct_valor, tbentrada.pct_duracao, tbprevenda.id_evento FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN  {$startTimestamp} AND {$endTimestamp} group by tbentrada.id_pacote order by total_vendido";
+    $sql = "SELECT count(tbentrada.id_pacote) as total_vendido, tbentrada.pct_nome, tbentrada.pct_valor, tbentrada.pct_duracao, tbprevenda.id_evento FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN  {$startTimestamp} AND {$endTimestamp} group by tbentrada.id_pacote order by tbentrada.pct_nome";
     // $sql = "SELECT * FROM tbfinanceiro WHERE ativo=1 AND hora_pgto BETWEEN ";
     return $sql;
 }
@@ -72,8 +72,9 @@ function generateSqlQuery($date) {
                     <thead>
                         <tr>                                                  
                             <th>Nome do pacote</th>
-                            <th>Valor</th>
                             <th>Qtde. vendida</th>
+                            <th>Valor</th>
+                            <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,12 +83,17 @@ function generateSqlQuery($date) {
                                 <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
                             </tr>
                     <?php } else { 
+                        $subtotal = 0;
+                        $total    = 0;
                         foreach ($row_busca_pgto as $key => $value) {
+                            $subtotal = $value['pct_valor'] * $value['total_vendido'];
+                            $total = $total + $subtotal;
                             ?>
                         <tr>
                             <th><?= $value['pct_nome'] ?></th>
-                            <th><?= number_format($value['pct_valor'], 2, ',', '.') ?></th>          
                             <th><?= $value['total_vendido'] ?></th>       
+                            <th>R$ <?= number_format($value['pct_valor'], 2, ',', '.') ?></th>
+                            <th>R$ <?= number_format($subtotal, 2, ',', '.') ?></th>
                         </tr>
                             <?php
                         }
@@ -95,7 +101,9 @@ function generateSqlQuery($date) {
                     } ?>
                             </tbody>
                 </table>
-
+                <?php if (isset($total)) { ?>
+                <p>Total: R$ <?= number_format($total, 2, ',', '.') ?></p>
+                <?php } ?>
                                 </div>
                             </div>
                         </div>
