@@ -90,6 +90,10 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
             margin: 0;
             padding: 0;
         }
+
+        tbody tr td:nth-child(2), tr td span, p span {
+            font-weight: bold;
+        }
        
     </style>
 </head>
@@ -125,13 +129,13 @@ if ($entradasaida==1) {
             <table>
                 <thead>
                     <tr>
-                        <td>Responsável: <?= $row_entrada[0]['nomeresponsavel'] ?></td>
+                        <td>Responsável: <span><?= $row_entrada[0]['nomeresponsavel'] ?></span></td>
                     </tr>
                     <tr>
-                        <td>CPF: <?= $row_entrada[0]['cpf'] ?></td>
+                        <td>CPF: <span><?= $row_entrada[0]['cpf'] ?></span></td>
                     </tr>
                     <tr>
-                        <td><?= $row_entrada[0]['telefone1'] ?></td>
+                        <td>Telefone: <span><?= $row_entrada[0]['telefone1'] ?></span></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,10 +144,10 @@ if ($entradasaida==1) {
                     
                     foreach ($row_entrada as $key => $value) { ?>
                     <tr>
-                        <td style="padding-top: 20px!important"><?= $row_entrada[$key]['nomecrianca'] ?></td>
+                        <td style="padding-top: 20px!important"><span><?= $row_entrada[$key]['nomecrianca'] ?></span></td>
                     </tr>
                     <tr>
-                        <td>Pacote: <?= $row_entrada[$key]['duracao'] ?>min -> R$ <?= number_format($row_entrada[$key]['valor'], 2, ',', '.') ?></td>
+                        <td>Pacote: <span><?= $row_entrada[$key]['duracao'] ?>min -> R$ <?= number_format($row_entrada[$key]['valor'], 2, ',', '.') ?></span></td>
                     </tr>
                     <tr>
                         <td>
@@ -167,8 +171,8 @@ if ($entradasaida==1) {
             </table>
         </div>
         <div class="col-12">
-            <p>Total pago: R$ <?= number_format($total, 2, ',', '.') ?></p> 
-            <p>Tipo de pagamento: <?= $formapgto[$row_entrada[0]['tipopgto']] ?></p>
+            <p>Total pago: <span>R$ <?= number_format($total, 2, ',', '.') ?></span></p> 
+            <p>Tipo de pagamento: <span><?= $formapgto[$row_entrada[0]['tipopgto']] ?></span></p>
         </div>
         <div class="col-12">
             <p>ATENÇÃO: Será cobrado minuto adicional. Não nos responsabilizamos por objetos perdidos no local.</p>
@@ -208,13 +212,13 @@ if ($entradasaida==1) {
             <table>
                 <thead>
                     <tr>
-                        <td>Responsável: <?= $row_saida[0]['nomeresponsavel'] ?></td>
+                        <td>Responsável: <span><?= $row_saida[0]['nomeresponsavel'] ?></span></td>
                     </tr>
                     <tr>
-                        <td>CPF: <?= formatarCPF($row_saida[0]['cpf']) ?></td>
+                        <td>CPF: <span><?= formatarCPF($row_saida[0]['cpf']) ?></span></td>
                     </tr>
                     <tr>
-                        <td><?= $row_saida[0]['telefone1'] ?></td>
+                        <td>Telefone: <span><?= $row_saida[0]['telefone1'] ?></span></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -245,15 +249,15 @@ if ($entradasaida==1) {
                                 </tr>
                                 <tr>
                                     <td>Permanência:</td>
-                                    <td><?= $dados_pessoa['tempoPermanenciaMinutos'] ?></td>
+                                    <td><?= $dados_pessoa['tempoPermanenciaMinutos'] ?>min</td>
                                 </tr>
                                 <tr>
                                     <td>Excedente</td>
-                                    <td><?= $dados_pessoa['tempoExcedenteMinutos'] + $row_saida[$k]['pct_tolerancia'] ?></td>
+                                    <td><?= $dados_pessoa['tempoExcedenteMinutos'] + $row_saida[$k]['pct_tolerancia'] ?>min</td>
                                 </tr>
                                 <tr>
                                     <td>Valor</td>
-                                    <td><?= $row_saida[$k]['pgto_extra_valor'] ?></td>
+                                    <td>R$ <?= number_format($row_saida[$k]['pgto_extra_valor'], 2, ',', '.') ?></td>
                                 </tr>
                                 <tr></tr>
                             </table>
@@ -264,9 +268,9 @@ if ($entradasaida==1) {
             </table>
         </div>
         <div class="col-12">
-            <p>Valor total: R$ <?= number_format($total, 2, ',', '.') ?></p> 
+            <p>Valor total: <span>R$ <?= number_format($total, 2, ',', '.') ?></span></p> 
             <?php if (isset($_POST['tipopgto']) && $_POST['tipopgto']!=0) { ?>
-            <p>Tipo de pagamento: <?= $formapgto[$_POST['tipopgto']] ?></p>
+            <p>Tipo de pagamento: <span><?= $formapgto[$_POST['tipopgto']] ?></span></p>
             <?php } ?>
         </div>
         <div class="col-12" style="padding-top: 20px!important">
