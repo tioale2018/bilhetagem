@@ -134,6 +134,8 @@ $(document).ready(function() {
 
      $('#formModalAddParticipante').on('submit', function(event) {
         event.preventDefault();
+        $('#formModalAddParticipante button[type=submit]').attr('disabled', true);
+        
         let Form = $(this).serialize();
         let i = 1;
 
