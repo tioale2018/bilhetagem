@@ -191,12 +191,14 @@ $hora_finaliza = time();
 
 $(document).ready(function(){
     $('#formpgto').submit(function(e){
+        $('#formpgto button[type=submit]').attr('disabled', true);
+
         let formAtual = $(this);
         e.preventDefault();
 
         swal({
-            title: "Deseja efetuar este pagamento",
-            text: "Sub texto desta operação",
+            title: "Deseja efetuar este pagamento?",
+            text: "Confirma o pagamento desta entrada?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -206,7 +208,7 @@ $(document).ready(function(){
             closeOnCancel: true
         }, function (isConfirm) {
             if (isConfirm) {
-                if(isConfirm) {
+                //if(isConfirm) {
                     $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
                         
                         swal({
@@ -217,12 +219,14 @@ $(document).ready(function(){
                                 }, function(){
                                     //location.href="controle.php";
                                     printAnotherDocument('comprovante.php', '#formImpressao');
-                            })
+                            });
                         //console.log(data);
                     });
-                }
-                
-            } 
+                //} 
+                    
+            } else {
+                $('#formpgto button[type=submit]').attr('disabled', false);
+            }
         });
     });
 });
