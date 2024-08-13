@@ -15,7 +15,7 @@ function generateSqlQuery($date) {
     }
     $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
     $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
-    $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp}";
+    $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp} order by tbprevenda.id_prevenda desc, tbfinanceiro.hora_pgto desc";
     return $sql;
 }
   

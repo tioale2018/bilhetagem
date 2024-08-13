@@ -106,7 +106,7 @@ if ($entradasaida==1) {
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     inner join tbfinanceiro_detalha on tbfinanceiro_detalha.identrada=tbentrada.id_entrada
-    where tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
+    where tbfinanceiro_detalha.ativo=1 and tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
     
     $pre_entrada = $connPDO->prepare($sql_entrada);
     $pre_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
