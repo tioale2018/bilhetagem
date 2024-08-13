@@ -108,7 +108,7 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
     inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     inner join tbfinanceiro_detalha on tbfinanceiro_detalha.identrada=tbentrada.id_entrada
-    where tbentrada.id_prevenda=:idprevenda";
+    where tbfinanceiro_detalha.ativo=1 and tbentrada.id_prevenda=:idprevenda";
 
     // die($sql_entrada);
 
