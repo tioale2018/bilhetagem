@@ -10,19 +10,19 @@
                     <div class="row clearfix">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="nome" class="form-label">Nome <span id="infoNascimento">(Idade: <span id="idade">2</span> anos)</span></label>                                
+                                <label for="fnome" class="form-label">Nome <span id="infoNascimento">(Idade: <span id="idade">2</span> anos)</span></label>                                
                                 <input name="nome" id="fnome" type="text" class="form-control" placeholder="Nome" required />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="" class="form-label">Nascimento</label>                            
+                                <label for="fanscimento" class="form-label">Nascimento</label>                            
                                 <input name="nascimento" id="fnascimento" type="text" placeholder="dd/mm/aaaa" class="form-control" placeholder="Nascimento" pattern="\d{2}/\d{2}/\d{4}" required />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="" class="form-label">Tipo de vínculo</label>                            
+                                <label for="fvinculo" class="form-label">Tipo de vínculo</label>                            
                                 <select name="vinculo" class="form-control show-tick p-0" name="vinculo" id="fvinculo">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_vinculos'] as $k => $v) { ?>
@@ -33,7 +33,7 @@
                         </div> 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="" class="form-label">Perfil</label>                            
+                                <label for="fpacote" class="form-label">Perfil</label>                            
                                 <select class="form-control p-0" name="pacote" id="fpacote">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_perfis'] as $k => $v) { ?>
