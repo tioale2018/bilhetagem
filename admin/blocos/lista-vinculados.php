@@ -42,7 +42,7 @@ $textoBtErro = 'Verifique pacotes pendentes'
 ?>
 
 <div class="body lista-vinculados">
-    <div class="table-responsive">
+    <div class="table-responsive" style="min-height: 300px">
         <?php 
         if ($pre->rowCount()>0) { 
         ?>

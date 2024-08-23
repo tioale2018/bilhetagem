@@ -31,6 +31,15 @@ $pre_atualiza_responsavel->bindParam(':telefone2', $telefone2, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':id', $idresponsavel, PDO::PARAM_INT);
 $pre_atualiza_responsavel->execute();
 
+
+$sql_responsavel = "select * from tbresponsavel where id_responsavel=:id";
+$pre_responsavel = $connPDO->prepare($sql_responsavel);
+$pre_responsavel->bindParam(':id', $idresponsavel, PDO::PARAM_INT);
+$pre_responsavel->execute();
+$dados_responsavel = $pre_responsavel->fetch(PDO::FETCH_ASSOC);
+
+$cpf = $dados_responsavel['cpf'];
+
 $_SESSION['dadosResponsavel'] = procuraResponsavel($cpf);
 
 // echo var_dump($connPDO->errorInfo());

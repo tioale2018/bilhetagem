@@ -9,7 +9,14 @@ include_once('./inc/funcoes-gerais.php');
         background-color: #f7a8ad;
     }
 
-    
+    .expired:hover {
+        background-color: #C26765!important;
+        color: #fff!important;
+    }
+
+    .expired:hover i{
+        color: #fff!important;
+    }
 
     .loader-aguarde {
         position: fixed;
@@ -17,7 +24,7 @@ include_once('./inc/funcoes-gerais.php');
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0 , 0, 0.5);
         display: none;
         z-index: 9999999999;
     }

@@ -161,7 +161,7 @@ $row = $pre->fetchAll();
                             </li>     -->
                         </ul>
                     </div>
-                    <div class="card bloco-vinculados">
+                    <div class="card bloco-vinculados" style="height: 300px">
                     </div>
                 </div>
             </div>
