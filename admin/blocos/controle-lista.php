@@ -66,7 +66,7 @@ $row = $pre->fetchAll();
                         <?php  foreach ($row as $key => $value) {  ?>
                             <tr>
                                 <td class="project-title">
-                                    <h6><a href="#"><?= obterNomeESobrenome($value['nome']) . '('.calcularIdade($value['nascimento']).' Anos)' ?></a></h6>
+                                    <h6><?= obterNomeESobrenome($value['nome']) . '('.calcularIdade($value['nascimento']).' Anos)' ?></h6>
                                     <small>Resp.: <?= $value['responsavel'] ?></small>
                                 </td>
                                 <td>

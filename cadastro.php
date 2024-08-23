@@ -25,6 +25,7 @@ $idPrevendaAtual   = $_SESSION['idPrevenda'];
 <?php
 
 include_once("./inc/head.php");
+include_once("./inc/funcoes.php");
 
 ?>
 <style>
@@ -70,14 +71,18 @@ include_once("./inc/head.php");
                     
                     <div class="body">
                         <div class="row">
-                            <div class="col-md-12"><h5>Dados do responsável</h5></div>
+                            <div class="col-8"><h5>Dados do responsável</h5></div>
+                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round" style="background-color: #27ae60!important">Editar dados</a></div>
                         </div>
+                        <div class="row">
+                                <div class="col-12 text-end"></div>
+                            </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="" width="100%">
                                     <tr>
                                         <th width="30%">CPF:</th>
-                                        <td width="70%"><?= $id ?></td>
+                                        <td width="70%"><?= formatarCPF($id) ?></td>
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
@@ -102,9 +107,7 @@ include_once("./inc/head.php");
 
                                 </table>
                             </div>
-                            <div class="row">
-                                <div class="col-12 text-end"><a href="#">Editar</a></div>
-                            </div>
+                           
                             
                         </div>
                         <?php /* ?>
@@ -208,6 +211,7 @@ include_once("./inc/head.php");
 </section>
 
 <?php include('./inc/cad-participante-modal.php') ?>
+<?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
 
 <script>
@@ -230,7 +234,8 @@ include_once("./inc/head.php");
                     showCancelButton: false,
                     closeOnConfirm: true
                 }, function () {
-                    $('.btsalvar').attr('disabled', true);
+                    // $('.btsalvar').attr('disabled', true);
+                    location.reload();
                 });                
             });
             

@@ -39,10 +39,7 @@ if ($pre->rowCount()>0) {
     $var_telefone = $row[0]['telefone1'];
 } 
 
-
-
 //echo json_encode($row);
-
 
 ?>
 
