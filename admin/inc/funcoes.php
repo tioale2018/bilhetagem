@@ -107,4 +107,22 @@ function formatMinutesToHours($totalMinutes) {
     return "$formattedHours:$formattedMinutes";
 }
 
+function obterIP() {
+    // Tenta obter o IP real através de cabeçalhos HTTP
+    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+      $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+      $ip = $_SERVER['REMOTE_ADDR'];
+    }
+  
+    // Valida o formato do IP
+    if (filter_var($ip, FILTER_VALIDATE_IP)) {
+      return $ip;
+    } else {
+      return "IP inválido";
+    }
+  }
+
 ?>

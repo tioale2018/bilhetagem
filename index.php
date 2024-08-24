@@ -130,7 +130,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             // alert('ok')
             swal({
-                title: "Termos de uso",
+                title: "Termos de uso dos dados",
                 text: "<?= $dadosEvento['regras_home'] ?>",
                 html: true
             });
