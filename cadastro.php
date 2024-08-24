@@ -25,7 +25,6 @@ $idPrevendaAtual   = $_SESSION['idPrevenda'];
 <?php
 
 include_once("./inc/head.php");
-include_once("./inc/funcoes.php");
 
 ?>
 <style>
@@ -51,9 +50,9 @@ include_once("./inc/funcoes.php");
 <?php //include('./inc/menu_principal.php') ?>
 <?php //include('./inc/menu_lateral.php') ?>
 
-<section class="content mt-2">    
+<section class="content mt-0">    
     <div class="container">
-        <div class="block-header mb-2 p-0">
+        <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Pré cadastro</h2>                    
@@ -68,49 +67,10 @@ include_once("./inc/funcoes.php");
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
-                    
+                    <div class="header">
+                      
+                    </div>
                     <div class="body">
-                        <div class="row">
-                            <div class="col-8"><h5>Dados do responsável</h5></div>
-                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round" style="background-color: #27ae60!important">Editar dados</a></div>
-                        </div>
-                        <div class="row">
-                                <div class="col-12 text-end"></div>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table class="" width="100%">
-                                    <tr>
-                                        <th width="30%">CPF:</th>
-                                        <td width="70%"><?= formatarCPF($id) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nome:</td>
-                                        <td><?= $dados_responsavel[0]['nome'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email:</td>
-                                        <td><?= $dados_responsavel[0]['email'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Telefone:</td>
-                                        <td><?= $dados_responsavel[0]['telefone1'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Telefone:</td>
-                                        <td><?= $dados_responsavel[0]['telefone2'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>E-mail:</td>
-                                        <td><?= $dados_responsavel[0]['email'] ?></td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                           
-                            
-                        </div>
-                        <?php /* ?>
                         <form action="" method="post"  class="js-sweetalert" id="formResponsavel">
                         <h2 class="card-inside-title">Dados do responsável</h2>
                         <?php // (isset($dados_responsavel)?'<div style="color:tomato">Dados localizados</div>':'') ?>
@@ -154,7 +114,6 @@ include_once("./inc/funcoes.php");
                             
                         </div>                   
                         </form>
-                        <?php */ ?>
                     </div>
                 </div>
             </div>
@@ -164,16 +123,15 @@ include_once("./inc/funcoes.php");
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Adicione aqui os particpantes</h2>
-                         <!-- <h2> </h2> -->
+                        <h2>Adicionar participantes</h2>
                         <ul class="header-dropdown">
                             
-                            <li><a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante">Adicionar participante</a></li>  
+                            <li><a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante">Adicionar participante</a></li>
+                            
                         </ul>
                     </div>
                     
                     <div class="body">
-                        <h5>Participantes cadastrados</h5>
                         <div class="table-responsive bloco-vinculados">
                             
                         </div>
@@ -211,7 +169,6 @@ include_once("./inc/funcoes.php");
 </section>
 
 <?php include('./inc/cad-participante-modal.php') ?>
-<?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
 
 <script>
@@ -234,8 +191,7 @@ include_once("./inc/funcoes.php");
                     showCancelButton: false,
                     closeOnConfirm: true
                 }, function () {
-                    // $('.btsalvar').attr('disabled', true);
-                    location.reload();
+                    $('.btsalvar').attr('disabled', true);
                 });                
             });
             

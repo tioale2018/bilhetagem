@@ -1,24 +1,7 @@
 <?php
 require_once './inc/config_session.php';
+require_once './inc/funcoes.php';
 
-function obterIP() {
-    // Tenta obter o IP real através de cabeçalhos HTTP
-    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-      $ip = $_SERVER['REMOTE_ADDR'];
-    }
-  
-    // Valida o formato do IP
-    if (filter_var($ip, FILTER_VALIDATE_IP)) {
-      return $ip;
-    } else {
-      return "IP inválido";
-    }
-  }
-  
   // Exibe o IP do usuário
   $ipUsuario = obterIP();
   //echo "Seu endereço IP: $ipUsuario";
@@ -56,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //rever isso no futuro
         $_SESSION['evento_selecionado'] = 0; //$_SESSION['user_evento'];
 
-
         //procedimento de loginserção no log
         $acaolog        = "login de usuário";
         $codigolog      = 1;
@@ -66,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pre_insere_log->execute();
         //fim do procedimento de log
         
-
         // Redireciona para a página protegida
         header('Location: controle.php');
         exit();

@@ -10,6 +10,7 @@ require_once './inc/funcoes.php';
 
 // Verifica a sessão
 verificarSessao();
+$ipUsuario = obterIP();
 
 include_once('./inc/conexao.php');
 $evento       = $_SESSION['evento_selecionado'];
@@ -46,10 +47,14 @@ if ($_POST['idresponsavel']=='') {
     $pre_insere_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':telefone2', $telefone2, PDO::PARAM_STR);
     $pre_insere_responsavel->bindParam(':datahora_input', $datahora, PDO::PARAM_STR);
-
     $pre_insere_responsavel->execute();
 
     $ultimo_id_responsavel = $connPDO->lastInsertId();
+
+    $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $ultimo_id_responsavel, '$ipUsuario', 'addresponsavel id $ultimo_id_responsavel')";
+    $pre_addlog = $connPDO->prepare($sql_addlog);
+    $pre_addlog->execute();   
+
 } else {
     $ultimo_id_responsavel = intval(preg_replace('/[^0-9]/', '', $_POST['idresponsavel']));
 }
@@ -80,6 +85,11 @@ if ($crianovaPrevenda) {
     $pre_prevenda->execute();
 
     $idPrevendaAtual = $connPDO->lastInsertId();
+
+    $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $idPrevendaAtual, '$ipUsuario', 'addprevenda id: $idPrevendaAtual')";
+    $pre_addlog = $connPDO->prepare($sql_addlog);
+    $pre_addlog->execute();
+
 
     $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
 
