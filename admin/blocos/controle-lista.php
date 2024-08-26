@@ -178,6 +178,7 @@ $row = $pre->fetchAll();
         });
 
         // $('#tabelaDados').dataTable();
+        $('.tabela-lista-controle').dataTable();
         
     });
 </script>

@@ -100,13 +100,8 @@ echo geraSQL('2024-08-01');
 
 ?>
 
-
-
-
 <?php include_once('./inc/controle-modal.php') ?>
 <?php include_once('./inc/javascript.php') ?>
-
-
 
 <script>
     $(document).ready(function(){
@@ -131,6 +126,8 @@ echo geraSQL('2024-08-01');
         }
         setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?>);
         <?php } ?>
+
+        
     })
      
 </script>
