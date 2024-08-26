@@ -72,7 +72,7 @@ include_once("./inc/funcoes.php");
                     <div class="body">
                         <div class="row">
                             <div class="col-8"><h5>Dados do responsável</h5></div>
-                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round" style="background-color: #27ae60!important">Editar dados</a></div>
+                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round">Editar dados</a></div>
                         </div>
                         <div class="row">
                                 <div class="col-12 text-end"></div>
@@ -164,11 +164,13 @@ include_once("./inc/funcoes.php");
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Adicione aqui os particpantes</h2>
                          <!-- <h2> </h2> -->
+                          <div style="text-align:center">
+                          <a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante" style="background-color: #27ae60!important">Adicionar participante</a>
+                          </div>
                         <ul class="header-dropdown">
                             
-                            <li><a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante">Adicionar participante</a></li>  
+                            <li></li>  
                         </ul>
                     </div>
                     
