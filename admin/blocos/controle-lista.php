@@ -178,7 +178,10 @@ $row = $pre->fetchAll();
         });
 
         // $('#tabelaDados').dataTable();
-        $('.tabela-lista-controle').dataTable();
+        $('.tabela-lista-controle').dataTable({
+            paging: false,
+            order: [[1, 'asc']]
+        });
         
     });
 </script>

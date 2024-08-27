@@ -25,7 +25,7 @@ $row = $pre->fetchAll();
 ?>
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+    <table class="table table-bordered table-striped table-hover js-basic-example dataTable lista-entrada">
         <thead>
             <tr>
                 <th>Pre-Reserva em</th>
@@ -58,3 +58,10 @@ $row = $pre->fetchAll();
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function(){
+        $('.lista-entrada').dataTable({
+            paging: false
+        });
+    });
+</script>
