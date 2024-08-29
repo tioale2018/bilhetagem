@@ -30,24 +30,9 @@ include_once('./inc/funcoes-gerais.php');
     }
 </style>
 
-<?php
-/*
-$sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbpacotes.descricao as nomepacote
-FROM tbentrada 
-inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
-inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
-inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda
-inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
-WHERE tbentrada.previnculo_status=3  and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." order by tbentrada.datahora_entra";
-$pre = $connPDO->prepare($sql);
-
-$pre->execute();
-$row = $pre->fetchAll();
-*/
-?>
 </head>
 <body class="theme-black">
-<?php //include_once('./inc/pageloader.php') ?>
+<?php include_once('./inc/pageloader.php') ?>
 
 <?php include_once('./inc/menu-overlay.php') ?>
 
@@ -77,28 +62,6 @@ $row = $pre->fetchAll();
         </div>
     </div>
 </section>
-
-<?php
-/*
-function geraSQL($date) {
-    $dateTime = DateTime::createFromFormat('Y-m-d', $date);
-
-    if ($dateTime === false) {
-        throw new Exception('Data inválida. Use o formato YYYY-MM-DD.');
-    }
-    $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
-    $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
-    // $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp}";
-    $sql = "SELECT * FROM tbprevenda where datahora_efetiva BETWEEN {$startTimestamp} AND {$endTimestamp}";
-    return $sql;
-}
-
-echo geraSQL('2024-08-01');
-*/
-
-
-
-?>
 
 <?php include_once('./inc/controle-modal.php') ?>
 <?php include_once('./inc/javascript.php') ?>

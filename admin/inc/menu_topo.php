@@ -138,12 +138,16 @@
                 <li class="footer"><a href="javascript:void(0);">View All</a></li>
             </ul>
         </li> -->
+        <!-- <div class="d-inline-flex" style="min-width: 100%;background-color: blue">asda</div> -->
+        
         <li class="float-right">
             <!-- <a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a>
             <a href="javascript:void(0);" class="btn_overlay"><i class="zmdi zmdi-sort-amount-desc"></i></a>
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a> -->
+            <div class="d-inline"><span><b>Usuário:</b> <?= $_SESSION['user_nome'] ?></span></div>
             <a href="" class="mega-menu logoff"><i class="zmdi zmdi-power"></i></a>
         </li>        
+
     </ul>
     </div>
 </nav>

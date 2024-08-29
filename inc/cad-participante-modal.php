@@ -56,7 +56,7 @@
                     <input type="hidden" name="cpf" value="<?= $dados_responsavel[0]['cpf']; ?>">
                     <input type="hidden" name="idprevenda" value="<?= $idPrevendaAtual ?>">
                     <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary btn-round waves-effect addparticipante" name="btaddparticipante">Salvar e adicionar</button>
+                    <button type="submit" class="btn btn-primary btn-round waves-effect addparticipante" name="btaddparticipante" style="background-color: #27ae60!important">Salvar e adicionar</button>
                 </div>
             </form>
         </div>

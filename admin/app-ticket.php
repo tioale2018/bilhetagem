@@ -5,12 +5,12 @@
 </head>
 <body class="theme-black">
 <!-- Page Loader -->
-<div class="page-loader-wrapper">
+<!-- <div class="page-loader-wrapper">
     <div class="loader">
         <div class="m-t-30"><img src="assets/images/logo.svg" width="48" height="48" alt="Alpino"></div>
         <p>Please wait...</p>        
     </div>
-</div>
+</div> -->
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
