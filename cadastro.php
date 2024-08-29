@@ -32,6 +32,16 @@ include_once("./inc/funcoes.php");
 .invalid {
     border: 2px solid red;
 }
+.menu-bottom {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    background-color: #abc;
+    z-index: 999;
+    display: flex;
+}
 </style>
 </head>
 <body class="theme-black">
@@ -184,8 +194,8 @@ include_once("./inc/funcoes.php");
             </div>
         </div> 
         
-        <div class="row clearfix">
-            <div class="col-lg-12">
+        <div class="clearfix">
+            <div class="">
                 <div class="card">
                 
                     <div class="body">
@@ -201,7 +211,7 @@ include_once("./inc/funcoes.php");
                             </div>
 
                             <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza">Finalizar Pré-Cadastro</button>
+                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar Pré-Cadastro</button>
                             </div>
                         </div>
 
@@ -212,6 +222,22 @@ include_once("./inc/funcoes.php");
     </div>
 </section>
 
+
+<?php /* ?>
+<footer class="menu-bottom">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-6">
+                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-danger waves-effect btn-round btAcao-cancela">Cancelar cadastro</button>
+            </div>
+
+            <div class="col-6">
+                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar Pré-Cadastro</button>
+            </div>
+        </div>
+    </div>
+</footer>
+<?php */ ?>
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
@@ -251,7 +277,7 @@ include_once("./inc/funcoes.php");
                 text: "Deseja realmente cancelar e excluir esta pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
+                confirmButtonColor: "#27ae60",
                 confirmButtonText: "Sim",
                 cancelButtonText: "Não",
                 closeOnConfirm: true,
@@ -274,7 +300,7 @@ include_once("./inc/funcoes.php");
                 text: "Deseja concluir e enviar o pré-cadastro?",
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
+                confirmButtonColor: "#27ae60",
                 confirmButtonText: "Sim",
                 cancelButtonText: "Não",
                 closeOnConfirm: true,

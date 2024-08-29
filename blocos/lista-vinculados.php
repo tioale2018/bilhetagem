@@ -37,7 +37,7 @@ $rowNum = $pre->rowCount();
         <?php 
         $travaBtEnvia = 'false';
         $textoBtEnvia = 'Finalizar pré-cadastro';
-        $textoBtErro = 'Verificar pendências';
+        $textoBtErro = 'Autorizações pendentes';
         if ($pre->rowCount()>0) { 
         ?>
                 
@@ -130,7 +130,9 @@ $rowNum = $pre->rowCount();
                 text: 'Deseja realmente excluir este participante?',
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
+                confirmButtonColor: "#27ae60",
+                cancelButtonColor: "#DD6B55",
+                closeButtonColor: "#DD6B55",
                 confirmButtonText: 'Sim',
                 cancelButtonText: 'Não',
                 closeOnConfirm: false,

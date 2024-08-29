@@ -181,10 +181,7 @@ foreach ($rows as $row) {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            
                                             <td>
-                                               
-
                                             <select class="form-control show-tick p-0" name="tipopgto" id="ftipopgto" required>
                                                 <option value="">Escolha</option>
                                                 <option value="1">Cartão de crédito</option>
@@ -237,12 +234,10 @@ foreach ($rows as $row) {
     
 </section>
 <iframe id="printFrame" name="printFrame" style="display:none"></iframe>
-<pre>
+
 <?php 
-// echo var_dump($financeiro_detalha);
 include_once('./inc/javascript.php') 
 ?>
-</pre>
 
 <script src="./js/impressao.js"></script>
 
@@ -258,12 +253,6 @@ $(document).ready(function(){
         let formAtual = $(this);
         e.preventDefault();
 
-        // let subtotal = $('#subtotal').html().replace(',','.');
-        // let valor = $('#pgto').val();
-        
-        // if(subtotal!=valor) {
-        //     swal("Erro", "Valor informado não confere com o valor total devido", "error");
-        // } else {
             swal({
                     title: "Deseja efetuar est<?= ($total>0?'e pagamento':'a saída') ?>",
                     text: "Sub texto desta operação",
@@ -273,29 +262,29 @@ $(document).ready(function(){
                     confirmButtonText: "Sim, efetuar <?= ($total>0?'pagamento':'saída') ?>",
                     cancelButtonText: "Não, cancelar e retornar",
                     closeOnConfirm: false,
-                    closeOnCancel: true
+                    closeOnCancel: true,
+                    showLoaderOnConfirm: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
-                            swal({
-                                  title: "Concluído", 
-                                  text: data + "Efetuado com sucesso!",
-                                  showCancelButton: false,
-                                  type: "success"
-                                }, function(){
-                                    <?php // if($total>0) { ?>
+                        setTimeout(() => {
+                            $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
+                                swal({
+                                    title: "Concluído", 
+                                    text: data + "Efetuado com sucesso!",
+                                    showCancelButton: false,
+                                    type: "success"
+                                    }, function(){
+                                        <?php // if($total>0) { ?>
                                         <?php if(1==1) { ?>
-                                    printAnotherDocument('comprovante.php', '#formImpressao');
-                                    <?php } else { ?>
-                                    location.href="controle.php";
-                                    <?php } ?>
-                            })
-                           //console.log(data);
-                        });
+                                        printAnotherDocument('comprovante.php', '#formImpressao');
+                                        <?php } else { ?>
+                                        location.href="controle.php";
+                                        <?php } ?>
+                                })
+                            });
+                        }, 1500);   
                     } 
                 });
-        //}
-
     });
 });
 

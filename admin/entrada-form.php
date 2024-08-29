@@ -11,7 +11,6 @@ $sql_busca_pacote = "select * from tbpacotes where ativo=1 and id_evento=".$even
 $pre_busca_pacote = $connPDO->prepare($sql_busca_pacote);
 $pre_busca_pacote->execute();
 $row_busca_pacote = $pre_busca_pacote->fetchAll();
-
 $_SESSION['lista_pacotes'] = $row_busca_pacote;
 //----------------------------------------------------------------------------------------------------------------
 
@@ -59,10 +58,21 @@ $row = $pre->fetchAll();
 .invalid {
     border: 2px solid red;
 }
+.page-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 99999;
+    display: none;
+}
 </style>
 
 </head>
 <body class="theme-black">
+<div class="page-block"></div>    
 <?php include('./inc/pageloader.php') ?>
 
 <?php include('./inc/menu-overlay.php') ?>
@@ -243,9 +253,11 @@ $row = $pre->fetchAll();
             }            
         });
 
-      
-
         $('body').on('click','#btnpagamento', function(event){
+            let botao = $(this);
+            botao.attr('disabled', true);
+            $('.page-block').css('display', 'flex');
+
             let count = $(this).data('numrow');
             if (count<1) {
                 swal({
@@ -257,11 +269,12 @@ $row = $pre->fetchAll();
                     confirmButtonText: "Ok",
                     closeOnConfirm: true
                 });
+                botao.attr('disabled', false);
             } else {
                 location.href='pagamento.php?item=<?= $_GET['item'] ?>';
-            }            
-        });
+            }
 
+        });
 
         $('body').on('click', '.prevenda-exclui', function(e){
             e.preventDefault();

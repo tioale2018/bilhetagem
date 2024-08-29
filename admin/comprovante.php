@@ -252,10 +252,6 @@ if ($entradasaida==1) {
                                     <td><?= $dados_pessoa['tempoPermanenciaMinutos'] ?>min</td>
                                 </tr>
                                 <tr>
-                                    <td>Excedente</td>
-                                    <td><?= $dados_pessoa['tempoExcedenteMinutos'] + $row_saida[$k]['pct_tolerancia'] ?>min</td>
-                                </tr>
-                                <tr>
                                     <td>Valor</td>
                                     <td>R$ <?= number_format($row_saida[$k]['pgto_extra_valor'], 2, ',', '.') ?></td>
                                 </tr>

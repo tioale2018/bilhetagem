@@ -29,8 +29,21 @@ $hora_finaliza = time();
 
 ?>
 
+<style>
+.page-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 99999;
+    display: none;
+}
+</style>
 </head>
 <body class="theme-black">
+<div class="page-block"></div>        
 <?php include_once('./inc/pageloader.php') ?>
 
 <?php include_once('./inc/menu-overlay.php') ?>
@@ -191,24 +204,29 @@ $hora_finaliza = time();
 
 $(document).ready(function(){
     $('#formpgto').submit(function(e){
-        $('#formpgto button[type=submit]').attr('disabled', true);
+        
+        
 
+        $('#formpgto button[type=submit]').attr('disabled', true);
         let formAtual = $(this);
         e.preventDefault();
 
         swal({
             title: "Deseja efetuar este pagamento?",
             text: "Confirma o pagamento desta entrada?",
-            type: "warning",
+            type: "info",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Sim, efetuar pagamento",
             cancelButtonText: "Não, cancelar e retornar",
             closeOnConfirm: false,
-            closeOnCancel: true
+            closeOnCancel: true,
+            showLoaderOnConfirm: true
         }, function (isConfirm) {
             if (isConfirm) {
                 //if(isConfirm) {
+                setTimeout(() => {
+                    
                     $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
                         
                         swal({
@@ -222,12 +240,16 @@ $(document).ready(function(){
                             });
                         //console.log(data);
                     });
-                //} 
+                    //} 
+
+                }, 1500);            
                     
             } else {
                 $('#formpgto button[type=submit]').attr('disabled', false);
+                // $('.page-block').css('display', 'none');
             }
         });
+
     });
 });
 
