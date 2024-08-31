@@ -39,7 +39,7 @@ if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
 
 $idprevenda = $_GET['item'];
 
-$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
+$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -160,6 +160,7 @@ $row = $pre->fetchAll();
                 <div class="card">
                 <div class="header">
                         <h2>Crianças/participantes adicionadas</h2>
+                        
                         <ul class="header-dropdown">
                             <li><a href="#modalAddParticipante" data-toggle="modal" data-target="#modalAddParticipante"><i class="zmdi zmdi-plus-circle"></i></a></li>
                             <!-- <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
@@ -170,6 +171,9 @@ $row = $pre->fetchAll();
                                 </ul>
                             </li>     -->
                         </ul>
+                    </div>
+                    <div class="">
+                    <h6>Ticket: #<?= $_GET['item'] ?></h6>
                     </div>
                     <div class="card bloco-vinculados" style="height: 300px">
                     </div>
@@ -184,7 +188,9 @@ $row = $pre->fetchAll();
                         <div class="row justify-content-end">
                         <div class="col-md-6">
                                 <div class="form-group">
-                                    <a class="btn btn-raised btn-danger waves-effect btn-round prevenda-exclui" href="">Excluir reserva</a>                               
+                                <?php if ($row[0]['origem_prevenda'] ==2) { ?>
+                                    <a class="btn btn-raised btn-danger waves-effect btn-round prevenda-exclui" href="">Excluir reserva</a>    
+                                <?php } ?>                           
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -275,7 +281,7 @@ $row = $pre->fetchAll();
             }
 
         });
-
+        <?php if ( $row[0]['origem_prevenda'] ==2) { ?>
         $('body').on('click', '.prevenda-exclui', function(e){
             e.preventDefault();
 
@@ -298,8 +304,8 @@ $row = $pre->fetchAll();
                         
                     } 
                 });
-
         });
+        <?php } ?>
 
         $('select').selectpicker();
     });

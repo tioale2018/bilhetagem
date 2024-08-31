@@ -22,7 +22,7 @@ if (!isset($_POST['pagasaida'])) {
     //procedimento para o pagamento na entrada
     $numqueries = 0;
 
-    $sql_status_prevenda = "update tbprevenda set prevenda_status=2, datahora_efetiva=:horaagora where prevenda_status=1 and id_prevenda=:idprevenda";
+    $sql_status_prevenda = "update tbprevenda set prevenda_status=2, datahora_efetiva=:horaagora where id_prevenda=:idprevenda";
     $pre_status_prevenda = $connPDO->prepare($sql_status_prevenda);
     $pre_status_prevenda->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     $pre_status_prevenda->bindParam(':horaagora', $horaagora, PDO::PARAM_STR);
