@@ -28,6 +28,7 @@ $row = $pre->fetchAll();
     <table class="table table-bordered table-striped table-hover js-basic-example dataTable lista-entrada">
         <thead>
             <tr>
+                <th>Ticket #</th>
                 <th>Pre-Reserva em</th>
                 <th>Responsável</th>
                 <th>CPF</th>
@@ -42,6 +43,7 @@ $row = $pre->fetchAll();
             
                 foreach ($row as $key => $value) { ?>
                 <tr>
+                    <td><?= $value['id_prevenda'] ?></td>
                     <td><?= date('d/m/Y H:i', $value['pre_reservadatahora']) ?></td>
                     <td><?= $value['nome'] ?></td>
                     <td><?= $value['cpf'] ?></td>

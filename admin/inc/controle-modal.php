@@ -4,6 +4,10 @@
             <form action="pagamento-saida.php" method="post" class="form-modal-controle">
                 <div class="modal-header">
                     <h4 class="title" id="modalSaidaLabel">Saída</h4>
+                    <div>
+                        <a href="#" class="btn btn-warning waves-effect btn-round reimprime" id="reprint" data-printprevenda=""><i class="material-icons">print</i></a>
+                    </div>
+                    
                 </div>
                 <div class="modal-body">
 
@@ -34,12 +38,13 @@
                     <div id="tabelaDados" class="body table-responsive my-3"></div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer">                   
                     <input type="hidden" name="tipopgto" value="2">
                     <input type="hidden" id="idprevenda" name="idprevenda" value="">
                     <input type="hidden" id="tempo_agora" name="tempo_agora" value="">
+                    
+                    <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-default btn-round waves-effect">Efetuar saída</button>
-                    <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -47,7 +52,7 @@
 </div>
 
 <div class="loader-aguarde"></div>
-
+<iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 
 <script>
 $(document).ready(function(){
@@ -66,5 +71,37 @@ $(document).ready(function(){
         }
         
     });
+
+    $('body').on('click', '.reimprime', function(e) {
+        e.preventDefault();
+            
+            
+            // printAnotherDocument('comprovante.php', '#formImpressao');
+
+            var prevenda = $(this).data('printprevenda');
+            var tipo = 5;
+
+            $.ajax({
+                method: "POST",
+                url: './blocos/reimprime-comprovante.php',
+                data: {idprevenda: prevenda, entradasaida: tipo},
+                success: function(data) {
+                    var printFrame = document.getElementById('printFrame');
+                    var printFrameWindow = printFrame.contentWindow || printFrame;
+
+                    printFrame.contentDocument.open();
+                    printFrame.contentDocument.write(data);
+                    printFrame.contentDocument.close();
+                    printFrameWindow.focus();
+                    printFrameWindow.print();
+                },
+                error: function(data) {
+                    alert('Falha ao carregar o documento para impressão.' + data);
+                }
+            });
+
+
+            
+        })
 });
 </script>

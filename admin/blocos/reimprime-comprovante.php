@@ -122,10 +122,11 @@ $entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Entrada: <?= date('d/m/Y H:i:s', $row_entrada[0]['datahora_efetiva']) ?></h3>
+            <small class="">Re-impressão de comprovante</small>
+            <h3 class="" style="padding-top: 0; margin-top: 0">Entrada: <?= date('d/m/Y H:i:s', $row_entrada[0]['datahora_efetiva']) ?></h3>
         </div>
         <div class="col-12">
-            <t  able>
+            <table>
                 <thead>
                     <tr>
                         <td>Responsável: <?= $row_entrada[0]['nomeresponsavel'] ?></td>

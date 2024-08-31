@@ -53,6 +53,7 @@ $row = $pre->fetchAll();
             <table class="table m-b-0 table-hover tabela-lista-controle">
                 <thead>
                     <tr>
+                        <th>Ticket</th>
                         <th>Nome/Responsável</th>
                         <th>Hora entrada</th>
                         <th>Hora saída</th>
@@ -65,6 +66,7 @@ $row = $pre->fetchAll();
                 <?php  if (count($row) > 0) {  ?>
                         <?php  foreach ($row as $key => $value) {  ?>
                             <tr>
+                                <td><?= $value['id_entrada'] ?></td>
                                 <td class="project-title">
                                     <h6><?= obterNomeESobrenome($value['nome']) . '('.calcularIdade($value['nascimento']).' Anos)' ?></h6>
                                     <small>Resp.: <?= $value['responsavel'] ?></small>
@@ -120,6 +122,7 @@ $row = $pre->fetchAll();
                 $('#tel2').html(dados[0]['telefone2']);
                 $('#idprevenda').val(dados[0]['id_prevenda']);
                 $('#tempo_agora').val(dados[0]['temponow']);
+                $('#reprint').data('printprevenda', dados[0]['id_prevenda']);
 
                 $('#tabelaDados').empty();
             
@@ -180,7 +183,7 @@ $row = $pre->fetchAll();
         // $('#tabelaDados').dataTable();
         $('.tabela-lista-controle').dataTable({
             paging: false,
-            order: [[1, 'asc']]
+            order: [[2, 'asc']]
         });
         
     });
