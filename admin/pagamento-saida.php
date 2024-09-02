@@ -188,7 +188,7 @@ foreach ($rows as $row) {
                                                 <option value="2">Cartão de débito</option>
                                                 <option value="3">Dinheiro</option>
                                                 <option value="4">Pix</option>
-                                                <option value="5">Misto</option>
+                                                <!-- <option value="5">Misto</option> -->
                                             </select>
                                            
                                             </td>
