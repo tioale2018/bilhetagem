@@ -22,17 +22,16 @@ if (!isset($_POST['pagasaida'])) {
     //procedimento para o pagamento na entrada
     $numqueries = 0;
 
-    $sql_status_prevenda = "update tbprevenda set prevenda_status=2, datahora_efetiva=:horaagora where id_prevenda=:idprevenda";
+    $sql_status_prevenda = "update tbprevenda set prevenda_status=2, datahora_efetiva='$horaagora' where id_prevenda=:idprevenda";
     $pre_status_prevenda = $connPDO->prepare($sql_status_prevenda);
     $pre_status_prevenda->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
-    $pre_status_prevenda->bindParam(':horaagora', $horaagora, PDO::PARAM_STR);
+    // $pre_status_prevenda->bindParam(':horaagora', $horaagora, PDO::PARAM_STR);
     // $pre_status_prevenda->execute();
     if($pre_status_prevenda->execute()) {
         $numqueries++;
     };
 
-    //autoriza=2 refere-se a liberação ou autorização dada pelo operador do sistema no ato da efetivação da entrada do participante
-    $sql_status_entrada = "update tbentrada set previnculo_status=3, datahora_entra=:horaagora, autoriza=2  where id_prevenda=:idprevenda and previnculo_status=1";
+    $sql_status_entrada = "update tbentrada set previnculo_status=3, datahora_entra=:horaagora  where id_prevenda=:idprevenda and previnculo_status=1";
     $pre_status_entrada = $connPDO->prepare($sql_status_entrada);
     $pre_status_entrada->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     $pre_status_entrada->bindParam(':horaagora', $horaagora, PDO::PARAM_STR);
@@ -40,15 +39,16 @@ if (!isset($_POST['pagasaida'])) {
     if($pre_status_entrada->execute()) {
         $numqueries++;
     };
-
-    $tpcobranca = 1;
-    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:idprevenda, $tpcobranca, :valor, :forma_pgto, :horapgto, $usuario)";
+    
+    //tpcobranca=1 para cobrança na entrada
+    $tpcobranca = 1; 
+    $sql_efetua_pgto = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:idprevenda, $tpcobranca, :valor, :forma_pgto, '$horaagora', $usuario)";
     
     $pre_efetua_pgto = $connPDO->prepare($sql_efetua_pgto);
     $pre_efetua_pgto->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     $pre_efetua_pgto->bindParam(':valor', $pgto, PDO::PARAM_STR);
     $pre_efetua_pgto->bindParam(':forma_pgto', $tipopgto, PDO::PARAM_STR);
-    $pre_efetua_pgto->bindParam(':horapgto', $horaagora, PDO::PARAM_STR);
+    // $pre_efetua_pgto->bindParam(':horapgto', $horaagora, PDO::PARAM_STR);
     
     // $pre_efetua_pgto->execute();
     if($pre_efetua_pgto->execute()) {
@@ -57,8 +57,6 @@ if (!isset($_POST['pagasaida'])) {
     $idFinanceiro = $connPDO->lastInsertId();
 
     //echo $numqueries;
-    // echo ($numqueries==3?'ok':'erro');
-
         
      $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
     //$financeiro_detalha = json_decode($_SESSION['financeiro_detalha'], true);
@@ -79,15 +77,20 @@ if (!isset($_POST['pagasaida'])) {
             $stmt->bindParam(':tipopgto', $tipopgto);
             
             $stmt->execute();
+            // $numqueries++;
         }
     
         $connPDO->commit(); // Confirma a transação
     } catch (Exception $e) {
         $connPDO->rollBack(); // Reverte a transação em caso de erro
         throw $e; // Re-levanta a exceção
+
     }
 
-} else {
+    $codeErro =  ($numqueries>=3?1:0);
+    echo json_encode(['error' => $codeErro]);
+
+} elseif (isset($_POST['pagasaida'])) {
     //procedimento pagamento saída
     $idprevenda         = $_POST['idprevenda'];
     $horafinaliza       = $_POST['horafinaliza'];
@@ -157,15 +160,18 @@ if (!isset($_POST['pagasaida'])) {
     //insere o valor do pagamento
 
     $valor       = $pgto;
-    $tpcobranca  = '4';
     $forma_pgto  = $tipopgto;
 
-    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:id_prevenda, $tpcobranca, :valor, :forma_pgto, :hora_pgto, $usuario)";
+    //tpcobranca 4 pagamento na saida com pgto extra
+    //tpcobranca 2 pagamento na saida sem pgto extra
+    $tpcobranca  = ($valor>0?4:2);
+
+    $sql_movimento_pagamento = "insert into tbfinanceiro (id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto, usuario) values (:id_prevenda, $tpcobranca, :valor, :forma_pgto, '$horaagora', $usuario)";
     $pre_movimento_pagamento = $connPDO->prepare($sql_movimento_pagamento);
     $pre_movimento_pagamento->bindParam(':id_prevenda', $idprevenda, PDO::PARAM_INT);
     $pre_movimento_pagamento->bindParam(':valor', $valor, PDO::PARAM_STR);
     $pre_movimento_pagamento->bindParam(':forma_pgto', $forma_pgto, PDO::PARAM_INT);
-    $pre_movimento_pagamento->bindParam(':hora_pgto', $horaagora, PDO::PARAM_STR);
+    // $pre_movimento_pagamento->bindParam(':hora_pgto', $horaagora, PDO::PARAM_STR);
     $pre_movimento_pagamento->execute();
 
     $idFinanceiro = $connPDO->lastInsertId();
@@ -208,12 +214,6 @@ if (!isset($_POST['pagasaida'])) {
 //----------- fim detalhamento -------------
 
 
-/*
-    foreach ($financeiro_detalha as $key => $value) {
-        $sql_financeiro_detalha = "insert into tbfinanceiro_detalha (id_financeiro, id_prevenda, tp_cobranca, valor, forma_pgto, hora_pgto) values (:id_financeiro, :id_prevenda, :tp_cobranca, :valor, :forma_pgto, :hora_pgto)";
-        
-    }
-*/
     //verifica qunatos entraram
     //se todos estiverem saindo
     //-- update prevenda status=6

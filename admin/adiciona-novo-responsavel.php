@@ -76,12 +76,13 @@ if ($pre_busca_prevenda->rowCount()>0) {
 }
 
 if ($crianovaPrevenda) {
-    $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, datahora_solicita, origem_prevenda, pre_reservadatahora) values (:id_responsavel, :id_evento, :data_acesso, 1, :datahora_solicita, 2, $datahora)";
+    $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, origem_prevenda, datahora_solicita, pre_reservadatahora) values (:id_responsavel, :id_evento, '$hoje', 1, 2, '$datahora', '$datahora')";
+    // $sql_prevenda = "insert into tbprevenda (id_responsavel, id_evento, data_acesso, prevenda_status, datahora_efetiva, origem_prevenda) values (:id_responsavel, :id_evento, :data_acesso, 1, :datahora_efetiva, 2)";
     $pre_prevenda = $connPDO->prepare($sql_prevenda);
     $pre_prevenda->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
     $pre_prevenda->bindParam(':id_evento', $evento_atual, PDO::PARAM_INT);
-    $pre_prevenda->bindParam(':data_acesso', $hoje, PDO::PARAM_STR);
-    $pre_prevenda->bindParam(':datahora_solicita', $datahora, PDO::PARAM_STR);
+    // $pre_prevenda->bindParam(':data_acesso', $hoje, PDO::PARAM_STR);
+    // $pre_prevenda->bindParam(':datahora_efetiva', $datahora, PDO::PARAM_STR);
     $pre_prevenda->execute();
 
     $idPrevendaAtual = $connPDO->lastInsertId();
@@ -103,7 +104,7 @@ if ($crianovaPrevenda) {
     if ($pre_busca_vinculados->rowCount()>0) {
         foreach ($row_busca_vinculados as $key => $value) {
             $idVinculado = $row_busca_vinculados[$key]['id_vinculado'];
-            $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].")";
+            $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso, autoriza, datahora_autoriza) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].", 2, '$datahora')";
             $pre_insere_vinculados = $connPDO->prepare($sql_insere_vinculados);
             $pre_insere_vinculados->execute();
         }

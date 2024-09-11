@@ -1,4 +1,5 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
@@ -14,6 +15,7 @@ if ( (!isset($_POST['e'])) || (!is_numeric($_POST['e'])) || (!isset($_POST['p'])
 }
 
 include_once('../inc/conexao.php');
+include_once('../inc/funcoes.php');
 
 $entrada = $_POST['e'];
 $pacote  = $_POST['p'];
@@ -27,7 +29,7 @@ $pre_pacote->execute();
 $row_pacote = $pre_pacote->fetchAll();
 //não valido a existencia desse pacote
 
-var_dump($row_pacote);
+// var_dump($row_pacote);
 
 $valor      = $row_pacote[0]['valor'];
 $duracao    = $row_pacote[0]['duracao'];
@@ -46,5 +48,12 @@ $pre->bindParam(':tolerancia', $tolerancia, PDO::PARAM_INT);
 $pre->bindParam(':adicional', $adicional, PDO::PARAM_STR);
 $pre->bindParam(':descricao', $descricao, PDO::PARAM_STR);
 $pre->execute();
+
+$datahora        = time();
+$ipUsuario       = obterIP();
+
+$sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $entrada, '$ipUsuario', 'troca pacote id: $pacote, entrada: $entrada')";
+$pre_addlog = $connPDO->prepare($sql_addlog);
+$pre_addlog->execute();
 
 ?>

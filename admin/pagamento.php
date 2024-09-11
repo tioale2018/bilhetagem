@@ -204,8 +204,6 @@ $hora_finaliza = time();
 
 $(document).ready(function(){
     $('#formpgto').submit(function(e){
-        
-        
 
         $('#formpgto button[type=submit]').attr('disabled', true);
         let formAtual = $(this);
@@ -224,25 +222,27 @@ $(document).ready(function(){
             showLoaderOnConfirm: true
         }, function (isConfirm) {
             if (isConfirm) {
-                //if(isConfirm) {
-                setTimeout(() => {
                     
-                    $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
-                        
+                $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
+                    setTimeout(() => {
+                        console.log(data);
+                        var jsonResponse = JSON.parse(data);
+                        var mensagem = (jsonResponse.error === 1) ? 'Pagamento efetuado com sucesso!' : 'Ocorreu um erro ao efetuar o pagamento, entre em contato com o suporte!';
+                        var tipoJanela = (jsonResponse.error === 1) ? 'success' : 'error';
+
                         swal({
                                 title: "Concluído", 
-                                text: "Pagamento efetuado com sucesso!",
+                                text: mensagem,
                                 showCancelButton: false,
-                                type: "success"
+                                type: tipoJanela
                                 }, function(){
                                     //location.href="controle.php";
                                     printAnotherDocument('comprovante.php', '#formImpressao');
-                            });
-                        //console.log(data);
-                    });
-                    //} 
-
-                }, 1500);            
+                        });
+                    }, 1500);            
+                    
+                });
+                
                     
             } else {
                 $('#formpgto button[type=submit]').attr('disabled', false);
