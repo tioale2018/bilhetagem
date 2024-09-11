@@ -71,13 +71,14 @@ include_once('./inc/funcoes-gerais.php');
         $('#controle-lista').load('./blocos/controle-lista.php', {i:1});  
         
         <?php if ($_SESSION['evento']['tempo_atualiza']>0) { ?>
+        
         function recarregarPagina() {
             $('#controle-lista').load('./blocos/controle-lista.php', { i: 1 }, function(response, status, xhr) {
                 if (status == "error") {
                     window.location.reload();
                 } else {
                     try {
-                        var jsonResponse = JSON.parse(response);
+                        let jsonResponse = JSON.parse(response);
                         if (jsonResponse.error === 'session_expired') {
                             window.location.reload();
                         }
@@ -87,7 +88,18 @@ include_once('./inc/funcoes-gerais.php');
                 }
             });
         }
-        setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?>);
+        //setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?>);
+        var geral = 0;
+        setInterval(() => {
+            $.post('./blocos/recarregar-paginas.php', function(data){
+                console.log(data);
+                let jsonResponse = JSON.parse(data);
+                if (geral != jsonResponse.valor) {
+                    geral = jsonResponse.valor;
+                    recarregarPagina();
+                }
+            })
+        }, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?>);
         <?php } ?>
 
         

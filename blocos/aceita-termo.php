@@ -9,8 +9,9 @@ session_start();
 include('../inc/conexao.php');
 
 $identrada = $_POST['participante'];
+$horaagora = time();
 
-$sql_atualiza_termo_participante = "update tbentrada set autoriza=1 where id_entrada=:identrada";
+$sql_atualiza_termo_participante = "update tbentrada set autoriza=1, datahora_autoriza='$horaagora' where id_entrada=:identrada";
 $pre_atualiza_termo_participante = $connPDO->prepare($sql_atualiza_termo_participante);
 $pre_atualiza_termo_participante->bindParam(':identrada', $identrada, PDO::PARAM_INT);
 $pre_atualiza_termo_participante->execute();

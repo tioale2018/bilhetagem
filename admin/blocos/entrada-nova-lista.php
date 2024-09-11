@@ -55,11 +55,13 @@ $row = $pre->fetchAll();
                 <?php } 
             } else {
                 ?>
-                <tr><td colspan="5" style="text-align: center">Nenhum registro encontrado</td></tr>
+                <tr><td colspan="6" style="text-align: center">Nenhum registro encontrado</td></tr>
             <?php } ?>
         </tbody>
     </table>
 </div>
+
+<?php if ($pre->rowCount()>0) { ?>
 <script>
     $(document).ready(function(){
         $('.lista-entrada').dataTable({
@@ -67,3 +69,4 @@ $row = $pre->fetchAll();
         });
     });
 </script>
+<?php } ?>

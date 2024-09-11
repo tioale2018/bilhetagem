@@ -266,8 +266,8 @@ $(document).ready(function(){
                     showLoaderOnConfirm: true
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        setTimeout(() => {
-                            $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
+                        $.post('./blocos/efetua-pagamento.php', formAtual.serialize(), function(data){
+                            setTimeout(() => {
                                 swal({
                                     title: "Concluído", 
                                     text: data + "Efetuado com sucesso!",
@@ -281,8 +281,8 @@ $(document).ready(function(){
                                         location.href="controle.php";
                                         <?php } ?>
                                 })
-                            });
-                        }, 1500);   
+                            }, 1500);   
+                        });
                     } 
                 });
     });
