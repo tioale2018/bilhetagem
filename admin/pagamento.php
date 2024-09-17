@@ -107,7 +107,6 @@ $hora_finaliza = time();
                                                 $financeiro_detalha['apagar'][]    = $value['valor'];
 
                                                 $financeiro_detalha['pgtoinout'][] = 1;
-
                                                 ?>
                                                 
                                             <tr>
@@ -130,7 +129,7 @@ $hora_finaliza = time();
                                 <h5 id="anotar">Informação de pagamento</h5>
                             </div>
                         </div>
-                        <form action="" method="post" id="formpgto" class="row">
+                        <form action="./blocos/efetua-pagamento.php" method="post" id="formpgto" class="row">
                             
                             <div class="col-md-4">
                                 <table class="table m-b-0">
@@ -183,7 +182,6 @@ $hora_finaliza = time();
                                 <button class="btn btn-raised btn-primary btn-round" type="submit">Efetuar pagamento</button>
                             </div>
                         </form>
-
                         <form action="" id="formImpressao">
                             <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
                             <input type="hidden" value="1" name="entradasaida">
@@ -192,7 +190,6 @@ $hora_finaliza = time();
                 </div>
             </div>
         </div>
-        
     </div>
     <iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 </section>
@@ -201,7 +198,6 @@ $hora_finaliza = time();
 
 <script src="./js/impressao.js"></script>
 <script>
-
 $(document).ready(function(){
     $('#formpgto').submit(function(e){
 
@@ -229,24 +225,18 @@ $(document).ready(function(){
                         var jsonResponse = JSON.parse(data);
                         var mensagem = (jsonResponse.error === 1) ? 'Pagamento efetuado com sucesso!' : 'Ocorreu um erro ao efetuar o pagamento, entre em contato com o suporte!';
                         var tipoJanela = (jsonResponse.error === 1) ? 'success' : 'error';
-
                         swal({
                                 title: "Concluído", 
                                 text: mensagem,
                                 showCancelButton: false,
                                 type: tipoJanela
                                 }, function(){
-                                    //location.href="controle.php";
                                     printAnotherDocument('comprovante.php', '#formImpressao');
                         });
-                    }, 1500);            
-                    
+                    }, 2000);            
                 });
-                
-                    
             } else {
                 $('#formpgto button[type=submit]').attr('disabled', false);
-                // $('.page-block').css('display', 'none');
             }
         });
 

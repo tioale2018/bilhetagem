@@ -18,7 +18,6 @@ $datasHoje = geraDatasSQL(date('Y-m-d'));
 
 $sql = "SELECT tbprevenda.id_prevenda, tbresponsavel.id_responsavel, tbresponsavel.nome, tbresponsavel.cpf, tbprevenda.data_acesso, tbprevenda.pre_reservadatahora, tbprevenda.prevenda_status FROM tbprevenda inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
 where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbprevenda.pre_reservadatahora between ". $datasHoje['start'] ." and ". $datasHoje['end'];
-die($sql);
 $pre = $connPDO->prepare($sql);
 $pre->execute();
 $row = $pre->fetchAll();
