@@ -12,8 +12,6 @@ require_once './inc/conexao.php';
 require_once './inc/funcoes-gerais.php';
 require_once './inc/funcoes.php';
 require_once './inc/funcoes-calculo.php';
-
-
 /*
 if (!isset($_SESSION['user_id'])) {
     header(':', true, 404);
