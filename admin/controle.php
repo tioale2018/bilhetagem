@@ -65,7 +65,6 @@ include_once('./inc/funcoes-gerais.php');
 
 <?php include_once('./inc/controle-modal.php') ?>
 <?php include_once('./inc/javascript.php') ?>
-
 <script>
     $(document).ready(function(){
         $('#controle-lista').load('./blocos/controle-lista.php', {i:1});  
