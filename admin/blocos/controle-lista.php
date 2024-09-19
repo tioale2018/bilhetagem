@@ -14,6 +14,82 @@ if (!isset($_SESSION['evento'])) {
     exit;
 }
 
+$horaagora = time();
+
+
+function extrairIds($array) {
+    $ids = [];
+
+    // Itera sobre o array para coletar os valores de 'id_prevenda'
+    foreach ($array as $item) {
+        if (isset($item['id_prevenda'])) {
+            $ids[] = $item['id_prevenda'];
+        }
+    }
+
+    // Remove duplicatas e ordena os valores
+    $ids = array_unique($ids);
+    sort($ids);
+
+    // Converte o array em uma string separada por vírgulas
+    return implode(', ', $ids);
+}
+
+
+/* Adicionado em 19/09/24 19:52. 
+Descrição: o sql abaixo tem como objetivo corrigir o erro do status de prevenda para 1, quando a venda acontecer e por algum motivo o status não for alterado para 2
+este erro tem acontecido aparentemente em internet lenta. Somente altera o status das prevendas no dia atual. */
+$diahoje_between = strtotime(date('Y-m-d', $horaagora) . " 00:00:00") . " and ". strtotime(date('Y-m-d', $horaagora) . " 23:59:59");
+
+
+$sql_busca_correcao = "select tbprevenda.id_prevenda from 
+                       tbprevenda inner join 
+                       tbentrada on tbprevenda.id_prevenda=tbentrada.id_prevenda
+                       where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbentrada.previnculo_status=3 and tbprevenda.datahora_efetiva BETWEEN ". $diahoje_between ;
+$pre_busca_correcao = $connPDO->prepare($sql_busca_correcao);
+$pre_busca_correcao->execute();
+
+if ($pre_busca_correcao->rowCount() > 0) {
+    $row_busca_correcao = $pre_busca_correcao->fetchAll();
+    //alternativa 1
+    /*
+    foreach ($row_busca_correcao as $key => $value) {
+        $sql_correcao = "update tbprevenda set prevenda_status=2 where id_prevenda=:idprevenda";
+        $pre_correcao = $connPDO->prepare($sql_correcao);
+        $pre_correcao->bindParam(':idprevenda', $value['id_prevenda'], PDO::PARAM_INT);
+        $pre_correcao->execute();
+    }
+        */
+        //alternativa 2
+        $resultado = extrairIds($row_busca_correcao);
+        $sql_correcao = "update tbprevenda set prevenda_status=2 where id_prevenda in ($resultado)";
+        $pre_correcao = $connPDO->prepare($sql_correcao);
+        
+        if ($pre_correcao->execute()) {
+            $log_correcao = "insert into tblogcorrecao (corrigidos, usuario, data, evento) values ('$resultado', ". $_SESSION['user_id'] . ", '$horaagora', " . $_SESSION['evento_selecionado'] . ")";
+            $pre_log_correcao = $connPDO->prepare($log_correcao);
+            $pre_log_correcao->execute();
+        }
+
+}
+
+
+/*
+
+$sql_correcao = "update tbprevenda as tb1
+inner join tbentrada as tb2 on tb1.id_prevenda = tb2.id_prevenda
+set tb1.prevenda_status=2
+where 
+tb1.prevenda_status=1 and tb2.previnculo_status=3 and tb1.datahora_efetiva BETWEEN ". $diahoje_between;
+die($sql_correcao);
+$pre_correcao = $connPDO->prepare($sql_correcao);
+$pre_correcao->execute();
+*/
+
+
+/* fim da correção  */
+
+
 /*
 $sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbpacotes.descricao as nomepacote
 FROM tbentrada 
