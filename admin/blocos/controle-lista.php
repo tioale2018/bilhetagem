@@ -76,9 +76,7 @@ if ($pre_busca_correcao->rowCount() > 0) {
 
 }
 
-
 /*
-
 $sql_correcao = "update tbprevenda as tb1
 inner join tbentrada as tb2 on tb1.id_prevenda = tb2.id_prevenda
 set tb1.prevenda_status=2
@@ -89,9 +87,7 @@ $pre_correcao = $connPDO->prepare($sql_correcao);
 $pre_correcao->execute();
 */
 
-
 /* fim da correção  */
-
 
 /*
 $sql = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbpacotes.descricao as nomepacote
@@ -121,7 +117,6 @@ $pre->execute();
 $row = $pre->fetchAll();
 
 ?>
-
 
 <div class="body project_report">
     <div>
@@ -170,8 +165,7 @@ $row = $pre->fetchAll();
                         <?php } ?>
                     <?php } else { ?>
                         <tr><td colspan="6" style="text-align: center">Nenhum resultado encontrado</td></tr>
-                    <?php } ?>
-                    
+                    <?php } ?>                    
                 </tbody>
             </table>
         </div>
@@ -180,90 +174,85 @@ $row = $pre->fetchAll();
 <script src="./js/controle-lista.js"></script>
 <script>
     
-    $(document).ready(function(){
-
+$(document).ready(function(){
     setInterval(updateElapsedTime, 1000);
     updateElapsedTime();
 
+    $('.btnModalSaida').on('click', function(){
+        $('.loader-aguarde').show();
 
-        $('.btnModalSaida').on('click', function(){
-            $('.loader-aguarde').show();
-
-            let i = $(this).data('idprevenda');
-            $('#modalSaida').modal();
-            
-            $.post("./blocos/busca-prevenda.php",{p:i}, function(data){
-                let dados = JSON.parse(data);
-
-                $('#nomeresponsavel').html(dados[0]['responsavel']);
-                $('#cpf').html(formatCPF(dados[0]['cpf']));
-                $('#tel1').html(dados[0]['telefone1']);
-                $('#tel2').html(dados[0]['telefone2']);
-                $('#idprevenda').val(dados[0]['id_prevenda']);
-                $('#tempo_agora').val(dados[0]['temponow']);
-                $('#reprint').data('printprevenda', dados[0]['id_prevenda']);
-
-                $('#tabelaDados').empty();
-            
-                // Criar a tabela
-                let tabela = $('<table>').addClass('table table-bordered m-b-0 table-hover');
-                
-                // Criar o cabeçalho da tabela
-                let cabecalho = $('<thead>').append(
-                    $('<tr>').append(
-                        $('<th>').text('#'),
-                        $('<th>').text('Nome'),
-                        $('<th>').text('H.Entrada'),
-                        $('<th>').text('H.Saída'),
-                        $('<th>').text('Pacote'),
-                        $('<th>').text('Permanência (min)')
-                    )
-                );
-                
-                tabela.append(cabecalho);
-                let corpoTabela = $('<tbody>');
-
-                dados.forEach(function(dado) {
-                    let checkboxDiv   = $('<div>').addClass('checkbox');
-                    let checkboxInput = $('<input>').attr('type', 'checkbox').addClass('checkbox chkmark').attr('name', 'chkvinculado[]').attr('id', 'checkbox_' + dado.id_entrada).attr('value', dado.id_vinculado).prop('checked', true);
-                    let checkboxLabel  = $('<label>').attr('for', 'checkbox_' + dado.id_entrada);
-                    
-                    checkboxDiv.append(checkboxInput, checkboxLabel);
-                    // let excedeLinha = 0;
-                    // excedeLinha = dado.min_adicional * dado.tempoExcedenteMinutos;
-                    // total = total + excedeLinha;
-
-                    // let formattedValue = excedeLinha.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    let permanencia = calcularPermanenciaEmMinutos(dado.datahora_entra, dado.temponow);
-                    
-                    let linha = $('<tr>').append(            
-                        $('<td>').append(checkboxDiv),
-                        $('<td>').text(dado.nome),
-                        $('<td>').text(dado.horaEntrada),
-                        $('<td>').text(dado.horaSaida),
-                        $('<td>').text(dado.duracao),
-                        $('<td>').text(permanencia)
-                        
-                    );
-                    corpoTabela.append(linha);
-                });
-                
-                // Adicionar corpo da tabela à tabela
-                tabela.append(corpoTabela);
-                
-                // Adicionar a tabela à div desejada
-                $('#tabelaDados').append(tabela);
-
-                $('.loader-aguarde').hide();
-            });  
-                
-        });
-
-        // $('#tabelaDados').dataTable();
-        $('.tabela-lista-controle').dataTable({
-            paging: false,
-            order: [[2, 'asc']]
-        });
+        let i = $(this).data('idprevenda');
+        $('#modalSaida').modal();
         
+        $.post("./blocos/busca-prevenda.php",{p:i}, function(data){
+            let dados = JSON.parse(data);
+
+            $('#nomeresponsavel').html(dados[0]['responsavel']);
+            $('#cpf').html(formatCPF(dados[0]['cpf']));
+            $('#tel1').html(dados[0]['telefone1']);
+            $('#tel2').html(dados[0]['telefone2']);
+            $('#idprevenda').val(dados[0]['id_prevenda']);
+            $('#tempo_agora').val(dados[0]['temponow']);
+            $('#reprint').data('printprevenda', dados[0]['id_prevenda']);
+
+            $('#tabelaDados').empty();
+        
+            // Criar a tabela
+            let tabela = $('<table>').addClass('table table-bordered m-b-0 table-hover');
+            
+            // Criar o cabeçalho da tabela
+            let cabecalho = $('<thead>').append(
+                $('<tr>').append(
+                    $('<th>').text('#'),
+                    $('<th>').text('Nome'),
+                    $('<th>').text('H.Entrada'),
+                    $('<th>').text('H.Saída'),
+                    $('<th>').text('Pacote'),
+                    $('<th>').text('Permanência (min)')
+                )
+            );
+            
+            tabela.append(cabecalho);
+            let corpoTabela = $('<tbody>');
+
+            dados.forEach(function(dado) {
+                let checkboxDiv   = $('<div>').addClass('checkbox');
+                let checkboxInput = $('<input>').attr('type', 'checkbox').addClass('checkbox chkmark').attr('name', 'chkvinculado[]').attr('id', 'checkbox_' + dado.id_entrada).attr('value', dado.id_vinculado).prop('checked', true);
+                let checkboxLabel  = $('<label>').attr('for', 'checkbox_' + dado.id_entrada);
+                
+                checkboxDiv.append(checkboxInput, checkboxLabel);
+                // let excedeLinha = 0;
+                // excedeLinha = dado.min_adicional * dado.tempoExcedenteMinutos;
+                // total = total + excedeLinha;
+
+                // let formattedValue = excedeLinha.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                let permanencia = calcularPermanenciaEmMinutos(dado.datahora_entra, dado.temponow);
+                
+                let linha = $('<tr>').append(            
+                    $('<td>').append(checkboxDiv),
+                    $('<td>').text(dado.nome),
+                    $('<td>').text(dado.horaEntrada),
+                    $('<td>').text(dado.horaSaida),
+                    $('<td>').text(dado.duracao),
+                    $('<td>').text(permanencia)                        
+                );
+                corpoTabela.append(linha);
+            });
+            
+            // Adicionar corpo da tabela à tabela
+            tabela.append(corpoTabela);
+            
+            // Adicionar a tabela à div desejada
+            $('#tabelaDados').append(tabela);
+
+            $('.loader-aguarde').hide();
+        });  
     });
+
+    // $('#tabelaDados').dataTable();
+    $('.tabela-lista-controle').dataTable({
+        paging: false,
+        order: [[2, 'asc']]
+    });
+});
 </script>
