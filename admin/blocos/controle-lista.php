@@ -1,11 +1,11 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
     // __halt_compiler();
     die(0);
 }
-session_start();
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes-gerais.php');
 
@@ -15,7 +15,6 @@ if (!isset($_SESSION['evento'])) {
 }
 
 $horaagora = time();
-
 
 function extrairIds($array) {
     $ids = [];
@@ -35,17 +34,20 @@ function extrairIds($array) {
     return implode(', ', $ids);
 }
 
-
 /* Adicionado em 19/09/24 19:52. 
 Descrição: o sql abaixo tem como objetivo corrigir o erro do status de prevenda para 1, quando a venda acontecer e por algum motivo o status não for alterado para 2
 este erro tem acontecido aparentemente em internet lenta. Somente altera o status das prevendas no dia atual. */
 $diahoje_between = strtotime(date('Y-m-d', $horaagora) . " 00:00:00") . " and ". strtotime(date('Y-m-d', $horaagora) . " 23:59:59");
 
-
+// $sql_busca_correcao = "select tbprevenda.id_prevenda from 
+//                        tbprevenda inner join 
+//                        tbentrada on tbprevenda.id_prevenda=tbentrada.id_prevenda
+//                        where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbentrada.previnculo_status=3 and tbprevenda.datahora_efetiva BETWEEN ". $diahoje_between ;
 $sql_busca_correcao = "select tbprevenda.id_prevenda from 
                        tbprevenda inner join 
                        tbentrada on tbprevenda.id_prevenda=tbentrada.id_prevenda
-                       where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbentrada.previnculo_status=3 and tbprevenda.datahora_efetiva BETWEEN ". $diahoje_between ;
+                       where tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status=1 and tbentrada.previnculo_status=3 and tbprevenda.datahora_efetiva >". strtotime(date('Y-m-d', $horaagora) . " 00:00:00") . " group by tbprevenda.id_prevenda";
+
 $pre_busca_correcao = $connPDO->prepare($sql_busca_correcao);
 $pre_busca_correcao->execute();
 
@@ -63,6 +65,7 @@ if ($pre_busca_correcao->rowCount() > 0) {
         //alternativa 2
         $resultado = extrairIds($row_busca_correcao);
         $sql_correcao = "update tbprevenda set prevenda_status=2 where id_prevenda in ($resultado)";
+        // die($sql_correcao);
         $pre_correcao = $connPDO->prepare($sql_correcao);
         
         if ($pre_correcao->execute()) {
