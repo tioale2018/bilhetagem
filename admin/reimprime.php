@@ -73,6 +73,8 @@
     </div>
 </section>
 
+<?php include('./inc/reimprime-lista-modal.php') ?>
+
 <?php include('./inc/javascript.php') ?>
 
 <script>
