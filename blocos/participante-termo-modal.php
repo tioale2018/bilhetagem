@@ -111,7 +111,7 @@ $variables = [
             <div class="col-md-12">
                 <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
                 <div class="">
-                    <label for="assinatermo"><input id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Confirmo que li o termo e estou de acordo com suas condições.</label>
+                    <label for="assinatermo"><input data-identrada="<?= $identrada ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Confirmo que li o termo e estou de acordo com suas condições.</label>
                 </div>
             </div>
         </div>   
@@ -123,7 +123,87 @@ $variables = [
 </form>
 
 
+
+
 <script>
+/*
+    function getDeviceInfo() {
+    // Coleta as informações do dispositivo via JavaScript
+    const deviceInfo = {
+        userAgent: navigator.userAgent,                         // User-Agent string
+        screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
+        deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop', // Device type
+        browserLanguage: navigator.language || navigator.userLanguage, // Browser language
+        operatingSystem: navigator.platform,                  // Operating system
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Timezone
+        connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown' // Connection type
+    };
+
+    return deviceInfo;
+}
+
+
+function sendDeviceInfo() {
+    const deviceInfo = getDeviceInfo();
+
+    // Obtém os dados adicionais do PHP fazendo uma chamada AJAX
+    fetch('save-device-info.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(deviceInfo)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Device info saved:', data);
+    })
+    .catch((error) => {
+        console.error('Error saving device info:', error);
+    });
+}
+
+*/
+/*
+function sendDeviceInfo() {
+    const deviceInfo = getDeviceInfo();
+
+    // Obtém os dados adicionais do PHP fazendo uma chamada AJAX
+    fetch('./blocos/save-device-info.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(deviceInfo)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Device info saved:', data);
+    })
+    .catch((error) => {
+        console.error('Error saving device info:', error);
+    });
+}
+*/
+
+// Chame a função quando o usuário aceitar o termo
+/*
+document.getElementById('assinatermo').addEventListener('change', function() {
+    // alert(JSON.stringify(getDeviceInfo()));
+    if (this.checked) {
+        sendDeviceInfo();
+    }
+});
+*/
+</script>
+
+<script>
+    
     $(document).ready(function(){
         $('#formAceitaTermo').submit(function(e){
             e.preventDefault();
@@ -136,7 +216,55 @@ $variables = [
                 
 
             })
-        })
+        });
+
+
+
+        function getDeviceInfo(identrada) {
+            // Coleta as informações do dispositivo via JavaScript
+            const deviceInfo = {
+                id_entrada: identrada,                                 // Adiciona o valor de id_entrada
+                userAgent: navigator.userAgent,                        // User-Agent string
+                screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
+                deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop', // Device type
+                browserLanguage: navigator.language || navigator.userLanguage, // Browser language
+                operatingSystem: navigator.platform,                   // Operating system
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Timezone
+                connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown' // Connection type
+            };
+
+            return deviceInfo;
+        }
+
+function sendDeviceInfo(identrada) {
+    deviceInfo = getDeviceInfo(identrada);
+
+    // Envio dos dados usando jQuery AJAX
+    $.ajax({
+        url: './blocos/save-device-info.php',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(deviceInfo),
+        success: function(response) {
+            console.log('Device info saved:', response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error saving device info:', textStatus, errorThrown);
+        }
+    });
+}
+
+// Chame a função quando o checkbox for clicado
+$('#assinatermo').on('change', function() {
+    if ($(this).is(':checked')) {
+        // Obtém o valor de identrada do atributo data-identrada
+        const identrada = $(this).data('identrada');
+        sendDeviceInfo(identrada); // Passa identrada para a função
+    }
+});
+
+
     })
 </script>
 
