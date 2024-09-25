@@ -123,12 +123,19 @@ GROUP BY
                     <td><?= $value['nomecrianca'] ?></td>
                     <td><?= $value['pct_nome'] ?></td>
                     <td><?= date('H:i', $value['datahora_entra']) ?></td>
-                    <td><?= date('H:i', $value['datahora_saida']) ?></td>
-                    <td><?= $value['tempo_permanencia'] ?>min</td>
-                    <td><?= date('d/m/Y H:i', $value['datahora_autoriza']) ?></td>
+                    <td><?= ($value['datahora_saida']!=""?date('H:i', $value['datahora_saida']):' - ') ?></td>
+                    <td><?= ($value['datahora_saida']!=""?$value['tempo_permanencia'].'min':' - ')   ?></td>
+                    <td><?= ($row_busca_dados_modal[0]['origem_prevenda']==1?date('d/m/Y H:i', $value['datahora_autoriza']):' - ')   ?></td>
                     <td><?= number_format($value['valorentrada'], 2, ',', '.') ?></td>
-                    <td><?= number_format($value['valorsaida'], 2, ',', '.') ?></td>
-                    <td><a href="termo.php?ticket=1234" class="reimprime" title="Imprimir" data-tipo="1" data-ticket="1234"><i class="material-icons">print</i></a></td>
+                    <td><?= ($value['datahora_saida']!=""?number_format($value['valorsaida'], 2, ',', '.'):' - ')   ?></td>
+                    <td>
+                        <?php if ($row_busca_dados_modal[0]['origem_prevenda']==1) { ?>
+                            <a href="#" class="imprime-termo" title="Imprime termo" data-entrada="<?= $value['id_entrada'] ?>"><i class="material-icons">print</i></a>
+                        <?php } else { ?>
+                            -
+                        <?php } ?>
+                        
+                    </td>
                 </tr>
             <?php } ?>
                 
@@ -152,9 +159,13 @@ GROUP BY
                     <td><?= $formapgto[$row_busca_dados_modal[0]['tipopgentrada']] ?></td>
                 </tr>
                 <tr>
-                    <td>Saída</td>
-                    <td>R$ <?= number_format($total_saida, 2, ',', '.') ?></td>
-                    <td><?= $formapgto[$row_busca_dados_modal[0]['tipopgsaida']] ?></td>
+                    <?php if ($value['datahora_saida']!="") { ?>
+                        <td>Saída</td>
+                        <td>R$ <?= number_format($total_saida, 2, ',', '.') ?></td>
+                        <td><?= $formapgto[$row_busca_dados_modal[0]['tipopgsaida']] ?></td>
+                    <?php } else { ?> 
+                        <td>Saída</td><td>-</td><td> - </td> 
+                    <?php }?>
                 </tr>
             </tbody>
             
@@ -162,6 +173,6 @@ GROUP BY
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-default btn-round waves-effect" data-dismiss="modal">Imprimir Ticket</button>
+        <button class="btn btn-default btn-round waves-effect reimprime" data-dismiss="modal" data-tipo="<?= ($value['prevenda_status']==6?'2':'1'); ?>" data-ticket="<?= $value['id_prevenda'] ?>">Imprimir Ticket</button>
         <button class="btn btn-danger btn-round waves-effect" data-dismiss="modal">Fechar</button>
     </div>

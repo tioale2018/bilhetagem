@@ -70,7 +70,12 @@ if ($res_busca_imprime->rowCount()>0) {
                     <td><?= date('d/m/Y H:i:s', $value['datahora_efetiva']); ?></td>
                     <td><?= ($value['prevenda_status']==6?date('d/m/Y H:i:s', $value['datahora_efetiva_saida']):'<span style="color:red">Ativa</span>'); ?></td>
                     <td>
+                        <a href="#" class="btn btn-primary btn-xs waves-effect modal-reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
+                        <?php 
+                        /*
                         <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
+                        */
+                        ?>
                     </td>
                 </tr>
                 <?php } ?>
@@ -93,17 +98,24 @@ if ($res_busca_imprime->rowCount()>0) {
 
 <script>
     $(document).ready(function() {
-        $('body').on('click', '.reimprime', function(e) {
+        $('body').on('click', '.modal-reimprime', function(e) {
             e.preventDefault();
             
-            var prevenda = $(this).data('ticket');
+            let prevenda = $(this).data('ticket');
 
             $('#areaModalImprime').load('./blocos/reimprime-lista-conteudo-modal.php', {p:prevenda});
             $('#ModalParticipantesImprime').modal('toggle');
             
-            
         });
-        
+
+        $('body').on('click', '.imprime-termo', function(e) {
+            e.preventDefault();
+            let entrada = $(this).data('entrada');
+            
+            alert(entrada)
+            
+            
+        })
     })
 </script>
 
