@@ -55,6 +55,7 @@ if ($pre->rowCount()>0) {
             <input name="nome" type="text" class="form-control" placeholder="Nome" required value="<?= $var_nome ?>">
             <span class="input-group-addon"><i class="material-icons">spellcheck</i></span>
         </div>
+        <div id="erro-nome" style="color:red"><small>Informe o nome com ao menos um sobrenome</small></div>
         
         <div class="input-group">
             <input name="telefone" type="text" placeholder="Telefone" class="form-control" required value="<?= $var_telefone ?>" />
@@ -79,6 +80,7 @@ if ($pre->rowCount()>0) {
 <?php if ($var_nome=="") { ?>
 <script>
    $(document).ready(function() {
+    $('#erro-nome').hide();
         $('input[name="nome"]').focus();
 
         

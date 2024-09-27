@@ -124,8 +124,12 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 <!-- <script src="assets/bundles/vendorscripts.bundle.js"></script>  -->
 <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 <script>
+
     $(document).ready(function(){
+        
+
         $('body').on('click', '#regras', function(e){
             e.preventDefault();
             // alert('ok')
@@ -163,13 +167,26 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 e.preventDefault(); // Impede o envio do formulário
                 alert('Por favor, leia e aceite os termos de uso antes de continuar.');
             }
-           
+
+            let campoNome = $('input[name="nome"]').val();
+            //  alert(validarNomeSobrenome(campoNome));
+
+            //e.preventDefault(); // Impede o envio do formulário
+
+            if (!validarNomeSobrenome(campoNome)) {
+                    e.preventDefault(); // Impede o envio do formulário
+                    $('#erro-nome').show();
+                }
+  
         });
 
     })
 </script>
 
 <script>
+     
+
+
     $(document).ready(function() {
     // Função para aplicar a máscara de CPF
     function aplicarMascaraCPF(cpf) {
