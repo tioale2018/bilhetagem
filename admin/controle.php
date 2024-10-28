@@ -91,7 +91,7 @@ include_once('./inc/funcoes-gerais.php');
         var geral = 0;
         setInterval(() => {
             $.post('./blocos/recarregar-paginas.php', function(data){
-                console.log(data);
+                // console.log(data);
                 let jsonResponse = JSON.parse(data);
                 if (geral != jsonResponse.valor) {
                     geral = jsonResponse.valor;
