@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-if ( isset($_SESSION['user_perfil']) && $_SESSION['user_perfil']==2 ) {
-    header('Location: ../master');
-}
 // $inactive = 1800; // 30 minutos
 $inactive = (isset($_SESSION['evento']) ? $_SESSION['evento']['tempo_tela'] : 1800);
 
