@@ -49,13 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //fim do procedimento de log
         
         // Redireciona para a página protegida
-        if ($_SESSION['user_perfil']==1) {
-            header('Location: controle.php');
-        }
-        if ($_SESSION['user_perfil']==2) {
-            header('Location: ../master');
-        }
-        
+        header('Location: controle.php');
         exit();
     }
     

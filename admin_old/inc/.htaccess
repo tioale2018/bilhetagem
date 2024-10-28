@@ -1,0 +1,3 @@
+# Bloquear acesso direto a todos os arquivos nesta pasta
+Order Allow,Deny
+Deny from all

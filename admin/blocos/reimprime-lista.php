@@ -55,7 +55,6 @@ if ($res_busca_imprime->rowCount()>0) {
                 <tr>
                     <th>Ticket</th>                                                        
                     <th>Responsável</th>
-                    <th>Origem Cadastro</th>
                     <th>H. Entrada</th>
                     <th>H. Saída</th>
                     <th>Imprimir</th>
@@ -66,16 +65,10 @@ if ($res_busca_imprime->rowCount()>0) {
                 <tr>
                     <td><?= $value['id_prevenda'] ?></td>
                     <td><?= $value['nome_responsavel'] ?></td>
-                    <td><?= ($value['origem_prevenda']==1?'Online':'Balcão'); ?></td>
                     <td><?= date('d/m/Y H:i:s', $value['datahora_efetiva']); ?></td>
                     <td><?= ($value['prevenda_status']==6?date('d/m/Y H:i:s', $value['datahora_efetiva_saida']):'<span style="color:red">Ativa</span>'); ?></td>
                     <td>
-                        <a href="#" class="btn btn-primary btn-xs waves-effect modal-reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
-                        <?php 
-                        /*
-                        <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
-                        */
-                        ?>
+                        <a href="reimprime.php?ticket=<?= $value['id_prevenda'] ?>" class="btn btn-primary btn-xs waves-effect reimprime" title="Imprimir" data-tipo="<?= ($value['prevenda_status']==6?'2':'1'); ?>" data-ticket="<?= $value['id_prevenda'] ?>"><i class="material-icons">print</i></a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -92,31 +85,44 @@ if ($res_busca_imprime->rowCount()>0) {
 <?php }  ?>
 <iframe id="printFrame" name="printFrame" style="display:none"></iframe>
 
-
-
 <!-- <script src="./js/impressao.js"></script> -->
 
 <script>
     $(document).ready(function() {
-        $('body').on('click', '.modal-reimprime', function(e) {
+        $('body').on('click', '.reimprime', function(e) {
             e.preventDefault();
+            // printAnotherDocument('comprovante.php', '#formImpressao');
             
-            let prevenda = $(this).data('ticket');
+            var prevenda = $(this).data('ticket');
+            var tipo = $(this).data('tipo');
 
-            $('#areaModalImprime').load('./blocos/reimprime-lista-conteudo-modal.php', {p:prevenda});
-            $('#ModalParticipantesImprime').modal('toggle');
-            
-        });
+            $.ajax({
+                method: "POST",
+                url: './blocos/reimprime-comprovante.php',
+                data: {idprevenda: prevenda, entradasaida: tipo},
+                success: function(data) {
+                    var printFrame = document.getElementById('printFrame');
+                    var printFrameWindow = printFrame.contentWindow || printFrame;
 
-        $('body').on('click', '.imprime-termo', function(e) {
-            e.preventDefault();
-            let entrada = $(this).data('entrada');
-            
-            alert(entrada)
-            
+                    printFrame.contentDocument.open();
+                    printFrame.contentDocument.write(data);
+                    printFrame.contentDocument.close();
+
+                    /*
+                    $(printFrameWindow).on('afterprint', function() {
+                        window.location.href = './controle.php';
+                    });
+                    */
+
+                    printFrameWindow.focus();
+                    printFrameWindow.print();
+                },
+                error: function(data) {
+                    alert('Falha ao carregar o documento para impressão.' + data);
+                }
+            });
             
         })
     })
-</script>
-
+    </script>
 
