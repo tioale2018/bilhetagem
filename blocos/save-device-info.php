@@ -1,13 +1,14 @@
 <?php
 
-/*
-if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
+if ($_SERVER['REQUEST_METHOD']!="POST" ) {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
     die(0);
 }
-    */
-session_start();
+
+session_start(); 
+
+// die(file_get_contents('php://input'));
 
 include('../inc/conexao.php');
 $pdo = $connPDO;
@@ -52,6 +53,21 @@ $ipAddress = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] :
 $serverLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 $serverDateTime = date('Y-m-d H:i:s');
 
+
+//coleta dados do termo de uso ativo
+$sql_busca_termo = "SELECT tbtermo.* FROM tbtermo
+inner join tbprevenda on tbprevenda.id_evento=tbtermo.idevento
+inner join tbentrada on tbentrada.id_prevenda=tbprevenda.id_prevenda
+WHERE tbtermo.ativo=1 and tbentrada.id_entrada=$idEntrada";
+// die($sql_busca_termo);
+$pre_busca_termo = $connPDO->prepare($sql_busca_termo);
+$pre_busca_termo->execute();
+$row_busca_termo = $pre_busca_termo->fetchAll();
+
+$idTermoAtivo = $row_busca_termo[0]['idtermo'];
+// die(var_dump($row_busca_termo));
+
+
 // Verifica se o id_entrada já existe no banco de dados
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM device_info WHERE id_entrada = :idEntrada");
 $stmt->execute([':idEntrada' => $idEntrada]);
@@ -71,7 +87,8 @@ try {
             time_zone = :timeZone, 
             connection_type = :connectionType, 
             server_date_time = :serverDateTime, 
-            created_at = NOW() 
+            created_at = NOW(),
+            termoativo = :idTermoAtivo 
             WHERE id_entrada = :idEntrada");
 
         $stmt->execute([
@@ -85,18 +102,19 @@ try {
             ':timeZone' => $timeZone,
             ':connectionType' => $connectionType,
             ':serverDateTime' => $serverDateTime,
-            ':idEntrada' => $idEntrada
+            ':idEntrada' => $idEntrada,
+            ':idTermoAtivo' => $idTermoAtivo
         ]);
     } else {
         // Insere os dados se id_entrada não existir
         $stmt = $pdo->prepare("INSERT INTO device_info (
             id_entrada, ip_address, user_agent, screen_resolution, device_type, 
             browser_language, server_language, operating_system, 
-            time_zone, connection_type, server_date_time, created_at
+            time_zone, connection_type, server_date_time, created_at, termoativo
         ) VALUES (
             :idEntrada, :ipAddress, :userAgent, :screenResolution, :deviceType, 
             :browserLanguage, :serverLanguage, :operatingSystem, 
-            :timeZone, :connectionType, :serverDateTime, NOW()
+            :timeZone, :connectionType, :serverDateTime, NOW(), :idTermoAtivo
         )");
 
         $stmt->execute([
@@ -110,7 +128,8 @@ try {
             ':operatingSystem' => $operatingSystem,
             ':timeZone' => $timeZone,
             ':connectionType' => $connectionType,
-            ':serverDateTime' => $serverDateTime
+            ':serverDateTime' => $serverDateTime,
+            ':idTermoAtivo' => $idTermoAtivo
         ]);
     }
 

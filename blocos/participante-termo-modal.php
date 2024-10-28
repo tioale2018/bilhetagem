@@ -69,7 +69,8 @@ function formatDate($timestamp) {
 
 $sql_busca_termo = "select tbtermo.*, tbevento.titulo, tbevento.local, tbevento.cidade from tbtermo 
 inner join tbevento on tbevento.id_evento=tbtermo.idevento
-where tbtermo.ativo=1 and tbtermo.idtermo=".$_SESSION['evento_atual'];
+where tbtermo.ativo=1 and tbtermo.idevento=".$_SESSION['evento_atual'];
+// die($sql_busca_termo);
 $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetchAll();
@@ -89,7 +90,7 @@ $row_dados_participante = $pre_dados_participante->fetchAll();
 // Exemplo de uso
 //$text = "Olá, meu nome é {{nome}} e eu tenho {{idade}} anos.";
 $dataAgora = time();
-
+// die(var_dump($row_dados_participante));
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
