@@ -45,4 +45,12 @@ try {
 
 //rever quando incluir todos os eventos
 //$evento = 1;
+
+//ativa o debug em tela para usuários específcos
+if ( isset($_SESSION['user_debug']) && $_SESSION['user_debug'] == 1 ) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+}
+
 ?>

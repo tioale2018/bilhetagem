@@ -149,8 +149,6 @@ $(document).ready(function() {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
                     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
-                        // $('#modalAddParticipante').modal('hide');
-                        // $('#modalAddParticipante form').trigger('reset');
                         location.reload();
                     });
                 }); 

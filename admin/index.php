@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //rever isso no futuro
         $_SESSION['evento_selecionado'] = 0; //$_SESSION['user_evento'];
 
+        //verifica usuario debug
+        $_SESSION['user_debug'] = $row_busca_user[0]['debug']; 
+
         //procedimento de loginserção no log
         $acaolog        = "login de usuário";
         $codigolog      = 1;

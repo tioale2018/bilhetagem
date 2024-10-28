@@ -18,7 +18,6 @@ function buscarPorHash($array, $hash) {
     return null;
 }
 
-//$sql = "select hash from tbevento_ativo where ativo=1";
 $sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro, tbevento.regras_parque
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
@@ -59,7 +58,6 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 <div class="col-12">
                     <div class="company_detail">
                         <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div>
-                        <!-- <h4 class="logo"> </h4><img src="assets/images/logo.svg" alt=""> Gestão -->
                     </div>
                 </div>
             </div>
@@ -94,20 +92,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                     <div class="company_detail">
                         <h3><?= $dadosEvento['titulo'] ?></h3>
                         <p>Realize o seu cadastro aqui para facilitar o procedimento de acesso ao parque.</p>                        
-                        <!-- <div class="footer">
-                            <ul  class="social_link list-unstyled">
-                                <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
-                                <li><a href="https://www.facebook.com/" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="http://twitter.com/" title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="http://plus.google.com/" title="Google plus"><i class="zmdi zmdi-google-plus"></i></a></li>
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a href="" target="_blank">Email</a></li>
-                                <li><a href="" target="_blank">Sobre nós</a></li>
-                                <li><a href="" target="_blank">FAQ</a></li>
-                            </ul>
-                        </div> -->
+                        
                     </div>                    
                 </div>
                 
@@ -132,7 +117,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 
         $('body').on('click', '#regras', function(e){
             e.preventDefault();
-            // alert('ok')
+            
             swal({
                 title: "Termos de uso dos dados",
                 text: "<?= $dadosEvento['regras_home'] ?>",

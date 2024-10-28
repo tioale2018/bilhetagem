@@ -10,26 +10,6 @@ $username = "root";
 $password = "";
 $database = "bdbilhetagem";
 
-/*
-if ($server_name == 'localhost' || $server_name == '127.0.0.1' || $server_name == '192.168.2.16' || $server_name == 'host.bilhetagem') {
-  # code...
-  $username = "root";
-  $password = "";
-  $database = "bdbilhetagem";
-
-} elseif ($server_name == 'w3brand.com.br') {
-  //homologa w3brand
-  # code...
-  $username = "brandw3com_userbilhetagem";
-  $password = "@}T)Cupw0e_z";
-  $database = "brandw3com_bdbilhetagem";
-} elseif ($server_name == 'rapidticket.com.br') {
-  //produção rapidticket
-  $username = "rapidcom_userbilhetagem";
-  $password = "i#U9ZPP-IB3V";
-  $database = "rapidcom_bdbilhetagem";
-}
-  */
 
 if ($server_name == 'w3brand.com.br') {
   //homologa w3brand

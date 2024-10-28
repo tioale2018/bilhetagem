@@ -2,14 +2,12 @@
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    // __halt_compiler();
     die(0);
 }
 
 if ( (!isset($_POST['cpf'])) ) {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    // __halt_compiler();
     die(0);
 }
 
@@ -38,8 +36,6 @@ if ($pre->rowCount()>0) {
     $var_email    = $row[0]['email'];
     $var_telefone = $row[0]['telefone1'];
 } 
-
-//echo json_encode($row);
 
 ?>
 

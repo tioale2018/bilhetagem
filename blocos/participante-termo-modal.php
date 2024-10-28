@@ -24,19 +24,6 @@ function calculateAge($birthdate) {
     $age = $currentDate->diff($birthDate)->y;
     return $age;
 }
-/*
-function formatDate($timestamp) {
-    // Define o locale para português
-    setlocale(LC_TIME, 'pt_BR.UTF-8', 'portuguese', 'pt_BR.utf8');
-    
-    // Formata a data usando strftime
-    $formattedDate = strftime('%d de %B de %Y', $timestamp);
-    
-    // Retorna a data formatada
-    return $formattedDate;
-}
-
-*/
 
 function formatDate($timestamp) {
     // Array com os nomes dos meses em português
@@ -70,12 +57,10 @@ function formatDate($timestamp) {
 $sql_busca_termo = "select tbtermo.*, tbevento.titulo, tbevento.local, tbevento.cidade from tbtermo 
 inner join tbevento on tbevento.id_evento=tbtermo.idevento
 where tbtermo.ativo=1 and tbtermo.idevento=".$_SESSION['evento_atual'];
-// die($sql_busca_termo);
+
 $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetchAll();
-
-
 
 $identrada = $_POST['i'];
 $sql_dados_participante = "SELECT tbentrada.id_prevenda, tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.email FROM tbentrada inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel WHERE tbentrada.id_entrada=:identrada";
@@ -85,12 +70,8 @@ $pre_dados_participante->bindParam(':identrada', $identrada, PDO::PARAM_INT);
 $pre_dados_participante->execute();
 $row_dados_participante = $pre_dados_participante->fetchAll();
 
-// die(var_dump($row_dados_participante));
-
-// Exemplo de uso
-//$text = "Olá, meu nome é {{nome}} e eu tenho {{idade}} anos.";
 $dataAgora = time();
-// die(var_dump($row_dados_participante));
+
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
@@ -123,85 +104,6 @@ $variables = [
     </div>
 </form>
 
-
-
-
-<script>
-/*
-    function getDeviceInfo() {
-    // Coleta as informações do dispositivo via JavaScript
-    const deviceInfo = {
-        userAgent: navigator.userAgent,                         // User-Agent string
-        screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
-        deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop', // Device type
-        browserLanguage: navigator.language || navigator.userLanguage, // Browser language
-        operatingSystem: navigator.platform,                  // Operating system
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Timezone
-        connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown' // Connection type
-    };
-
-    return deviceInfo;
-}
-
-
-function sendDeviceInfo() {
-    const deviceInfo = getDeviceInfo();
-
-    // Obtém os dados adicionais do PHP fazendo uma chamada AJAX
-    fetch('save-device-info.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(deviceInfo)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Device info saved:', data);
-    })
-    .catch((error) => {
-        console.error('Error saving device info:', error);
-    });
-}
-
-*/
-/*
-function sendDeviceInfo() {
-    const deviceInfo = getDeviceInfo();
-
-    // Obtém os dados adicionais do PHP fazendo uma chamada AJAX
-    fetch('./blocos/save-device-info.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(deviceInfo)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Device info saved:', data);
-    })
-    .catch((error) => {
-        console.error('Error saving device info:', error);
-    });
-}
-*/
-
-// Chame a função quando o usuário aceitar o termo
-/*
-document.getElementById('assinatermo').addEventListener('change', function() {
-    // alert(JSON.stringify(getDeviceInfo()));
-    if (this.checked) {
-        sendDeviceInfo();
-    }
-});
-*/
-</script>
 
 <script>
     
