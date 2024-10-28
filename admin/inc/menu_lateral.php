@@ -1,3 +1,6 @@
+<?php
+//nao remover ainda - 28/10/24
+/*
 <aside class="right_menu">
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
@@ -170,3 +173,6 @@
         </div>
     </div>    
 </aside>
+
+*/
+?>

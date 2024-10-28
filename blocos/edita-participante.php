@@ -2,7 +2,6 @@
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    // __halt_compiler();
     die(0);
 }
 session_start();
@@ -24,8 +23,6 @@ $pre->bindParam(':prevenda', $prevenda, PDO::PARAM_INT);
 $pre->execute();
 
 $row = $pre->fetchAll();
-
-// die(var_dump($_SESSION['lista_vinculos']));
 
 ?>
 <form action="" method="post" id="formEditaParticipante">
@@ -166,19 +163,15 @@ $(document).ready(function() {
             alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
             $('#nasc').focus();
         } else {
-            //$('#modalAddParticipante form').submit(function(event){
-              //  event.preventDefault();
 
               $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
-                // console.log(data);
+
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
                     $('#modalEditaParticipante').modal('toggle');
                     
                 });
 
             });
-
-            //});            
 
         }
         

@@ -1,11 +1,5 @@
 <?php
-/*
-if(!isset($_POST['hashevento'])) {
-    header('Location: index.php');
-} else {
-    $hash = $_POST['hashevento'];
-}
-*/
+
 $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
@@ -32,20 +26,6 @@ if ($pre->rowCount()<1) {
 
 //---------------------------
 
-/*
-if (isset($_POST['btnFinaliza'])) {
-    $datahora = time();
-    $idprevenda=$_POST['idprevenda'];
-    $sql_status_prevenda = "update tbprevenda set prevenda_status=1, datahora_solicita=:datahora  where prevenda_status=9 and id_prevenda=:idprevenda";
-
-    $pre_status_prevenda = $connPDO->prepare($sql_status_prevenda);
-    $pre_status_prevenda->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
-    $pre_status_prevenda->bindParam(':datahora', $datahora, PDO::PARAM_STR);
-    $pre_status_prevenda->execute();
-
-    header('Location: index.php');
-}
-*/
 $evento = $evento_atual;
 
 //---------------------------------------------------------------------------------------------

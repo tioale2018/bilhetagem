@@ -120,51 +120,7 @@ include_once("./inc/funcoes.php");
                            
                             
                         </div>
-                        <?php /* ?>
-                        <form action="" method="post"  class="js-sweetalert" id="formResponsavel">
-                        <h2 class="card-inside-title">Dados do responsável</h2>
-                        <?php // (isset($dados_responsavel)?'<div style="color:tomato">Dados localizados</div>':'') ?>
-                        <div class="row clearfix">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="cpf" class="form-label">CPF</label>                               
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= $id ?>" maxlength="14" pattern="\d*" readonly />
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Nome</label>                            
-                                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Telefone 1</label>                            
-                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['telefone1']:'') ?>" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Telefone 2</label>                            
-                                    <input name="telefone2" type="text" class="form-control" placeholder="Telefone 2" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['telefone2']:'') ?>" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Email</label>                            
-                                    <input name="email" type="text" class="form-control" placeholder="Email" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['email']:'') ?>" />
-                                </div>
-                            </div> 
-
-                            <div class="col-md-6">
-                                <div class="form-group">                                   
-                                    <button class="btn btn-raised btn-primary waves-effect btn-round btsalvar" type="submit" disabled>Salvar</button>                                
-                                </div>
-                            </div> 
-                            
-                        </div>                   
-                        </form>
-                        <?php */ ?>
+                       
                     </div>
                 </div>
             </div>
@@ -222,22 +178,6 @@ include_once("./inc/funcoes.php");
     </div>
 </section>
 
-
-<?php /* ?>
-<footer class="menu-bottom">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-6">
-                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-danger waves-effect btn-round btAcao-cancela">Cancelar cadastro</button>
-            </div>
-
-            <div class="col-6">
-                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar Pré-Cadastro</button>
-            </div>
-        </div>
-    </div>
-</footer>
-<?php */ ?>
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
