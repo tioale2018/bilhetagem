@@ -86,7 +86,7 @@ $variables = [
 ?>
 <form action="" id="formAceitaTermo" method="post">
     <div class="modal-header">
-        <h4 class="title" id="modalTermoParticipanteLabel">Termo de consentimento</h4>
+        <h4 class="title" id="modalTermoParticipanteLabel">Termo de responsabilidade</h4>
     </div>
     <div class="modal-body"> 
         <div class="row clearfix">
