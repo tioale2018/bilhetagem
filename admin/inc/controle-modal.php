@@ -63,7 +63,7 @@ $(document).ready(function(){
         // alert($('input[type=checkbox]:checked').length);
         // event.preventDefault();
         
-        if ($('input[type=checkbox]:checked').length === 2) {
+        if ($('input[type=checkbox]:checked').length === 0) {
             // Mostra um alerta se nenhum checkbox estiver selecionado
             swal("Erro", "Selecione ao menos um item para avançar!", "error");
             // Impede o envio do formulário
