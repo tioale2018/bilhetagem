@@ -86,8 +86,9 @@ function generateSqlQuery($date) {
                         <tr>                                                  
                             <th width="10%">Item</th>
                             <th width="60%">Descrição</th>
-                            <th width="15%">Valor</th>
-                            <th width="15%">Ação</th>
+                            <th width="10%">Valor</th>
+                            <th width="10%">Tipo despesa</th>
+                            <th width="10%">Ação</th>
                         </tr>
                     </thead>
                     <tbody>
