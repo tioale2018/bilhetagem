@@ -2,7 +2,22 @@
 <?php include_once('./inc/conexao.php') ?>
 <?php include_once('./inc/funcao-tempo.php') ?>
 <?php include_once('./inc/funcoes-calculo.php') ?>
-<?php include_once('./inc/funcoes.php') ?>
+<?php include_once('./inc/funcoes.php');
+function geraDatasSQL($date) {
+    $dateTime = DateTime::createFromFormat('Y-m-d', $date);
+
+    if ($dateTime === false) {
+        throw new Exception('Data inválida. Use o formato YYYY-MM-DD.');
+    }
+
+    $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
+    $endTimestamp   = $dateTime->setTime(23, 59, 59)->getTimestamp();
+    $i['start']     = $startTimestamp;
+    $i['end']       = $endTimestamp;
+    return $i;
+}
+?>
+
 
 </head>
 <body class="theme-black">
@@ -13,9 +28,22 @@
 <?php include_once('./inc/menu_lateral.php') ?>
 
 
-<?php  if (isset($_GET['d']) && isValidDate($_GET['d'])) {     
+<?php  if (isset($_GET['d']) && isValidDate($_GET['d'])) {  
+    
+    //verifica se a data informada é maior que o dia atual
 
-$sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='$dataRelata'";
+    $dataInfo   = geraDatasSQL($_GET['d']);
+    $dataLimite = geraDatasSQL(date('Y-m-d', time()));
+
+    // die(var_dump($dataInfo));
+    
+    if ( $dataInfo['end'] > $dataLimite['end'] ) {
+        die('<script>alert("Data informada maior que a data atual");location.replace("./caixa-movimento");</script>');
+    }
+
+
+$sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
+// die($sql_buscadata);
 $pre_buscadata = $connPDO->prepare($sql_buscadata);
 $pre_buscadata->execute();
 
@@ -43,7 +71,16 @@ if ($pre_buscadata->rowCount() < 1) {
                 if (!isConfirm) {
                     location.replace('./caixa-movimento');
                 } else {
-                    $.post('./blocos/caixa-movimento-abre.php', {d: '<?= $_GET['d'] ?>'})
+                    $.post('./blocos/caixa-movimento-abre.php', {d: '<?= $_GET['d'] ?>'}, function(data){
+                        // console.log(data);
+                        //recebe data comoo json, verifica se é igual a 1, caso seja recarrega a página passando o valor do json na variável d 
+                        let jsonResponse = JSON.parse(data);
+                        if (jsonResponse.status == '1') {
+                            location.replace('./caixa-movimento?d=<?= $_GET['d'] ?>');
+                            // alert('mostra o reload')
+                        }
+
+                    })
                     
                 }
             });
@@ -51,28 +88,30 @@ if ($pre_buscadata->rowCount() < 1) {
 
     <?php
     
+} else {
+    $dataRelata = $_GET['d'];
+    $row_buscadata = $pre_buscadata->fetchAll();
 }
 
-$row_buscadata = $pre_buscadata->fetchAll();
 
-}
+
+} 
 
 ?>
 
 <section class="content">    
     <div class="container">
-        <div class="block-header">
+
+    <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
                     <h2>Movimento de caixa diário</h2>        
                 </div>
             </div>
         </div>
+       
 
-<?php  
-    if (isset($_GET['d']) && isValidDate($_GET['d'])) {  
-         
-    ?>
+<?php  if (isset($dataRelata) ) {  ?>
 
         <div class="row clearfix">
             <div class="col-lg-12">
@@ -86,32 +125,36 @@ $row_buscadata = $pre_buscadata->fetchAll();
                                         <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $_GET['d'] ?>"></div> 
                                 </p>
                             </div>
-                            <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0 row">
-                                        <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
-                                </p>
-                            </div>
+                            <?php if ($row_buscadata[0]['status'] == 1) { ?>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                    
+                                        <div class="col-6">
+                                            <p class="m-b-0 row">
+                                            <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
+                                            </p>
+                                        </div>
+
+                                        
+                                        <div class="col-6">
+                                            <p class="m-b-0 row">
+                                                <button data-datarelata="<?= $row_buscadata[0]['id']?>" class="btn btn-success btn-round waves-effect" id="fecharCaixa">Fechar caixa</button>
+                                            </p>
+                                        </div>
+                                        
+
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+
+
                         </div>
                         <div class="mt-40"></div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive tabela-caixa">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>                                                  
-                            <th width="10%">Item</th>
-                            <th width="60%">Descrição</th>
-                            <th width="10%">Valor</th>
-                            <th width="10%">Tipo despesa</th>
-                            <th width="10%">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    
-                            </tbody>
-                </table>
-                
-
+                                    <?php include_once('./inc/caixa-movimento-tabela.php') ?>
                                 </div>
                             </div>
                         </div>
@@ -120,6 +163,8 @@ $row_buscadata = $pre_buscadata->fetchAll();
                 </div>
             </div>
         </div>
+
+        
 
 
 
@@ -157,7 +202,11 @@ $row_buscadata = $pre_buscadata->fetchAll();
 
 
 <?php include_once('./inc/javascript.php') ?>
-<?php //include_once('./inc/caixa-movimento-modal.php') ?>
+<?php if (isset($dataRelata) ) {  
+    
+    include_once('./inc/caixa-movimento-modal.php'); 
+
+} ?>
 
 <script>
     $(document).ready(function(){
@@ -165,6 +214,39 @@ $row_buscadata = $pre_buscadata->fetchAll();
             var data = $(this).val();
             window.location = '?d='+data;
         });
+
+        <?php  if (isset($dataRelata) ) {  ?>        
+
+        $('#fecharCaixa').click(function(){
+            let dataRelata = $(this).data('datarelata');
+
+            swal({
+                title: "Fechar caixa",
+                text: "Deseja realmente fechar o caixa?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sim, fechar!",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $.post('./blocos/caixa-movimento-fechar.php', {d: dataRelata}, function(data){
+                        // console.log(data);
+                        //recebe data comoo json, verifica se é igual a 1, caso seja recarrega a página passando o valor do json na variável d 
+                        let jsonResponse = JSON.parse(data);
+                        if (jsonResponse.status == 1) {
+                            location.replace('./caixa-movimento?d=<?= $_GET['d'] ?>');
+                        }
+
+                    })
+                }
+            });
+        });
+            
+        <?php } ?>
+
+
     })
 </script>
 
