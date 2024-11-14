@@ -27,7 +27,8 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Valor</label>                            
-                                <input name="valor" type="text" id="valor" class="form-control" required placeholder="Ex: 123,45"   pattern="^\d+(,\d{1,2})?$" title="Por favor, insira um valor no formato 123,45" />
+                                <input name="valor" type="text" id="valor" class="form-control" required placeholder="Ex: 1.234,56" pattern="^(\d{1,3}(\.\d{3})*|\d+)(,\d{1,2})?$" title="Por favor, insira um valor no formato 1.234,56 ou 123456,78" />
+
 
                             </div>
                         </div>
