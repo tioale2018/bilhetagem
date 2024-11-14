@@ -33,14 +33,12 @@ if ($pre_buscadata->rowCount() == 0) {
     $sql_abre_caixa = "insert into tbcaixa_abre (idevento, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
     $pre_abre_caixa = $connPDO->prepare($sql_abre_caixa);
     
-
     //se tudo ok, retonar um json com sucesso
     //verifica se sql foi executado com sucesso
     if ($pre_abre_caixa->execute()) {
         echo json_encode(array('status' => '1'));
         //exit;
     }
-    
 
 }
 ?>

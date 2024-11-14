@@ -16,6 +16,7 @@ function geraDatasSQL($date) {
     $i['end']       = $endTimestamp;
     return $i;
 }
+
 ?>
 
 
@@ -38,14 +39,18 @@ function geraDatasSQL($date) {
     // die(var_dump($dataInfo));
     
     if ( $dataInfo['end'] > $dataLimite['end'] ) {
-        die('<script>alert("Data informada maior que a data atual");location.replace("./caixa-movimento");</script>');
+        die('<script>alert("Data informada maior que a data atual");location.replace("./caixa-fechamento");</script>');
     }
 
+    if ($_GET['d'] != $_SESSION['get_d'] ) {
+        die('<script>alert("Data informada é inválida para esta operação");location.replace("./caixa-fechamento");</script>');
+    }
+    
 
-$sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
-// die($sql_buscadata);
-$pre_buscadata = $connPDO->prepare($sql_buscadata);
-$pre_buscadata->execute();
+    $sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
+    // die($sql_buscadata);
+    $pre_buscadata = $connPDO->prepare($sql_buscadata);
+    $pre_buscadata->execute();
 
 if ($pre_buscadata->rowCount() < 1) {
     ?>
@@ -55,8 +60,8 @@ if ($pre_buscadata->rowCount() < 1) {
     
     <script>
          swal({
-                title: "Não existe caixa aberto para este dia, deseja abrir?",
-                text: "Sub texto desta operação",
+                title: "Movimento de caixa diário",
+                text: "Não existe movimento de caixa aberto para este dia, deseja abrir?",
                 type: "warning",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -105,7 +110,7 @@ if ($pre_buscadata->rowCount() < 1) {
     <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
-                    <h2>Movimento de caixa diário</h2>        
+                    <h2>Detalhamento de despesas</h2>        
                 </div>
             </div>
         </div>
@@ -120,36 +125,51 @@ if ($pre_buscadata->rowCount() < 1) {
                         
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0 row">
-                                        <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $_GET['d'] ?>"></div> 
+                                <p class="">
+                                        
+                                        <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
+                                        
+                                        <!-- <div class="col-md-3"><strong>Data:</strong></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $_GET['d'] ?>"></div>  -->
                                 </p>
                             </div>
-                            <?php if ($row_buscadata[0]['status'] == 1) { ?>
-                                <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                    <a href="./caixa-fechamento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Fechamento de caixa</a>
+                                    <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Detalhamento de despesas</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        
+                        <?php if ($row_buscadata[0]['status'] == 1) { ?>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 offset-md-6">
                                     <div class="row">
                                     
                                         <div class="col-6">
-                                            <p class="m-b-0 row">
-                                            <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
-                                            </p>
+                                            
                                         </div>
 
                                         
-                                        <div class="col-6">
+                                        <!-- <div class="col-6">
                                             <p class="m-b-0 row">
                                                 <button data-datarelata="<?= $row_buscadata[0]['id']?>" class="btn btn-success btn-round waves-effect" id="fecharCaixa">Fechar caixa</button>
                                             </p>
-                                        </div>
+                                        </div> -->
                                         
 
                                     </div>
                                 </div>
+                            </div>
                             <?php } ?>
+                        
 
 
 
-                        </div>
                         <div class="mt-40"></div>
                         <div class="row">
                             <div class="col-md-12">
@@ -158,6 +178,8 @@ if ($pre_buscadata->rowCount() < 1) {
                                 </div>
                             </div>
                         </div>
+
+                        
                         
                     </div>
                 </div>

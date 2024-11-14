@@ -32,8 +32,8 @@
                     <li><a href="javascript:void(0)">Caixa</a>
                         <ul class="sub-menu">
                             <!-- <li><a href="dashboard">Relatórios</a></li> -->
-                            <li><a href="caixa-movimento">Movimento de caixa</a></li>
-                            <li><a href="caixa-fechar">Fechar caixa</a></li>
+                            <!-- <li><a href="caixa-movimento">Movimento de caixa</a></li> -->
+                            <li><a href="caixa-fechamento">Fechamento de caixa</a></li>
                         </ul>
                     </li>
                     <li><a href="troca-evento">Trocar evento</a></li>
