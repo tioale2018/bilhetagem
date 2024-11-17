@@ -56,7 +56,7 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" value="<?= $dataRelata ?>" name="datarelata">
-                    <input type="hidden" value="<?= $row_buscadata[0]['id'] ?>" name="codcaixa">
+                    <input type="hidden" value="<?= $row_buascacaixa['id'] ?>" name="codcaixa">
                     <button type="submit" class="btn btn-default btn-round waves-effect addMovimento">Adicionar</button>
                     <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">Cancelar</button>
                 </div>

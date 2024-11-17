@@ -1,5 +1,5 @@
 <?php
-$idcaixaabre = $row_buscadata[0]['id'];
+$idcaixaabre = $row_buascacaixa['id'];
 $sql_buscamovimento = "SELECT tbcaixa_movimento.*, tbcaixa_tipodespesa.descricao as descricao_tipodespesa FROM tbcaixa_movimento inner join tbcaixa_tipodespesa on tbcaixa_movimento.idtipodespesa=tbcaixa_tipodespesa.id WHERE tbcaixa_movimento.ativo=1 and tbcaixa_movimento.idevento=".$_SESSION['evento_selecionado']." and tbcaixa_movimento.idcaixaabre=".$idcaixaabre." order by tbcaixa_movimento.datahora_insercao asc";
 $pre_buscamovimento = $connPDO->prepare($sql_buscamovimento);
 $pre_buscamovimento->execute();
@@ -36,7 +36,7 @@ if ($pre_buscamovimento->rowCount() > 0) {
                 <td><?= number_format($v['valor'], 2, ',', '.') ?></td>
                 <td><?= $v['descricao_tipodespesa'] ?></td>
                 <td>
-                    <?php if ($row_buscadata[0]['status'] == 1) { ?>
+                    <?php if ($row_buascacaixa['status'] == 1) { ?>
                         <a href="#" data-iditem="<?= $v['id'] ?>" class="btn btn-sm btn-danger exluimovimento" title="Excluir"><i class="zmdi zmdi-close"></i></a>
                     <?php } else { ?>
                         -

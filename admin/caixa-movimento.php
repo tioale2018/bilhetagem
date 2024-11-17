@@ -32,26 +32,30 @@ function geraDatasSQL($date) {
 <?php  if (isset($_GET['d']) && isValidDate($_GET['d'])) {  
     
     //verifica se a data informada é maior que o dia atual
-
+/*
     $dataInfo   = geraDatasSQL($_GET['d']);
     $dataLimite = geraDatasSQL(date('Y-m-d', time()));
 
     // die(var_dump($dataInfo));
     
+    
     if ( $dataInfo['end'] > $dataLimite['end'] ) {
         die('<script>alert("Data informada maior que a data atual");location.replace("./caixa-fechamento");</script>');
     }
+    */
 
     if ($_GET['d'] != $_SESSION['get_d'] ) {
         die('<script>alert("Data informada é inválida para esta operação");location.replace("./caixa-fechamento");</script>');
     }
+
+    $dataRelata = $_GET['d'];
 
     $sql_buascacaixa = "SELECT * FROM tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
     $pre_buascacaixa = $connPDO->prepare($sql_buascacaixa);
     $pre_buascacaixa->execute();
     $row_buascacaixa = $pre_buascacaixa->fetch(PDO::FETCH_ASSOC);
     // $row_buascacaixa = $pre_buascacaixa->fetchAll(PDO::FETCH_ASSOC);
-
+/*
     $sql_diario = "";
     // die(var_dump($row_buascacaixa));   
     if ($pre_buascacaixa->rowCount() > 0) {
@@ -63,8 +67,10 @@ function geraDatasSQL($date) {
     // die($sql_buscadata);
     $pre_buscadata = $connPDO->prepare($sql_buscadata);
     $pre_buscadata->execute();
+*/
 
-if ($pre_buscadata->rowCount() < 1) {
+/*
+if ($pre_buascacaixa->rowCount() < 1) {
     ?>
     <script src="../assets/bundles/datatablescripts.bundle.js"></script>
     <script src="../assets/js/pages/tables/jquery-datatable.js"></script>
@@ -73,18 +79,20 @@ if ($pre_buscadata->rowCount() < 1) {
     <script>
          swal({
                 title: "Movimento de caixa diário",
-                text: "Não existe movimento de caixa aberto para este dia, deseja abrir?",
+                text: "Não existe movimento de caixa aberto para este dia. Abra-o antes de continuar?",
                 type: "warning",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                showCancelButton: true,
+                showCancelButton: false,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Sim",
-                cancelButtonText: "Não",
+                confirmButtonText: "Ok",
+                // cancelButtonText: "Não",
                 closeOnConfirm: false,
-                closeOnCancel: true,
+                // closeOnCancel: true,
                 showLoaderOnConfirm: true
-            }, function (isConfirm) {
+            }, function () {
+                location.replace('./caixa-fechamento');
+
                 if (!isConfirm) {
                     location.replace('./caixa-fechamento');
                 } else {
@@ -100,6 +108,7 @@ if ($pre_buscadata->rowCount() < 1) {
                     })
                     
                 }
+
             });
     </script>
 
@@ -110,9 +119,10 @@ if ($pre_buscadata->rowCount() < 1) {
     $row_buscadata = $pre_buscadata->fetchAll();
 }
 
-
+*/
 
 } 
+
 
 ?>
 
@@ -140,9 +150,7 @@ if ($pre_buscadata->rowCount() < 1) {
                                 <p class="">
                                         
                                         <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
-                                        
-                                        <!-- <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $_GET['d'] ?>"></div>  -->
+                                       
                                 </p>
                             </div>
                             <div class="col-md-6">
@@ -157,7 +165,7 @@ if ($pre_buscadata->rowCount() < 1) {
                         </div>
 
                         
-                        <?php if ($row_buscadata[0]['status'] == 1) { ?>
+                        <?php /* if ($row_buscadata[0]['status'] == 1) { ?>
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 offset-md-6">
                                     <div class="row">
@@ -177,7 +185,7 @@ if ($pre_buscadata->rowCount() < 1) {
                                     </div>
                                 </div>
                             </div>
-                            <?php } ?>
+                            <?php } */ ?>
                         
 
 
