@@ -51,11 +51,7 @@ if ($pre_buscadata->rowCount() == 0) {
     $pre_abrecaixa_diario->execute();
 
     $lastcaixadiario_id = $connPDO->lastInsertId();
-
-    $sql_abre_caixa = "insert into tbcaixa_abre (idevento, id_caixadiario, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", $lastcaixadiario_id, '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
-    $pre_abre_caixa = $connPDO->prepare($sql_abre_caixa);
-    $pre_abre_caixa->execute();
-
+ 
     $sql_buscatickets = "SELECT count(tbentrada.id_pacote) as total_vendido FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN ".$dataSql['start']." AND ".$dataSql['end'];
     $pre_buscatickets = $connPDO->prepare($sql_buscatickets);
     $pre_buscatickets->execute();

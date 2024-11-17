@@ -41,7 +41,6 @@ function geraDatasSQL($date) {
 
     $_SESSION['get_d'] = $_GET['d'];
 
-
     $sql_buscadata = "select * from tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
     // die($sql_buscadata);
     $pre_buscadata = $connPDO->prepare($sql_buscadata);
