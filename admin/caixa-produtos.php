@@ -16,6 +16,7 @@ function generateSqlQuery($date) {
    // $sql = "SELECT count(id_pacote) as total_vendido, pct_nome, pct_valor, pct_duracao FROM tbentrada where datahora_entra BETWEEN {$startTimestamp} AND {$endTimestamp} group by id_pacote order by total_vendido";
 
     $sql = "SELECT count(tbentrada.id_pacote) as total_vendido, tbentrada.pct_nome, tbentrada.pct_valor, tbentrada.pct_duracao, tbprevenda.id_evento FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN  {$startTimestamp} AND {$endTimestamp} group by tbentrada.id_pacote order by tbentrada.pct_nome";
+    // die($sql);
     // $sql = "SELECT * FROM tbfinanceiro WHERE ativo=1 AND hora_pgto BETWEEN ";
     return $sql;
 }

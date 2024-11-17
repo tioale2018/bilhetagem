@@ -52,6 +52,10 @@
             <td><input type="text" class="form-control money" value="231"></td>
         </tr>
         <tr>
+            <th>Valor total (total bruto dinheiro menos despesas menos depósitos)</th>
+            <td><input type="text" class="form-control money" value="231"></td>
+        </tr>
+        <tr>
             <th>Valor extra (+)</th>
             <td><input type="text" class="form-control money" value="231"></td>
         </tr>

@@ -8,6 +8,20 @@ if ( $_SERVER['REQUEST_METHOD']!="POST" || (!isValidDate($_POST['d'])) ) {
     die(0);
 }
 
+function geraDatasSQL($date) {
+    $dateTime = DateTime::createFromFormat('Y-m-d', $date);
+
+    if ($dateTime === false) {
+        throw new Exception('Data inválida. Use o formato YYYY-MM-DD.');
+    }
+
+    $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
+    $endTimestamp   = $dateTime->setTime(23, 59, 59)->getTimestamp();
+    $i['start']     = $startTimestamp;
+    $i['end']       = $endTimestamp;
+    return $i;
+}
+
 session_start();
 include_once("../inc/conexao.php");
 $horaagora = time();
@@ -19,6 +33,8 @@ $horaagora = time();
 // caso não exista (salva em log), ou se estiver fechado, permitir fechar o caixa do dia atual
 
 $dataRelata = $_POST['d'];
+
+$dataSql = geraDatasSQL($dataRelata);
 
 //data anterior
 $dataAnterior = date('Y-m-d', strtotime('-1 day', strtotime($dataRelata)));
@@ -36,43 +52,23 @@ if ($pre_buscadata->rowCount() == 0) {
 
     $lastcaixadiario_id = $connPDO->lastInsertId();
 
-
     $sql_abre_caixa = "insert into tbcaixa_abre (idevento, id_caixadiario, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", $lastcaixadiario_id, '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
     $pre_abre_caixa = $connPDO->prepare($sql_abre_caixa);
     $pre_abre_caixa->execute();
 
+    $sql_buscatickets = "SELECT count(tbentrada.id_pacote) as total_vendido FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN ".$dataSql['start']." AND ".$dataSql['end'];
+    $pre_buscatickets = $connPDO->prepare($sql_buscatickets);
+    $pre_buscatickets->execute();
+    $row_buscatickets = $pre_buscatickets->fetch(PDO::FETCH_ASSOC);
+
+    $total_vendido = $row_buscatickets['total_vendido'];
+
+    $sql_insere_entrada = "insert into tbcaixa_formulario (idevento, idcaixadiario, idusuario, datahora_lastupdate, total_tickets) values (".$_SESSION['evento_selecionado'].",$lastcaixadiario_id,".$_SESSION['user_id'].", $horaagora, $total_vendido)";
+    $pre_insere_entrada = $connPDO->prepare($sql_insere_entrada);
+    $pre_insere_entrada->execute();
+
     echo json_encode(array('status' => '1'));
-    
-    /*
-    //se tudo ok, retonar um json com sucesso
-    //verifica se sql foi executado com sucesso
-    if ($pre_abre_caixa->execute()) {
-        echo json_encode(array('status' => '1'));
-        //exit;
-    }
-    */
 
 }
 
-
-/*
-$sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='$dataRelata'";
-$pre_buscadata = $connPDO->prepare($sql_buscadata);
-$pre_buscadata->execute();
-
-if ($pre_buscadata->rowCount() == 0) {
-    //caso o caixa da data selecionada nao tenha sido aberto, verifica se o dia anterior existe   
-
-    $sql_abre_caixa = "insert into tbcaixa_abre (idevento, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
-    $pre_abre_caixa = $connPDO->prepare($sql_abre_caixa);
-    
-    //se tudo ok, retonar um json com sucesso
-    //verifica se sql foi executado com sucesso
-    if ($pre_abre_caixa->execute()) {
-        echo json_encode(array('status' => '1'));
-        //exit;
-    }
-
-}
-*/
 ?>
