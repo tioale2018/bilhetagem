@@ -45,9 +45,21 @@ function geraDatasSQL($date) {
     if ($_GET['d'] != $_SESSION['get_d'] ) {
         die('<script>alert("Data informada é inválida para esta operação");location.replace("./caixa-fechamento");</script>');
     }
-    
 
-    $sql_buscadata = "select * from tbcaixa_abre where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
+    $sql_buascacaixa = "SELECT * FROM tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
+    $pre_buascacaixa = $connPDO->prepare($sql_buascacaixa);
+    $pre_buascacaixa->execute();
+    $row_buascacaixa = $pre_buascacaixa->fetch(PDO::FETCH_ASSOC);
+    // $row_buascacaixa = $pre_buascacaixa->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql_diario = "";
+    // die(var_dump($row_buascacaixa));   
+    if ($pre_buascacaixa->rowCount() > 0) {
+        $idcxdiario = $row_buascacaixa['id'];
+        $sql_diario = " id_caixadiario = $idcxdiario and ";
+    }
+
+    $sql_buscadata = "SELECT * from tbcaixa_abre where $sql_diario status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
     // die($sql_buscadata);
     $pre_buscadata = $connPDO->prepare($sql_buscadata);
     $pre_buscadata->execute();
@@ -74,7 +86,7 @@ if ($pre_buscadata->rowCount() < 1) {
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
                 if (!isConfirm) {
-                    location.replace('./caixa-movimento');
+                    location.replace('./caixa-fechamento');
                 } else {
                     $.post('./blocos/caixa-movimento-abre.php', {d: '<?= $_GET['d'] ?>'}, function(data){
                         // console.log(data);
@@ -190,9 +202,9 @@ if ($pre_buscadata->rowCount() < 1) {
 
 
 
-        <?php } else { ?>
+        <?php } /* else { ?>
 
-            <div class="row clearfix">
+            <!-- <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card" id="details">
                     <div class="body">  
@@ -211,9 +223,11 @@ if ($pre_buscadata->rowCount() < 1) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <?php } ?>
+    
+
+        <?php }  */ ?>
 
         
     </div>

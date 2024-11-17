@@ -30,7 +30,15 @@ $pre_buscadata->execute();
 if ($pre_buscadata->rowCount() == 0) {
     //caso o caixa da data selecionada nao tenha sido aberto, verifica se o dia anterior existe   
 
-    $sql_abre_caixa = "insert into tbcaixa_abre (idevento, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
+    $sql_buascacaixa = "SELECT * FROM tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='$dataRelata'";
+    $pre_buascacaixa = $connPDO->prepare($sql_buascacaixa);
+    $pre_buascacaixa->execute();
+    $row_buascacaixa = $pre_buascacaixa->fetch(PDO::FETCH_ASSOC);
+
+    $idcaixadiario = $row_buascacaixa['id'];
+
+
+    $sql_abre_caixa = "insert into tbcaixa_abre (idevento, id_caixadiario, datacaixa, status, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", $idcaixadiario, '$dataRelata', 1, ".$_SESSION['user_id'].", $horaagora)";
     $pre_abre_caixa = $connPDO->prepare($sql_abre_caixa);
     
     //se tudo ok, retonar um json com sucesso
