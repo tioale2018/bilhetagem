@@ -6,9 +6,7 @@ $pre_buscamovimento->execute();
 
 if ($pre_buscamovimento->rowCount() > 0) {
     $row_buscamovimento = $pre_buscamovimento->fetchAll();
-
 ?>
-
 
 <table class="table table-hover">
     <thead>
@@ -53,7 +51,6 @@ if ($pre_buscamovimento->rowCount() > 0) {
                 </tr>
             </tfoot>
 </table>
-
 
 <?php
 } else {
