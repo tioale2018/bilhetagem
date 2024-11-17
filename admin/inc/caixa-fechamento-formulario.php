@@ -48,6 +48,10 @@
             <td><input type="text" class="form-control money" value="231"></td>
         </tr>
         <tr>
+            <th>Valor de retirada em espécie</th>
+            <td><input type="text" class="form-control money" value="231"></td>
+        </tr>
+        <tr>
             <th>Valor extra (+)</th>
             <td><input type="text" class="form-control money" value="231"></td>
         </tr>
