@@ -1,6 +1,7 @@
 <?php
 $idcaixaabre = $row_buascacaixa['id'];
 $sql_buscamovimento = "SELECT tbcaixa_movimento.*, tbcaixa_tipodespesa.descricao as descricao_tipodespesa FROM tbcaixa_movimento inner join tbcaixa_tipodespesa on tbcaixa_movimento.idtipodespesa=tbcaixa_tipodespesa.id WHERE tbcaixa_movimento.ativo=1 and tbcaixa_movimento.idevento=".$_SESSION['evento_selecionado']." and tbcaixa_movimento.idcaixaabre=".$idcaixaabre." order by tbcaixa_movimento.datahora_insercao asc";
+// echo $sql_buscamovimento;
 $pre_buscamovimento = $connPDO->prepare($sql_buscamovimento);
 $pre_buscamovimento->execute();
 

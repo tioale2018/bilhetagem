@@ -76,33 +76,33 @@ function generateSqlQuery($date) {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive tabela-caixa">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>                                                  
-                            <th>Forma de Pgto</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php if($pre_busca_pgto->rowCount() < 1) { ?>
-                            <tr>
-                                <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
-                            </tr>
-                    <?php } else { 
-                        $total = 0;
-                        foreach ($row_busca_pgto as $key => $value) {
-                            $total = $total + $value['valor'];
-                            ?>
-                        <tr>
-                            <th><?= $formapgto[$value['forma_pgto']] ?></th>
-                            <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>          
-                        </tr>
-                            <?php
-                        }
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>                                                  
+                                    <th>Forma de Pgto</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php if($pre_busca_pgto->rowCount() < 1) { ?>
+                                    <tr>
+                                        <td colspan="7" style="text-align: center">Nenhum resultado encontrado</td>
+                                    </tr>
+                            <?php } else { 
+                                $total = 0;
+                                foreach ($row_busca_pgto as $key => $value) {
+                                    $total = $total + $value['valor'];
+                                    ?>
+                                <tr>
+                                    <th><?= $formapgto[$value['forma_pgto']] ?></th>
+                                    <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>          
+                                </tr>
+                                    <?php
+                                }
 
-                    } ?>
+                            } ?>
                             </tbody>
-                </table>
+                        </table>
                 <?php if (isset($total)) { ?>
                 
                 <p style="font-weight: bold">Total: R$ <?= number_format($total, 2, ',', '.') ?></p>

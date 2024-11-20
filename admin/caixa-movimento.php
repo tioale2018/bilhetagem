@@ -147,11 +147,11 @@ if ($pre_buascacaixa->rowCount() < 1) {
                         
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p class="">
-                                        
-                                        <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>
-                                       
-                                </p>
+                                <?php if ($row_buascacaixa['status'] == 1) { ?>
+                                    <p class="">
+                                            <button data-toggle="modal" data-target="#modalAddMovimento" class="btn btn-primary btn-round waves-effect" id="addMovimento">Adicionar movimento</button>                                      
+                                    </p>
+                                <?php } ?>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
@@ -252,6 +252,7 @@ if ($pre_buascacaixa->rowCount() < 1) {
 
 } ?>
 
+<?php /* ?>
 <script>
     $(document).ready(function(){
         $('#dataFiltro').change(function(){
@@ -290,10 +291,9 @@ if ($pre_buascacaixa->rowCount() < 1) {
             
         <?php } ?>
 
-
     })
 </script>
 
-
+<?php */ ?>
 </body>
 </html>

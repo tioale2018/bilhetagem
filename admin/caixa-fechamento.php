@@ -54,7 +54,7 @@ function geraDatasSQL($date) {
         
         <script>
             swal({
-                    title: "Fechamento de caixa",
+                    title: "Abrir novo caixa",
                     text: "Não existe caixa aberto para este dia, deseja abrir?",
                     type: "warning",
                     allowOutsideClick: false,
@@ -89,10 +89,12 @@ function geraDatasSQL($date) {
         
     } else {
         $dataRelata = $_GET['d'];
-        $row_buscadata = $pre_buscadata->fetchAll();
+        $row_buscadata = $pre_buscadata->fetch(PDO::FETCH_ASSOC);
     }
 
 } 
+
+// die(var_dump($row_buscadata));
 
 ?>
 
@@ -108,7 +110,113 @@ function geraDatasSQL($date) {
         </div>
 
 
-<?php  if (isset($dataRelata) ) {  ?>
+<?php  if (isset($dataRelata) ) {  
+    // echo var_dump($row_buscadata);
+    $diarioAtivo = $row_buscadata['id'];
+    $sql_caixaformulario = "select * from tbcaixa_formulario where status>0 and idevento=".$_SESSION['evento_selecionado']." and idcaixadiario=$diarioAtivo";
+    // echo $sql_caixaformulario
+    $pre_caixaformulario = $connPDO->prepare($sql_caixaformulario);
+    $pre_caixaformulario->execute();
+    
+    if ($pre_caixaformulario->rowCount() < 1) {
+        die('<script>alert("Formulário inativo para este dia, consulte o administrador do sistema.");location.replace("./caixa-fechamento");</script>');
+    }
+    
+    $row_caixaformulario = $pre_caixaformulario->fetch(PDO::FETCH_ASSOC);
+    // echo var_dump($row_caixaformulario);
+
+
+    if ($row_buscadata['status'] == 1) {
+        //verifica os valores do caixa do dia
+        function geraValoresCaixa($date) {
+            $dateTime = DateTime::createFromFormat('Y-m-d', $date);
+        
+            if ($dateTime === false) {
+                throw new Exception('Data inválida. Use o formato YYYY-MM-DD.');
+            }
+            $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
+            $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
+        
+            $sql = "SELECT sum(valor) as valor, forma_pgto
+            FROM tbfinanceiro
+            inner join tbprevenda on tbprevenda.id_prevenda=tbfinanceiro.id_prevenda
+            where tbfinanceiro.forma_pgto>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbfinanceiro.ativo=1 and tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp} 
+            GROUP by tbfinanceiro.forma_pgto";
+       
+            return $sql;
+        }
+
+        $sql_valoresCaixa = geraValoresCaixa($dataRelata);
+        $pre_valoresCaixa = $connPDO->prepare($sql_valoresCaixa);
+        $pre_valoresCaixa->execute();
+        $row_valoresCaixa = $pre_valoresCaixa->fetchAll(PDO::FETCH_ASSOC);
+
+        // die(var_dump($row_valoresCaixa));
+
+        $cartao   = 0;
+        $dinheiro = 0;
+        $pix      = 0;
+
+        foreach ($row_valoresCaixa as $key => $value) {
+            switch ($value['forma_pgto']) {
+                case 1:
+                    $cartao = $cartao + $value['valor'];
+                    break;
+                case 2:
+                    $cartao = $cartao + $value['valor'];
+                    break;
+                case 3:
+                    $dinheiro = $value['valor'];
+                    break;
+                case 4:
+                    $pix = $value['valor'];
+                    break;
+                default:
+                    break;
+            }
+
+            // echo var_dump() . "<br>";
+        }
+
+    } elseif ($row_buscadata['status'] == 2) {
+        $cartao   = $row_caixaformulario['sis_vendacar'];
+        $dinheiro = $row_caixaformulario['sis_vendadin'];
+        $pix      = $row_caixaformulario['sis_vendapix'];
+
+        //total tickets
+       
+    }
+
+     //tickets
+        
+    $dataRelata = $_GET['d'];
+
+    $dataSql = geraDatasSQL($dataRelata);
+
+    $total_tickets = 0;
+    $sql_buscatickets = "SELECT count(tbentrada.id_pacote) as total_vendido FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN ".$dataSql['start']." AND ".$dataSql['end'];
+    $pre_buscatickets = $connPDO->prepare($sql_buscatickets);
+    $pre_buscatickets->execute();
+    $row_buscatickets = $pre_buscatickets->fetch(PDO::FETCH_ASSOC);
+
+    $sis_total_tickets = $row_buscatickets['total_vendido'];
+        
+
+    $total_tickets = $row_caixaformulario['total_tickets'];
+
+    /*
+    $sql_tickets = "select * from tbprevenda where id_evento=".$_SESSION['evento_selecionado']." and data_venda='$dataRelata'";
+    $pre_tickets = $connPDO->prepare($sql_tickets);
+    $pre_tickets->execute();
+    $row_tickets = $pre_tickets->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($row_tickets as $key => $value) {
+        $total_tickets = $total_tickets + 1;
+    }
+    */
+
+
+
+    ?>
 
         <div class="row clearfix">
             <div class="col-lg-12">
@@ -130,14 +238,15 @@ function geraDatasSQL($date) {
                                     </div>
                                 </div>
                             </div>
-                           
 
                         </div>
                         <div class="mt-40"></div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive tabela-caixa">
-                                    <?php include_once('./inc/caixa-fechamento-formulario.php') ?>
+                                    <form action="" method="post" id="formCaixa">
+                                        <?php include_once('./inc/caixa-fechamento-formulario.php') ?>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -146,19 +255,19 @@ function geraDatasSQL($date) {
 
                         <div class="row">
                             <div class="col-12">
-                            <?php if ($row_buscadata[0]['status'] == 1) { ?>
+                            <?php if ($row_buscadata['status'] == 1) { ?>
                                 <div class="col-md-6 col-sm-6 offset-md-6">
                                     <div class="row">
                                     
                                         <div class="col-6">
                                             <p class="m-b-0 row">
-                                            <button data-diario="<?= $row_buscadata[0]['id']?>" class="btn btn-primary btn-round waves-effect" id="salvaCaixa">Salvar caixa</button>
+                                            <button type="button" data-diario="<?= $row_buscadata['id']?>" class="btn btn-primary btn-round waves-effect" id="salvaCaixa">Salvar caixa</button>
                                             </p>
                                         </div>
                                         
                                         <div class="col-6">
                                             <p class="m-b-0 row">
-                                                <button data-diario="<?= $row_buscadata[0]['id']?>" class="btn btn-success btn-round waves-effect" id="fecharCaixa">Salvar e Fechar caixa</button>
+                                                <button type="button" data-diario="<?= $row_buscadata['id']?>" class="btn btn-success btn-round waves-effect" id="fecharCaixa">Salvar e Fechar caixa</button>
                                             </p>
                                         </div>
 
@@ -167,12 +276,11 @@ function geraDatasSQL($date) {
                             <?php } ?>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
-
 
         <?php } else { ?>
 
@@ -206,12 +314,49 @@ function geraDatasSQL($date) {
 
 <script>
     $(document).ready(function(){
-        $('#dataFiltro').change(function(){
-            var data = $(this).val();
-            window.location = '?d='+data;
+        let previousValue = '';
+
+        $('#dataFiltro').on('focus', function() {
+            // Armazena o valor atual antes da mudança
+            previousValue = $(this).val();
         });
 
-        <?php  if (isset($dataRelata) && $row_buscadata[0]['status'] == 1) {  ?>        
+        $('#dataFiltro').on('change', function(e) {
+            let objThis = $(this);
+            let currentValue = objThis.val(); // Novo valor após a mudança
+
+            if (previousValue!='') {
+                if (confirm('Deseja alterar a data?')) {
+                    window.location = '?d=' + currentValue;        
+                } else {
+                    objThis.val(previousValue);
+                    e.preventDefault();
+                }
+            } else {
+                window.location = '?d=' + currentValue;  
+            }
+            
+        });
+
+
+        // $('.money').mask('#.##0,00', {reverse: true});
+        $('.money').mask('#.##0,00', { 
+            reverse: true,
+            onKeyPress: function(value, e, field) {
+                // Remove zeros à esquerda quando o campo perde o foco
+                field.val(value.replace(/^0+(?![,])/g, ''));
+            }
+        });
+
+        // Opcional: Remover zeros à esquerda ao perder o foco
+        // $('.money').on('blur', function() {
+        //     var value = $(this).val();
+        //     $(this).val(value.replace(/^0+(?![,])/g, ''));
+        // });
+
+
+
+        <?php  if (isset($dataRelata) && $row_buscadata['status'] == 1) {  ?>        
 
         $('#fecharCaixa').click(function(){
             let dataRelata = $(this).data('datarelata');
@@ -239,11 +384,64 @@ function geraDatasSQL($date) {
                 }
             });
         });
-            
+
+        $('#salvaCaixa').click(function(){
+            $.post('./blocos/caixa-fechamento-salvar.php', $('#formCaixa').serialize(), function(data){
+                let jsonResponse = JSON.parse(data);
+                if (jsonResponse.status == 1) {
+                    swal({
+                        title: "Caixa salvo!",
+                        text: "Salvo com sucesso!",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true
+                    }, function () {
+                        location.replace('./caixa-fechamento?d=<?= $_GET['d'] ?>');
+                    });
+                }
+            });
+        });
+           
+        $('#fecharCaixa').click(function(){
+            swal({
+                    title: "Fechamento de caixa",
+                    text: "Confirma o fechamento do caixa para este dia?",
+                    type: "warning",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim",
+                    cancelButtonText: "Não",
+                    closeOnConfirm: false,
+                    closeOnCancel: true,
+                    showLoaderOnConfirm: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post('./blocos/caixa-fechamento-fechar.php', $('#formCaixa').serialize(), function(data){
+                            console.log(data);
+                            setTimeout(() => {
+                                swal({
+                                title: "Concluído", 
+                                text: "Caixa fechado com sucesso!",
+                                showCancelButton: false,
+                                type: 'success'
+                                }, function(){
+                                    location.replace('./caixa-fechamento');            
+                                });
+                            }, 2000);
+                        })
+                    }
+                });
+        });        
+
+        <?php } elseif (isset($dataRelata) && $row_buscadata['status'] == 2) { ?>
+            $('input.form-caixa').prop('readonly', true);
         <?php } ?>
 
-
-    })
+    });
 </script>
 
 
