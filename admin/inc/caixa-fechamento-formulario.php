@@ -74,3 +74,63 @@
         })
     });
 </script>
+
+
+
+<script>
+    $(document).ready(function () {
+    // Inicializar a máscara nos campos com a classe "money"
+    
+
+    // Função para obter o valor de um campo formatado com máscara
+    function getInputValue(name) {
+        const input = $(`input[name="${name}"]`);
+        if (!input.length) return 0;
+
+        // Remove a formatação de máscara e converte para número
+        const value = input.val().replace(/\./g, '').replace(',', '.');
+        return parseFloat(value) || 0;
+    }
+
+    // Função para atualizar os cálculos
+    function updateCalculations() {
+        // Obter valores dos campos
+        const dinheiro = getInputValue('fdinheiro');
+        const cartao = getInputValue('fcartao');
+        const pix = getInputValue('fpix');
+        const aberturaCaixa = getInputValue('fval_abrecaixa');
+        const despesas = getInputValue('fval_despesas');
+        const depositos = getInputValue('fval_depositos');
+        const especie = getInputValue('fval_retirada');
+        const extra = getInputValue('fval_extra');
+
+        // Realizar os cálculos
+        const total = (dinheiro + cartao + pix + aberturaCaixa) - (despesas + depositos + especie);
+        const final = total + extra;
+
+        // Atualizar os campos de saída
+        $('input[name="fval_total"]').val(total.toFixed(2).replace('.', ','));
+        $('input[name="fval_final"]').val(final.toFixed(2).replace('.', ','));
+
+        // Reaplicar a máscara nos campos calculados
+       
+    }
+
+    // Monitorar alterações nos campos de entrada
+    $('.form-caixa').on('input', function () {
+        updateCalculations();
+    });
+
+    // Garantir cálculo inicial quando a página carregar
+    updateCalculations();
+
+    $('.money').mask('#.##0,00', {
+        reverse: true,
+        onKeyPress: function (value, e, field) {
+            // Remove zeros à esquerda quando o campo perde o foco
+            field.val(value.replace(/^0+(?![,])/g, ''));
+        }
+    });
+});
+
+</script>
