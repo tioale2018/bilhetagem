@@ -27,7 +27,7 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="" class="form-label">Valor</label>                            
-                                <input name="valor" type="text" id="valor" class="form-control" required placeholder="Ex: 1.234,56" pattern="^(\d{1,3}(\.\d{3})*|\d+)(,\d{1,2})?$" title="Por favor, insira um valor no formato 1.234,56 ou 123456,78" />
+                                <input name="valor" type="text" id="valor" class="form-control money" required placeholder="Ex: 1.234,56" pattern="^(\d{1,3}(\.\d{3})*|\d+)(,\d{1,2})?$" title="Por favor, insira um valor no formato 1.234,56 ou 123456,78" />
 
 
                             </div>
@@ -64,7 +64,7 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
         </div>
     </div>
 </div>
-
+<script src="./js/vanilla-masker.js"></script>
 <script>
     $(document).ready(function(){
         $('#formModalMovimento').submit(function(e){
@@ -76,7 +76,18 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
             });
         });
    
-         $('#valor').mask('#.##0,00', {reverse: true});
+        //  $('#valor').mask('#.##0,00', {reverse: true});
 
     });
+
+    function formataMoney() {
+    document.querySelectorAll('.money').forEach(input => {
+            VMasker(input).maskMoney({
+            separator: ',',
+            delimiter: '.'
+        });
+    });
+}
+
+formataMoney();
 </script>

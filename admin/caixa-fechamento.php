@@ -339,20 +339,7 @@ function geraDatasSQL($date) {
         });
 
 
-        // $('.money').mask('#.##0,00', {reverse: true});
-        // $('.money').mask('#.##0,00', { 
-        //     reverse: true,
-        //     onKeyPress: function(value, e, field) {
-        //         // Remove zeros à esquerda quando o campo perde o foco
-        //         field.val(value.replace(/^0+(?![,])/g, ''));
-        //     }
-        // });
-
-        // Opcional: Remover zeros à esquerda ao perder o foco
-        // $('.money').on('blur', function() {
-        //     var value = $(this).val();
-        //     $(this).val(value.replace(/^0+(?![,])/g, ''));
-        // });
+     
 
 
 
@@ -446,6 +433,73 @@ function geraDatasSQL($date) {
 
 
     });
+</script>
+
+<script src="./js/vanilla-masker.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.despesas').click(function() {
+            location.href = "./caixa-movimento?d=<?= $_GET['d'] ?>"
+        })
+    });
+</script>
+
+
+
+<script>
+
+function formataMoney() {
+    document.querySelectorAll('.money').forEach(input => {
+            VMasker(input).maskMoney({
+            separator: ',',
+            delimiter: '.'
+        });
+    });
+}
+
+function calcularValores() {
+    // Função para converter valor formatado para decimal
+    function formatToDecimal(input) {
+        return parseFloat(input.replace(/\./g, '').replace(',', '.')) || 0;
+    }
+
+    // Selecionando os campos necessários
+    const dinheiro = document.querySelector('input[name="fdinheiro"]').value;
+    const cartao = document.querySelector('input[name="fcartao"]').value;
+    const pix = document.querySelector('input[name="fpix"]').value;
+    const valAberturaCaixa = document.querySelector('input[name="fval_abrecaixa"]').value;
+    const despesas = document.querySelector('input[name="fval_despesas"]').value;
+    const depositos = document.querySelector('input[name="fval_depositos"]').value;
+    const retirada = document.querySelector('input[name="fval_retirada"]').value;
+    const valExtra = document.querySelector('input[name="fval_extra"]').value;
+
+    // Realizando os cálculos
+    const valorTotal = 
+        (formatToDecimal(dinheiro) + formatToDecimal(cartao) + formatToDecimal(pix) + formatToDecimal(valAberturaCaixa)) - 
+        (formatToDecimal(despesas) + formatToDecimal(depositos) + formatToDecimal(retirada));
+
+    const valorFinal = valorTotal + formatToDecimal(valExtra);
+
+    // Atualizando os campos de saída
+    document.querySelector('input[name="fval_total"]').value = valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.querySelector('input[name="fval_final"]').value = valorFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    formataMoney();
+}
+
+// Evento para recalcular os valores sempre que houver mudança em um campo relevante
+document.querySelectorAll('input[name="fdinheiro"], input[name="fcartao"], input[name="fpix"], input[name="fval_abrecaixa"], input[name="fval_despesas"], input[name="fval_depositos"], input[name="fval_retirada"], input[name="fval_extra"]').forEach(input => {
+    input.addEventListener('change', () => {
+        calcularValores();
+    });
+});
+
+// Inicializar máscara e cálculos ao carregar a página
+formataMoney();
+calcularValores();
+
+
+
+
 </script>
 
 
