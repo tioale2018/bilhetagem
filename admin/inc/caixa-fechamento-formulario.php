@@ -3,7 +3,10 @@
     <tbody>
         <tr>
             <th width="30%">Total de tickets do dia</th>
-            <td width="70%"><input type="text" class="form-control" value="231"></td>
+            <td width="70%">
+                <p>Total de tickets no sistema: <?= $sis_total_tickets ?></p>
+                <input type="text" name="ftickets" class="form-control form-caixa" value="<?= $total_tickets ?>">
+            </td>
         </tr>
         <tr>
             <th>Valor de tickets vendidos</th>
@@ -18,14 +21,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>R$ 232 </td>
-                            <td>R$ 5454</td>
-                            <td>R$ 5454</td>
+                            <td>R$ <?= number_format($dinheiro, 2, ',', '.'); ?></td>
+                            <td>R$ <?= number_format($cartao, 2, ',', '.'); ?></td>
+                            <td>R$ <?= number_format($pix, 2, ',', '.'); ?></td>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control money" value="231"></td>
-                            <td><input type="text" class="form-control money" value="231"></td>
-                            <td><input type="text" class="form-control money" value="231"></td>
+                            <td><input type="text" name="fdinheiro" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_vendadin'], 2, ',', '.'); ?>"></td>
+                            <td><input type="text" name="fcartao" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_vendacar'], 2, ',', '.'); ?>"></td>
+                            <td><input type="text" name="fpix" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_vendapix'], 2, ',', '.'); ?>"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -33,45 +36,41 @@
         </tr>
         <tr>
             <th>Valor de abertura de caixa</th>
-            <td><input type="text" class="form-control money" value="231.65"></td>
+            <td><input type="text" name="fval_abrecaixa" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_abrecaixa'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
             <th>Valor de despesas</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_despesas" class="form-control form-caixa money despesas" value="<?= number_format($row_caixaformulario['val_despesas'], 2, ',', '.'); ?>" readonly></td>
         </tr>
         <tr>
             <th>Valor dos depósitos</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_depositos" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_depositos'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
             <th>Valor de retirada em espécie</th>
-            <td><input type="text" class="form-control money" value="231"></td>
-        </tr>
-        <tr>
-            <th>Valor de retirada em espécie</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_retirada" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_retirada'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
             <th>Valor total (total bruto dinheiro menos despesas menos depósitos)</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_total" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_total'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
             <th>Valor extra (+)</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_extra" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_extra'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
             <th>Valor final</th>
-            <td><input type="text" class="form-control money" value="231"></td>
+            <td><input type="text" name="fval_final" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_final'], 2, ',', '.'); ?>"></td>
         </tr>
     </tbody>
 </table>
 
+<input type="hidden" name="codcaixaform" value="<?= $row_caixaformulario['id'] ?>">
+
 <script>
     $(document).ready(function() {
-        $('.money').mask('#.##0,00', {reverse: true});
-
-        <?php if ($row_buscadata[0]['status'] == 2) { ?>
-            $('.money').prop('readonly', true);
-        <?php } ?>
+        $('.despesas').click(function() {
+            location.href = "./caixa-movimento?d=<?= $_GET['d'] ?>"
+        })
     });
 </script>

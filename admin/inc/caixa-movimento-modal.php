@@ -65,8 +65,6 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
     </div>
 </div>
 
-
-
 <script>
     $(document).ready(function(){
         $('#formModalMovimento').submit(function(e){
@@ -77,7 +75,6 @@ $rowTipoDespesa = $preTipoDespesa->fetchAll();
                 window.location.reload();
             });
         });
-
    
          $('#valor').mask('#.##0,00', {reverse: true});
 
