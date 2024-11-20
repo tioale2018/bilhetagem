@@ -340,13 +340,13 @@ function geraDatasSQL($date) {
 
 
         // $('.money').mask('#.##0,00', {reverse: true});
-        $('.money').mask('#.##0,00', { 
-            reverse: true,
-            onKeyPress: function(value, e, field) {
-                // Remove zeros à esquerda quando o campo perde o foco
-                field.val(value.replace(/^0+(?![,])/g, ''));
-            }
-        });
+        // $('.money').mask('#.##0,00', { 
+        //     reverse: true,
+        //     onKeyPress: function(value, e, field) {
+        //         // Remove zeros à esquerda quando o campo perde o foco
+        //         field.val(value.replace(/^0+(?![,])/g, ''));
+        //     }
+        // });
 
         // Opcional: Remover zeros à esquerda ao perder o foco
         // $('.money').on('blur', function() {
@@ -440,6 +440,10 @@ function geraDatasSQL($date) {
         <?php } elseif (isset($dataRelata) && $row_buscadata['status'] == 2) { ?>
             $('input.form-caixa').prop('readonly', true);
         <?php } ?>
+
+
+       
+
 
     });
 </script>
