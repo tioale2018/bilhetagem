@@ -241,10 +241,6 @@ if ($pre_buascacaixa->rowCount() < 1) {
     </div>
 </section>
 
-
-
-
-
 <?php include_once('./inc/javascript.php') ?>
 <?php if (isset($dataRelata) ) {  
     
