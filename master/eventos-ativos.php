@@ -68,7 +68,7 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?= $value['cidade'] ?></td>
                                     <td><?= date('d/m/Y', $value['inicio']) ?> </td>
                                     <td><span class="label label-success"><?= $status_evento[$value['status']] ?></span></td>
-                                    <td><a href="edita-evento?id=<?= $value['id_evento'] ?>" class="button button-small edit" title="Edit">
+                                    <td><a href="evento-edita?id=<?= $value['id_evento'] ?>" class="button button-small edit" title="Edit">
                                         <i class="zmdi zmdi-edit"></i>
                                     </a></td>
                                 </tr>
