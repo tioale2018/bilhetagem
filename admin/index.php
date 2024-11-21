@@ -52,17 +52,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //fim do procedimento de log
         
         // Redireciona para a página protegida
-        header('Location: controle.php');
-        exit();
+        // header('Location: controle.php');
+        // exit();
     }
     
 }
 
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==1) {
     // Se estiver definida, redireciona para a página do sistema
     header('Location: controle.php');
     exit();
 }
+
+if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
+    // Se estiver definida, redireciona para a página do sistema
+    header('Location: ../master');
+    exit();
+}
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -94,6 +101,10 @@ if (isset($_SESSION['user_id'])) {
 <link rel="stylesheet" href="../assets/css/color_skins.css">
 
 <script src="../assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+<!-- Jquery Core Js -->
+<script src="../assets/bundles/libscripts.bundle.js"></script>
+<script src="../assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js -->
+
 <style>
     .logo-brand {
         margin: 0 0 20px 0;
@@ -175,8 +186,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
 </div>
-<!-- Jquery Core Js -->
-<script src="../assets/bundles/libscripts.bundle.js"></script>
-<script src="../assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js -->
+
 </body>
 </html>

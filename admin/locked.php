@@ -1,9 +1,20 @@
 ﻿<?php 
 require_once './inc/config_session.php';
 require_once './inc/conexao.php';
-if (!isset($_SESSION['user_id'])) {
-    // Se não estiver definida, redireciona para a página de login
 
+if (isset($_SESSION['user_perfil']) && $_SESSION['user_perfil']==2)  {
+    // Se não estiver definida, redireciona para a página de login
+    session_unset();
+    session_destroy();
+    header('Location: /admin');
+    exit();
+}
+
+
+if ( (!isset($_SESSION['user_id'])) ) {
+    // Se não estiver definida, redireciona para a página de login
+    session_unset();
+    session_destroy();
     header('Location: index.php');
     exit();
 }
