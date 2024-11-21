@@ -27,14 +27,11 @@
         </li>
         
         <li class="power">
-            <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="sign-in.html" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <!-- <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>             -->
+            <a href="./logoff" class="mega-menu logoff"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
-
-
-
 
 <aside class="right_menu">
     
@@ -262,16 +259,11 @@
                     </div>
                 </li>
                 <li class="header">MENU</li>
-                <li class="active open"> <a href="index.php"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                <li class=""> <a href="index.php"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Ger. Eventos</span> <span class="badge badge-success float-right">7</span></a>
                     <ul class="ml-menu">
-                        <li><a href="mail-inbox.html">Novo Evento</a></li>
-                        <li><a href="chat.html">Lista evento</a></li>
-                        <li><a href="events.html">Calendar</a></li>
-                        <li><a href="file-dashboard.html">File Manager</a></li>
-                        <li><a href="contact.html">Contact list</a></li>
-                        <li><a href="blog-dashboard.html">Blog</a></li>
-                        <li><a href="app-ticket.html">Support Ticket</a></li>
+                        <li><a href="./eventos-ativos">Lista evento</a></li>
+                        <li><a href="./eventos-novo.php">Novo Evento</a></li>
                     </ul>
                 </li>
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-swap-alt"></i><span>Usuários</span> <span class="badge badge-default float-right">15</span></a>
@@ -320,3 +312,26 @@
         </div>
     </div>
 </aside>
+<script>
+    $(document).ready(function(){
+        $('.logoff').click(function(e){
+            e.preventDefault();   
+            swal({
+                title: "Logoff?",
+                text: "Deseja realizar o logoff?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sim",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    location.replace("logoff.php");
+                }
+            });
+        });
+    });
+    
+</script>

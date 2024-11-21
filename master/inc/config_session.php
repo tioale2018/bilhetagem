@@ -18,7 +18,6 @@ $cookieParams['secure'] = isset($_SERVER['HTTPS']);
 $cookieParams['samesite'] = 'Strict';
 
 // Configura os cookies da sessão com parâmetros individuais
-
 session_set_cookie_params(
     $cookieParams['lifetime'],
     $cookieParams['path'] . '; SameSite=' . $cookieParams['samesite'],
@@ -37,7 +36,7 @@ if (!isset($_SESSION['regenerate'])) {
 }
 
 // Verifica e armazena IP e User-Agent do usuário
-if ((!isset($_SESSION['user_ip'])) || !isset($_SESSION['user_agent'])) {
+if (!isset($_SESSION['user_ip']) || !isset($_SESSION['user_agent'])) {
     $_SESSION['user_ip']    = $_SERVER['REMOTE_ADDR'];
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 }
@@ -49,19 +48,6 @@ if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] 
     header('Location: /admin/');
     exit();
 }
-
-/*
-// Verifica se a variável de sessão 'timeout' existe
-if (isset($_SESSION['timeout'])) {
-    // Calcula o tempo de inatividade
-    $session_life = time() - $_SESSION['timeout'];
-    if ($session_life > $inactive) {
-        session_destroy(); // Destroi a sessão
-        header("Location: logoff.php"); // Redireciona para logout ou página inicial
-    }
-}
-$_SESSION['timeout'] = time(); // Atualiza o tempo de timeout
-*/
 
 $session_lifetime = $inactive; // Tempo total da sessão
 $session_expiry = isset($_SESSION['timeout']) ? $_SESSION['timeout'] + $session_lifetime : time() + $session_lifetime;
