@@ -145,7 +145,8 @@ if ($entradasaida==1) {
                         <td style="padding-top: 20px!important"><span><?= $row_entrada[$key]['nomecrianca'] ?></span></td>
                     </tr>
                     <tr>
-                        <td>Pacote: <span><?= $row_entrada[$key]['duracao'] ?>min -> R$ <?= number_format($row_entrada[$key]['valor'], 2, ',', '.') ?></span></td>
+                        <?php /* <td>Pacote: <span><?= $row_entrada[$key]['duracao'] ?>min -> R$ <?= number_format($row_entrada[$key]['valor'], 2, ',', '.') ?></span></td> */ ?>
+                        <td>Pacote: <span><?= $row_entrada[$key]['descricao'] ?></span></td>
                     </tr>
                     <tr>
                         <td>
@@ -235,6 +236,10 @@ if ($entradasaida==1) {
                     <tr>
                         <td>
                             <table>
+                                <tr>
+                                    <td>Pacote:</td>
+                                    <td><?= $dados_pessoa['descricao'] ?></td>
+                                </tr>
                                 <tr>
                                     <td>Início:</td>
                                     <!-- <td><?= date('d/m/Y H:i', $row_saida[$k]['datahora_entra']); ?></td> -->
