@@ -440,7 +440,31 @@ function geraDatasSQL($date) {
     $(document).ready(function() {
         $('.despesas').click(function() {
             location.href = "./caixa-movimento?d=<?= $_GET['d'] ?>"
-        })
+        });
+
+        jQuery.fn.extend({
+      trackChanges: function() {
+        $(":input", this).change(function() {
+          $(this.form).data("changed", true);
+        });
+      },
+      isChanged: function() {
+        return this.data("changed");
+      }
+    });
+
+    $("#formCaixa").trackChanges();
+
+    //ao fechar ou sair da pagina, caso tenha tido alterações, pergunta se deseja salvar
+    window.onbeforeunload = function() {
+      if ($("#formCaixa").isChanged()) {
+        //return "Deseja salvar as alterações?";
+        if (confirm("Deseja sair sem salvar as alterações?")) {
+          return true;
+        }
+      }
+    };
+
     });
 </script>
 
@@ -470,13 +494,14 @@ function calcularValores() {
     const valAberturaCaixa = document.querySelector('input[name="fval_abrecaixa"]').value;
     const despesas = document.querySelector('input[name="fval_despesas"]').value;
     const depositos = document.querySelector('input[name="fval_depositos"]').value;
-    const retirada = document.querySelector('input[name="fval_retirada"]').value;
+    // const retirada = document.querySelector('input[name="fval_retirada"]').value;
     const valExtra = document.querySelector('input[name="fval_extra"]').value;
 
     // Realizando os cálculos
+
     const valorTotal = 
-        (formatToDecimal(dinheiro) + formatToDecimal(cartao) + formatToDecimal(pix) + formatToDecimal(valAberturaCaixa)) - 
-        (formatToDecimal(despesas) + formatToDecimal(depositos) + formatToDecimal(retirada));
+        (formatToDecimal(dinheiro) + formatToDecimal(valAberturaCaixa)) - 
+        (formatToDecimal(despesas) + formatToDecimal(depositos));
 
     const valorFinal = valorTotal + formatToDecimal(valExtra);
 

@@ -46,10 +46,12 @@
             <th>Valor dos depósitos</th>
             <td><input type="text" name="fval_depositos" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_depositos'], 2, ',', '.'); ?>"></td>
         </tr>
+        <?php /*
         <tr>
             <th>Valor de retirada em espécie</th>
             <td><input type="text" name="fval_retirada" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_retirada'], 2, ',', '.'); ?>"></td>
         </tr>
+        */ ?>
         <tr>
             <th>Valor total (total bruto dinheiro menos despesas menos depósitos)</th>
             <td><input type="text" name="fval_total" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_total'], 2, ',', '.'); ?>"></td>
@@ -62,6 +64,10 @@
         <tr>
             <th>Valor final</th>
             <td><input type="text" name="fval_final" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_final'], 2, ',', '.'); ?>"></td>
+        </tr>
+        <tr>
+            <th>Observações</th>
+            <td><textarea name="fobservacoes" class="form-control form-caixa" rows="5" maxlength="2000"><?= $row_caixaformulario['observacoes'] ?></textarea></td>
         </tr>
     </tbody>
 </table>
