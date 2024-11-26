@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>R$ <?= number_format($dinheiro, 2, ',', '.'); ?></td>
+                            <td>R$ <span id="sisDinheiro"><?= number_format($dinheiro, 2, ',', '.'); ?></span></td>
                             <td>R$ <?= number_format($cartao, 2, ',', '.'); ?></td>
                             <td>R$ <?= number_format($pix, 2, ',', '.'); ?></td>
                         </tr>
@@ -46,17 +46,19 @@
             <th>Valor dos depósitos</th>
             <td><input type="text" name="fval_depositos" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_depositos'], 2, ',', '.'); ?>"></td>
         </tr>
+        <?php /*
         <tr>
             <th>Valor de retirada em espécie</th>
             <td><input type="text" name="fval_retirada" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_retirada'], 2, ',', '.'); ?>"></td>
         </tr>
+        */ ?>
         <tr>
             <th>Valor total (total bruto dinheiro menos despesas menos depósitos)</th>
             <td><input type="text" name="fval_total" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_total'], 2, ',', '.'); ?>"></td>
         </tr>
         <tr>
-            <th>Valor extra (+)</th>
-            <td><input type="text" name="fval_extra" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_extra'], 2, ',', '.'); ?>"><div id="mostraval"></div></td>
+            <th id="rotuloExtra">Valor extra <span id="sinalExtra">(+)</span></th>
+            <td><input type="text" name="fval_extra" class="form-control form-caixa money" value="<?= number_format($row_caixaformulario['val_extra'], 2, ',', '.'); ?>" readonly><div id="mostraval"></div></td>
             
         </tr>
         <tr>

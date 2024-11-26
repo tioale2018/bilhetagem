@@ -1,7 +1,7 @@
 <?php
 //lista os tipos de despesa
 $evento = $_SESSION['evento_selecionado'];
-$sqlTipoDespesa = "SELECT * FROM tbcaixa_tipodespesa WHERE ativo=1 and idevento in (0,$evento)";
+$sqlTipoDespesa = "SELECT * FROM tbcaixa_tipodespesa WHERE ativo=1 and idevento in (0,$evento) order by descricao";
 $preTipoDespesa = $connPDO->prepare($sqlTipoDespesa);
 $preTipoDespesa->execute();
 $rowTipoDespesa = $preTipoDespesa->fetchAll();
