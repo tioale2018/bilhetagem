@@ -338,11 +338,6 @@ function geraDatasSQL($date) {
             
         });
 
-
-     
-
-
-
         <?php  if (isset($dataRelata) && $row_buscadata['status'] == 1) {  ?>        
 
         $('#fecharCaixa').click(function(){
@@ -427,11 +422,7 @@ function geraDatasSQL($date) {
         <?php } elseif (isset($dataRelata) && $row_buscadata['status'] == 2) { ?>
             $('input.form-caixa').prop('readonly', true);
         <?php } ?>
-
-
        
-
-
     });
 </script>
 
@@ -443,8 +434,6 @@ function geraDatasSQL($date) {
         })
     });
 </script>
-
-
 
 <script>
 
@@ -470,19 +459,41 @@ function calcularValores() {
     const valAberturaCaixa = document.querySelector('input[name="fval_abrecaixa"]').value;
     const despesas = document.querySelector('input[name="fval_despesas"]').value;
     const depositos = document.querySelector('input[name="fval_depositos"]').value;
-    const retirada = document.querySelector('input[name="fval_retirada"]').value;
+    // const retirada = document.querySelector('input[name="fval_retirada"]').value;
     const valExtra = document.querySelector('input[name="fval_extra"]').value;
 
+    const sisDinheiro = document.querySelector('#sisDinheiro').innerHTML;
+
+    const valorExtra = formatToDecimal(dinheiro) - formatToDecimal(sisDinheiro);
+
+    if (valorExtra>0) {
+        document.querySelector('#sinalExtra').innerHTML = '(+)';
+        document.querySe
+    } else if (valorExtra<0) {
+        document.querySelector('#sinalExtra').innerHTML = '(-)';
+    } else {
+        document.querySelector('#sinalExtra').innerHTML = '';
+    }
+
+    // alert(sisDinheiro);
+
     // Realizando os cálculos
+    // const valorTotal = 
+    //     (formatToDecimal(dinheiro) + formatToDecimal(cartao) + formatToDecimal(pix) + formatToDecimal(valAberturaCaixa)) - 
+    //     (formatToDecimal(despesas) + formatToDecimal(depositos) + formatToDecimal(retirada));
+
     const valorTotal = 
-        (formatToDecimal(dinheiro) + formatToDecimal(cartao) + formatToDecimal(pix) + formatToDecimal(valAberturaCaixa)) - 
-        (formatToDecimal(despesas) + formatToDecimal(depositos) + formatToDecimal(retirada));
+        (formatToDecimal(dinheiro) + formatToDecimal(valAberturaCaixa)) - 
+        (formatToDecimal(despesas) + formatToDecimal(depositos));
 
     const valorFinal = valorTotal + formatToDecimal(valExtra);
 
     // Atualizando os campos de saída
     document.querySelector('input[name="fval_total"]').value = valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     document.querySelector('input[name="fval_final"]').value = valorFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    document.querySelector('input[name="fval_extra"]').value = valorExtra.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     formataMoney();
 }
 
