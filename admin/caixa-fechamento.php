@@ -96,6 +96,7 @@ function geraDatasSQL($date) {
 
 // die(var_dump($row_buscadata));
 
+
 ?>
 
 <section class="content">    
@@ -214,7 +215,21 @@ function geraDatasSQL($date) {
     }
     */
 
+    $total_entradas = $dinheiro + $row_caixaformulario['val_abrecaixa'];
 
+
+    
+$sql_buscaMovimento = "SELECT sum(valor) as total, tbcaixa_tipodespesa.descricao
+FROM tbcaixa_movimento 
+inner join tbcaixa_tipodespesa on tbcaixa_tipodespesa.id=tbcaixa_movimento.idtipodespesa
+WHERE tbcaixa_movimento.idcaixaabre = ".$diarioAtivo." and tbcaixa_movimento.ativo=1
+group by idtipodespesa";
+
+// die($sql_buscaMovimento);
+
+$pre_buscaMovimento = $connPDO->prepare($sql_buscaMovimento);
+$pre_buscaMovimento->execute();
+$row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
 
@@ -234,7 +249,7 @@ function geraDatasSQL($date) {
                                 <div class="row">
                                     <div class="col-12">
                                         <a href="./caixa-fechamento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Fechamento de caixa</a>
-                                        <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Detalhamento de despesas</a>
+                                        <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Detalhamento de saídas</a>
                                     </div>
                                 </div>
                             </div>
@@ -437,14 +452,77 @@ function geraDatasSQL($date) {
 
 <script>
 
+// function formataMoney() {
+//     document.querySelectorAll('.money').forEach(input => {
+//             VMasker(input).maskMoney({
+//             separator: ',',
+//             delimiter: '.'
+//         });
+//     });
+// }
+
+/*
 function formataMoney() {
     document.querySelectorAll('.money').forEach(input => {
+        // Adiciona o evento de entrada para controlar valores negativos
+        input.addEventListener('input', () => {
+            let value = input.value.replace(/[^\d,-]/g, ''); // Remove caracteres inválidos
+            const isNegative = value.startsWith('-');
+            
+            // Remove o sinal negativo para formatar o número
+            value = value.replace('-', '');
+            
+            // Aplica a máscara
             VMasker(input).maskMoney({
-            separator: ',',
-            delimiter: '.'
+                separator: ',',
+                delimiter: '.',
+                precision: 2,
+            });
+            
+            // Adiciona o sinal de negativo novamente, se necessário
+            if (isNegative) {
+                value = `-${value}`;
+            }
+            
+            input.value = value; // Atualiza o valor no campo
         });
     });
 }
+*/
+
+function formataMoney() {
+    document.querySelectorAll('.money').forEach(input => {
+        // Adiciona o evento de entrada para controlar valores negativos e formatação
+        input.addEventListener('input', () => {
+            let value = input.value.replace(/[^\d,-]/g, ''); // Remove caracteres inválidos
+            const isNegative = value.startsWith('-'); // Verifica se é negativo
+            
+            // Remove o sinal negativo temporariamente para formatação
+            value = value.replace('-', '');
+            
+            // Aplica a máscara com VMasker (sem o delimitador no início)
+            const maskedValue = VMasker.toMoney(value, {
+                separator: ',',
+                delimiter: '.',
+                precision: 2,
+            });
+            
+            // Reinsere o sinal negativo, se necessário
+            input.value = isNegative ? `-${maskedValue}` : maskedValue;
+        });
+
+        // Permite digitar "-" manualmente
+        input.addEventListener('keydown', (e) => {
+            if (e.key === '-' && !input.value.includes('-')) {
+                input.value = '-' + input.value;
+                e.preventDefault(); // Evita comportamentos adicionais do navegador
+            }
+        });
+    });
+}
+
+// Chama a função após o carregamento da página ou para os campos necessários
+formataMoney();
 
 function calcularValores() {
     // Função para converter valor formatado para decimal
@@ -453,63 +531,54 @@ function calcularValores() {
     }
 
     // Selecionando os campos necessários
-    const dinheiro = document.querySelector('input[name="fdinheiro"]').value;
-    const cartao = document.querySelector('input[name="fcartao"]').value;
-    const pix = document.querySelector('input[name="fpix"]').value;
-    const valAberturaCaixa = document.querySelector('input[name="fval_abrecaixa"]').value;
+    const valAbreCaixa = document.querySelector('input[name="fval_abrecaixa"]').value;
+    const dinheiro = document.querySelector('input[name="fval_dinheiro"]').value;
+    const totalEntradas = document.querySelector('input[name="fval_entradas"]').value;
     const despesas = document.querySelector('input[name="fval_despesas"]').value;
-    const depositos = document.querySelector('input[name="fval_depositos"]').value;
-    // const retirada = document.querySelector('input[name="fval_retirada"]').value;
+    const sangria = document.querySelector('input[name="fval_final"]').value;
     const valExtra = document.querySelector('input[name="fval_extra"]').value;
+    const valorEntradas = formatToDecimal(dinheiro) + formatToDecimal(valAbreCaixa);
+    
+    const saldoTotal = valorEntradas - formatToDecimal(despesas);
+    const valorExtra = formatToDecimal(sangria) - saldoTotal;
 
-    const sisDinheiro = document.querySelector('#sisDinheiro').innerHTML;
-
-    const valorExtra = formatToDecimal(dinheiro) - formatToDecimal(sisDinheiro);
+    document.querySelector('input[name="fval_entradas"]').value = valorEntradas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.querySelector('input[name="fval_total"]').value = saldoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.querySelector('input[name="fval_extra"]').value = valorExtra.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     if (valorExtra>0) {
         document.querySelector('#sinalExtra').innerHTML = '(+)';
-        document.querySe
+        document.querySelector('#rotuloExtra').style.color = 'black';
     } else if (valorExtra<0) {
         document.querySelector('#sinalExtra').innerHTML = '(-)';
+        document.querySelector('#rotuloExtra').style.color = 'red';
     } else {
         document.querySelector('#sinalExtra').innerHTML = '';
+        document.querySelector('#rotuloExtra').style.color = 'black';
     }
 
-    // alert(sisDinheiro);
-
-    // Realizando os cálculos
-    // const valorTotal = 
-    //     (formatToDecimal(dinheiro) + formatToDecimal(cartao) + formatToDecimal(pix) + formatToDecimal(valAberturaCaixa)) - 
-    //     (formatToDecimal(despesas) + formatToDecimal(depositos) + formatToDecimal(retirada));
-
-    const valorTotal = 
-        (formatToDecimal(dinheiro) + formatToDecimal(valAberturaCaixa)) - 
-        (formatToDecimal(despesas) + formatToDecimal(depositos));
-
-    const valorFinal = valorTotal + formatToDecimal(valExtra);
-
-    // Atualizando os campos de saída
-    document.querySelector('input[name="fval_total"]').value = valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.querySelector('input[name="fval_final"]').value = valorFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    document.querySelector('input[name="fval_extra"]').value = valorExtra.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    formataMoney();
+formataMoney();
 }
-
-// Evento para recalcular os valores sempre que houver mudança em um campo relevante
-document.querySelectorAll('input[name="fdinheiro"], input[name="fcartao"], input[name="fpix"], input[name="fval_abrecaixa"], input[name="fval_despesas"], input[name="fval_depositos"], input[name="fval_retirada"], input[name="fval_extra"]').forEach(input => {
+/*
+document.querySelectorAll('input[name="fval_abrecaixa"], input[name="fval_final"]').forEach(input => {
     input.addEventListener('change', () => {
         calcularValores();
+    });
+});
+*/
+
+document.querySelectorAll('input[name="fval_abrecaixa"], input[name="fval_final"], input[name="ftickets"], input[name="fcartao"], input[name="fpix"], input[name="fobs"]').forEach(input => {
+    input.addEventListener('change', () => {
+        
+        $.post('./blocos/caixa-fechamento-salvar.php', $('#formCaixa').serialize(), function(data){
+            calcularValores();    
+        })
     });
 });
 
 // Inicializar máscara e cálculos ao carregar a página
 formataMoney();
 calcularValores();
-
-
-
 
 </script>
 
