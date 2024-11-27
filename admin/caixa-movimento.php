@@ -132,7 +132,7 @@ if ($pre_buascacaixa->rowCount() < 1) {
     <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
-                    <h2>Detalhamento de despesas</h2>        
+                    <h2>Detalhamento de saídas</h2>        
                 </div>
             </div>
         </div>
@@ -157,7 +157,7 @@ if ($pre_buascacaixa->rowCount() < 1) {
                                 <div class="row">
                                     <div class="col-12">
                                     <a href="./caixa-fechamento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Fechamento de caixa</a>
-                                    <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Detalhamento de despesas</a>
+                                    <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Detalhamento de saídas</a>
                                     </div>
                                 </div>
                             </div>

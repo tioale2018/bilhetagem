@@ -23,8 +23,6 @@ $pre->bindParam(':idusuario', $idusuario, PDO::PARAM_INT);
 $pre->bindParam(':horaagora', $horaagora, PDO::PARAM_INT);
 $pre->execute();
 
-
-
 /* formulário do caixa, despesas  */
 $sql_despesas = "SELECT sum(tbcaixa_movimento.valor) as valortotal FROM tbcaixa_movimento WHERE tbcaixa_movimento.ativo=1 and tbcaixa_movimento.idcaixaabre=:idcaixaabre";
 $pre_despesas = $connPDO->prepare($sql_despesas);
@@ -42,7 +40,6 @@ $pre_buscaformulario->execute();
 $dados_formulario = $pre_buscaformulario->fetch(PDO::FETCH_ASSOC);
 
 $idformulario_altera = $dados_formulario['id'];
-
 
 /* para mudar na tela quando retornar, faz sentido atualizar também os valores dos resultados */
 function calcularValores(

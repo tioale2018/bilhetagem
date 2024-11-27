@@ -45,7 +45,6 @@ $dados_despesas = $pre_despesas->fetch(PDO::FETCH_ASSOC);
 
 $total_despesas = $dados_despesas['valortotal'];
 
-
 $sql_buscaformulario = "SELECT * FROM tbcaixa_formulario WHERE status>0 and idcaixadiario=:idcaixaabre";
 $pre_buscaformulario = $connPDO->prepare($sql_buscaformulario);
 $pre_buscaformulario->bindParam(':idcaixaabre', $idcaixaabre, PDO::PARAM_INT);
