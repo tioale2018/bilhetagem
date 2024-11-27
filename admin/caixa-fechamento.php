@@ -440,7 +440,7 @@ $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
         });        
 
         <?php } elseif (isset($dataRelata) && $row_buscadata['status'] == 2) { ?>
-            $('input.form-caixa').prop('readonly', true);
+            $('input.form-caixa, textarea.form-caixa').prop('readonly', true);
         <?php } ?>
        
     });
