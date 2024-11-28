@@ -18,9 +18,12 @@ function generateSqlQuery($date) {
     $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN {$startTimestamp} AND {$endTimestamp} order by tbprevenda.id_prevenda desc, tbfinanceiro.hora_pgto desc";
     return $sql;
 }
+
+$varget = '';
   
     if (isset($_GET['d']) && isValidDate($_GET['d'])) {
         $dataRelata = $_GET['d'];
+        $varget = '?d='.$_GET['d'];
     } else {
         $dataRelata = date('Y-m-d');
     }
@@ -47,7 +50,7 @@ function generateSqlQuery($date) {
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
-                    <h2>Informação de pagamentos</h2>             
+                    <h2>Informação de pagamentos detalhada</h2>             
                        
                 </div>            
                 <!-- <div class="col-lg-7 col-md-7 col-sm-12">
@@ -71,6 +74,11 @@ function generateSqlQuery($date) {
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
                                         <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>
+                                    <a href="caixa-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= $varget ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= $varget ?>">Detalhamento</a>
                                 </p>
                             </div>
                             <!-- <div class="col-md-6 col-sm-6 text-right">
