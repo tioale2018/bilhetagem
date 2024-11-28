@@ -21,6 +21,7 @@
                     <!-- <li><a href="javascript:void(0)">Cadastro</a></li>
                     <li><a href="javascript:void(0)">Relatório</a></li> -->
                     
+                    <?php /*
                     <li><a href="javascript:void(0)">Relatórios</a>
                         <ul class="sub-menu">
                             <!-- <li><a href="dashboard">Relatórios</a></li> -->
@@ -29,13 +30,15 @@
                             <li><a href="caixa-tipopgto">Por tipo de pagamento</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0)">Caixa</a>
+                    */ ?>
+                    <li><a href="javascript:void(0)">Gerencial</a>
                         <ul class="sub-menu">
-                            <!-- <li><a href="dashboard">Relatórios</a></li> -->
-                            <!-- <li><a href="caixa-movimento">Movimento de caixa</a></li> -->
+                            <li><a href="caixa-produtos">Pagamentos</a></li>
                             <li><a href="caixa-fechamento">Fechamento de caixa</a></li>
+                            <li><a href="termo-exporta">Exporta termo</a></li>
                         </ul>
                     </li>
+
                     <li><a href="troca-evento">Trocar evento</a></li>
                 </ul>
             </div>
