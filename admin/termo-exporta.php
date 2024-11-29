@@ -47,16 +47,23 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
                     
                         
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0 row">
-                                    <form action="" method="post" id="formBuscaEntradas">
-                                        <div class="col-md-3"><strong>Informe o CPF:</strong></div> 
-                                        <div class="col-md-6">
-                                            <input class="form-control" type="text" name="cpf" value="" required maxlength="14" pattern="\d*">
-                                            <button type="submit" class="btn btn-primary btn-round waves-effect buscaEntradas">Buscar</button>
-                                        </div> 
-                                    </form>
-                                </p>
+                            <div class="col-md-12" >
+                                <form action="" method="post" id="formBuscaEntradas"  class="mb-0 row align-items-center">
+                                        <div class="col-md-2"><strong>Informe a busca:</strong></div> 
+                                        <div class="col-md-10">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-3">
+                                                    <select class="form-control p-0" name="tipobusca" required>
+                                                        <option value="cpf" selected>CPF</option>
+                                                        <option value="nome">Nome participante</option>
+                                                        <option value="ticket">Número do Ticket</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6"><input class="form-control" type="text" name="cpf" value="" required maxlength="14"></div>
+                                                <div class="col-md-3"><button type="submit" class="btn btn-primary btn-round waves-effect buscaEntradasCpf">Buscar</button></div>
+                                            </div>
+                                        </div>
+                                </form>
                             </div>
                             
                             <!-- <div class="col-md-6 col-sm-6 text-right">
@@ -90,12 +97,13 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
     $(document).ready(function(){
         $('#formBuscaEntradas').submit(function(e){
             e.preventDefault();
-            var cpf = $('input[name="cpf"]').val();
-            $('.lista-entradas').load('./blocos/termo-lista.php', {cpf: cpf}, function(){
+            let cpf = $('input[name="cpf"]').val();
+            let tipo = $('select[name="tipobusca"]').val();
+            $('.lista-entradas').load('./blocos/termo-lista.php', {cpf: cpf, tipobusca: tipo}, function(){
                 console.log(cpf);
             });
         });
-
+/*
         $('input[name="cpf"]').on('input', function() {
             let cpf = $(this).val();
             $(this).val(aplicarMascaraCPF(cpf));
@@ -103,10 +111,10 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
             // Validação do CPF
             if (!validarCPF(cpf.replace(/\D/g, ''))) {
                 $(this).css('border', '2px solid red'); // Borda vermelha se o CPF for inválido
-                $('button[type="submit"]').prop('disabled', true); // Impede o submit
+                $('button.buscaEntradasCpf').prop('disabled', true); // Impede o submit
             } else {
                 $(this).css('border', ''); // Reseta a borda
-                $('button[type="submit"]').prop('disabled', false); // Permite o submit
+                $('button.buscaEntradasCpf').prop('disabled', false); // Permite o submit
             }
         });
 
@@ -121,6 +129,7 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
             let cpf = $(this).val().replace(/\D/g, '');
             $(this).val(cpf);
         });
+        */
     });
 </script>
 

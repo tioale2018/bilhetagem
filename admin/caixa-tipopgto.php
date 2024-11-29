@@ -55,7 +55,7 @@ $varget = '';
     <div class="container">
         <div class="block-header">
             <div class="row clearfix">
-                <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
+                <div class="col-12 mt-4">
                     <h2>Valores recebidos por tipo de pagamento</h2>        
                 </div>
             </div>
