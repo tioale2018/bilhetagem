@@ -49,11 +49,13 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
+                                    <form action="" method="post" id="formBuscaEntradas">
                                         <div class="col-md-3"><strong>Informe o CPF:</strong></div> 
                                         <div class="col-md-6">
-                                            <input class="form-control" type="text" name="cpf" value="">
-                                            <button class="btn btn-primary btn-round waves-effect buscaEntradas">Buscar</button>
+                                            <input class="form-control" type="text" name="cpf" value="" required>
+                                            <button type="submit" class="btn btn-primary btn-round waves-effect buscaEntradas">Buscar</button>
                                         </div> 
+                                    </form>
                                 </p>
                             </div>
                             
@@ -85,7 +87,9 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
 <?php include_once('./inc/javascript.php') ?>
 <script>
     $(document).ready(function(){
-        $('button.buscaEntradas').click(function(){
+        // $('button.buscaEntradas').click(function(){
+        $('#formBuscaEntradas').submit(function(e){
+            e.preventDefault();
             var cpf = $('input[name="cpf"]').val();
             $('.lista-entradas').load('./blocos/termo-lista.php', {cpf: cpf}, function(){
                 console.log(cpf);

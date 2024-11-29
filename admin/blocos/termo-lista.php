@@ -31,7 +31,7 @@ if ($pre_buscaentradas->rowCount() <1) {
 
 
 <?php if (isset($row_buscaentradas)) { ?>
-<table class="table">
+<table class="table" id="tabela-entradas">
     <thead>
         <th>Ticket</th>
         <th>Responsável</th>
@@ -62,3 +62,6 @@ if ($pre_buscaentradas->rowCount() <1) {
     </tbody>
 </table>
 <?php } ?>
+<script>
+    $('#tabela-entradas').dataTable();
+</script>
