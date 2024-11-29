@@ -52,7 +52,7 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
                                     <form action="" method="post" id="formBuscaEntradas">
                                         <div class="col-md-3"><strong>Informe o CPF:</strong></div> 
                                         <div class="col-md-6">
-                                            <input class="form-control" type="text" name="cpf" value="" required>
+                                            <input class="form-control" type="text" name="cpf" value="" required maxlength="14" pattern="\d*">
                                             <button type="submit" class="btn btn-primary btn-round waves-effect buscaEntradas">Buscar</button>
                                         </div> 
                                     </form>
@@ -85,15 +85,41 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
 </section>
 
 <?php include_once('./inc/javascript.php') ?>
+<script src="./js/funcoes.js"></script>
 <script>
     $(document).ready(function(){
-        // $('button.buscaEntradas').click(function(){
         $('#formBuscaEntradas').submit(function(e){
             e.preventDefault();
             var cpf = $('input[name="cpf"]').val();
             $('.lista-entradas').load('./blocos/termo-lista.php', {cpf: cpf}, function(){
                 console.log(cpf);
             });
+        });
+
+        $('input[name="cpf"]').on('input', function() {
+            let cpf = $(this).val();
+            $(this).val(aplicarMascaraCPF(cpf));
+            
+            // Validação do CPF
+            if (!validarCPF(cpf.replace(/\D/g, ''))) {
+                $(this).css('border', '2px solid red'); // Borda vermelha se o CPF for inválido
+                $('button[type="submit"]').prop('disabled', true); // Impede o submit
+            } else {
+                $(this).css('border', ''); // Reseta a borda
+                $('button[type="submit"]').prop('disabled', false); // Permite o submit
+            }
+        });
+
+        $('input[name="cpf"]').on('focus', function() {
+            $(this).css('border', '');
+            let cpf = $(this).val().replace(/\D/g, '');
+            $(this).val(aplicarMascaraCPF(cpf));
+        });
+
+        // Remove a máscara ao perder o foco
+        $('input[name="cpf"]').on('blur', function() {
+            let cpf = $(this).val().replace(/\D/g, '');
+            $(this).val(cpf);
         });
     });
 </script>
