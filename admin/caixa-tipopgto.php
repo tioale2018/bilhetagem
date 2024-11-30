@@ -26,9 +26,11 @@ function generateSqlQuery($date) {
 
     return $sql;
 }
-
+$varget = '';
+  
     if (isset($_GET['d']) && isValidDate($_GET['d'])) {
         $dataRelata = $_GET['d'];
+        $varget = '?d='.$_GET['d'];
     } else {
         $dataRelata = date('Y-m-d');
     }
@@ -53,7 +55,7 @@ function generateSqlQuery($date) {
     <div class="container">
         <div class="block-header">
             <div class="row clearfix">
-                <div class="col-lg-5 col-md-5 col-sm-12 mt-4">
+                <div class="col-12 mt-4">
                     <h2>Valores recebidos por tipo de pagamento</h2>        
                 </div>
             </div>
@@ -69,6 +71,11 @@ function generateSqlQuery($date) {
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
                                         <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>
+                                    <a href="caixa-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= $varget ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= $varget ?>">Detalhamento</a>
                                 </p>
                             </div>
                         </div>

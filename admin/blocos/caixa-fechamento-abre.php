@@ -36,6 +36,15 @@ $dataRelata = $_POST['d'];
 
 $dataSql = geraDatasSQL($dataRelata);
 
+$total_tickets = 0;
+    $sql_buscatickets = "SELECT count(tbentrada.id_pacote) as total_vendido FROM tbentrada inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda where tbentrada.id_pacote>0 and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbentrada.datahora_entra BETWEEN ".$dataSql['start']." AND ".$dataSql['end'];
+    $pre_buscatickets = $connPDO->prepare($sql_buscatickets);
+    $pre_buscatickets->execute();
+    $row_buscatickets = $pre_buscatickets->fetch(PDO::FETCH_ASSOC);
+
+    $totaltickets_vendidos = $row_buscatickets['total_vendido'];
+    
+
 //data anterior
 $dataAnterior = date('Y-m-d', strtotime('-1 day', strtotime($dataRelata)));
 
@@ -44,7 +53,31 @@ $pre_buscadata = $connPDO->prepare($sql_buscadata);
 $pre_buscadata->execute();
 
 if ($pre_buscadata->rowCount() == 0) {
-    //caso o caixa da data selecionada nao tenha sido aberto, verifica se o dia anterior existe   
+    //caso o caixa da data selecionada nao tenha sido aberto, verifica se o dia anterior existe  
+
+    $sql_buscadata = "select * from tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='$dataAnterior'"; 
+    $pre_buscadata = $connPDO->prepare($sql_buscadata);
+    $pre_buscadata->execute();
+
+    $saldo_diaanterior = 0;
+
+    if ($pre_buscadata->rowCount() > 0) {
+        
+        $row_buscadata = $pre_buscadata->fetch(PDO::FETCH_ASSOC);
+        $id_diaanterior = $row_buscadata['id'];
+
+        $sql_form_anterior = "select * from tbcaixa_formulario where status>0 and idevento=".$_SESSION['evento_selecionado']." and idcaixadiario=$id_diaanterior and data_caixa='$dataAnterior'";
+        $pre_form_anterior = $connPDO->prepare($sql_form_anterior);
+        $pre_form_anterior->execute();
+
+        if ($pre_form_anterior->rowCount() > 0) {
+            $row_form_anterior = $pre_form_anterior->fetch(PDO::FETCH_ASSOC);
+            $saldo_diaanterior = $row_form_anterior['val_final']; //sangria
+        }
+
+    }
+
+
 
     $sql_abrecaixa_diario = "insert into tbcaixa_diario (idevento, datacaixa, usuario_abre, datahora_abre) values (".$_SESSION['evento_selecionado'].", '$dataRelata', ".$_SESSION['user_id'].", $horaagora)";
     $pre_abrecaixa_diario = $connPDO->prepare($sql_abrecaixa_diario);
@@ -62,7 +95,7 @@ if ($pre_buscadata->rowCount() == 0) {
     */
     $total_vendido = 0;
 
-    $sql_insere_entrada = "insert into tbcaixa_formulario (idevento, idcaixadiario, idusuario, datahora_lastupdate, total_tickets) values (".$_SESSION['evento_selecionado'].",$lastcaixadiario_id,".$_SESSION['user_id'].", $horaagora, $total_vendido)";
+    $sql_insere_entrada = "insert into tbcaixa_formulario (idevento, idcaixadiario, idusuario, datahora_lastupdate, sis_totaltickets, total_tickets, data_caixa, sis_datasaldo, sis_abrecaixa) values (".$_SESSION['evento_selecionado'].",$lastcaixadiario_id,".$_SESSION['user_id'].", $horaagora, $totaltickets_vendidos, $total_vendido, '$dataRelata', '$dataAnterior', '$saldo_diaanterior')";
     $pre_insere_entrada = $connPDO->prepare($sql_insere_entrada);
     $pre_insere_entrada->execute();
 

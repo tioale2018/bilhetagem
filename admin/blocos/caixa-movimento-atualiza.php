@@ -11,7 +11,6 @@ session_start();
 include_once("../inc/conexao.php");
 $horaagora = time();
 
-
 //recebe os dados de "caixa-movimento-modal.php"
 
 $idevento      = $_SESSION['evento_selecionado'];
@@ -37,9 +36,7 @@ $pre->bindParam(':datacaixa', $datacaixa, PDO::PARAM_STR);
 $pre->bindParam(':idcaixaabre', $idcaixaabre, PDO::PARAM_INT);
 $pre->execute();
 
-
 /* formulário do caixa, despesas  */
-
 $sql_despesas = "SELECT sum(tbcaixa_movimento.valor) as valortotal FROM tbcaixa_movimento WHERE tbcaixa_movimento.ativo=1 and tbcaixa_movimento.idcaixaabre=:idcaixaabre";
 $pre_despesas = $connPDO->prepare($sql_despesas);
 $pre_despesas->bindParam(':idcaixaabre', $idcaixaabre, PDO::PARAM_INT);
@@ -47,7 +44,6 @@ $pre_despesas->execute();
 $dados_despesas = $pre_despesas->fetch(PDO::FETCH_ASSOC);
 
 $total_despesas = $dados_despesas['valortotal'];
-
 
 $sql_buscaformulario = "SELECT * FROM tbcaixa_formulario WHERE status>0 and idcaixadiario=:idcaixaabre";
 $pre_buscaformulario = $connPDO->prepare($sql_buscaformulario);
@@ -61,19 +57,15 @@ $idformulario_altera = $dados_formulario['id'];
 /* para mudar na tela quando retornar, faz sentido atualizar também os valores dos resultados */
 function calcularValores(
     float $dinheiro,
-    float $cartao,
-    float $pix,
     float $aberturaCaixa,
     float $despesas,
-    float $depositos,
-    float $especie,
     float $valorExtra
 ): array {
     // Calcula o valor total
-    $valorTotal = (($dinheiro + $cartao + $pix) + $aberturaCaixa) - ($despesas + $depositos + $especie);
+    $valorTotal = ($dinheiro + $aberturaCaixa) ;
 
     // Calcula o valor final
-    $valorFinal = $valorTotal + $valorExtra;
+    $valorFinal = $valorTotal + $despesas;
 
     // Retorna os valores em um array
     return [
@@ -82,26 +74,16 @@ function calcularValores(
     ];
 }
 
-$totais = calcularValores($dados_formulario['val_vendadin'], $dados_formulario['val_vendacar'], $dados_formulario['val_vendapix'], $dados_formulario['val_abrecaixa'], $total_despesas, $dados_formulario['val_depositos'], $dados_formulario['val_retirada'], $dados_formulario['val_extra']);
+$totais = calcularValores($dados_formulario['val_vendadin'], $dados_formulario['val_abrecaixa'], $total_despesas, $dados_formulario['val_extra']);
 
 
-
-
-
-$sql = "UPDATE tbcaixa_formulario SET val_despesas='$total_despesas', val_total='{$totais['valor_total']}', val_final='{$totais['valor_final']}'  WHERE id = $idformulario_altera";
+// $sql = "UPDATE tbcaixa_formulario SET val_despesas='$total_despesas', val_total='{$totais['valor_total']}', val_final='{$totais['valor_final']}'  WHERE id = $idformulario_altera";
+$sql = "UPDATE tbcaixa_formulario SET val_despesas='$total_despesas', val_total='{$totais['valor_total']}'  WHERE id = $idformulario_altera";
 $pre = $connPDO->prepare($sql);
 $pre->execute();
 
 
-
-
-
-
-
-
 echo json_encode(array('status' => '1'));
 exit;
-
-
 
 ?>
