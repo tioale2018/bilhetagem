@@ -14,7 +14,9 @@ $fval_retirada  = isset($_POST['fval_retirada']) ? filter_input(INPUT_POST, 'fva
 $fval_total     = isset($_POST['fval_total']) ? filter_input(INPUT_POST, 'fval_total', FILTER_SANITIZE_STRING) : '';
 $fval_extra     = isset($_POST['fval_extra']) ? filter_input(INPUT_POST, 'fval_extra', FILTER_SANITIZE_STRING) : '';
 $fval_final     = isset($_POST['fval_final']) ? filter_input(INPUT_POST, 'fval_final', FILTER_SANITIZE_STRING) : '';
+$fval_entradas  = isset($_POST['fval_entradas']) ? filter_input(INPUT_POST, 'fval_entradas', FILTER_SANITIZE_STRING) : '';
 $codcaixaform   = isset($_POST['codcaixaform']) ? filter_input(INPUT_POST, 'codcaixaform', FILTER_SANITIZE_NUMBER_INT) : '';
+$fobservacoes   = isset($_POST['fobs']) ? filter_input(INPUT_POST, 'fobs', FILTER_SANITIZE_STRING) : '';
 
 $lastupdate     = time();
 
@@ -35,6 +37,7 @@ $fval_retirada   = formatToFloat($fval_retirada);
 $fval_total      = formatToFloat($fval_total);
 $fval_extra      = formatToFloat($fval_extra);
 $fval_final      = formatToFloat($fval_final);
+$fval_entradas   = formatToFloat($fval_entradas);
 
 $sql = "UPDATE tbcaixa_formulario SET 
         total_tickets = :total_tickets,
@@ -48,6 +51,8 @@ $sql = "UPDATE tbcaixa_formulario SET
         val_total = :val_total,
         val_extra = :val_extra,
         val_final = :val_final,
+        val_entradas = :val_entradas,
+        observacoes = :fobservacoes,
         datahora_lastupdate = :datahora_lastupdate
         WHERE id = :id";        
 
@@ -64,6 +69,8 @@ $stmt->bindParam(':val_retirada', $fval_retirada, PDO::PARAM_STR);
 $stmt->bindParam(':val_total', $fval_total, PDO::PARAM_STR);
 $stmt->bindParam(':val_extra', $fval_extra, PDO::PARAM_STR);
 $stmt->bindParam(':val_final', $fval_final, PDO::PARAM_STR);
+$stmt->bindParam(':val_entradas', $fval_entradas, PDO::PARAM_STR);
+$stmt->bindParam(':fobservacoes', $fobservacoes, PDO::PARAM_STR);
 $stmt->bindParam(':datahora_lastupdate', $lastupdate, PDO::PARAM_INT);
 $stmt->bindParam(':id', $codcaixaform, PDO::PARAM_INT);
 

@@ -37,7 +37,7 @@ if (!isset($_SESSION['regenerate'])) {
 }
 
 // Verifica e armazena IP e User-Agent do usuário
-if (!isset($_SESSION['user_ip']) || !isset($_SESSION['user_agent'])) {
+if ((!isset($_SESSION['user_ip'])) || !isset($_SESSION['user_agent'])) {
     $_SESSION['user_ip']    = $_SERVER['REMOTE_ADDR'];
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 }

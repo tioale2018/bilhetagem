@@ -1,44 +1,21 @@
-﻿<!doctype html>
-<html class="no-js " lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
-<title>:: Alpino :: Home</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
-<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/plugins/morrisjs/morris.css" />
-<link rel="stylesheet" href="assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css"/>
-<!-- Custom Css -->
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/color_skins.css">
+﻿<?php include('./inc/head.php') ?>
 </head>
 <body class="theme-black">
-<!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="m-t-30"><img src="assets/images/logo.svg" width="48" height="48" alt="Alpino"></div>
-        <p>Please wait...</p>        
-    </div>
-</div>
-
+<?php include('./inc/page-loader.php') ?>
 
 <!-- Left Sidebar -->
 
-<?php include './inc/sidebar.php'; ?>
+<?php include('./inc/sidebar.php') ?>
+
 
 <!-- Main Content -->
 <section class="content home">
     <div class="container-fluid">
         <div class="block-header">
             <div class="row clearfix">
-                <div class="col-lg-5 col-md-5 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <h2>Dashboard</h2>
-                    <ul class="breadcrumb padding-0">
-                        <li class="breadcrumb-item"><a href="index.php"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ul>
+                    <hr>
                 </div>            
                 <!-- <div class="col-lg-7 col-md-7 col-sm-12">
                     <div class="input-group m-b-0">                
@@ -50,48 +27,9 @@
                 </div> -->
             </div>
         </div>
-        <div class="row clearfix">
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-center">
-                    <div class="body">
-                        <p class="m-b-20"><i class="zmdi zmdi-balance zmdi-hc-3x col-amber"></i></p>
-                        <span>Receita mensal</span>
-                        <h3 class="m-b-10">$<span class="number count-to" data-from="0" data-to="2078" data-speed="2000" data-fresh-interval="700">2078</span></h3>
-                        <small class="text-muted">27% lower growth</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-center">
-                    <div class="body">
-                        <p class="m-b-20"><i class="zmdi zmdi-assignment zmdi-hc-3x col-blue"></i></p>
-                        <span>Visitantes totais</span>
-                        <h3 class="m-b-10 number count-to" data-from="0" data-to="865" data-speed="2000" data-fresh-interval="700">865</h3>
-                        <small class="text-muted">88% lower growth</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-center">
-                    <div class="body">
-                        <p class="m-b-20"><i class="zmdi zmdi-shopping-basket zmdi-hc-3x"></i></p>
-                        <span>Eventos ativos</span>
-                        <h3 class="m-b-10 number count-to" data-from="0" data-to="3502" data-speed="2000" data-fresh-interval="700">3502</h3>
-                        <small class="text-muted">38% lower growth</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-center">
-                    <div class="body">
-                        <p class="m-b-20"><i class="zmdi zmdi-account-box zmdi-hc-3x col-green"></i></p>
-                        <span>Visitantes atuais (tempo real)</span>
-                        <h3 class="m-b-10 number count-to" data-from="0" data-to="78" data-speed="2000" data-fresh-interval="700">78</h3>
-                        <small class="text-muted">78% lower growth</small>
-                    </div>
-                </div>
-            </div>
-        </div>        
+        
+        <?php include('./inc/stats-cards-topo.php') ?>
+
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
                 <div class="card visitors-map">
@@ -658,17 +596,7 @@
         </div>                
     </div>
 </section>
-<!-- Jquery Core Js -->
-<script src="assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
 
-<script src="assets/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="assets/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="assets/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="assets/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
-<script src="assets/bundles/doughnut.bundle.js"></script>
-
-<script src="assets/bundles/mainscripts.bundle.js"></script>
-<script src="assets/js/pages/index.js"></script>
+<?php include('./inc/javascript.php'); ?>
 </body>
 </html>
