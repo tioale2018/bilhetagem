@@ -24,7 +24,7 @@ if ($tipobusca == 'cpf') {
 }
 
 
-$sql_buscaentradas = "SELECT tbprevenda.id_prevenda, tbentrada.id_entrada as identrada, tbvinculados.nome as nomecrianca, tbresponsavel.nome as nomeresponsavel, tbprevenda.data_acesso, tbprevenda.datahora_efetiva ,tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.cpf from tbvinculados inner join tbentrada on tbentrada.id_vinculado = tbvinculados.id_vinculado inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where ".$buscavariavel." and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status not in (0,9) and tbentrada.previnculo_status not in (0,2) order by tbprevenda.id_prevenda asc, tbvinculados.nome asc";
+$sql_buscaentradas = "SELECT tbprevenda.id_prevenda, tbentrada.id_entrada as identrada, tbvinculados.nome as nomecrianca, tbresponsavel.nome as nomeresponsavel, tbprevenda.data_acesso, tbprevenda.datahora_efetiva ,tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.cpf, tbentrada.autoriza, tbentrada.datahora_autoriza from tbvinculados inner join tbentrada on tbentrada.id_vinculado = tbvinculados.id_vinculado inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where ".$buscavariavel." and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status not in (0,9) and tbentrada.previnculo_status not in (0,2) order by tbprevenda.id_prevenda asc, tbvinculados.nome asc";
 
 // echo $sql_buscaentradas;
 
@@ -65,7 +65,7 @@ if ($pre_buscaentradas->rowCount() <1) {
             <td><?= ($value['datahora_efetiva']==""?"-": date('d/m/Y H:i:s', $value['datahora_efetiva'])); ?></td>
             <!-- <td><?= $value['origem_prevenda']==1?"Online":($value['origem_prevenda']==2?"Presencial":"-") ?></td> -->
             <td>
-                <?php if ($value['origem_prevenda']==1) { ?>
+                <?php if ($value['origem_prevenda']==1 && $value['autoriza']==1) { ?>
                     <a target="_blank" href="termo-pdf?t=<?= $value['identrada'] ?>" class="btn btn-primary btn-xs waves-effect" title="Imprimir"><i class="material-icons">print</i></a>
                 <?php } else { ?>
                     Balcão

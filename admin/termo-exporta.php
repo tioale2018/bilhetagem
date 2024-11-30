@@ -46,7 +46,7 @@ select tbprevenda.id_prevenda, tbvinculados.nome as nomecrianca, tbresponsavel.n
                     <div class="body">  
                     
                         
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-12" >
                                 <form action="" method="post" id="formBuscaEntradas"  class="mb-0 row align-items-center">
                                         <div class="col-md-2"><strong>Informe a busca:</strong></div> 

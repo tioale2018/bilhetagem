@@ -102,7 +102,7 @@ $variables = [
     'participantenome' => $row_participante['participantenome'],
     'participantenascimento' => date('d/m/Y', strtotime($row_participante['nascimento'])), 
     'participanteidade' => calculateAge($row_participante['nascimento']),
-    'datahoje' => formatDate($row_participante['datahora_autoriza']),
+    'datahoje' => $row_participante['datahora_autoriza']==''?'':formatDate($row_participante['datahora_autoriza']),
     'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo'])
 ];
 ?>
@@ -114,7 +114,7 @@ $variables = [
 <table style="font-size: 0.8em">
     <tr>
         <td>Data hora da autorização: </td>
-        <td><?= date('d/m/Y H:i:s', $row_participante['datahora_autoriza']) ?></td>
+        <td><?= $row_participante['datahora_autoriza']==''?'Unknown':date('d/m/Y H:i:s', $row_participante['datahora_autoriza']) ?></td>
     </tr>
     <?php if (isset($row_deviceinfo)) { ?>
     <tr>
