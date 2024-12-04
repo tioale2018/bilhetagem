@@ -24,7 +24,6 @@ if (!basename($_SERVER['PHP_SELF'])=='index.php') {
     <meta name="robots" content="noindex, nofollow">
 
     <title>Sistema de Bilhetagem</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Favicon-->
     <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/plugins/morrisjs/morris.css" />

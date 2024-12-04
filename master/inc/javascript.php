@@ -2,7 +2,7 @@
 <script src="./assets/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
 <script src="./assets/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
 <script src="./assets/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
-<script src="./assets/bundles/doughnut.bundle.js"></script>
+<!-- <script src="./assets/bundles/doughnut.bundle.js"></script> -->
 
 <script src="./assets/bundles/mainscripts.bundle.js"></script>
 <script src="./assets/js/pages/index.js"></script>
