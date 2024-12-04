@@ -106,6 +106,9 @@ $row_busca_evento = $pre_busca_evento->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
+        <?php  include('./inc/termo-pacotes.php');    ?>
+
+
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -193,7 +196,7 @@ $row_busca_evento = $pre_busca_evento->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <?php  include('./inc/edita-termo.php');    ?>
+        <?php  include('./inc/termo-edita.php');    ?>
 
            
     </div>
