@@ -244,17 +244,17 @@
         <div class="menu">
             <ul class="list">
                 <li>
-                    <div class="user-info m-b-20">
-                        <div class="image">
+                    <div class="user-info mt-3 m-b-20">
+                        <!-- <div class="image">
                             <a href="profile.html"><img src="assets/images/profile_av.jpg" alt="User"></a>
-                        </div>
+                        </div> -->
                         <div class="detail">
                             <h6>Rapidticket</h6>
-                            <p class="m-b-0">Sistemas de Gestão de Bilhetagem</p>
-                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-facebook-box"></i></a>
+                            <p class="m-b-0">Sistema de Gestão de Bilhetagem</p>
+                            <!-- <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-facebook-box"></i></a>
                             <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-linkedin-box"></i></a>
                             <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-instagram"></i></a>
-                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-twitter-box"></i></a>                            
+                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-twitter-box"></i></a>                             -->
                         </div>
                     </div>
                 </li>

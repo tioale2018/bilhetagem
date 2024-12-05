@@ -103,7 +103,9 @@ $variables = [
     'participantenascimento' => date('d/m/Y', strtotime($row_participante['nascimento'])), 
     'participanteidade' => calculateAge($row_participante['nascimento']),
     'datahoje' => $row_participante['datahora_autoriza']==''?'':formatDate($row_participante['datahora_autoriza']),
-    'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo'])
+    'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo']),
+    'empresa' => $row_busca_termo['empresa'],
+    'cnpj' => $row_busca_termo['cnpj']
 ];
 ?>
 
