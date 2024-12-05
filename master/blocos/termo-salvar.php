@@ -14,13 +14,19 @@ $agora    = time();
 $usuario  = $_SESSION['user_id'];
 
 $sql = "update tbtermo set textotermo=:termo, dataatualiza=$agora, useratualiza=$usuario, cidadetermo=:cidade where idtermo=:idtermo";
+// $sql = 'update tbtermo set textotermo="'.$termo.'", dataatualiza=$agora, useratualiza=$usuario, cidadetermo="$cidade" where idtermo=$idtermo';
 
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':termo', $termo, PDO::PARAM_STR);
 $pre->bindParam(':idtermo', $idtermo, PDO::PARAM_INT);
 $pre->bindParam(':cidade', $cidade, PDO::PARAM_STR);
-$pre->execute();
 
-echo json_encode(array('status' => '1'));
+// die($sql);
+
+if($pre->execute()) {
+    echo json_encode(array('status' => '1'));
+} else {
+    echo json_encode(array('status' => '0'));
+}
 
 ?>

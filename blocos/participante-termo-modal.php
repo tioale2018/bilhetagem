@@ -80,7 +80,9 @@ $variables = [
     'participantenascimento' => date('d/m/Y', strtotime($row_dados_participante[0]['nascimento'])), 
     'participanteidade' => calculateAge($row_dados_participante[0]['nascimento']),
     'datahoje' => formatDate($dataAgora),
-    'cidadetermo' => $row_busca_termo[0]['cidade']
+    'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo']),
+    'empresa' => $row_busca_termo['empresa'],
+    'cnpj' => $row_busca_termo['cnpj']
 ];
 
 ?>
@@ -117,11 +119,8 @@ $variables = [
                     $('#modalTermoParticipante').modal('hide');
                 });
                 
-
             })
         });
-
-
 
         function getDeviceInfo(identrada) {
             // Coleta as informações do dispositivo via JavaScript
