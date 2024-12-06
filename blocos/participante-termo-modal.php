@@ -72,6 +72,7 @@ $row_dados_participante = $pre_dados_participante->fetchAll();
 
 $dataAgora = time();
 
+/*
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
@@ -84,7 +85,8 @@ $variables = [
     'empresa' => $row_busca_termo['empresa'],
     'cnpj' => $row_busca_termo['cnpj']
 ];
-
+*/
+include_once('./inc/variaveis-termo.php');
 ?>
 <form action="" id="formAceitaTermo" method="post">
     <div class="modal-header">

@@ -38,6 +38,65 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
 
+                <div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form action="" method="post" id="form-basico">
+                    <h5>Informações iniciais do evento</h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="titulo" class="form-label">Título</label>                               
+                                <input type="text" class="form-control" placeholder="" value="" name="titulo" required />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="" class="form-label">Local</label>                               
+                                <input type="text" class="form-control" placeholder="" value="" name="local" required />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="" class="form-label">Cidade</label>                               
+                                <input type="text" class="form-control" placeholder="" value="" name="cidade" required />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="form-label">Capacidade</label>                               
+                                <input type="text" class="form-control" placeholder="" value="" name="capacidade"  />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Data de início</label>                               
+                                <input type="date" class="form-control" placeholder="dd/mm/aaaa"  value="" name="inicio" required  />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Data de fim (estimada)</label>                               
+                                <input type="date" class="form-control" placeholder="dd/mm/aaaa"  value="" name="fim"  />
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-info btn-round waves-effect">Adicionar e continuar</button>
+                        <input type="hidden" name="evento" value="<?= $id ?>">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
                 
 
                     </div>

@@ -54,8 +54,6 @@
                 <div class="row mt-4">
                     <div class="col-12 table-responsive lista-pacotes">
 
-
-
                     </div>
                 </div>
             </div>
@@ -73,10 +71,32 @@
             e.preventDefault();
             let formAtual = $(this);
             
-            $.post('./blocos/pacotes-adiciona.php', formAtual.serialize(), function() {
-                // $('.lista-pacotes').load('./blocos/pacotes-lista.php', {id: idevento});
-                location.reload();
+            $.post('./blocos/pacotes-adiciona.php', formAtual.serialize(), function(data) {
+                $('.lista-pacotes').load('./blocos/pacotes-lista.php', {id: idevento});
             })
-        })
+        });
+
+        $('body').on('click', '.excluipacote', function(e){
+            e.preventDefault();
+            let id = $(this).data('id');
+
+            swal({
+                title: "Excluir pacote?",
+                text: "Deseja realmente excluir este pacote?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sim, excluir!",
+                closeOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    // swal("Excluído!", "O pacote foi excluído.", "success");
+                    $.post('./blocos/pacotes-exclui.php', {id: id}, function(data) {
+                        $('.lista-pacotes').load('./blocos/pacotes-lista.php', {id: idevento});
+                    });
+                }
+            });
+            
+        });
     });
 </script>

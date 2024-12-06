@@ -41,7 +41,7 @@ $row_buscapacotes = $pre_buscapacotes->fetchAll(PDO::FETCH_ASSOC);
         <td><?= $value['duracao'] ?></td>
         <td><?= $value['tolerancia'] ?></td>
         <td><?= number_format($value['min_adicional'], 2, ",", ".") ?> </td>
-        <td><a href="#" class="btn btn-sm btn-danger">Excluir</a></td>
+        <td><a href="#" class="btn btn-sm btn-danger excluipacote" data-id="<?= $value['id_pacote'] ?>">Excluir</a></td>
     </tr>
     <?php } ?>
 </tbody>

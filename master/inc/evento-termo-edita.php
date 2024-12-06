@@ -23,10 +23,22 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-12">
                                 <textarea name="textotermo" id="conteudotermo" class="form-control"  rows="20"><?= $row_buscatermo[0]['textotermo'] ?></textarea>
                             </div>
-                            <div class="col-12 mt-3">
+                            <div class="col-4 mt-3">
                                 <div class="form-group">
                                     <label for="atualizatab" class="form-label">Cidade do termo</label>                               
                                     <input type="text" class="form-control" placeholder="" value="<?= $row_buscatermo[0]['cidadetermo'] ?>" name="cidade"  />
+                                </div>
+                            </div>
+                            <div class="col-4 mt-3">
+                                <div class="form-group">
+                                    <label for="atualizatab" class="form-label">Empresa do termo</label>                               
+                                    <input type="text" class="form-control" placeholder="" value="<?= $row_buscatermo[0]['empresa'] ?>" name="empresa"  />
+                                </div>
+                            </div>
+                            <div class="col-4 mt-3">
+                                <div class="form-group">
+                                    <label for="atualizatab" class="form-label">CNPJ da empresa</label>                               
+                                    <input type="text" class="form-control" placeholder="" value="<?= $row_buscatermo[0]['cnpj'] ?>" name="cnpj"  />
                                 </div>
                             </div>
                             
@@ -92,6 +104,14 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
                                     </tr>
                                     <tr>
                                         <td>{{cidadetermo}}</td>
+                                        <td>Cidade do termo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{empresatermo}}</td>
+                                        <td>Cidade do termo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{cnpjtermo}}</td>
                                         <td>Cidade do termo</td>
                                     </tr>
 

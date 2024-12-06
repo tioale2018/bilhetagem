@@ -73,7 +73,7 @@
                 let jsonResponse = JSON.parse(data);
                 if (jsonResponse.status == 1) {
                     swal({
-                        title: "Mensagens evento",
+                        title: "Dados básicos do evento",
                         text: "Salvo com sucesso!",
                         type: "success",
                         showCancelButton: false,

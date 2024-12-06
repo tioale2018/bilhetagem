@@ -94,7 +94,7 @@ $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetch(PDO::FETCH_ASSOC);
 
-
+/*
 $variables = [
     'responsavelnome' => $row_participante['responsavelnome'],
     'responsavelcpf' => $row_participante['cpf'],
@@ -107,6 +107,8 @@ $variables = [
     'empresa' => $row_busca_termo['empresa'],
     'cnpj' => $row_busca_termo['cnpj']
 ];
+*/
+include_once('../inc/variaveis-termo.php');
 ?>
 
 <?= "<h2>Termo de autorização</h2>"; ?>

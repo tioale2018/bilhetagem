@@ -45,6 +45,7 @@ $row_busca_evento = $pre_busca_evento->fetchAll(PDO::FETCH_ASSOC);
         <?php  include('./inc/evento-basico.php');  ?>
         <?php  include('./inc/evento-pacotes.php');  ?>
         <?php  include('./inc/evento-sessao.php');  ?>
+        <?php  include('./inc/evento-hash.php');  ?>
         <?php  include('./inc/evento-mensagens.php'); ?>
         <?php  include('./inc/evento-termo-edita.php'); ?>
            
