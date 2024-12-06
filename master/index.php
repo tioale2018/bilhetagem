@@ -7,6 +7,7 @@
 
 <?php include('./inc/sidebar.php') ?>
 
+<?php die('<script>location.replace("./eventos-ativos.php");</script>') ?>
 
 <!-- Main Content -->
 <section class="content home">

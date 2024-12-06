@@ -271,6 +271,7 @@
                         <li><a href="./usuarios-listar">Listar/Editar</a></li>                    
                     </ul>
                 </li>
+                <?php /*
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Responsáveis</span> <span class="badge badge-warning float-right">9</span></a>
                     <ul class="ml-menu">
                         <li><a href="basic-form-elements.html">Basic Elements</a></li>
@@ -305,6 +306,8 @@
                             <li><a href="chart-e.html">E Chart</a></li>
                     </ul>
                 </li>
+
+                */ ?>
                
             </ul>
         </div>
