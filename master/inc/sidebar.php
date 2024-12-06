@@ -267,10 +267,8 @@
                     </ul>
                 </li>
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-swap-alt"></i><span>Usuários</span> <span class="badge badge-default float-right">15</span></a>
-                    <ul class="ml-menu">
-                        <li><a href="ui_kit.html">Novo Usuário</a></li>                    
-                        <li><a href="alerts.html">Listar/Editar</a></li>                    
-                        <li><a href="collapse.html">Acessos</a></li>
+                    <ul class="ml-menu">                 
+                        <li><a href="./usuarios-listar">Listar/Editar</a></li>                    
                     </ul>
                 </li>
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Responsáveis</span> <span class="badge badge-warning float-right">9</span></a>
