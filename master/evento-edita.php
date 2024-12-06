@@ -5,6 +5,7 @@ if ( (!isset($_GET['id'])) || (!is_numeric($_GET['id'])) ) {
 include('./inc/head.php') ?>
 <!-- <link rel="stylesheet" href="./assets/plugins/editor-js/css/froala_editor.min.css"> -->
 <!-- <link rel="stylesheet" href="./editor/prettify.min.css"> -->
+
 </head>
 <body class="theme-black">
 <?php //include('./inc/page-loader.php') ?>
