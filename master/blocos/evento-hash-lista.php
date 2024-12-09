@@ -29,7 +29,8 @@ $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERV
     <thead>
         <tr>
             <th width="15%">Hash criado</th>
-            <th width="60%">URL</th>
+            <th width="50%">URL</th>
+            <th width="10%">Ativo</th>
             <th width="20%">Ações</th>
         </tr>
     </thead>
@@ -40,6 +41,12 @@ $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERV
         <tr>
             <td><?= $value['hash'] ?></td>
             <td><?= $varUrl ?></td>
+            <td>
+                <label class="switch">
+                    <input type="checkbox" class="slidercheck" checked value="1">
+                    <span class="slider round "></span>
+                </label>
+            </td>
             <td><a href="#" class="btn btn-sm btn-success btnGeraqrcode" data-hash="<?= $varUrl ?>">Gerar QrCode</a> <a href="#" class="btn btn-sm btn-danger btnExcluihash" data-hash="<?= $value['id'] ?>">Excluir</a></td>
         </tr>
         <?php } ?>
@@ -47,3 +54,19 @@ $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERV
 </table>
 
     <?php } ?>
+
+
+    <script>
+
+        $(document).ready(function() {
+            $('.slidercheck').change(function() {
+                // alert($());
+                if($(this).is(':checked')) {
+                    alert('Ativar')
+                } else {
+                    alert('Desativar');
+                }
+            });
+            
+        });
+    </script>

@@ -119,8 +119,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             
             swal({
-                title: "Termos de uso dos dados",
-                text: "<?= $dadosEvento['regras_home'] ?>",
+                title: 'Termos de uso dos dados',
+                text: '<?= $dadosEvento['regras_home'] ?>',
                 html: true
             });
         });
@@ -128,8 +128,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         $('body').on('click','.regrasparque', function(e){
             e.preventDefault();
             swal({
-                title: "Regras do parque",
-                text: "<?= $dadosEvento['regras_parque'] ?>",
+                title: 'Regras do parque',
+                text: '<?= $dadosEvento['regras_parque'] ?>',
                 html: true
             });
         });

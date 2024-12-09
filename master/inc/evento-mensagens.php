@@ -54,6 +54,11 @@
             let formAtual = $(this);
             tinymce.remove('textarea');
 
+            document.querySelectorAll('textarea').forEach(input => {
+                let t = input.value;
+                input.value = t.replace(/(\r\n|\n|\r)/gm, "");
+            })
+
             $.post('./blocos/mensagens-salvar.php', formAtual.serialize(), function(data){
                 let jsonResponse = JSON.parse(data);
                 if (jsonResponse.status == 1) {

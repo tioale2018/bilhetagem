@@ -42,7 +42,7 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
             <div class="body">
-                <form action="" method="post" id="form-basico">
+                <form action="" method="post" id="form-novo-evento">
                     <h5>Informações iniciais do evento</h5>
                     <hr>
                     <div class="row">
@@ -67,7 +67,7 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="form-label">Capacidade</label>                               
-                                <input type="text" class="form-control" placeholder="" value="" name="capacidade"  />
+                                <input type="text" class="form-control" placeholder="" value="" name="capacidade" required />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -79,7 +79,13 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="" class="form-label">Data de fim (estimada)</label>                               
-                                <input type="date" class="form-control" placeholder="dd/mm/aaaa"  value="" name="fim"  />
+                                <input type="date" class="form-control" placeholder="dd/mm/aaaa"  value="" name="fim" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">Informe a URL do evento</label>                               
+                                <input type="text" class="form-control" placeholder="URL"  value="" name="url"  required />
                             </div>
                         </div>
                         
@@ -111,5 +117,29 @@ $row_eventosAtivos = $pre_eventosAtivos->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 <?php include('./inc/javascript.php'); ?>
+<script>
+    $('document').ready(function(){
+        $('#form-novo-evento').submit(function(e){
+            e.preventDefault();
+            let formAtual = $(this);
+            $.post('./blocos/evento-novo-inserir.php', formAtual.serialize(), function(data){
+                let jsonResponse = JSON.parse(data);
+                if (jsonResponse.status == 1) {
+                    swal({
+                        title: "Novo evento",
+                        text: "Salvo com sucesso!",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true
+                    }, function () {
+                        location.href="eventos.php";
+                    });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

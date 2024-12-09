@@ -7,7 +7,6 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
@@ -40,8 +39,7 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
                                     <label for="atualizatab" class="form-label">CNPJ da empresa</label>                               
                                     <input type="text" class="form-control" placeholder="" value="<?= $row_buscatermo[0]['cnpj'] ?>" name="cnpj"  />
                                 </div>
-                            </div>
-                            
+                            </div>                            
 
                             <div class="col-12">
                                 <button type="submit" class="btn btn-info btn-round waves-effect salvatermo">Salvar</button>
@@ -52,8 +50,6 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
 
                     </div>
                 </div>
-
-                
 
                         <div class="row clearfix pt-3">
                             <div class="col-md-12 col-lg-12">
@@ -123,21 +119,14 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                     
-                                    
                                 </div>
                             </div>
                         </div>
-                    
-              
         
             </div>
         </div>
     </div>
 </div>
-
-
-
-
 
 <script>
     $(document).ready(function(){
@@ -146,6 +135,11 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
             e.preventDefault();
             let formAtual = $(this);
             tinymce.remove('textarea');
+
+            document.querySelectorAll('textarea').forEach(input => {
+                let t = input.value;
+                input.value = t.replace(/(\r\n|\n|\r)/gm, "");
+            })
 
             $.post('./blocos/termo-salvar.php', formAtual.serialize(), function(data){
                 let jsonResponse = JSON.parse(data);
