@@ -20,7 +20,7 @@ $row_buscatermo = $pre_buscatermo->fetchAll(PDO::FETCH_ASSOC);
                         <form action="" method="post" id="form-termo" class="row">
 
                             <div class="col-12">
-                                <textarea name="textotermo" id="conteudotermo" class="form-control"  rows="20"><?= $row_buscatermo[0]['textotermo'] ?></textarea>
+                                <textarea name="textotermo" id="conteudotermo" class="form-control editor"  rows="20"><?= $row_buscatermo[0]['textotermo'] ?></textarea>
                             </div>
                             <div class="col-4 mt-3">
                                 <div class="form-group">
