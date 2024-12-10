@@ -18,19 +18,19 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane in active" id="home"> 
                                     <h6>Termo de uso dos dados</h6>
-                                    <textarea name="regra_home" class="form-control"  rows="10"><?= $row_busca_evento[0]['regras_home'] ?></textarea>
+                                    <textarea name="regra_home" class="form-control editor"  rows="10"><?= $row_busca_evento[0]['regras_home'] ?></textarea>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="cadastro"> 
                                     <h6>Regras de cadastro</h6>
-                                    <textarea name="regra_cadastro" class="form-control"  rows="10"><?= $row_busca_evento[0]['regras_cadastro'] ?></textarea>
+                                    <textarea name="regra_cadastro" class="form-control editor"  rows="10"><?= $row_busca_evento[0]['regras_cadastro'] ?></textarea>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="parque"> 
                                     <h6>Regras do parque</h6>
-                                    <textarea name="regra_parque" class="form-control"  rows="10"><?= $row_busca_evento[0]['regras_parque'] ?></textarea>
+                                    <textarea name="regra_parque" class="form-control editor"  rows="10"><?= $row_busca_evento[0]['regras_parque'] ?></textarea>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="reserva"> 
                                     <h6>Mensagem final de cadastro</h6>
-                                    <textarea name="regra_reserva" class="form-control"  rows="10"><?= $row_busca_evento[0]['msg_fimreserva'] ?></textarea>
+                                    <textarea name="regra_reserva" class="form-control editor"  rows="10"><?= $row_busca_evento[0]['msg_fimreserva'] ?></textarea>
                                 </div>
                             </div>
 
