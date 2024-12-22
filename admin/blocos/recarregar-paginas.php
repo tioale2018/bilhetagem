@@ -1,11 +1,13 @@
 <?php
 session_start();
+/*
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
     // __halt_compiler();
     die(0);
 }
+    */
 
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes-gerais.php');
@@ -23,10 +25,15 @@ WHERE tbentrada.previnculo_status=3 and tbprevenda.prevenda_status in (2,5) and 
 */
 $sql = "SELECT * FROM tbentrada
 inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda
-WHERE tbentrada.previnculo_status=3 and tbprevenda.prevenda_status in (2,5) and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.datahora_efetiva between ". $datasHoje['start'] ." and ". $datasHoje['end'];
+WHERE tbentrada.previnculo_status=3 and tbprevenda.prevenda_status in (2,5) and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.datahora_efetiva between :datahojestart  and  :datahojeend";
 // die($sql);
+$dataHojeStart = $datasHoje['start'];
+$dataHojeEnd   = $datasHoje['end'];
 
 $pre = $connPDO->prepare($sql);
+$pre->bindParam(':datahojestart', $dataHojeStart, PDO::PARAM_STR);
+$pre->bindParam(':datahojeend', $dataHojeEnd, PDO::PARAM_STR);
+
 $pre->execute();
 
 $contador = $pre->rowCount();
