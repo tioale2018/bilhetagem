@@ -34,6 +34,7 @@
                     <li><a href="javascript:void(0)">Gerencial</a>
                         <ul class="sub-menu">
                             <li><a href="caixa-tipopgto">Pagamentos</a></li>
+                            <li><a href="caixa-periodo-tipopgto">Pagamentos por período</a></li>
                             <li><a href="caixa-fechamento">Fechamento de caixa</a></li>
                             <li><a href="termo-exporta">Exporta termo</a></li>
                         </ul>
