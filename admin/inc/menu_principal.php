@@ -31,14 +31,22 @@
                         </ul>
                     </li>
                     */ ?>
-                    <li><a href="javascript:void(0)">Gerencial</a>
+
+                    <li><a href="javascript:void(0)">Operacional</a>
                         <ul class="sub-menu">
                             <li><a href="caixa-tipopgto">Pagamentos</a></li>
-                            <li><a href="caixa-periodo-tipopgto">Pagamentos por período</a></li>
                             <li><a href="caixa-fechamento">Fechamento de caixa</a></li>
                             <li><a href="termo-exporta">Exporta termo</a></li>
                         </ul>
                     </li>
+                    <?php if ($_SESSION['user_extra'] == 1) { ?>
+                    <li><a href="javascript:void(0)">Gerencial</a>
+                        <ul class="sub-menu">
+                            <li><a href="caixa-periodo-tipopgto">Pagamentos por período</a></li>
+                            <li><a href="exporta-responsaveis">Exporta dados de responsáveis</a></li>
+                        </ul>
+                    </li>
+                    <?php } ?>
 
                     <li><a href="troca-evento">Trocar evento</a></li>
                 </ul>
