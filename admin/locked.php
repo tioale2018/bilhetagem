@@ -66,7 +66,7 @@ $pre_eventos_usuario->execute();
                             if ($pre_eventos_usuario->rowCount()>0) {
                                 $row_eventos_usuario = $pre_eventos_usuario->fetchAll();
                             ?>
-                            <ul class="list-group">
+                            <ul class="list-group" style="max-height: 300px; overflow-y: auto">
                                 
                                 <?php foreach ($row_eventos_usuario as $key => $value) { ?>
                                     <li class="list-group-item"><a href="" class="sel-evento" data-idevento="<?= $value['idevento'] ?>"><?= $value['titulo'] . " (" . $value['cidade'] . ")"; ?></a></li>

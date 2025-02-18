@@ -1,5 +1,8 @@
 <?php include_once('./inc/head.php') ?>
 <?php include_once('./inc/conexao.php') ?>
+
+<?php include_once('./inc/verifica-permissao.php') ?>
+
 <?php include_once('./inc/funcao-tempo.php') ?>
 <?php include_once('./inc/funcoes-calculo.php') ?>
 <?php include_once('./inc/funcoes.php') ?>

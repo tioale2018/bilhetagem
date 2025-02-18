@@ -54,13 +54,14 @@ function formatDate($timestamp) {
     return $formattedDate;
 }
 
-$sql_busca_termo = "select tbtermo.*, tbevento.titulo, tbevento.local, tbevento.cidade from tbtermo 
-inner join tbevento on tbevento.id_evento=tbtermo.idevento
-where tbtermo.ativo=1 and tbtermo.idevento=".$_SESSION['evento_atual'];
+$sql_busca_termo = "select tbtermo.*, tbevento.titulo, tbevento.local, tbevento.cidade from tbtermo inner join tbevento on tbevento.id_evento=tbtermo.idevento where tbtermo.ativo=1 and tbtermo.idevento=".$_SESSION['evento_atual'];
+// die($sql_busca_termo);
 
 $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetchAll();
+
+// die(var_dump($row_busca_termo[0]));
 
 $identrada = $_POST['i'];
 $sql_dados_participante = "SELECT tbentrada.id_prevenda, tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.email FROM tbentrada inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel WHERE tbentrada.id_entrada=:identrada";
@@ -72,7 +73,9 @@ $row_dados_participante = $pre_dados_participante->fetchAll();
 
 $dataAgora = time();
 
-/*
+$row_participante = $row_dados_participante[0];
+
+
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
@@ -81,12 +84,12 @@ $variables = [
     'participantenascimento' => date('d/m/Y', strtotime($row_dados_participante[0]['nascimento'])), 
     'participanteidade' => calculateAge($row_dados_participante[0]['nascimento']),
     'datahoje' => formatDate($dataAgora),
-    'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo']),
-    'empresa' => $row_busca_termo['empresa'],
-    'cnpj' => $row_busca_termo['cnpj']
+    'cidadetermo' => ($row_busca_termo[0]['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo[0]['cidadetermo']),
+    'empresa' => $row_busca_termo[0]['empresa'],
+    'cnpj' => $row_busca_termo[0]['cnpj']
 ];
-*/
-include_once('./inc/variaveis-termo.php');
+
+// include_once('../inc/variaveis-termo.php');
 ?>
 <form action="" id="formAceitaTermo" method="post">
     <div class="modal-header">

@@ -61,7 +61,11 @@ if ($pre->rowCount()>0) {
             <input name="email" type="email" placeholder="E-mail" class="form-control" value="<?= $var_email ?>" />
             <span class="input-group-addon"><i class="material-icons">email</i></span>
         </div>           
-    </div>              
+    </div>
+    <div class="checkbox">
+        <input id="comunica" type="checkbox" name="comunica" required>
+        <label for="comunica">Autorizo o uso dos meus dados de acordo com os <a href="#">termos de comunicação</a>.</label>
+    </div>             
     <div class="checkbox">
         <input id="termos" type="checkbox" name="termos" required>
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>

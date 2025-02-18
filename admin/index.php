@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //$_SESSION['user_evento'] = $row_busca_user[0]['idevento']; 
         $_SESSION['user_perfil'] = $row_busca_user[0]['perfil']; 
         $_SESSION['user_nome']   = $row_busca_user[0]['nome']; 
-        $_SESSION['user_login']  = $row_busca_user[0]['login']; 
+        $_SESSION['user_login']  = $row_busca_user[0]['login'];
+        $_SESSION['user_extra']  = $row_busca_user[0]['extra']; 
         
         //rever isso no futuro
         $_SESSION['evento_selecionado'] = 0; //$_SESSION['user_evento'];

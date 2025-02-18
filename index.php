@@ -3,6 +3,14 @@
 <html class="no-js " lang="pt-br">
 <head>
 <?php include('./inc/head.php') ?>
+<link rel="stylesheet" href="./libs/sweetalert2/dist/sweetalert2.css">
+<style>
+    .swal2-modal {
+        text-align: left !important;
+        justify-content: left !important;
+        align-items: left !important;
+    }
+</style>
 <?php include('./inc/conexao.php') ?>
 <?php 
 function buscarPorHash($array, $hash) {
@@ -54,13 +62,13 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 <div class="authentication">
     <div class="container">
         <div class="col-md-12 content-center">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12">
                     <div class="company_detail">
-                        <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div>
+                        <div class="logo-brand"><img src="./img/logo-multi2.png" alt="" height="100"></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row flex-md-row-reverse">
             <div class="col-lg-5 col-md-12 offset-lg-1">
                     <div class="card-plain">
@@ -107,7 +115,9 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 <!-- <script src="assets/bundles/libscripts.bundle.js"></script> -->
  <!-- Lib Scripts Plugin Js --> 
 <!-- <script src="assets/bundles/vendorscripts.bundle.js"></script>  -->
-<script src="./assets/plugins/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
+<!-- <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script>  -->
+ <script src="./libs/sweetalert2/dist/sweetalert2.min.js"></script>
+<!-- SweetAlert Plugin Js --> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
@@ -118,16 +128,16 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         $('body').on('click', '#regras', function(e){
             e.preventDefault();
             
-            swal({
+            Swal.fire({
                 title: 'Termos de uso dos dados',
-                text: '<?= $dadosEvento['regras_home'] ?>',
-                html: true
+                html: '<?= $dadosEvento['regras_home'] ?>'
+                // html: true
             });
         });
 
         $('body').on('click','.regrasparque', function(e){
             e.preventDefault();
-            swal({
+            Swal.fire({
                 title: 'Regras do parque',
                 text: '<?= $dadosEvento['regras_parque'] ?>',
                 html: true
