@@ -62,10 +62,12 @@ if ($pre->rowCount()>0) {
             <span class="input-group-addon"><i class="material-icons">email</i></span>
         </div>           
     </div>
+    <?php /* ?>
     <div class="checkbox">
         <input id="comunica" type="checkbox" name="comunica" required>
         <label for="comunica">Autorizo o uso dos meus dados de acordo com os <a href="#">termos de comunicação</a>.</label>
-    </div>             
+    </div>  
+    <?php */ ?>           
     <div class="checkbox">
         <input id="termos" type="checkbox" name="termos" required>
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
