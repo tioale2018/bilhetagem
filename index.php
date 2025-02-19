@@ -26,7 +26,7 @@ function buscarPorHash($array, $hash) {
     return null;
 }
 
-$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro, tbevento.regras_parque
+$sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_home, tbevento.regras_cadastro, tbevento.regras_parque, tbevento.regras_comunica
 from tbevento_ativo 
 inner join tbevento on tbevento_ativo.idevento=tbevento.id_evento
 where tbevento_ativo.ativo=1 and tbevento.status=2";
@@ -139,8 +139,15 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             Swal.fire({
                 title: 'Regras do parque',
-                text: '<?= $dadosEvento['regras_parque'] ?>',
-                html: true
+                html: '<?= $dadosEvento['regras_parque'] ?>'
+            });
+        });
+
+        $('body').on('click','#regrascomunica', function(e){
+            e.preventDefault();
+            Swal.fire({
+                title: 'Política de comunicação comercial',
+                html: '<?= $dadosEvento['regras_comunica'] ?>'
             });
         });
 
@@ -158,7 +165,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 
         $('body').on('submit', '#form-busca-reserva', function(e) {
            
-            if (!$('input[name="termos"]').is(':checked')) {
+            if (!$('input[name=termos]').is(':checked')) {
                 e.preventDefault(); // Impede o envio do formulário
                 alert('Por favor, leia e aceite os termos de uso antes de continuar.');
             }
