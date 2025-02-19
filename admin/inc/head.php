@@ -20,7 +20,7 @@ if (!basename($_SERVER['PHP_SELF'])=='index.php') {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+    <meta name="description" content="">
     <meta name="robots" content="noindex, nofollow">
 
     <title>Sistema de Bilhetagem</title>

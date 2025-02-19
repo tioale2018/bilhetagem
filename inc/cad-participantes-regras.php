@@ -1,5 +1,4 @@
 <?php
-
 $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
@@ -66,8 +65,6 @@ $_SESSION['cpf']  = $id;
 $datahora         = time();
 $hoje             = date('Y-m-d', $datahora);
 $crianovaPrevenda = false;
-
-
 
 $dados_responsavel = procuraResponsavel($id);
 
@@ -158,6 +155,88 @@ if ($crianovaPrevenda) {
 }
 $_SESSION['idPrevenda']       = $idPrevendaAtual;
 $_SESSION['dadosResponsavel'] = $dados_responsavel;
+
+
+
+
+/* ************************************************************************ */
+
+$comunica = (isset($_POST['comunica'])) ? 1 : 0;
+
+function getDeviceInfo($idprevenda) {
+    // Informações adicionais coletadas pelo PHP
+    $ipAddress = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] :
+                 (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
+    $serverLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'Desconhecido', 0, 2);
+    $serverDateTime = date('Y-m-d H:i:s');
+
+    // Coleta de informações padrão via servidor
+    $deviceInfo = [
+        'idprevenda' => $idprevenda,
+        'userAgent' => $_SERVER['HTTP_USER_AGENT'] ?? 'Desconhecido',
+        'browserLanguage' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'Desconhecido',
+        'operatingSystem' => php_uname('s') . ' ' . php_uname('r'),
+        'ipAddress' => $ipAddress,
+        'timeZone' => date_default_timezone_get(),
+        'serverLanguage' => $serverLanguage,
+        'serverDateTime' => $serverDateTime,
+        'connectionType' => 'Indisponível (via servidor)'
+    ];
+
+    return $deviceInfo;
+}
+
+
+$deviceInfo = getDeviceInfo($idPrevendaAtual);
+
+$idprevenda       = $deviceInfo['idprevenda'];
+$userAgent        = $deviceInfo['userAgent'];
+$browserLanguage  = $deviceInfo['browserLanguage'];
+$operatingSystem  = $deviceInfo['operatingSystem'];
+$ipAddress        = $deviceInfo['ipAddress'];
+$timeZone         = $deviceInfo['timeZone'];
+$serverLanguage   = $deviceInfo['serverLanguage'];
+$serverDateTime   = $deviceInfo['serverDateTime'];
+$connectionType   = $deviceInfo['connectionType'];
+$screenResolution = 'Desconhecido';
+$deviceType       = 'Desconhecido';
+$idTermoAtivo     = 0;
+
+
+
+$stmt = $connPDO->prepare("INSERT INTO device_info (
+    idprevenda, ip_address, user_agent, screen_resolution, device_type, 
+    browser_language, server_language, operating_system, 
+    time_zone, connection_type, server_date_time, created_at, termoativo, idresponsavel, precad
+) VALUES (
+    :idprevenda, :ipAddress, :userAgent, :screenResolution, :deviceType, 
+    :browserLanguage, :serverLanguage, :operatingSystem, 
+    :timeZone, :connectionType, :serverDateTime, NOW(), :idTermoAtivo, :idResponsavel, 1
+)");
+
+
+
+$stmt->execute([
+    ':idprevenda' => $idprevenda,
+    ':ipAddress' => $ipAddress,
+    ':userAgent' => $userAgent,
+    ':screenResolution' => $screenResolution,
+    ':deviceType' => $deviceType,
+    ':browserLanguage' => $browserLanguage,
+    ':serverLanguage' => $serverLanguage,
+    ':operatingSystem' => $operatingSystem,
+    ':timeZone' => $timeZone,
+    ':connectionType' => $connectionType,
+    ':serverDateTime' => $serverDateTime,
+    ':idTermoAtivo' => $idTermoAtivo,
+    ':idResponsavel' => $idResponsavel
+]);
+
+$idDevice = $connPDO->lastInsertId();
+
+$sql_atualizaResponsavel = "update tbresponsavel set comunica=$comunica, device_comunica=$idDevice where id_responsavel=$idResponsavel";
+$pre_atualizaResponsavel = $connPDO->prepare($sql_atualizaResponsavel);
+$pre_atualizaResponsavel->execute();
 
 
 ?>

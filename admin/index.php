@@ -78,7 +78,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+<meta name="description" content="">
 
 <title>Sistema de Bilhetagem</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -126,7 +126,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
             <div class="row">
                 <div class="col-12">
                     <div class="company_detail">
-                        <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div>
+                        <!-- <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div> -->
                         <!-- <h4 class="logo"> </h4><img src="../assets/images/logo.svg" alt=""> Gestão -->
                     </div>
                 </div>
@@ -166,7 +166,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
                     <div class="company_detail">
                         
                         <h3>Sistema de controle de acessos</h3>
-                        <p>Gerencie bilhetagem, acessos e cadastros de forma eficiente e segura para seus parques e eventos infantis com nossa plataforma online. </p>
+                        <!-- <p>Gerencie bilhetagem, acessos e cadastros de forma eficiente e segura para seus parques e eventos infantis com nossa plataforma online. </p> -->
                         <!-- <div class="footer">
                             <ul  class="social_link list-unstyled">
                                 <li><a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>

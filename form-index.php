@@ -62,14 +62,14 @@ if ($pre->rowCount()>0) {
             <span class="input-group-addon"><i class="material-icons">email</i></span>
         </div>           
     </div>
-    <?php /* ?>
+   
     <div class="checkbox">
-        <input id="comunica" type="checkbox" name="comunica" required>
-        <label for="comunica">Autorizo o uso dos meus dados de acordo com os <a href="#">termos de comunicação</a>.</label>
+        <input id="comunica" type="checkbox" name="comunica" value="1" checked>
+        <label for="comunica">Autorizo o uso dos meus dados de acordo com a <a href="#" id="regrascomunica">política de comunicação comercial</a> da empresa.</label>
     </div>  
-    <?php */ ?>           
+              
     <div class="checkbox">
-        <input id="termos" type="checkbox" name="termos" required>
+        <input id="termos" type="checkbox" name="termos" value="1" checked required>
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
     </div>                            
 
@@ -82,10 +82,9 @@ if ($pre->rowCount()>0) {
 <?php if ($var_nome=="") { ?>
 <script>
    $(document).ready(function() {
-    $('#erro-nome').hide();
+        $('#erro-nome').hide();
         $('input[name="nome"]').focus();
 
-        
         $('input[name=telefone]').mask('(00) 0000-00000', {
             onKeyPress: function(val, e, field, options) {
                 var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';

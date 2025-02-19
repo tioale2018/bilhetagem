@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+<meta name="description" content="">
 
 <title>Sistema de Bilhetagem</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -99,7 +99,7 @@ if (isset($_SESSION['user_id'])) {
             <div class="row">
                 <div class="col-12">
                     <div class="company_detail">
-                        <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div>
+                        <!-- <div class="logo-brand"><img src="./img/logo-multi2.png" alt=""></div> -->
                         <!-- <h4 class="logo"> </h4><img src="../assets/images/logo.svg" alt=""> Gestão -->
                     </div>
                 </div>
