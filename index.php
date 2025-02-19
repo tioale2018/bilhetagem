@@ -146,7 +146,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         $('body').on('click','#regrascomunica', function(e){
             e.preventDefault();
             Swal.fire({
-                title: 'Política de comunicação comercial',
+                title: 'Política de Autorizacão para Comunicação e Compartilhamento de Dados',
                 html: '<?= $dadosEvento['regras_comunica'] ?>'
             });
         });
