@@ -33,7 +33,8 @@ $_SESSION['lista_perfis'] = $row_busca_perfis;
 $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
 //----------------------------------------------------------------------------------------------------------------
 
-if ((!isset(htmlspecialchars($_GET['item']))) || (!is_numeric(htmlspecialchars($_GET['item'])))) {
+// if ((!isset(htmlspecialchars($_GET['item']))) || (!is_numeric(htmlspecialchars($_GET['item'])))) {
+if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
     header('Location: entrada-nova');
 }
 
