@@ -32,7 +32,7 @@ try {
   // set the PDO error mode to exception
   $connPDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
-  die("Connection failed: " . $e->getMessage());
+  exit("Connection failed");
 }
 
 ?>

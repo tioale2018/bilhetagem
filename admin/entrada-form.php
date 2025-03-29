@@ -33,11 +33,11 @@ $_SESSION['lista_perfis'] = $row_busca_perfis;
 $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
 //----------------------------------------------------------------------------------------------------------------
 
-if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
+if ((!isset(htmlspecialchars($_GET['item']))) || (!is_numeric(htmlspecialchars($_GET['item'])))) {
     header('Location: entrada-nova');
 }
 
-$idprevenda = $_GET['item'];
+$idprevenda = htmlspecialchars($_GET['item']);
 
 $sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
 $pre = $connPDO->prepare($sql);
@@ -173,7 +173,7 @@ $row = $pre->fetchAll();
                         </ul>
                     </div>
                     <div class="">
-                    <h6>Ticket: #<?= $_GET['item'] ?></h6>
+                    <h6>Ticket: #<?= htmlspecialchars($_GET['item']) ?></h6>
                     </div>
                     <div class="card bloco-vinculados" style="height: 300px">
                     </div>
@@ -244,17 +244,17 @@ $row = $pre->fetchAll();
             });
         })
 
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
 
         $('body').on('change', '.lista-vinculados select',  function(e){
             // $(this).attr('disabled', true);
             let entrada = $(this).data('identrada');
             let pacote  = $(this).val();
             if (pacote==='') {
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
             } else {
                 $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> });
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
                 });    
             }            
         });
@@ -277,7 +277,7 @@ $row = $pre->fetchAll();
                 });
                 botao.attr('disabled', false);
             } else {
-                location.href='pagamento.php?item=<?= $_GET['item'] ?>';
+                location.href='pagamento.php?item=<?= htmlspecialchars($_GET['item']) ?>';
             }
 
         });
@@ -298,7 +298,7 @@ $row = $pre->fetchAll();
                 }, function (isConfirm) {
                     if (isConfirm) {
                         
-                        $.post("./blocos/prevenda-exclui.php", { i: <?= $_GET['item'] ?> }, function(data){
+                        $.post("./blocos/prevenda-exclui.php", { i: <?= htmlspecialchars($_GET['item']) ?> }, function(data){
                             window.location.href = 'controle.php';
                         });
                         

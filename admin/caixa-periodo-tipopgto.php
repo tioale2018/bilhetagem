@@ -89,11 +89,11 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                                 <div class="col-md-7 col-sm-6">
                                     <div class="my-2 row">
                                         <div class="col-md-2"><strong>Data Inicial:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataIni ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($dataRelataIni, ENT_QUOTES) ?>"></div> 
                                     </div>
                                     <div class="my-2 row">
                                             <div class="col-md-2"><strong>Data Final:</strong></div> 
-                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataFim ?>"></div> 
+                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($dataRelataFim, ENT_QUOTES) ?>"></div> 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -107,7 +107,7 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
 
                                 <div class="col-md-5 col-sm-6">
                                     <p>
-                                        <a href="caixa-periodo-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-periodo-produtos<?= $varget ?>">Pacotes vendidos</a>
+                                        <a href="caixa-periodo-tipopgto<?= htmlspecialchars($varget, ENT_QUOTES, 'UTF-8') ?>">Por tipo de pagamento</a> | <a href="caixa-periodo-produtos<?= htmlspecialchars($varget, ENT_QUOTES, 'UTF-8') ?>">Pacotes vendidos</a>
                                     </p>
                                 </div>
                                 
@@ -136,7 +136,7 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                                     ?>
                                 <tr>
                                     <th><?= $formapgto[$value['forma_pgto']] ?></th>
-                                    <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>          
+                                    <th>R$ <?= htmlentities(number_format($value['valor'], 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></th>          
                                 </tr>
                                     <?php
                                 }
@@ -146,7 +146,7 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                         </table>
                 <?php if (isset($total)) { ?>
                 
-                <p style="font-weight: bold">Total: R$ <?= number_format($total, 2, ',', '.') ?></p>
+                <p style="font-weight: bold">Total: R$ <?= htmlentities(number_format($total, 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></p>
                 <?php } ?>
 
                                 </div>

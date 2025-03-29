@@ -21,12 +21,12 @@ if (!isset($_POST['chkvinculado'])) {
 
 $chkvinculados = $_POST['chkvinculado'];
 
-$lst_vinculos  = implode(',', $_POST['chkvinculado']);
-$idprevenda    = $_POST['idprevenda'];
+$lst_vinculos  = implode(',', array_map(function($el) { return (int) $el; }, $_POST['chkvinculado']));
+$idprevenda    = (int) $_POST['idprevenda'];
 $tipopgto      = $_POST['tipopgto'];
 $hora_finaliza = $_POST['tempo_agora'];
 
-$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$hora_finaliza' as datahora_saida
+$sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, :datahora_saida as datahora_saida
 FROM tbentrada 
 inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
@@ -35,11 +35,9 @@ inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsav
 WHERE tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda and tbentrada.id_vinculado in ($lst_vinculos)
 order by tbentrada.datahora_entra";
 
-// die($sql);
-
-
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+$pre->bindParam(':datahora_saida', $hora_finaliza, PDO::PARAM_STR);
 $pre->execute();
 
 if ($pre->rowCount()<1) {
@@ -98,7 +96,7 @@ foreach ($rows as $row) {
                     <div class="body">                                
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <p class="m-b-0"><strong>Data: </strong> <?= date('d/m/Y H:i', $hora_finaliza); ?></p>
+                                <p class="m-b-0"><strong>Data: </strong> <?= htmlspecialchars(date('d/m/Y H:i', $hora_finaliza)); ?></p>
                                 <p class="m-b-0"><strong>Status: </strong> <span class="badge badge-warning m-b-0">Aguardando pagamento</span></p>
                                 <p><strong>Ticket ID: </strong> #<?= $rows[0]['id_prevenda'] ?></p>
                                 
@@ -150,7 +148,7 @@ foreach ($rows as $row) {
                 <td><?= $key + 1 ?></td>                                                        
                 <td><?= $value['nome'] ?></td>
                 <td><?= date('H:i', $value['datahora_entra']) ?></td>
-                <td><?= date('H:i',$hora_finaliza) ?></td>
+                <td><?= htmlspecialchars(date('H:i',$hora_finaliza)) ?></td>
                 <td><?= $value['duracao'].'min' ?></td>
                 <td><?= $tempoPermanece . "min" ?></td>
                 <!-- <td><?= calcularExcedente($value['duracao'], $value['tolerancia'], $tempoPermanece) ?></td> -->
@@ -203,11 +201,11 @@ foreach ($rows as $row) {
                                 <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
                             </div>
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
-                                <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
+                                <input type="hidden" name="idprevenda" value="<?= htmlspecialchars($idprevenda) ?>">
                                 <input type="hidden" name="pagasaida" value="true">
-                                <input type="hidden" name="pgto" value="<?= $total ?>">
-                                <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
-                                <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
+                                <input type="hidden" name="pgto" value="<?= htmlspecialchars($total) ?>">
+                                <input type="hidden" name="vinculados" value="<?= htmlspecialchars($lst_vinculos) ?>">
+                                <input type="hidden" name="horafinaliza" value="<?= htmlspecialchars($hora_finaliza) ?>">
                                 <?php
                                     $financeiro_detalha_json        = json_encode($financeiro_detalha);
                                     $_SESSION['financeiro_detalha'] = htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8');
@@ -220,9 +218,9 @@ foreach ($rows as $row) {
                         </form>
 
                         <form action="" id="formImpressao">
-                            <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
+                            <input type="hidden" value="<?= htmlspecialchars($idprevenda) ?>" name="idprevenda">
                             <input type="hidden" value="2" name="entradasaida">
-                            <input type="hidden" value="<?= $lst_vinculos ?>" name="vinculados">
+                            <input type="hidden" value="<?= htmlspecialchars($lst_vinculos) ?>" name="vinculados">
                             <input type="hidden" value="" name="tipopgtoprint">
                         </form>
                     </div>

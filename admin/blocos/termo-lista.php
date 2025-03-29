@@ -24,12 +24,21 @@ if ($tipobusca == 'cpf') {
 }
 
 
-$sql_buscaentradas = "SELECT tbprevenda.id_prevenda, tbentrada.id_entrada as identrada, tbvinculados.nome as nomecrianca, tbresponsavel.nome as nomeresponsavel, tbprevenda.data_acesso, tbprevenda.datahora_efetiva ,tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.cpf, tbentrada.autoriza, tbentrada.datahora_autoriza from tbvinculados inner join tbentrada on tbentrada.id_vinculado = tbvinculados.id_vinculado inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where ".$buscavariavel." and tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbprevenda.prevenda_status not in (0,9) and tbentrada.previnculo_status not in (0,2) order by tbprevenda.id_prevenda asc, tbvinculados.nome asc";
+$buscavariavel = ""; // Ensure $buscavariavel is properly sanitized or built using prepared statements
 
-// echo $sql_buscaentradas;
-
+$sql_buscaentradas = "SELECT tbprevenda.id_prevenda, tbentrada.id_entrada as identrada, tbvinculados.nome as nomecrianca, tbresponsavel.nome as nomeresponsavel, tbprevenda.data_acesso, tbprevenda.datahora_efetiva, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.cpf, tbentrada.autoriza, tbentrada.datahora_autoriza 
+FROM tbvinculados 
+INNER JOIN tbentrada ON tbentrada.id_vinculado = tbvinculados.id_vinculado 
+INNER JOIN tbprevenda ON tbprevenda.id_prevenda = tbentrada.id_prevenda 
+INNER JOIN tbresponsavel ON tbresponsavel.id_responsavel = tbprevenda.id_responsavel 
+WHERE tbprevenda.id_evento = :evento 
+AND tbprevenda.prevenda_status NOT IN (0, 9) 
+AND tbentrada.previnculo_status NOT IN (0, 2) 
+AND " . $buscavariavel . " 
+ORDER BY tbprevenda.id_prevenda ASC, tbvinculados.nome ASC";
 
 $pre_buscaentradas = $connPDO->prepare($sql_buscaentradas);
+$pre_buscaentradas->bindParam(':evento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
 $pre_buscaentradas->execute();
 
 if ($pre_buscaentradas->rowCount() <1) {

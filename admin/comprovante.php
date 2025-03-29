@@ -204,20 +204,20 @@ if ($entradasaida==1) {
     <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Saída: <?= date('d/m/Y H:i:s', $row_saida[0]['datahora_saida']) ?></h3>
+            <h3>Saída: <?= htmlentities(date('d/m/Y H:i:s', $row_saida[0]['datahora_saida'])) ?></h3>
             <hr>
         </div>
         <div class="col-12">
             <table>
                 <thead>
                     <tr>
-                        <td>Responsável: <span><?= $row_saida[0]['nomeresponsavel'] ?></span></td>
+                        <td>Responsável: <span><?= htmlentities($row_saida[0]['nomeresponsavel']) ?></span></td>
                     </tr>
                     <tr>
                         <td>CPF: <span><?= formatarCPF($row_saida[0]['cpf']) ?></span></td>
                     </tr>
                     <tr>
-                        <td>Telefone: <span><?= $row_saida[0]['telefone1'] ?></span></td>
+                        <td>Telefone: <span><?= htmlentities($row_saida[0]['telefone1']) ?></span></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -231,32 +231,32 @@ if ($entradasaida==1) {
                         $dados_pessoa = calcularTempoPermanencia($row_saida[$k]['datahora_entra'], $row_saida[$k]['datahora_saida'], $row_saida[$k]['pct_duracao'], $row_saida[$k]['pct_tolerancia']);
                         ?>
                     <tr>
-                        <td style="padding-top: 15px!important"><?= $row_saida[$k]['nomecrianca'] ?></td>
+                        <td style="padding-top: 15px!important"><?= htmlentities($row_saida[$k]['nomecrianca']) ?></td>
                     </tr>
                     <tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>Pacote:</td>
-                                    <td><?= $dados_pessoa['descricao'] ?></td>
+                                    <td><?= htmlentities($dados_pessoa['descricao']) ?></td>
                                 </tr>
                                 <tr>
                                     <td>Início:</td>
-                                    <!-- <td><?= date('d/m/Y H:i', $row_saida[$k]['datahora_entra']); ?></td> -->
-                                    <td><?= $dados_pessoa['horaEntrada'] ?></td>
+                                    <!-- <td><?= htmlentities(date('d/m/Y H:i', $row_saida[$k]['datahora_entra'])); ?></td> -->
+                                    <td><?= htmlentities($dados_pessoa['horaEntrada']) ?></td>
                                 </tr>
                                 <tr>
                                     <td>Saída:</td>
-                                    <!-- <td><?= date('d/m/Y H:i', $row_saida[$k]['datahora_saida']); ?></td> -->
-                                    <td><?= $dados_pessoa['horaSaida'] ?></td>
+                                    <!-- <td><?= htmlentities(date('d/m/Y H:i', $row_saida[$k]['datahora_saida'])); ?></td> -->
+                                    <td><?= htmlentities($dados_pessoa['horaSaida']) ?></td>
                                 </tr>
                                 <tr>
                                     <td>Permanência:</td>
-                                    <td><?= $dados_pessoa['tempoPermanenciaMinutos'] ?>min</td>
+                                  <td><?= htmlentities($dados_pessoa['tempoPermanenciaMinutos']) ?>min</td>
                                 </tr>
                                 <tr>
                                     <td>Valor</td>
-                                    <td>R$ <?= number_format($row_saida[$k]['pgto_extra_valor'], 2, ',', '.') ?></td>
+                                    <td>R$ <?= htmlspecialchars(number_format($row_saida[$k]['pgto_extra_valor'], 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></td>
                                 </tr>
                                 <tr></tr>
                             </table>

@@ -42,7 +42,7 @@
                             </div>
                             
                                 <div class="col-12">
-                                    <input type="hidden" value="<?= $_GET['id'] ?>" name="evento">
+                                    <input type="hidden" value="<?= htmlspecialchars($_GET['id']) ?>" name="evento">
                                     <button type="submit" class="btn btn-info btn-round waves-effect">Adicionar pacote</button>
                                 </div>
                             <!-- </div> -->
@@ -63,7 +63,7 @@
 
 <script>
     $(document).ready(function(){
-        let idevento = <?= $_GET['id'] ?>;
+        let idevento = <?= htmlspecialchars($_GET['id']) ?>;
 
         $('.lista-pacotes').load('./blocos/pacotes-lista.php', {id: idevento});
     

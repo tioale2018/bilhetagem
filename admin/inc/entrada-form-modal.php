@@ -148,7 +148,7 @@
             } else {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $_GET['item'] ?> }, function(){
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> }, function(){
                         location.reload();
                     });
                     // $('#formModalParticipante button[type="submit"]').prop('disabled', false);

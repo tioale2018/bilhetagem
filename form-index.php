@@ -74,7 +74,7 @@ if ($pre->rowCount()>0) {
     </div>                            
 
     <div class="footer">
-        <input type="hidden" name="hashevento" value="<?= $hashevento ?>">
+        <input type="hidden" name="hashevento" value="<?= htmlspecialchars($hashevento) ?>">
         <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
     </div>
 </form>

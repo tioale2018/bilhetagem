@@ -100,16 +100,17 @@ if (!isset($_POST['pagasaida'])) {
     $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
     // die(var_dump($financeiro_detalha));
 
-    $sql_verifca_participantes = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, '$horafinaliza' as datahora_saida
+    $sql_verifca_participantes = "SELECT tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome AS responsavel, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional AS adicionalpacote, :horafinaliza AS datahora_saida
     FROM tbentrada 
-    inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
-    inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
-    inner join tbprevenda on tbentrada.id_prevenda=tbprevenda.id_prevenda
-    inner join tbresponsavel on tbprevenda.id_responsavel=tbresponsavel.id_responsavel
-    WHERE tbentrada.previnculo_status=3 and tbentrada.id_prevenda=:idprevenda";
+    INNER JOIN tbvinculados ON tbentrada.id_vinculado = tbvinculados.id_vinculado
+    INNER JOIN tbpacotes ON tbentrada.id_pacote = tbpacotes.id_pacote
+    INNER JOIN tbprevenda ON tbentrada.id_prevenda = tbprevenda.id_prevenda
+    INNER JOIN tbresponsavel ON tbprevenda.id_responsavel = tbresponsavel.id_responsavel
+    WHERE tbentrada.previnculo_status = 3 AND tbentrada.id_prevenda = :idprevenda";
 
     $pre_verifca_participantes = $connPDO->prepare($sql_verifca_participantes);
     $pre_verifca_participantes->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+    $pre_verifca_participantes->bindParam(':horafinaliza', $horafinaliza, PDO::PARAM_STR);
     $pre_verifca_participantes->execute();
     $row_verifca_participantes = $pre_verifca_participantes->fetchAll();
 

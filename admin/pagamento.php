@@ -159,20 +159,20 @@ $hora_finaliza = time();
                             </div>
                             <div class="col-md-7 text-right">
                                 <p class="m-b-0"><b>Valor a pagar:</b>
-                                <span id="subtotal" style="display: none"><?= $total ?></span></p>
+                                <span id="subtotal" style="display: none"><?= htmlspecialchars($total) ?></span></p>
                                 <h3 class="m-b-0 m-t-10">R$ <?= number_format($total, 2, ',', '.') ?></h3>
                             </div>                                    
                             <div class="hidden-print col-md-12 text-right js-sweetalert">
-                                <input type="hidden" name="idprevenda" value="<?= $_GET['item'] ?>">
+                                <input type="hidden" name="idprevenda" value="<?= htmlspecialchars($_GET['item']) ?>">
                                 <hr>
-                                <input type="hidden" name="idprevenda" value="<?= $idprevenda ?>">
+                                <input type="hidden" name="idprevenda" value="<?= htmlspecialchars($idprevenda) ?>">
                                 
-                                <input type="hidden" name="pgto" value="<?= $total ?>">
+                                <input type="hidden" name="pgto" value="<?= htmlspecialchars($total) ?>">
                                 <?php /*
                                 <input type="hidden" name="vinculados" value="<?= $lst_vinculos ?>">
                                 */
                                 ?>
-                                <input type="hidden" name="horafinaliza" value="<?= $hora_finaliza ?>">
+                                <input type="hidden" name="horafinaliza" value="<?= htmlspecialchars($hora_finaliza) ?>">
                                 <?php
                                     $financeiro_detalha_json = json_encode($financeiro_detalha);
                                     //$_SESSION['financeiro_detalha'] = htmlspecialchars($financeiro_detalha_json, ENT_QUOTES, 'UTF-8');
@@ -183,7 +183,7 @@ $hora_finaliza = time();
                             </div>
                         </form>
                         <form action="" id="formImpressao">
-                            <input type="hidden" value="<?= $idprevenda ?>" name="idprevenda">
+                            <input type="hidden" value="<?= htmlspecialchars($idprevenda) ?>" name="idprevenda">
                             <input type="hidden" value="1" name="entradasaida">
                         </form>
                     </div>

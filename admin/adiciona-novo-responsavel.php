@@ -51,8 +51,13 @@ if ($_POST['idresponsavel']=='') {
 
     $ultimo_id_responsavel = $connPDO->lastInsertId();
 
-    $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $ultimo_id_responsavel, '$ipUsuario', 'addresponsavel id $ultimo_id_responsavel')";
+    $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (:userid, :datahora, :codigolog, :ipusuario, :acao)";
     $pre_addlog = $connPDO->prepare($sql_addlog);
+    $pre_addlog->bindParam(':userid', $_SESSION['user_id'], PDO::PARAM_INT);
+    $pre_addlog->bindParam(':datahora', $datahora, PDO::PARAM_INT);
+    $pre_addlog->bindParam(':codigolog', $ultimo_id_responsavel, PDO::PARAM_INT);
+    $pre_addlog->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
+    $pre_addlog->bindParam(':acao', 'addresponsavel id ' . $ultimo_id_responsavel, PDO::PARAM_STR);
     $pre_addlog->execute();   
 
 } else {
@@ -87,17 +92,21 @@ if ($crianovaPrevenda) {
 
     $idPrevendaAtual = $connPDO->lastInsertId();
 
-    $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $idPrevendaAtual, '$ipUsuario', 'addprevenda id: $idPrevendaAtual')";
-    $pre_addlog = $connPDO->prepare($sql_addlog);
-    $pre_addlog->execute();
+    $stmt = $connPDO->prepare("insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (:idusuario, :datahora, :codigolog, :ipusuario, :acao)");
+    $stmt->bindParam(':idusuario', $_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->bindParam(':datahora', $datahora, PDO::PARAM_STR);
+    $stmt->bindParam(':codigolog', $idPrevendaAtual, PDO::PARAM_INT);
+    $stmt->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
+    $stmt->bindParam(':acao', 'addprevenda id: ' . $idPrevendaAtual, PDO::PARAM_STR);
+    $stmt->execute();
 
 
     $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
 
     //procedimento de busca dos vinculados "lembrar" deste responsavel
-    $sql_busca_vinculados = "select * from tbvinculados where lembrar=1 and id_responsavel=$idResponsavel";
-    $pre_busca_vinculados = $connPDO->prepare($sql_busca_vinculados);
-    $pre_busca_vinculados->execute();
+    $stmt = $connPDO->prepare("select * from tbvinculados where lembrar=1 and id_responsavel=:id_responsavel");
+    $stmt->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
+    $stmt->execute();
     $row_busca_vinculados = $pre_busca_vinculados->fetchAll();
 
     //caso exista vinculados com o campo "lembrar=1" para este responsavel, insere na prevenda

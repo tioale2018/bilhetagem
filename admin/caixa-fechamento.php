@@ -41,9 +41,11 @@ function geraDatasSQL($date) {
 
     $_SESSION['get_d'] = $_GET['d'];
 
-    $sql_buscadata = "select * from tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
+    $sql_buscadata = "select * from tbcaixa_diario where status>0 and idevento=:idevento and datacaixa=:datacaixa";
     // die($sql_buscadata);
     $pre_buscadata = $connPDO->prepare($sql_buscadata);
+    $pre_buscadata->bindParam(':idevento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
+    $pre_buscadata->bindParam(':datacaixa', $_GET['d'], PDO::PARAM_STR);
     $pre_buscadata->execute();
 
     if ($pre_buscadata->rowCount() < 1) {
@@ -70,12 +72,12 @@ function geraDatasSQL($date) {
                     if (!isConfirm) {
                         location.replace('./caixa-fechamento');
                     } else {
-                        $.post('./blocos/caixa-fechamento-abre.php', {d: '<?= $_GET['d'] ?>'}, function(data){
+                        $.post('./blocos/caixa-fechamento-abre.php', {d: '<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>'}, function(data){
                             // console.log(data);
                             //recebe data comoo json, verifica se é igual a 1, caso seja recarrega a página passando o valor do json na variável d 
                             let jsonResponse = JSON.parse(data);
                             if (jsonResponse.status == '1') {
-                                location.replace('./caixa-fechamento?d=<?= $_GET['d'] ?>');
+                                location.replace('./caixa-fechamento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>');
                                 // alert('mostra o reload')
                             }
 
@@ -114,9 +116,10 @@ function geraDatasSQL($date) {
 <?php  if (isset($dataRelata) ) {  
     // echo var_dump($row_buscadata);
     $diarioAtivo = $row_buscadata['id'];
-    $sql_caixaformulario = "select * from tbcaixa_formulario where status>0 and idevento=".$_SESSION['evento_selecionado']." and idcaixadiario=$diarioAtivo";
-    // echo $sql_caixaformulario
+    $sql_caixaformulario = "SELECT * FROM tbcaixa_formulario WHERE status > 0 AND idevento = :idevento AND idcaixadiario = :idcaixadiario";
     $pre_caixaformulario = $connPDO->prepare($sql_caixaformulario);
+    $pre_caixaformulario->bindParam(':idevento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
+    $pre_caixaformulario->bindParam(':idcaixadiario', $diarioAtivo, PDO::PARAM_INT);
     $pre_caixaformulario->execute();
     
     if ($pre_caixaformulario->rowCount() < 1) {
@@ -226,12 +229,11 @@ function geraDatasSQL($date) {
 $sql_buscaMovimento = "SELECT sum(valor) as total, tbcaixa_tipodespesa.descricao
 FROM tbcaixa_movimento 
 inner join tbcaixa_tipodespesa on tbcaixa_tipodespesa.id=tbcaixa_movimento.idtipodespesa
-WHERE tbcaixa_movimento.idcaixaabre = ".$diarioAtivo." and tbcaixa_movimento.ativo=1
+WHERE tbcaixa_movimento.idcaixaabre = :diarioAtivo and tbcaixa_movimento.ativo=1
 group by idtipodespesa";
 
-// die($sql_buscaMovimento);
-
 $pre_buscaMovimento = $connPDO->prepare($sql_buscaMovimento);
+$pre_buscaMovimento->bindParam(':diarioAtivo', $diarioAtivo, PDO::PARAM_INT);
 $pre_buscaMovimento->execute();
 $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
 
@@ -246,14 +248,14 @@ $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
                                     <div class="col-md-3"><strong>Data:</strong></div> 
-                                    <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $_GET['d'] ?>"></div> 
+                                    <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>"></div> 
                                 </p>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-12">
-                                        <a href="./caixa-fechamento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Fechamento de caixa</a>
-                                        <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Detalhamento de saídas</a>
+                                        <a href="./caixa-fechamento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>" class="btn btn-info" style="width: 45%">Fechamento de caixa</a>
+                                        <a href="./caixa-movimento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>" class="btn btn-default" style="width: 45%">Detalhamento de saídas</a>
                                     </div>
                                 </div>
                             </div>
@@ -379,7 +381,7 @@ $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
                         //recebe data comoo json, verifica se é igual a 1, caso seja recarrega a página passando o valor do json na variável d 
                         let jsonResponse = JSON.parse(data);
                         if (jsonResponse.status == 1) {
-                            location.replace('./caixa-fechamento?d=<?= $_GET['d'] ?>');
+                            location.replace('./caixa-fechamento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>');
                         }
 
                     })
@@ -400,7 +402,7 @@ $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
                         confirmButtonText: "Ok",
                         closeOnConfirm: true
                     }, function () {
-                        location.replace('./caixa-fechamento?d=<?= $_GET['d'] ?>');
+                        location.replace('./caixa-fechamento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>');
                     });
                 }
             });
@@ -452,7 +454,7 @@ $row_buscaMovimento = $pre_buscaMovimento->fetchAll(PDO::FETCH_ASSOC);
     <script>
         $(document).ready(function() {
             $('.despesas').click(function() {
-                location.href = "./caixa-movimento?d=<?= $_GET['d'] ?>"
+                location.href = "./caixa-movimento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>"
             })
         });
     </script>    

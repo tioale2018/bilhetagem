@@ -47,10 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $acaolog        = "login de usuário";
         $codigolog      = 1;
         $horaagora      = time();
-        $sql_insere_log = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$horaagora', $codigolog, '$ipUsuario', '$acaolog')";
+        $sql_insere_log = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (:idusuario, :datahora, :codigolog, :ipusuario, :acao)";
         $pre_insere_log = $connPDO->prepare($sql_insere_log);
+        $pre_insere_log->bindParam(':idusuario', $_SESSION['user_id'], PDO::PARAM_INT);
+        $pre_insere_log->bindParam(':datahora', $horaagora, PDO::PARAM_STR);
+        $pre_insere_log->bindParam(':codigolog', $codigolog, PDO::PARAM_INT);
+        $pre_insere_log->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
+        $pre_insere_log->bindParam(':acao', $acaolog, PDO::PARAM_STR);
         $pre_insere_log->execute();
-        //fim do procedimento de log
         
         // Redireciona para a página protegida
         // header('Location: controle.php');

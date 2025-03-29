@@ -7,8 +7,9 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 include('../../admin/inc/conexao.php');
 
-$sql_buscahash = "SELECT * FROM tbevento_ativo WHERE ativo=1 and idevento = ".$_POST['id'];
+$sql_buscahash = "SELECT * FROM tbevento_ativo WHERE ativo=1 and idevento = :id";
 $pre_buscahash = $connPDO->prepare($sql_buscahash);
+$pre_buscahash->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
 $pre_buscahash->execute();
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? "https" : "http";
@@ -39,15 +40,18 @@ $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERV
             $varUrl = $protocol . "://". $_SERVER['HTTP_HOST'] . "/" . $value['hash'];
             ?>
         <tr>
-            <td><?= $value['hash'] ?></td>
-            <td><?= $varUrl ?></td>
+            <td><?= htmlspecialchars($value['hash']) ?></td>
+            <td><?= htmlspecialchars($varUrl) ?></td>
             <td>
                 <label class="switch">
                     <input type="checkbox" class="slidercheck" checked value="1">
                     <span class="slider round "></span>
                 </label>
             </td>
-            <td><a href="#" class="btn btn-sm btn-success btnGeraqrcode" data-hash="<?= $varUrl ?>">Gerar QrCode</a> <a href="#" class="btn btn-sm btn-danger btnExcluihash" data-hash="<?= $value['id'] ?>">Excluir</a></td>
+            <td>
+                <a href="#" class="btn btn-sm btn-success btnGeraqrcode" data-hash="<?= htmlspecialchars($varUrl, ENT_QUOTES, 'UTF-8') ?>">Gerar QrCode</a>
+                <a href="#" class="btn btn-sm btn-danger btnExcluihash" data-hash="<?= htmlspecialchars($value['id'], ENT_QUOTES, 'UTF-8') ?>">Excluir</a>
+            </td>
         </tr>
         <?php } ?>
     </tbody>

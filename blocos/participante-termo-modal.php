@@ -100,13 +100,13 @@ $variables = [
             <div class="col-md-12">
                 <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
                 <div class="">
-                    <label for="assinatermo"><input data-identrada="<?= $identrada ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Confirmo que li o termo e estou de acordo com suas condições.</label>
+                    <label for="assinatermo"><input data-identrada="<?= htmlspecialchars($identrada) ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Confirmo que li o termo e estou de acordo com suas condições.</label>
                 </div>
             </div>
         </div>   
     </div>
     <div class="modal-footer">
-        <input type="hidden" name="participante" value="<?= $identrada ?>">
+        <input type="hidden" name="participante" value="<?= htmlspecialchars($identrada) ?>">
         <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" name="btaddparticipante">Salvar e autorizar</button>
     </div>
 </form>

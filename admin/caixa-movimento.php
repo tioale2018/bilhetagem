@@ -50,10 +50,11 @@ function geraDatasSQL($date) {
 
     $dataRelata = $_GET['d'];
 
-    $sql_buascacaixa = "SELECT * FROM tbcaixa_diario where status>0 and idevento=".$_SESSION['evento_selecionado']." and datacaixa='".$_GET['d']."'";
-    $pre_buascacaixa = $connPDO->prepare($sql_buascacaixa);
-    $pre_buascacaixa->execute();
-    $row_buascacaixa = $pre_buascacaixa->fetch(PDO::FETCH_ASSOC);
+    $stmt = $connPDO->prepare("SELECT * FROM tbcaixa_diario where status>0 and idevento=:idevento and datacaixa=:datacaixa");
+    $stmt->bindParam(':idevento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
+    $stmt->bindParam(':datacaixa', $_GET['d'], PDO::PARAM_STR);
+    $stmt->execute();
+    $row_buascacaixa = $stmt->fetch(PDO::FETCH_ASSOC);
     // $row_buascacaixa = $pre_buascacaixa->fetchAll(PDO::FETCH_ASSOC);
 /*
     $sql_diario = "";
@@ -156,8 +157,8 @@ if ($pre_buascacaixa->rowCount() < 1) {
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-12">
-                                    <a href="./caixa-fechamento?d=<?= $_GET['d'] ?>" class="btn btn-default" style="width: 45%">Fechamento de caixa</a>
-                                    <a href="./caixa-movimento?d=<?= $_GET['d'] ?>" class="btn btn-info" style="width: 45%">Detalhamento de saídas</a>
+                                    <a href="./caixa-fechamento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>" class="btn btn-default" style="width: 45%">Fechamento de caixa</a>
+                                    <a href="./caixa-movimento?d=<?= htmlspecialchars($_GET['d'], ENT_QUOTES) ?>" class="btn btn-info" style="width: 45%">Detalhamento de saídas</a>
                                     </div>
                                 </div>
                             </div>

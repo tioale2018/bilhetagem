@@ -93,11 +93,11 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                                 <div class="col-md-7 col-sm-6">
                                     <div class="my-2 row">
                                         <div class="col-md-2"><strong>Data Inicial:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataIni ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= htmlspecialchars($dataRelataIni) ?>"></div> 
                                     </div>
                                     <div class="my-2 row">
                                             <div class="col-md-2"><strong>Data Final:</strong></div> 
-                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataFim ?>"></div> 
+                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= htmlspecialchars($dataRelataFim) ?>"></div> 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -133,12 +133,12 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                                 foreach ($row_busca_pgto as $key => $value) {
                                     ?>
                                 <tr> 
-                                    <th><?= $value['nome'] ?></th>
+                                    <th><?= htmlspecialchars($value['nome']) ?></th>
                                     <th><?= formatarCPF($value['cpf']) ?></th>
-                                    <th><?= $value['email'] ?></th>
-                                    <th><?= $value['telefone1'] . ($value['telefone2']!=''?" / ".$value['telefone2']:"")?></th>
-                                    <th><?= $value['visitas'] ?></th>
-                                    <th><?= date('d/m/Y', $value['ultimavisita']) ?></th>      
+                                    <th><?= htmlspecialchars($value['email']) ?></th>
+                                    <th><?= htmlspecialchars($value['telefone1'], ENT_QUOTES) . ($value['telefone2']!=''?" / ".htmlspecialchars($value['telefone2'], ENT_QUOTES):"")?></th>
+                                    <th><?= htmlspecialchars($value['visitas']) ?></th>
+                                    <th><?= htmlspecialchars(date('d/m/Y', $value['ultimavisita'])) ?></th>      
                                 </tr>
                                     <?php
                                 }

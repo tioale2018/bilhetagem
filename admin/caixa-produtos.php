@@ -64,12 +64,12 @@ $varget = '';
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($dataRelata, ENT_QUOTES) ?>"></div> 
                                 </p>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <p>
-                                    <a href="caixa-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= $varget ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= $varget ?>">Detalhamento</a>
+                                    <a href="caixa-tipopgto<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Detalhamento</a>
                                 </p>
                             </div>
                         </div>
@@ -99,10 +99,10 @@ $varget = '';
                             $total = $total + $subtotal;
                             ?>
                         <tr>
-                            <th><?= $value['pct_nome'] ?></th>
-                            <th><?= $value['total_vendido'] ?></th>       
-                            <th>R$ <?= number_format($value['pct_valor'], 2, ',', '.') ?></th>
-                            <th>R$ <?= number_format($subtotal, 2, ',', '.') ?></th>
+                            <th><?= htmlentities($value['pct_nome']) ?></th>
+                            <th><?= htmlentities($value['total_vendido']) ?></th>       
+                            <th>R$ <?= htmlspecialchars(number_format($value['pct_valor'], 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></th>
+                            <th>R$ <?= htmlspecialchars(number_format($subtotal, 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></th>
                         </tr>
                             <?php
                         }

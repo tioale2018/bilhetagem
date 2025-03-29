@@ -135,6 +135,7 @@ try {
 
     echo json_encode(['status' => 'success', 'message' => 'Device info processed successfully']);
 } catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    error_log($e->getMessage()); // Log the error message for internal review
+    echo json_encode(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
 }
 ?>

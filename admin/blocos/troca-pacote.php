@@ -52,8 +52,15 @@ $pre->execute();
 $datahora        = time();
 $ipUsuario       = obterIP();
 
-$sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (".$_SESSION['user_id'].", '$datahora', $entrada, '$ipUsuario', 'troca pacote id: $pacote, entrada: $entrada')";
+$sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) 
+               values (:user_id, :datahora, :entrada, :ipusuario, :acao)";
 $pre_addlog = $connPDO->prepare($sql_addlog);
+$pre_addlog->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+$pre_addlog->bindParam(':datahora', $datahora, PDO::PARAM_STR);
+$pre_addlog->bindParam(':entrada', $entrada, PDO::PARAM_INT);
+$pre_addlog->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
+$acao = "troca pacote id: $pacote, entrada: $entrada";
+$pre_addlog->bindParam(':acao', $acao, PDO::PARAM_STR);
 $pre_addlog->execute();
 
 ?>

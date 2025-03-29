@@ -78,8 +78,11 @@ $totais = calcularValores($dados_formulario['val_vendadin'], $dados_formulario['
 
 
 // $sql = "UPDATE tbcaixa_formulario SET val_despesas='$total_despesas', val_total='{$totais['valor_total']}', val_final='{$totais['valor_final']}'  WHERE id = $idformulario_altera";
-$sql = "UPDATE tbcaixa_formulario SET val_despesas='$total_despesas', val_total='{$totais['valor_total']}'  WHERE id = $idformulario_altera";
+$sql = "UPDATE tbcaixa_formulario SET val_despesas=:total_despesas, val_total=:total  WHERE id = :idformulario_altera";
 $pre = $connPDO->prepare($sql);
+$pre->bindParam(':total_despesas', $total_despesas, PDO::PARAM_STR);
+$pre->bindParam(':total', $totais['valor_total'], PDO::PARAM_STR);
+$pre->bindParam(':idformulario_altera', $idformulario_altera, PDO::PARAM_INT);
 $pre->execute();
 
 

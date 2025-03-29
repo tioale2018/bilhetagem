@@ -146,8 +146,11 @@ if ($crianovaPrevenda) {
     if ($pre_busca_vinculados->rowCount()>0) {
         foreach ($row_busca_vinculados as $key => $value) {
             $idVinculado = $row_busca_vinculados[$key]['id_vinculado'];
-            $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].")";
+            $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso) values (:idprevenda, :idvinculado, :perfilacesso)";
             $pre_insere_vinculados = $connPDO->prepare($sql_insere_vinculados);
+            $pre_insere_vinculados->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);
+            $pre_insere_vinculados->bindParam(':idvinculado', $idVinculado, PDO::PARAM_INT);
+            $pre_insere_vinculados->bindParam(':perfilacesso', $perfil_padrao['idperfil'], PDO::PARAM_INT);
             $pre_insere_vinculados->execute();
         }
     }

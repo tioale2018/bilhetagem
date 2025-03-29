@@ -70,12 +70,12 @@ $varget = '';
                             <div class="col-md-6 col-sm-6">
                                 <p class="m-b-0 row">
                                         <div class="col-md-3"><strong>Data:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelata ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= htmlentities($dataRelata) ?>"></div> 
                                 </p>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <p>
-                                    <a href="caixa-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= $varget ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= $varget ?>">Detalhamento</a>
+                                    <a href="caixa-tipopgto<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Por tipo de pagamento</a> | <a href="caixa-produtos<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Pacotes vendidos</a> | <a href="caixa-basico<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Detalhamento</a>
                                 </p>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ $varget = '';
                                     ?>
                                 <tr>
                                     <th><?= $formapgto[$value['forma_pgto']] ?></th>
-                                    <th>R$ <?= number_format($value['valor'], 2, ',', '.') ?></th>          
+                                    <th>R$ <?= htmlentities(number_format($value['valor'], 2, ',', '.')) ?></th>          
                                 </tr>
                                     <?php
                                 }
@@ -112,7 +112,7 @@ $varget = '';
                         </table>
                 <?php if (isset($total)) { ?>
                 
-                <p style="font-weight: bold">Total: R$ <?= number_format($total, 2, ',', '.') ?></p>
+                <p style="font-weight: bold">Total: R$ <?= htmlentities(number_format($total, 2, ',', '.')) ?></p>
                 <?php } ?>
 
                                 </div>

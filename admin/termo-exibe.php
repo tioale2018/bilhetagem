@@ -73,21 +73,27 @@ $row_buscaevento = $pre_buscaevento->fetch(PDO::FETCH_ASSOC);
 $sql_participante = "SELECT tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbentrada.datahora_autoriza FROM tbentrada
 inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado
 inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel
-where tbentrada.id_entrada=".$entrada;
+where tbentrada.id_entrada=:entrada";
 $pre_participante = $connPDO->prepare($sql_participante);
+$pre_participante->bindParam(':entrada', $entrada, PDO::PARAM_INT);
 $pre_participante->execute();
 $row_participante = $pre_participante->fetch(PDO::FETCH_ASSOC);
 
 
-$sql_deviceinfo = "SELECT * FROM device_info where id_entrada=".$entrada;
+$sql_deviceinfo = "SELECT * FROM device_info where id_entrada=:entrada";
 $pre_deviceinfo = $connPDO->prepare($sql_deviceinfo);
+$pre_deviceinfo->bindParam(':entrada', $entrada, PDO::PARAM_INT);
 $pre_deviceinfo->execute();
 
 if ($pre_deviceinfo->rowCount() < 1) {
-    $sql_busca_termo = "select * from tbtermo where ativo=1 and idevento=".$_SESSION['evento_selecionado'];
+    $sql_busca_termo = "select * from tbtermo where ativo=1 and idevento=:evento";
+    $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
+    $pre_busca_termo->bindParam(':evento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
 } else {
     $row_deviceinfo = $pre_deviceinfo->fetch(PDO::FETCH_ASSOC);
-    $sql_busca_termo = "select * from tbtermo where idtermo=".$row_deviceinfo['termoativo'];
+    $sql_busca_termo = "select * from tbtermo where idtermo=:termo";
+    $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
+    $pre_busca_termo->bindParam(':termo', $row_deviceinfo['termoativo'], PDO::PARAM_INT);
 }
 
 $pre_busca_termo = $connPDO->prepare($sql_busca_termo);

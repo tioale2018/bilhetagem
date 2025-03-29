@@ -43,8 +43,8 @@ if (isset($_POST['di'])) {
     }         
 }
 
-$dataRelataIni = $inicialData;
-$dataRelataFim = $finalData;
+$dataRelataIni = htmlspecialchars($inicialData, ENT_QUOTES);
+$dataRelataFim = htmlspecialchars($finalData, ENT_QUOTES);
 
 $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
 
@@ -87,11 +87,11 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                                 <div class="col-md-7 col-sm-6">
                                     <div class="my-2 row">
                                         <div class="col-md-2"><strong>Data Inicial:</strong></div> 
-                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataIni ?>"></div> 
+                                        <div class="col-md-6"><input class="form-control" type="date" name="di" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($dataRelataIni, ENT_QUOTES) ?>"></div> 
                                     </div>
                                     <div class="my-2 row">
                                             <div class="col-md-2"><strong>Data Final:</strong></div> 
-                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= date('Y-m-d', time()) ?>" value="<?= $dataRelataFim ?>"></div> 
+                                            <div class="col-md-6"><input class="form-control" type="date" name="df" id="dataFiltro" max="<?= htmlspecialchars(date('Y-m-d', time()), ENT_QUOTES) ?>" value="<?= htmlspecialchars($dataRelataFim, ENT_QUOTES) ?>"></div> 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -106,7 +106,7 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
 
                                 <div class="col-md-5 col-sm-6">
                                     <p>
-                                        <a href="caixa-periodo-tipopgto<?= $varget ?>">Por tipo de pagamento</a> | <a href="caixa-periodo-produtos<?= $varget ?>">Pacotes vendidos</a>
+                                        <a href="caixa-periodo-tipopgto<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Por tipo de pagamento</a> | <a href="caixa-periodo-produtos<?= htmlspecialchars($varget, ENT_QUOTES) ?>">Pacotes vendidos</a>
                                     </p>
                                 </div>
                                 
@@ -138,10 +138,10 @@ $varget = '?di='.$dataRelataIni.'&df='.$dataRelataFim;
                             $total = $total + $subtotal;
                             ?>
                         <tr>
-                            <th><?= $value['pct_nome'] ?></th>
-                            <th><?= $value['total_vendido'] ?></th>       
-                            <th>R$ <?= number_format($value['pct_valor'], 2, ',', '.') ?></th>
-                            <th>R$ <?= number_format($subtotal, 2, ',', '.') ?></th>
+                            <th><?= htmlspecialchars($value['pct_nome'], ENT_QUOTES) ?></th>
+                            <th><?= htmlspecialchars($value['total_vendido'], ENT_QUOTES) ?></th>       
+                            <th>R$ <?= htmlspecialchars(number_format($value['pct_valor'], 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></th>
+                            <th>R$ <?= htmlspecialchars(number_format($subtotal, 2, ',', '.'), ENT_QUOTES, 'UTF-8') ?></th>
                         </tr>
                             <?php
                         }
