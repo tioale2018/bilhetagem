@@ -62,7 +62,7 @@ function formatDate($timestamp) {
 include_once('./inc/conexao.php');
 include_once('./inc/funcoes-gerais.php');
 include_once('./inc/funcoes.php');
-$entrada  = $_GET['t'];
+$entrada  = htmlspecialchars($_GET['t'], ENT_QUOTES, 'UTF-8'); //$_GET['t'];
 /*
 $sql_buscaevento = "select * from tbevento where id_evento=".$_SESSION['evento_selecionado'];
 $pre_buscaevento = $connPDO->prepare($sql_buscaevento);

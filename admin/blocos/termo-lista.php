@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes-gerais.php');
 include_once('../inc/funcoes.php');
-$cpf       = $_POST['cpf'];
-$tipobusca = $_POST['tipobusca'];
+$cpf       = htmlspecialchars($_POST['cpf'], ENT_QUOTES, 'UTF-8');
+$tipobusca = htmlspecialchars($_POST['tipobusca'], ENT_QUOTES, 'UTF-8'); // $tipobusca = $_POST['tipobusca'];
 
 if ($tipobusca == 'cpf') {
     # code...
@@ -24,7 +24,7 @@ if ($tipobusca == 'cpf') {
 }
 
 
-$buscavariavel = ""; // Ensure $buscavariavel is properly sanitized or built using prepared statements
+// $buscavariavel = ""; // Ensure $buscavariavel is properly sanitized or built using prepared statements
 
 $sql_buscaentradas = "SELECT tbprevenda.id_prevenda, tbentrada.id_entrada as identrada, tbvinculados.nome as nomecrianca, tbresponsavel.nome as nomeresponsavel, tbprevenda.data_acesso, tbprevenda.datahora_efetiva, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.cpf, tbentrada.autoriza, tbentrada.datahora_autoriza 
 FROM tbvinculados 
@@ -37,6 +37,7 @@ AND tbentrada.previnculo_status NOT IN (0, 2)
 AND " . $buscavariavel . " 
 ORDER BY tbprevenda.id_prevenda ASC, tbvinculados.nome ASC";
 
+// die($sql_buscaentradas);
 $pre_buscaentradas = $connPDO->prepare($sql_buscaentradas);
 $pre_buscaentradas->bindParam(':evento', $_SESSION['evento_selecionado'], PDO::PARAM_INT);
 $pre_buscaentradas->execute();
