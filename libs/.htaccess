@@ -1,0 +1,10 @@
+Options -Indexes
+
+# Bloquear acesso direto via HTTP, exceto se a requisição vier do próprio servidor
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear acesso externo a todos os arquivos da pasta e subpastas
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?(rapidticket\.com\.br|localhost|host\.bilhetagem) [NC]
+    RewriteRule . - [F]
+</IfModule>

@@ -86,21 +86,19 @@ $pre_deviceinfo->bindParam(':entrada', $entrada, PDO::PARAM_INT);
 $pre_deviceinfo->execute();
 
 if ($pre_deviceinfo->rowCount() < 1) {
+    $ievento = $_SESSION['evento_selecionado'];
     $sql_busca_termo = "SELECT * from tbtermo where ativo=1 and idevento=:evento";
     $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
-    
-    $ievento = $_SESSION['evento_selecionado'];
-    
     $pre_busca_termo->bindParam(':evento', $ievento, PDO::PARAM_INT);
 } else {
     $row_deviceinfo = $pre_deviceinfo->fetch(PDO::FETCH_ASSOC);
+    $iativo = $row_deviceinfo['termoativo'];
     $sql_busca_termo = "SELECT * from tbtermo where idtermo=:termo";
     $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
-    $iativo = $row_deviceinfo['termoativo'];
-    $pre_busca_termo->bindParam(':termo', $iativo, PDO::PARAM_INT);
+    $pre_busca_termo->bindParam(':termo', $iativo, PDO::PARAM_INT);   
 }
 
-$pre_busca_termo = $connPDO->prepare($sql_busca_termo);
+// $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetch(PDO::FETCH_ASSOC);
 

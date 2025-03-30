@@ -20,7 +20,8 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ 404.php [L,QSA]
 
-
 <IfModule mod_headers.c>
     Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
+
+Header always set X-Frame-Options "SAMEORIGIN"
