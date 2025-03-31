@@ -17,7 +17,7 @@
 
     # Bloquear acesso direto pela barra de endereço para ambiente online
     RewriteCond %{ENV:ONLINE_ENV} ^1$
-    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?w3brand\.com\.br/ [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?homologadev\.com\.br/ [NC]
     RewriteRule ^ - [F,L]
 </IfModule>
 

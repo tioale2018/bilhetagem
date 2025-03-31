@@ -5,6 +5,7 @@
     SetEnvIf Host ^localhost LOCAL_ENV
     SetEnvIf Host ^www\.rapidticket\.com\.br ONLINE_ENV
     SetEnvIf Host ^host\.bilhetagem BILHETAGEM_ENV
+    SetEnvIf Host ^www\.homologadev\.com\.br BILHETAGEMHML_ENV
 
     # Permitir apenas requisições AJAX/POST
     RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
@@ -24,6 +25,11 @@
     # Bloquear acesso direto pela barra de endereço para novo host
     RewriteCond %{ENV:BILHETAGEM_ENV} ^1$
     RewriteCond %{HTTP_REFERER} !^http://host\.bilhetagem/ [NC]
+    RewriteRule ^ - [F,L]
+    
+    # Bloquear acesso direto pela barra de endereço para novo host
+    RewriteCond %{ENV:BILHETAGEMHML_ENV} ^1$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?homologadev\.com\.br/ [NC]
     RewriteRule ^ - [F,L]
 </IfModule>
 

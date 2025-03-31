@@ -5,6 +5,6 @@ Options -Indexes
     RewriteEngine On
 
     # Bloquear acesso externo a todos os arquivos da pasta e subpastas
-    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?(rapidticket\.com\.br|localhost|host\.bilhetagem) [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?(rapidticket\.com\.br|localhost|host\.bilhetagem|homologadev\.com\.br) [NC]
     RewriteRule . - [F]
 </IfModule>

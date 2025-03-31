@@ -1,0 +1,20 @@
+# Bloquear acesso direto via HTTP
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteRule ^(?:[^/]*/)*([^/.]+\.(?:jpe?g|gif|bmp|png|tiff|css|js))$ /Assets/$1 [R=301,L,NC]
+# </IfModule>
+
+
+
+# Bloquear listagem de diretórios
+Options -Indexes
+
+# Bloquear acesso direto via HTTP, exceto se a requisição vier do próprio servidor
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear acesso externo a todos os arquivos da pasta e subpastas
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?(rapidticket\.com\.br|localhost|host\.bilhetagem) [NC]
+    RewriteRule . - [F]
+</IfModule>
