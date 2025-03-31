@@ -3,6 +3,9 @@
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+
+
 if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
   $url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   header("Location: $url", true, 301);

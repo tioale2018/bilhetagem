@@ -6,6 +6,15 @@
 // Inicia a sessão
 //session_start();
 
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+
+
+if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
+  $url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  header("Location: $url", true, 301);
+  exit();
+}
+
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];
 
