@@ -17,10 +17,10 @@ $evento       = $_SESSION['evento_selecionado'];
 $evento_atual = $evento;
 
 $cpf       = limparCPF($_POST['cpf']);
-$nome      = $_POST['nome'];
-$telefone1 = $_POST['telefone1'];
-$telefone2 = $_POST['telefone2'];
-$email     = $_POST['email'];
+$nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 $datahora  = time();
 $hoje = date('Y-m-d', $datahora);
 

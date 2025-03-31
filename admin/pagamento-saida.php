@@ -23,8 +23,8 @@ $chkvinculados = $_POST['chkvinculado'];
 
 $lst_vinculos  = implode(',', array_map(function($el) { return (int) $el; }, $_POST['chkvinculado']));
 $idprevenda    = (int) $_POST['idprevenda'];
-$tipopgto      = $_POST['tipopgto'];
-$hora_finaliza = $_POST['tempo_agora'];
+$tipopgto      = htmlspecialchars($_POST['tipopgto'], ENT_QUOTES, 'UTF-8');
+$hora_finaliza = htmlspecialchars($_POST['tempo_agora'], ENT_QUOTES, 'UTF-8');
 
 $sql = "select tbentrada.id_entrada, tbentrada.id_prevenda, tbentrada.id_vinculado, tbvinculados.nome, tbentrada.datahora_entra, tbentrada.id_pacote, tbpacotes.duracao, tbpacotes.tolerancia, tbprevenda.id_responsavel, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.email, tbresponsavel.telefone1, tbresponsavel.telefone2, tbpacotes.min_adicional as adicionalpacote, :datahora_saida as datahora_saida
 FROM tbentrada 

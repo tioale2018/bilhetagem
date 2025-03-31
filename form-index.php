@@ -75,6 +75,7 @@ if ($pre->rowCount()>0) {
 
     <div class="footer">
         <input type="hidden" name="hashevento" value="<?= htmlspecialchars($hashevento) ?>">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
         <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
     </div>
 </form>

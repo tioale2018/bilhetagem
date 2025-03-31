@@ -15,6 +15,13 @@ $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
 $hashEvento        = $_SESSION['hash_evento'];
 
+// Add CSRF token validation
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+}
+
 $sql = "SELECT count(*) as total  FROM tbentrada WHERE id_prevenda=:idprevenda and previnculo_status=1 and ativo=1 and autoriza=0";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);

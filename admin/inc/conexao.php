@@ -14,11 +14,11 @@ header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"
 // header("Referrer-Policy: no-referrer"); // Controla o envio de informações de referência
 
 
-if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
-  $url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-  header("Location: $url", true, 301);
-  exit();
-}
+// if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
+//   $url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//   header("Location: $url", true, 301);
+//   exit();
+// }
 
  $servername = "localhost";
  $server_name = $_SERVER['SERVER_NAME'];

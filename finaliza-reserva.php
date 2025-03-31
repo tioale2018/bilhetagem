@@ -5,8 +5,16 @@ if (($_SERVER['REQUEST_METHOD']!="POST") || (!isset($_POST['i']))) {
     // __halt_compiler();
     die(0);
 }
+
+// Add CSRF token validation
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+}
+
 include('./inc/conexao.php');
-$idPrevendaAtual   = $_POST['i'];
+$idPrevendaAtual   = htmlspecialchars($_POST['i'], ENT_QUOTES, 'utf-8');
 
 $sql = "SELECT count(*) as total  FROM tbentrada WHERE id_prevenda=:idprevenda and previnculo_status=1 and ativo=1 and autoriza=0";
 $pre = $connPDO->prepare($sql);

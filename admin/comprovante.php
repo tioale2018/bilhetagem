@@ -25,9 +25,9 @@ if ( verificaVar($_POST['entradasaida']) || verificaVar($_POST['entradasaida']) 
     die(0);
 }
 */
-$idprevenda   = $_POST['idprevenda'];
-$vinculados   = (isset($_POST['vinculados'])?$_POST['vinculados']:'');
-$entradasaida = $_POST['entradasaida']; //1 entrada - 2 saida
+$idprevenda   = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES, 'UTF-8');
+$vinculados   = (isset($_POST['vinculados'])?htmlspecialchars($_POST['vinculados'], ENT_QUOTES, 'UTF-8'):'');
+$entradasaida = htmlspecialchars($_POST['entradasaida'], ENT_QUOTES, 'UTF-8'); //1 entrada - 2 saida
 
 ?>
 <!DOCTYPE html>
@@ -269,7 +269,7 @@ if ($entradasaida==1) {
         <div class="col-12">
             <p>Valor total: <span>R$ <?= number_format($total, 2, ',', '.') ?></span></p> 
             <?php if (isset($_POST['tipopgto']) && $_POST['tipopgto']!=0) { ?>
-            <p>Tipo de pagamento: <span><?= $formapgto[$_POST['tipopgto']] ?></span></p>
+            <p>Tipo de pagamento: <span><?= htmlspecialchars($formapgto[$_POST['tipopgto']], ENT_QUOTES, 'UTF-8') ?></span></p>
             <?php } ?>
         </div>
         <div class="col-12" style="padding-top: 20px!important">

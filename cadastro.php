@@ -194,6 +194,7 @@ include_once("./inc/funcoes.php");
         $('form#formResponsavel').submit(function(e){
             e.preventDefault();
             let formAtual = $(this);
+            formAtual.append('<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">');
             $.post('./blocos/atualiza-responsavel.php', formAtual.serialize(), function(data){
                 swal({
                     title: "Dados salvos",

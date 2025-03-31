@@ -42,13 +42,13 @@ $finalData   = date('Y-m-d');
   
 if (isset($_POST['di'])) {
     //validar data
-    $inicialData = $_POST['di'];
-    $finalData = $_POST['df'];
+    $inicialData = htmlspecialchars($_POST['di'], ENT_QUOTES, 'utf-8');
+    $finalData = htmlspecialchars($_POST['df'], ENT_QUOTES, 'utf-8');
 } else {
     if (isset($_GET['di'])) {
         //validar data
-        $inicialData = $_GET['di'];
-        $finalData = $_GET['df'];
+        $inicialData = htmlspecialchars($_GET['di'], ENT_QUOTES, 'utf-8');
+        $finalData = htmlspecialchars($_GET['df'], ENT_QUOTES, 'utf-8');
     }         
 }
 
