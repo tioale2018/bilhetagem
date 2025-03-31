@@ -23,7 +23,6 @@ $username = "root";
 $password = "";
 $database = "bdbilhetagem";
 
-
 if ($server_name == 'homologadev.com.br') {
   //homologa homologadev
   # code...
