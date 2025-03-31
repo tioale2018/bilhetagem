@@ -3,6 +3,12 @@
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
+if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
+  $url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  header("Location: $url", true, 301);
+  exit();
+}
+
 $servername = "localhost";
 $server_name = $_SERVER['SERVER_NAME'];
 
