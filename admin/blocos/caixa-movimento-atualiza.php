@@ -14,13 +14,13 @@ $horaagora = time();
 //recebe os dados de "caixa-movimento-modal.php"
 
 $idevento      = $_SESSION['evento_selecionado'];
-$datacaixa     = $_POST['datarelata'];
-$tipomovimento = $_POST['tipomovimento'];
-$valor         = str_replace(',', '.', str_replace('.', '', $_POST['valor']) );
-$descricao     = $_POST['descricao'];
-$item          = $_POST['item'];
+$datacaixa     = htmlspecialchars($_POST['datarelata']);
+$tipomovimento = htmlspecialchars($_POST['tipomovimento']);
+$valor         = str_replace(',', '.', str_replace('.', '', htmlspecialchars($_POST['valor']) ));
+$descricao     = htmlspecialchars($_POST['descricao']);
+$item          = htmlspecialchars($_POST['item']);
 $idusuario     = $_SESSION['user_id'];
-$idcaixaabre   = $_POST['codcaixa'];
+$idcaixaabre   = htmlspecialchars($_POST['codcaixa']);
 
 $sql = "insert into tbcaixa_movimento (idevento, idusuario, idtipodespesa, datahora_insercao, item, descricao, valor, datacaixa, idcaixaabre) values (:idevento, :idusuario, :idtipodespesa, :datahora_insercao, :item, :descricao, :valor, :datacaixa, :idcaixaabre)";
 $pre = $connPDO->prepare($sql);

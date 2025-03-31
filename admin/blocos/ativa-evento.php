@@ -31,7 +31,7 @@ function checkPostVariable($varpost) {
 }
 
 include_once("../inc/conexao.php");
-$idevento = $_POST['i'];
+$idevento = htmlspecialchars($_POST['i'], ENT_QUOTES, 'UTF-8');
 $idUser   = $_SESSION['user_id'];
 
 // $sql_eventos_usuario = "SELECT * FROM tbusuarios_evento where ativo=1 and idusuario=:iduser and idevento=:idevento";
@@ -53,7 +53,7 @@ $row_eventos_usuario = $pre_eventos_usuario->fetchAll();
 // echo var_dump($pre_eventos_usuario->rowCount());
 
 if ($pre_eventos_usuario->rowCount()>0) {
-    $_SESSION['evento_selecionado'] = $_POST['i'];
+    $_SESSION['evento_selecionado'] = htmlspecialchars($_POST['i'], ENT_QUOTES);
     $_SESSION['evento_titulo']      = $row_eventos_usuario[0]['titulo'];
     $_SESSION['evento']             = $row_eventos_usuario[0];
 

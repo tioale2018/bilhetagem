@@ -12,9 +12,9 @@ include_once('../inc/conexao.php');
 include_once('../inc/funcoes-calculo.php');
 include_once('../inc/funcao-tempo.php');
 
-$idprevenda = $_POST['idprevenda'];
-$pgto       = $_POST['pgto'];
-$tipopgto   = (isset($_POST['tipopgto']) ? $_POST['tipopgto'] : 0); //$_POST['tipopgto'];
+$idprevenda = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES);
+$pgto       = htmlspecialchars($_POST['pgto'], ENT_QUOTES);
+$tipopgto   = (isset($_POST['tipopgto']) ? htmlspecialchars($_POST['tipopgto'], ENT_QUOTES) : 0); //$_POST['tipopgto'];
 $horaagora  = time();
 $usuario = $_SESSION['user_id'];
 
@@ -94,9 +94,9 @@ if (!isset($_POST['pagasaida'])) {
 
 } elseif (isset($_POST['pagasaida'])) {
     //procedimento pagamento saída
-    $idprevenda         = $_POST['idprevenda'];
-    $horafinaliza       = $_POST['horafinaliza'];
-    $vinculados         = explode(',', $_POST['vinculados']);
+    $idprevenda         = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES);
+    $horafinaliza       = htmlspecialchars($_POST['horafinaliza'], ENT_QUOTES);
+    $vinculados         = explode(',', htmlspecialchars($_POST['vinculados'], ENT_QUOTES));
     $financeiro_detalha = json_decode($_POST['pgtodetalha'], true); // true para obter um array associativo
     // die(var_dump($financeiro_detalha));
 

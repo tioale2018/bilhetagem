@@ -9,15 +9,15 @@ session_start();
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
-$nome          = $_POST['nome'];
-$nascimento    = convertDateToYMD($_POST['nascimento']);
-$vinculo       = $_POST['vinculo'];
-$perfil        = $_POST['perfil'];
-// $pacote        = $_POST['pacote'];
-$idresponsavel = $_POST['idresponsavel'];
-$idprevenda    = $_POST['idprevenda'];
-$idvinculado   = $_POST['idvinculado'];
-$identrada     = $_POST['identrada'];
+$nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
+$nascimento    = convertDateToYMD(htmlspecialchars($_POST['nascimento'], ENT_QUOTES, 'UTF-8'));
+$vinculo       = htmlspecialchars($_POST['vinculo'], ENT_QUOTES, 'UTF-8');
+$perfil        = htmlspecialchars($_POST['perfil'], ENT_QUOTES, 'UTF-8');
+// $pacote        = htmlspecialchars($_POST['pacote'], ENT_QUOTES, 'UTF-8');
+$idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
+$idprevenda    = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES, 'UTF-8');
+$idvinculado   = htmlspecialchars($_POST['idvinculado'], ENT_QUOTES, 'UTF-8');
+$identrada     = htmlspecialchars($_POST['identrada'], ENT_QUOTES, 'UTF-8');
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 

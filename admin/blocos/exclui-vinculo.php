@@ -17,7 +17,7 @@ if ( (!isset($_POST['e'])) || (!is_numeric($_POST['e'])) ) {
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
-$entrada = $_POST['e'];
+$entrada = htmlspecialchars($_POST['e'], ENT_QUOTES, 'UTF-8');
 
 $sql = "update tbentrada set previnculo_status=2 where id_entrada=:entrada";
 $pre = $connPDO->prepare($sql);

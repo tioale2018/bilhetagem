@@ -17,8 +17,12 @@ if ( (!isset($_POST['e'])) || (!is_numeric($_POST['e'])) || (!isset($_POST['p'])
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
+/*************  ✨ Codeium Command 🌟  *************/
+$entrada = htmlspecialchars($_POST['e'], ENT_QUOTES);
+$pacote  = htmlspecialchars($_POST['p'], ENT_QUOTES);
 $entrada = $_POST['e'];
 $pacote  = $_POST['p'];
+/******  7e6f498b-142d-4f0a-9d29-773207552272  *******/
 
 
 $sql_pacote = "select * from tbpacotes where ativo=1 and id_pacote=:pacote";

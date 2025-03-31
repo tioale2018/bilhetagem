@@ -11,7 +11,7 @@ session_start();
 include_once("../inc/conexao.php");
 $horaagora = time();
 
-$dataRelata = $_POST['d'];
+$dataRelata = htmlspecialchars($_POST['d'], ENT_QUOTES, 'UTF-8');
 
 //data anterior
 /*

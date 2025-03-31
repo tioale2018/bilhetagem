@@ -13,12 +13,12 @@ include('../inc/conexao.php');
 
 // var_dump($_SESSION['dadosResponsavel']);
 
-$nome          = $_POST['nome'];
-$cpf           = $_POST['cpf'];
-$telefone1     = $_POST['telefone1'];
-$telefone2     = $_POST['telefone2'];
-$email         = $_POST['email'];
-$idresponsavel = $_POST['idresponsavel'];
+$nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
+$cpf           = htmlspecialchars($_POST['cpf']);
+$telefone1     = htmlspecialchars($_POST['telefone1'], ENT_QUOTES, 'UTF-8');
+$telefone2     = htmlspecialchars($_POST['telefone2'], ENT_QUOTES, 'UTF-8');
+$email         = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+$idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
 
 $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
 $pre_atualiza_responsavel = $connPDO->prepare($sql_atualiza_responsavel);

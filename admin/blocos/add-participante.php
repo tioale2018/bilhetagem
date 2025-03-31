@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
-$nome          = $_POST['nome'];
-$nascimento    = convertDateToYMD($_POST['nascimento']);
-$vinculo       = $_POST['vinculo'];
-// $pacote        = $_POST['pacote'];
-$perfil        = $_POST['perfil'];
-$idresponsavel = $_POST['idresponsavel'];
-$idprevenda    = $_POST['idprevenda'];
-$lembrarme     = (isset($_POST['lembrarme'])?1:0);
+$nome          = htmlspecialchars($_POST['nome']);
+$nascimento    = htmlspecialchars(convertDateToYMD($_POST['nascimento']));
+$vinculo       = htmlspecialchars($_POST['vinculo']);
+// $pacote        = htmlspecialchars($_POST['pacote']);
+$perfil        = htmlspecialchars($_POST['perfil']);
+$idresponsavel = htmlspecialchars($_POST['idresponsavel']);
+$idprevenda    = htmlspecialchars($_POST['idprevenda']);
+$lembrarme     = htmlspecialchars((isset($_POST['lembrarme']) ? 1 : 0));
 
 //insere o vínculo
 $sql_insere_vinculo = "insert into tbvinculados (id_responsavel, nome, nascimento, tipo, lembrar) values (:id_responsavel, :nome, :nascimento, :tipo, $lembrarme)";

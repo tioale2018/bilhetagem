@@ -15,7 +15,7 @@ $idusuario = $_SESSION['user_id'];
 
 // die(var_dump($_POST));
 
-$iditem = $_POST['item'];
+$iditem = htmlspecialchars($_POST['iditem'], ENT_QUOTES, 'UTF-8');
 $sql    = "update tbcaixa_movimento set ativo=0, usuario_exclui=:idusuario, datahora_exclui=:horaagora where id=:iditem";
 $pre    = $connPDO->prepare($sql);
 $pre->bindParam(':iditem', $iditem, PDO::PARAM_INT);

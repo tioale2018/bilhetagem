@@ -10,13 +10,12 @@ session_start();
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
-$cpf  = $_POST['cpf'];
+$cpf  = htmlspecialchars($_POST['cpf'], ENT_QUOTES, 'UTF-8');
 
 $hoje = date('Y-m-d', time());
 
-
-$datafim = $_POST['datafim'];
-$datainicio = $_POST['datainicio'];
+$datafim = htmlspecialchars($_POST['datafim'], ENT_QUOTES, 'UTF-8');
+$datainicio = htmlspecialchars($_POST['datainicio'], ENT_QUOTES, 'UTF-8');
 
 function sql_busca_imprime($datainicio, $datafim, $cpf) {
     // Converter as datas para timestamps

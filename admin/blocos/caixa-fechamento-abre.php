@@ -32,7 +32,7 @@ $horaagora = time();
 // ao fechar o caixa do dia atual, não permitir fechar caso o do dia anterior exista e nao tenha sido fechado
 // caso não exista (salva em log), ou se estiver fechado, permitir fechar o caixa do dia atual
 
-$dataRelata = $_POST['d'];
+$dataRelata = htmlspecialchars($_POST['d'], ENT_QUOTES, 'UTF-8');
 
 $dataSql = geraDatasSQL($dataRelata);
 
