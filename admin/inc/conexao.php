@@ -19,12 +19,12 @@ $database = "bdbilhetagem";
 
 } else
 */
-if ($server_name == 'w3brand.com.br') {
-  //homologa w3brand
+if ($server_name == 'homologadev.com.br') {
+  //homologa homologadev
   # code...
-  $username = "brandw3com_userbilhetagem";
-  $password = "@}T)Cupw0e_z";
-  $database = "brandw3com_bdbilhetagem";
+  $username = "homologacom_userbilhetagem";
+  $password = ")NaQ]pd-@PfQ";
+  $database = "homologacom_bdbilhetagem";
 } elseif ($server_name == 'rapidticket.com.br') {
   //produção rapidticket
   $username = "rapidcom_userbilhetagem";
