@@ -1,3 +1,13 @@
+<?php
+session_set_cookie_params([
+    'lifetime' => 0, // Cookie de sessão (expira quando o navegador é fechado)
+    'path' => '/', // Disponível em todo o domínio
+    'domain' => $_SERVER['HTTP_HOST'], // Define dinamicamente o domínio
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', // Apenas via HTTPS
+    'httponly' => true, // Impede acesso via JavaScript
+    'samesite' => 'Strict' // Proteção contra CSRF
+]);
+?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
 <head>
@@ -98,7 +108,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="company_detail">
-                        <h3><?= $dadosEvento['titulo'] ?></h3>
+                        <h3><?= @$dadosEvento['titulo'] ?></h3>
                         <p>Realize o seu cadastro aqui para facilitar o procedimento de acesso ao parque.</p>                        
                         
                     </div>                    
@@ -130,8 +140,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             
             Swal.fire({
                 title: 'Termos de uso dos dados',
-                html: '<?= $dadosEvento['regras_home'] ?>'
-                // html: true
+                html: '<?= @$dadosEvento['regras_home'] ?>'
             });
         });
 
@@ -139,7 +148,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             Swal.fire({
                 title: 'Regras do parque',
-                html: '<?= $dadosEvento['regras_parque'] ?>'
+                html: '<?= @$dadosEvento['regras_parque'] ?>'
             });
         });
 
@@ -147,7 +156,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             Swal.fire({
                 title: 'Política de Autorizacão para Comunicação e Compartilhamento de Dados',
-                html: '<?= $dadosEvento['regras_comunica'] ?>'
+                html: '<?= @$dadosEvento['regras_comunica'] ?>'
             });
         });
 

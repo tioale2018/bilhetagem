@@ -11,6 +11,8 @@ ini_set('session.gc_maxlifetime', $inactive);
 // Define a duração do cookie de sessão para 30 minutos
 ini_set('session.cookie_lifetime', $inactive);
 
+/*
+// o trecho foi melhorado no chatgpt e adicionado aqui por Alessandro Silva
 // Definir parâmetros dos cookies de sessão
 $cookieParams = session_get_cookie_params();
 $cookieParams['httponly'] = true;
@@ -26,6 +28,32 @@ session_set_cookie_params(
     $cookieParams['secure'],
     $cookieParams['httponly']
 );
+*/
+
+// Verifica se o protocolo é HTTPS
+$isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+
+// Definir parâmetros dos cookies de sessão com valores atualizados
+$cookieParams = session_get_cookie_params();
+$cookieParams['httponly'] = true; // Impede acesso via JavaScript
+$cookieParams['secure'] = $isSecure; // Apenas via HTTPS
+$cookieParams['samesite'] = 'Strict'; // Proteção contra CSRF
+
+// Definir o domínio da sessão (ajustado para seu ambiente)
+$cookieParams['domain'] = 'homologadev.com.br'; // Ajuste de acordo com seu domínio
+
+// Configura os cookies da sessão com os parâmetros definidos
+session_set_cookie_params(
+    $cookieParams['lifetime'], // Duração do cookie de sessão
+    $cookieParams['path'], // Caminho onde o cookie estará disponível
+    $cookieParams['domain'], // Domínio do cookie
+    $cookieParams['secure'], // Definido como verdadeiro se for HTTPS
+    $cookieParams['httponly'], // Impede o acesso via JavaScript
+    true // Sempre define o parâmetro SameSite
+);
+
+
+
 
 // Inicia a sessão
 session_start();
