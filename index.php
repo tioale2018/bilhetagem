@@ -130,7 +130,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             
             Swal.fire({
                 title: 'Termos de uso dos dados',
-                html: '<?= $dadosEvento['regras_home'] ?>'
+                html: '<?= @$dadosEvento['regras_home'] ?>'
                 // html: true
             });
         });
@@ -139,7 +139,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             Swal.fire({
                 title: 'Regras do parque',
-                html: '<?= $dadosEvento['regras_parque'] ?>'
+                html: '<?= @$dadosEvento['regras_parque'] ?>'
             });
         });
 
@@ -147,7 +147,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             e.preventDefault();
             Swal.fire({
                 title: 'Política de Autorizacão para Comunicação e Compartilhamento de Dados',
-                html: '<?= $dadosEvento['regras_comunica'] ?>'
+                html: '<?= @$dadosEvento['regras_comunica'] ?>'
             });
         });
 
