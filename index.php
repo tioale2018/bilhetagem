@@ -131,7 +131,6 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             Swal.fire({
                 title: 'Termos de uso dos dados',
                 html: '<?= @$dadosEvento['regras_home'] ?>'
-                // html: true
             });
         });
 
