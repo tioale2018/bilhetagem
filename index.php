@@ -1,3 +1,13 @@
+<?php
+session_set_cookie_params([
+    'lifetime' => 0, // Cookie de sessão (expira quando o navegador é fechado)
+    'path' => '/', // Disponível em todo o domínio
+    'domain' => $_SERVER['HTTP_HOST'], // Define dinamicamente o domínio
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', // Apenas via HTTPS
+    'httponly' => true, // Impede acesso via JavaScript
+    'samesite' => 'Strict' // Proteção contra CSRF
+]);
+?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
 <head>
