@@ -1,33 +1,33 @@
-# RewriteEngine On
+RewriteEngine On
 
-# # Redirecionar todas as requisições HTTP para HTTPS
+# Redirecionar todas as requisições HTTP para HTTPS
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# # Permitir que arquivos .php sejam acessados sem a extensão .php
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteCond %{REQUEST_FILENAME}.php -f
-# RewriteRule ^(.*)$ $1.php [L]
+# Permitir que arquivos .php sejam acessados sem a extensão .php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
 
-# # Redirecionar URLs amigáveis para index.php
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^(.*)$ index.php?i=$1 [L,QSA]
+# Redirecionar URLs amigáveis para index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?i=$1 [L,QSA]
 
-# # Redirecionar URLs que não correspondem a arquivos ou diretórios para 404.php
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^(.*)$ 404.php [L,QSA]
+# Redirecionar URLs que não correspondem a arquivos ou diretórios para 404.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ 404.php [L,QSA]
 
-# <IfModule mod_headers.c>
-#     Header set X-Robots-Tag "noindex, nofollow"
-# </IfModule>
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
 
-# Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Frame-Options "SAMEORIGIN"
 
-# <IfModule mod_php7.c>
-#     php_flag libxml_disable_entity_loader on
-# </IfModule>
+<IfModule mod_php7.c>
+    php_flag libxml_disable_entity_loader on
+</IfModule>
 
 Header always set Set-Cookie "HttpOnly;Secure;SameSite=Strict"
