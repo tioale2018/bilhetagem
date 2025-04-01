@@ -8,9 +8,9 @@
     SetEnvIf Host ^www\.homologadev\.com\.br BILHETAGEMHML_ENV
 
     # Permitir apenas requisições AJAX/POST
-    # RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
-    # RewriteCond %{REQUEST_METHOD} !POST [NC]
-    # RewriteRule ^ - [F,L]
+    RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC,OR]
+    RewriteCond %{REQUEST_METHOD} !POST [NC]
+    RewriteRule ^ - [F,L]
 
     # Bloquear acesso direto pela barra de endereço para ambiente local
     RewriteCond %{ENV:LOCAL_ENV} ^1$

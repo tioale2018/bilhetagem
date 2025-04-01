@@ -11,7 +11,6 @@ ini_set('session.gc_maxlifetime', $inactive);
 // Define a duração do cookie de sessão para 30 minutos
 ini_set('session.cookie_lifetime', $inactive);
 
-/*
 // o trecho foi melhorado no chatgpt e adicionado aqui por Alessandro Silva
 // Definir parâmetros dos cookies de sessão
 $cookieParams = session_get_cookie_params();
@@ -28,8 +27,8 @@ session_set_cookie_params(
     $cookieParams['secure'],
     $cookieParams['httponly']
 );
-*/
 
+/*
 // Verifica se o protocolo é HTTPS
 $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
@@ -51,6 +50,7 @@ session_set_cookie_params(
     $cookieParams['httponly'], // Impede o acesso via JavaScript
     true // Sempre define o parâmetro SameSite
 );
+*/
 
 
 
