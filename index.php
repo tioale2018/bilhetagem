@@ -98,7 +98,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="company_detail">
-                        <h3><?= $dadosEvento['titulo'] ?></h3>
+                        <h3><?= @$dadosEvento['titulo'] ?></h3>
                         <p>Realize o seu cadastro aqui para facilitar o procedimento de acesso ao parque.</p>                        
                         
                     </div>                    
