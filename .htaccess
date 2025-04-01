@@ -1,8 +1,8 @@
 RewriteEngine On
 
 # Redirecionar todas as requisições HTTP para HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Permitir que arquivos .php sejam acessados sem a extensão .php
 RewriteCond %{REQUEST_FILENAME} !-f
