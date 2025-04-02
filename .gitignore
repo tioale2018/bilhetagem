@@ -8,4 +8,5 @@
 /_lixo/
 /logs/
 /.dccache
+/admin/error_log
 /error_log
