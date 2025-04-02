@@ -1,28 +1,31 @@
 <?php
 session_start();
 
-// Define tempo de inatividade (30 min por padrão)
+// Define tempo de inatividade (30 min padrão)
 $inactive = 1800;
 if (isset($_SESSION['evento']) && is_array($_SESSION['evento']) && isset($_SESSION['evento']['tempo_tela'])) {
     $inactive = $_SESSION['evento']['tempo_tela'];
 }
 
-// Define parâmetros da sessão
+// Define o tempo de vida da sessão e cookies
 ini_set('session.gc_maxlifetime', $inactive);
 ini_set('session.cookie_lifetime', $inactive);
 
-// Obtém parâmetros atuais dos cookies
-$cookieParams = session_get_cookie_params();
+// Verifica se a conexão é segura (HTTPS)
+$isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
-// Define segurança dos cookies
+// Define parâmetros do cookie da sessão
 session_set_cookie_params([
-    'lifetime' => $cookieParams['lifetime'],
-    'path' => $cookieParams['path'],
-    'domain' => $cookieParams['domain'],
-    'secure' => !empty($_SERVER['HTTPS']), // Apenas HTTPS se disponível
-    'httponly' => true, // Impede acesso via JS
-    'samesite' => 'Strict' // Proteção contra CSRF
+    'lifetime' => $inactive,
+    'path' => '/',
+    'domain' => 'homologadev.com.br', // Ajuste para seu domínio
+    'secure' => $isSecure,
+    'httponly' => true,
+    'samesite' => 'Strict'
 ]);
+
+// Inicia a sessão novamente com as novas configurações
+session_start();
 
 // Regenera o ID da sessão para evitar fixação de sessão
 if (!isset($_SESSION['regenerate'])) {
@@ -30,7 +33,7 @@ if (!isset($_SESSION['regenerate'])) {
     $_SESSION['regenerate'] = true;
 }
 
-// Proteção contra roubo de sessão
+// Proteção contra roubo de sessão (IP e User-Agent)
 if (!isset($_SESSION['user_ip'], $_SESSION['user_agent'])) {
     $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
@@ -42,13 +45,11 @@ if (!isset($_SESSION['user_ip'], $_SESSION['user_agent'])) {
 }
 
 // Controle de expiração da sessão
-if (isset($_SESSION['timeout'])) {
-    if (time() - $_SESSION['timeout'] > $inactive) {
-        session_unset();
-        session_destroy();
-        header("Location: logoff.php");
-        exit();
-    }
+if (isset($_SESSION['timeout']) && (time() - $_SESSION['timeout'] > $inactive)) {
+    session_unset();
+    session_destroy();
+    header("Location: logoff.php");
+    exit();
 }
 $_SESSION['timeout'] = time();
 
