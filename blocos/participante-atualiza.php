@@ -23,10 +23,10 @@ $lembrar       = (isset($_POST['melembrar'])?1:0);
 
 
 //verificar se o idvinculado pertence ao idresponsavel
-$sql = "select * from tbvinculados where id_vinculado=:idvinculado and id_responsavel=5555555";
+$sql = "select * from tbvinculados where id_vinculado=:idvinculado and id_responsavel=:idresponsavel";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idvinculado', $idvinculado, PDO::PARAM_INT);
-// $pre->bindParam(':idresponsavel', $idresponsavel, PDO::PARAM_INT);
+$pre->bindParam(':idresponsavel', $idresponsavel, PDO::PARAM_INT);
 $pre->execute();
 if ($pre->rowCount() > 0) {
     
