@@ -4,11 +4,11 @@
 //error_reporting(E_ALL);
 
 header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
-// header("X-Frame-Options: DENY"); // Protege contra clickjacking
-// header("Content-Security-Policy: frame-ancestors 'self';"); // Restringe o uso de iframes
-// header("X-XSS-Protection: 1; mode=block"); // Protege contra XSS
-// header("X-Content-Type-Options: nosniff"); // Previne MIME sniffing
-// header("Referrer-Policy: no-referrer"); // Controla o envio de informações de referência
+header("X-Frame-Options: DENY"); // Protege contra clickjacking
+header("Content-Security-Policy: frame-ancestors 'self';"); // Restringe o uso de iframes
+header("X-XSS-Protection: 1; mode=block"); // Protege contra XSS
+header("X-Content-Type-Options: nosniff"); // Previne MIME sniffing
+header("Referrer-Policy: no-referrer"); // Controla o envio de informações de referência
 
 session_start();
 
