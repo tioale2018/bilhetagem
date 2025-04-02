@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 // $inactive = 1800; // 30 minutos
 $inactive = (isset($_SESSION['evento']) ? $_SESSION['evento']['tempo_tela'] : 1800);
 
@@ -60,7 +60,7 @@ session_set_cookie_params(
 
 
 // Inicia a sessão
-// session_start();
+session_start();
 
 // Regenera o ID da sessão para evitar fixação de sessão
 if (!isset($_SESSION['regenerate'])) {
