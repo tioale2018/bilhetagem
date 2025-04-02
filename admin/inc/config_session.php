@@ -3,7 +3,7 @@ session_start();
 // $inactive = 1800; // 30 minutos
 $inactive = (isset($_SESSION['evento']) ? $_SESSION['evento']['tempo_tela'] : 1800);
 
-session_write_close();
+// session_write_close();
 
 // Define o tempo de vida da sessão para 30 minutos
 ini_set('session.gc_maxlifetime', $inactive);
