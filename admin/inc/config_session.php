@@ -1,57 +1,30 @@
 <?php
 session_start();
-// $inactive = 1800; // 30 minutos
-// $inactive = (isset($_SESSION['evento']) ? $_SESSION['evento']['tempo_tela'] : 1800);
-/*
+
+// Define tempo de inatividade (30 min padrão)
+$inactive = 1800;
+if (isset($_SESSION['evento']) && is_array($_SESSION['evento']) && isset($_SESSION['evento']['tempo_tela'])) {
+    $inactive = $_SESSION['evento']['tempo_tela'];
+}
+
+// Define o tempo de vida da sessão e cookies
 ini_set('session.gc_maxlifetime', $inactive);
-
-// Define a duração do cookie de sessão para 30 minutos
-ini_set('session.cookie_lifetime', $inactive);
-*/
-/*
-// Definir parâmetros dos cookies de sessão
-$cookieParams = session_get_cookie_params();
-$cookieParams['httponly'] = true;
-$cookieParams['secure'] = isset($_SERVER['HTTPS']);
-$cookieParams['samesite'] = 'Strict';
-
-// Configura os cookies da sessão com parâmetros individuais
-
-session_set_cookie_params(
-    $cookieParams['lifetime'],
-    $cookieParams['path'] . '; SameSite=' . $cookieParams['samesite'],
-    $cookieParams['domain'],
-    $cookieParams['secure'],
-    $cookieParams['httponly']
-);
-*/
-
-/*
-session_write_close();
-
-// Define o tempo de vida da sessão para 30 minutos
-ini_set('session.gc_maxlifetime', $inactive);
-
-// Define a duração do cookie de sessão para 30 minutos
 ini_set('session.cookie_lifetime', $inactive);
 
-// Definir parâmetros dos cookies de sessão
-$cookieParams = session_get_cookie_params();
-$cookieParams['httponly'] = true;
-$cookieParams['secure'] = isset($_SERVER['HTTPS']);
-$cookieParams['samesite'] = 'Strict';
+// Verifica se a conexão é segura (HTTPS)
+$isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
-// Configura os cookies da sessão com parâmetros individuais
+// Define parâmetros do cookie da sessão
+session_set_cookie_params([
+    'lifetime' => $inactive,
+    'path' => '/',
+    'domain' => 'homologadev.com.br', // Ajuste para seu domínio
+    'secure' => $isSecure,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 
-session_set_cookie_params(
-    $cookieParams['lifetime'],
-    $cookieParams['path'] . '; SameSite=' . $cookieParams['samesite'],
-    $cookieParams['domain'],
-    $cookieParams['secure'],
-    $cookieParams['httponly']
-);
-
-// Inicia a sessão
+// Inicia a sessão novamente com as novas configurações
 session_start();
 
 // Regenera o ID da sessão para evitar fixação de sessão
@@ -60,33 +33,24 @@ if (!isset($_SESSION['regenerate'])) {
     $_SESSION['regenerate'] = true;
 }
 
-// Verifica e armazena IP e User-Agent do usuário
-if ((!isset($_SESSION['user_ip'])) || !isset($_SESSION['user_agent'])) {
-    $_SESSION['user_ip']    = $_SERVER['REMOTE_ADDR'];
+// Proteção contra roubo de sessão (IP e User-Agent)
+if (!isset($_SESSION['user_ip'], $_SESSION['user_agent'])) {
+    $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-}
-
-// Valida o IP e o User-Agent em cada requisição
-if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+} elseif ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
     session_unset();
     session_destroy();
     header('Location: /admin/');
     exit();
 }
 
-$session_lifetime = $inactive; // Tempo total da sessão
-$session_expiry = isset($_SESSION['timeout']) ? $_SESSION['timeout'] + $session_lifetime : time() + $session_lifetime;
-$time_remaining = $session_expiry - time();
-
-// Verifica se a sessão expirou
-if (isset($_SESSION['timeout'])) {
-    $session_life = time() - $_SESSION['timeout'];
-    if ($session_life > $inactive) {
-        session_destroy(); // Destroi a sessão
-        header("Location: logoff.php"); // Redireciona para logout ou página inicial
-        exit();
-    }
+// Controle de expiração da sessão
+if (isset($_SESSION['timeout']) && (time() - $_SESSION['timeout'] > $inactive)) {
+    session_unset();
+    session_destroy();
+    header("Location: logoff.php");
+    exit();
 }
-$_SESSION['timeout'] = time(); // Atualiza o tempo de timeout
-*/
+$_SESSION['timeout'] = time();
+
 ?>
