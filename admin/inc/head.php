@@ -1,6 +1,9 @@
 <?php
 // Inclui o arquivo de configuração de sessão
 require_once './inc/config_session.php';
+
+die("putz: " . $_SESSION['user_perfil']);
+
 require_once './inc/functions.php';
     // Verifica a sessão
 verificarSessao();
