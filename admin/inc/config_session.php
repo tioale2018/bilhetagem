@@ -60,7 +60,7 @@ session_set_cookie_params(
 
 
 // Inicia a sessão
-session_start();
+// session_start();
 
 // Regenera o ID da sessão para evitar fixação de sessão
 if (!isset($_SESSION['regenerate'])) {
