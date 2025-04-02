@@ -8,7 +8,7 @@ ini_set('session.gc_maxlifetime', $inactive);
 // Define a duração do cookie de sessão para 30 minutos
 ini_set('session.cookie_lifetime', $inactive);
 
-session_start();
+
 
 // Definir parâmetros dos cookies de sessão
 $cookieParams = session_get_cookie_params();
@@ -25,7 +25,7 @@ session_set_cookie_params(
     $cookieParams['secure'],
     $cookieParams['httponly']
 );
-
+session_start();
 /*
 session_write_close();
 
