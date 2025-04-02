@@ -30,4 +30,4 @@ Header always set X-Frame-Options "SAMEORIGIN"
     php_flag libxml_disable_entity_loader on
 </IfModule>
 
-Header always set Set-Cookie "HttpOnly;Secure;SameSite=Strict"
+# Header always set Set-Cookie "HttpOnly;Secure;SameSite=Strict"
