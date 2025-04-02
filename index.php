@@ -1,4 +1,5 @@
 <?php
+/*
 session_set_cookie_params([
     'lifetime' => 0, // Cookie de sessão (expira quando o navegador é fechado)
     'path' => '/', // Disponível em todo o domínio
@@ -7,6 +8,7 @@ session_set_cookie_params([
     'httponly' => true, // Impede acesso via JavaScript
     'samesite' => 'Strict' // Proteção contra CSRF
 ]);
+*/
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
