@@ -8,6 +8,7 @@
 /_lixo/
 /logs/
 /.dccache
+.dccache
 /admin/error_log
 /error_log
 php.ini
