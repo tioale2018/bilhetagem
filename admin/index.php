@@ -1,6 +1,6 @@
 <?php
-require_once './inc/config_session.php';
-require_once './inc/funcoes.php';
+require_once('./inc/config_session.php');
+require_once('./inc/funcoes.php');
 
   // Exibe o IP do usuário
   $ipUsuario = obterIP();
