@@ -13,6 +13,7 @@ ini_set('session.cookie_lifetime', $inactive);
 
 // o trecho foi melhorado no chatgpt e adicionado aqui por Alessandro Silva
 
+/*
 // Definir parâmetros dos cookies de sessão
 $cookieParams = session_get_cookie_params();
 $cookieParams['httponly'] = true;
@@ -28,7 +29,7 @@ session_set_cookie_params(
     $cookieParams['secure'],
     $cookieParams['httponly']
 );
-
+*/
 
 /*
 
