@@ -29,7 +29,7 @@ session_set_cookie_params(
     $cookieParams['httponly']
 );
 */
-/*
+
 // Verifica se o protocolo é HTTPS
 $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
@@ -51,7 +51,7 @@ session_set_cookie_params(
     $cookieParams['httponly'], // Impede o acesso via JavaScript
     true // Sempre define o parâmetro SameSite
 );
-*/
+
 
 
 
