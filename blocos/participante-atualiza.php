@@ -20,6 +20,21 @@ $identrada     = $_POST['identrada'];
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
+
+
+//verificar se o idvinculado pertence ao idresponsavel
+$sql = "select * from tbvinculados where id_vinculado=:idvinculado and id_responsavel=5555555";
+$pre = $connPDO->prepare($sql);
+$pre->bindParam(':idvinculado', $idvinculado, PDO::PARAM_INT);
+// $pre->bindParam(':idresponsavel', $idresponsavel, PDO::PARAM_INT);
+$pre->execute();
+if ($pre->rowCount() == 0) {
+    header(':', true, 404);
+    header('X-PHP-Response-Code: 404', true, 404);
+    die(0);
+}
+
+
 $sql1 = "update tbvinculados set  nome=:nome, nascimento=:nascimento, tipo=:tipo, lembrar=:lembrar where id_vinculado=:idvinculado";
 
 $pre1 = $connPDO->prepare($sql1);
