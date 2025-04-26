@@ -42,8 +42,17 @@ if ((!isset($_SESSION['user_ip'])) || !isset($_SESSION['user_agent'])) {
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 }
 
+/*
 // Valida o IP e o User-Agent em cada requisição
 if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+    session_unset();
+    session_destroy();
+    header('Location: /admin/');
+    exit();
+}
+*/
+
+if ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
     session_unset();
     session_destroy();
     header('Location: /admin/');
