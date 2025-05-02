@@ -3,7 +3,6 @@ session_start();
 // $inactive = 1800; // 30 minutos
 $inactive = (isset($_SESSION['evento']) ? $_SESSION['evento']['tempo_tela'] : 1800);
 
-/*
 session_write_close();
 
 // Define o tempo de vida da sessão para 30 minutos
@@ -43,6 +42,7 @@ if ((!isset($_SESSION['user_ip'])) || !isset($_SESSION['user_agent'])) {
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 }
 
+/*
 // Valida o IP e o User-Agent em cada requisição
 if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
     session_unset();
@@ -50,6 +50,27 @@ if ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR'] || $_SESSION['user_agent'] 
     header('Location: /admin/');
     exit();
 }
+*/
+
+if ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+    session_unset();
+    session_destroy();
+    header('Location: /admin/');
+    exit();
+}
+
+/*
+// Verifica se a variável de sessão 'timeout' existe
+if (isset($_SESSION['timeout'])) {
+    // Calcula o tempo de inatividade
+    $session_life = time() - $_SESSION['timeout'];
+    if ($session_life > $inactive) {
+        session_destroy(); // Destroi a sessão
+        header("Location: logoff.php"); // Redireciona para logout ou página inicial
+    }
+}
+$_SESSION['timeout'] = time(); // Atualiza o tempo de timeout
+*/
 
 $session_lifetime = $inactive; // Tempo total da sessão
 $session_expiry = isset($_SESSION['timeout']) ? $_SESSION['timeout'] + $session_lifetime : time() + $session_lifetime;
@@ -65,5 +86,5 @@ if (isset($_SESSION['timeout'])) {
     }
 }
 $_SESSION['timeout'] = time(); // Atualiza o tempo de timeout
-*/
+
 ?>
