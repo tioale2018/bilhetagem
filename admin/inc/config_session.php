@@ -1,5 +1,5 @@
 <?php
-$inactive = 1800;
+$inactive = 3600;
 if (session_status() === PHP_SESSION_ACTIVE) {
     $inactive = $_SESSION['evento']['tempo_tela'];
 }
