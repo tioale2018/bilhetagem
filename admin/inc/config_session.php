@@ -17,7 +17,7 @@ $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 session_set_cookie_params([
     'lifetime' => $inactive,
     'path' => '/',
-    'domain' => 'homologadev.com.br',
+    'domain' => 'homologadev.com.br/admin',
     'secure' => $isSecure,
     'httponly' => true,
     'samesite' => 'Strict'
