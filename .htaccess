@@ -31,3 +31,6 @@ Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
 # Header always set Set-Cookie "HttpOnly;Secure;SameSite=Strict"
+
+ErrorDocument 404 /404.php
+
