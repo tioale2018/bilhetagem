@@ -1,11 +1,16 @@
 <?php
-session_start();
-
-// Define tempo de inatividade (30 min padrão)
 $inactive = 1800;
-if (isset($_SESSION['evento']) && is_array($_SESSION['evento']) && isset($_SESSION['evento']['tempo_tela'])) {
+if (session_status() === PHP_SESSION_ACTIVE) {
     $inactive = $_SESSION['evento']['tempo_tela'];
 }
+
+// session_start();
+
+// Define tempo de inatividade (30 min padrão)
+
+// if (isset($_SESSION['evento']) && is_array($_SESSION['evento']) && isset($_SESSION['evento']['tempo_tela'])) {
+//     $inactive = $_SESSION['evento']['tempo_tela'];
+// }
 
 // Define o tempo de vida da sessão e cookies
 ini_set('session.gc_maxlifetime', $inactive);
