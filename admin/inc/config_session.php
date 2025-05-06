@@ -11,7 +11,7 @@ if (isset($_SESSION['evento']['tempo_tela'])) {
 // ini_set('session.cookie_lifetime', $inactive);
 
 // HTTPS seguro?
-$isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+// $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
 // Cookie de sessão
 // session_set_cookie_params([
@@ -24,10 +24,11 @@ $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 // ]);
 
 // Evita fixação de sessão
-if (!isset($_SESSION['regenerate'])) {
-    session_regenerate_id(true);
-    $_SESSION['regenerate'] = true;
-}
+
+// if (!isset($_SESSION['regenerate'])) {
+//     session_regenerate_id(true);
+//     $_SESSION['regenerate'] = true;
+// }
 
 // IP verdadeiro do usuário via Cloudflare
 $user_ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'];
