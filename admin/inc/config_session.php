@@ -7,8 +7,8 @@ if (isset($_SESSION['evento']['tempo_tela'])) {
 }
 
 // Ajuste dos tempos
-ini_set('session.gc_maxlifetime', $inactive);
-ini_set('session.cookie_lifetime', $inactive);
+// ini_set('session.gc_maxlifetime', $inactive);
+// ini_set('session.cookie_lifetime', $inactive);
 
 // HTTPS seguro?
 $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
