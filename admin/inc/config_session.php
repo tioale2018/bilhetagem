@@ -58,4 +58,9 @@ if (isset($_SESSION['timeout']) && (time() - $_SESSION['timeout'] > $inactive)) 
 }
 $_SESSION['timeout'] = time();
 
+
+$session_lifetime = $inactive; // Tempo total da sessão
+$session_expiry = isset($_SESSION['timeout']) ? $_SESSION['timeout'] + $session_lifetime : time() + $session_lifetime;
+$time_remaining = $session_expiry - time();
+
 ?>
