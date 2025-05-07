@@ -128,13 +128,13 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
  <!-- Lib Scripts Plugin Js --> 
 <!-- <script src="assets/bundles/vendorscripts.bundle.js"></script>  -->
 <!-- <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script>  -->
- <!-- <script src="./js/safe.js"></script> -->
+ <script src="./js/safe.js"></script>
  <script src="./libs/sweetalert2/dist/sweetalert2.min.js"></script>
 <!-- SweetAlert Plugin Js --> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
-
+/*
     $(document).ready(function(){
         
 
@@ -195,10 +195,11 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         });
 
     })
+    */
 </script>
 
 <script>
-
+/*
     $(document).ready(function() {
     // Função para aplicar a máscara de CPF
     function aplicarMascaraCPF(cpf) {
@@ -274,8 +275,10 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 
     
 });
-
+*/
 </script>
+
+
 
 </body>
 </html>
