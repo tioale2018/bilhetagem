@@ -1,5 +1,30 @@
 <?php
-die($_POST['cpf_seguro']);
+echo $_POST['cpf_seguro'];
+
+require '../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+// Decodifica a senha criptografada
+$encrypted     = base64_decode($_POST['cpf_seguro'] ?? '');
+
+try {
+    $decrypted = $privateKey->decrypt($encrypted);
+    echo "<h2>CPF descriptografado: " . htmlspecialchars($decrypted) . "</h2>";
+} catch (Exception $e) {
+    echo "Erro ao descriptografar: " . $e->getMessage();
+}
+
+die('<hr>');
+
+
+
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
