@@ -3,6 +3,41 @@ $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
 
+
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+// Decodifica a senha criptografada
+//cpf nome telefone email comunica
+
+$encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+$encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
+$encrypted_telefone = base64_decode($_POST['telefone_seguro'] ?? '');
+$encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
+$encrypted_comunica = base64_decode($_POST['comunica_seguro'] ?? '');
+
+
+
+try {
+    $cpf        = $privateKey->decrypt($encrypted_cpf);
+    $nome       = $privateKey->decrypt($encrypted_nome);
+    $telefone   = $privateKey->decrypt($encrypted_telefone);
+    $email      = $privateKey->decrypt($encrypted_email);
+    $comunica   = $privateKey->decrypt($encrypted_comunica);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+
 //valida se é o hash do evento
 $sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_cadastro, tbevento.msg_fimreserva
 from tbevento_ativo 
@@ -58,7 +93,8 @@ $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padra
 
 //---------------------------------------------------------------------------------------------
 
-$id               = limparCPF($_POST['cpf']);
+// $id               = limparCPF($_POST['cpf']);
+$id               = limparCPF($cpf);
 $cpf              = $id;
 $_SESSION['cpf']  = $id;
 
@@ -94,9 +130,9 @@ if ($dados_responsavel!=false) {
 } else {
     //echo "0";
     //insere o responsavel
-    $nome      = $_POST['nome'];
-    $email     = $_POST['email'];
-    $telefone1 = $_POST['telefone'];
+    $nome      = $nome; // $_POST['nome'];
+    $email     = $email; // $_POST['email'];
+    $telefone1 = $telefone1; // $_POST['telefone'];
     
     $sql_insere_responsavel = "insert into tbresponsavel (nome, cpf, email, telefone1, datahora_input) values (:nome, :cpf, :email, :telefone1, :datahora_input)";
 
@@ -164,7 +200,7 @@ $_SESSION['dadosResponsavel'] = $dados_responsavel;
 
 /* ************************************************************************ */
 
-$comunica = (isset($_POST['comunica'])) ? 1 : 0;
+// $comunica = (isset($_POST['comunica'])) ? 1 : 0;
 
 function getDeviceInfo($idprevenda) {
     // Informações adicionais coletadas pelo PHP
