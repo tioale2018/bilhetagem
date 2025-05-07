@@ -1,6 +1,4 @@
 <?php
-echo var_dump($_POST);
-die('findando');
 $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");

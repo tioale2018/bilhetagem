@@ -14,13 +14,9 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../c
 
 // Decodifica a senha criptografada
 $encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
-$encrypted_hash     = base64_decode($_POST['hashevento_seguro'] ?? '');
 
 try {
     $cpf        = $privateKey->decrypt($encrypted_cpf);
-    $hashevento = $privateKey->decrypt($encrypted_hash);
-
-    // echo "<h2>CPF descriptografado: " . htmlspecialchars($decrypted) . "</h2>";
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
@@ -44,7 +40,7 @@ if ( (!isset($_POST['cpf_seguro'])) ) {
 include_once('./inc/conexao.php');
 include_once('./inc/funcoes.php');
 
-// $hashevento = $_POST['hashevento'];
+$hashevento = $_POST['hashevento'];
 
 $cpf = limparCPF($cpf);
 
