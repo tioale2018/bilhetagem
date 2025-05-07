@@ -1,4 +1,6 @@
 <?php
+die($_POST['cpf_seguro']);
+
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
@@ -11,7 +13,6 @@ if ( (!isset($_POST['cpf'])) ) {
     die(0);
 }
 
-die($_POST['cpf']);
 
 include_once('./inc/conexao.php');
 include_once('./inc/funcoes.php');
