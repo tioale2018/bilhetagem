@@ -124,6 +124,10 @@ if ($pre->rowCount()>0) {
     });
 </script>
 
+
+<?php } ?>
+
+
 <script>
 const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
@@ -175,5 +179,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
-
-<?php } ?>
