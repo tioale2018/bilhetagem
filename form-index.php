@@ -1,7 +1,7 @@
 <?php
-// echo $_POST['cpf_seguro'];
-// echo "<hr>";
-
+echo $_POST['hashevento_seguro'];
+echo "<hr>";
+die('----');
 require '../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
