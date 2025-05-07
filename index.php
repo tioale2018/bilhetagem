@@ -90,7 +90,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                         </div>
 
                         <div class="area-form-index">
-                            <form class="form" method="post" action="" id="form-busca-cpf">                            
+                            <form class="form" method="post" action="form-index.php" id="form-busca-cpf">                            
                                 <div class="input-group">
                                     <input name="cpf" type="text" class="form-control" placeholder="CPF" maxlength="14" pattern="\d*" required>
                                     <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
