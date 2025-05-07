@@ -218,7 +218,7 @@ mQIDAQAB
 
 
 
-        $('body').on('submit', '#form-busca-reserva', function(e) {
+        $('body').on('submit', '#form-busca-reserva', async function(e) {
             // alert('oi');
             e.preventDefault();
            
