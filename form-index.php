@@ -1,5 +1,5 @@
 <?php
-echo $_POST['hashevento'];
+echo $_POST['hashevento_seguro'];
 echo "<hr>";
 die('----');
 require '../vendor/autoload.php';

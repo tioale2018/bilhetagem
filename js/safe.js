@@ -17,7 +17,7 @@ window.encryptFormFields = async function(form, publicKeyPEM) {
   const encoder = new TextEncoder();
   const result = {};
 
-  const inputs = form.querySelectorAll("input, textarea, select");
+  const inputs = form.querySelectorAll("input, textarea, select, hidden");
   for (const input of inputs) {
     if (!input.name || input.type === "hidden" || input.disabled) continue;
 
