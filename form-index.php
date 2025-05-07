@@ -11,6 +11,8 @@ if ( (!isset($_POST['cpf'])) ) {
     die(0);
 }
 
+die($_POST['cpf']);
+
 include_once('./inc/conexao.php');
 include_once('./inc/funcoes.php');
 
