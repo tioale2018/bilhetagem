@@ -1,5 +1,6 @@
 <?php
 echo $_POST['cpf_seguro'];
+echo "<hr>";
 
 require '../vendor/autoload.php';
 
