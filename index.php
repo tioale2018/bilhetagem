@@ -128,6 +128,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
  <!-- Lib Scripts Plugin Js --> 
 <!-- <script src="assets/bundles/vendorscripts.bundle.js"></script>  -->
 <!-- <script src="./assets/plugins/sweetalert/sweetalert.min.js"></script>  -->
+ <script src="./js/valida-nome.js"></script>
  <script src="./js/safe.js"></script>
  <script src="./libs/sweetalert2/dist/sweetalert2.min.js"></script>
 <!-- SweetAlert Plugin Js --> 
