@@ -108,7 +108,7 @@ if ($pre->rowCount()>0) {
 </form>
 
 <?php if ($var_nome=="") { ?>
-    <script src="./js/safe.js"></script>
+    <!-- <script src="./js/safe.js"></script> -->
 <script>
    $(document).ready(function() {
         $('#erro-nome').hide();
