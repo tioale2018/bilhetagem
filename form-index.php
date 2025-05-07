@@ -1,7 +1,4 @@
 <?php
-echo var_dump($_POST);
-echo "<hr>";
-die('----');
 require '../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
