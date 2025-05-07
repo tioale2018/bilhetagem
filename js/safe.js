@@ -19,7 +19,13 @@ window.encryptFormFields = async function(form, publicKeyPEM) {
 
   const inputs = form.querySelectorAll("input, textarea, select");
   for (const input of inputs) {
-    if (!input.name || input.type === "hidden" || input.disabled) continue;
+    if (!input.name || input.disabled) continue;
+
+    // Não criptografa campos ocultos; deixa eles serem enviados normalmente
+    if (input.type === "hidden") {
+      result[input.name] = input.value;
+      continue;
+    }
 
     const encrypted = await crypto.subtle.encrypt(
       { name: "RSA-OAEP" },
@@ -30,21 +36,13 @@ window.encryptFormFields = async function(form, publicKeyPEM) {
     const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
     result[input.name + "_seguro"] = encoded;
 
-    // Desativa apenas os campos que foram criptografados (não hidden)
-    input.disabled = true;
-  }
-
-  // Campos criptografados podem ser adicionados ao formulário aqui, se necessário
-  for (const [name, value] of Object.entries(result)) {
-    const hidden = document.createElement("input");
-    hidden.type = "hidden";
-    hidden.name = name;
-    hidden.value = value;
-    form.appendChild(hidden);
+    // Remove o name do campo original (para evitar envio duplo) mas mantém o valor intacto
+    input.removeAttribute("name");
   }
 
   return result;
 };
+
 
 /*
 window.encryptFormFields = async function(form, publicKeyPEM) {
