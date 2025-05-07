@@ -130,7 +130,7 @@ if ($pre->rowCount()>0) {
 
 
 <script>
-    
+    /*
 const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
 XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
@@ -180,6 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
     });
 });
-
+*/
 </script>
 

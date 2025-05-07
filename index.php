@@ -219,11 +219,13 @@ mQIDAQAB
 
 
         $('body').on('submit', '#form-busca-reserva', function(e) {
-            alert('oi');
+            // alert('oi');
+            e.preventDefault();
            
             if (!$('input[name=termos]').is(':checked')) {
-                e.preventDefault(); // Impede o envio do formulário
+                // e.preventDefault(); // Impede o envio do formulário
                 alert('Por favor, leia e aceite os termos de uso antes de continuar.');
+                return;
             }
 
             let campoNome = $('input[name="nome"]').val();
@@ -232,9 +234,47 @@ mQIDAQAB
             //e.preventDefault(); // Impede o envio do formulário
 
             if (!validarNomeSobrenome(campoNome)) {
-                    e.preventDefault(); // Impede o envio do formulário
+                    // e.preventDefault(); // Impede o envio do formulário
                     $('#erro-nome').show();
+                    return;
                 }
+
+
+                
+                const form = this;
+
+                if (typeof encryptFormFields !== "function") {
+                    alert("Função de criptografia não encontrada. Verifique se o safe.js foi carregado.");
+                    return;
+                }
+
+                try {
+                    const encryptedData = await encryptFormFields(form, publicKeyPEM);
+
+                    if (!encryptedData) return;
+
+                    // Adiciona os campos criptografados ao formulário
+                    for (const [name, value] of Object.entries(encryptedData)) {
+                        $('<input>', {
+                            type: 'hidden',
+                            name: name,
+                            value: value
+                        }).appendTo(form);
+                    }
+
+                    // Desativa os campos originais (exceto hidden)
+                    $(form).find('input, textarea, select').each(function() {
+                        if (!this.name || this.type === "hidden" || this.disabled) return;
+                        this.disabled = true;
+                    });
+
+                    // Submete o formulário normalmente
+                    form.submit();
+                } catch (error) {
+                    console.error("Erro ao criptografar o formulário:", error);
+                }
+
+                
   
         });
 
