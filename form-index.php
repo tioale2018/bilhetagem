@@ -16,7 +16,7 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../c
 $encrypted_cpf     = base64_decode($_POST['cpf_seguro'] ?? '');
 
 try {
-    $cpf = $privateKey->decrypt($encrypted);
+    $cpf = $privateKey->decrypt($encrypted_cpf);
     // echo "<h2>CPF descriptografado: " . htmlspecialchars($decrypted) . "</h2>";
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
