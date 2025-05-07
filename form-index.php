@@ -1,6 +1,6 @@
 <?php
-echo $_POST['cpf_seguro'];
-echo "<hr>";
+// echo $_POST['cpf_seguro'];
+// echo "<hr>";
 
 require '../vendor/autoload.php';
 
@@ -13,16 +13,16 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../c
     ->withHash('sha256');
 
 // Decodifica a senha criptografada
-$encrypted     = base64_decode($_POST['cpf_seguro'] ?? '');
+$encrypted_cpf     = base64_decode($_POST['cpf_seguro'] ?? '');
 
 try {
-    $decrypted = $privateKey->decrypt($encrypted);
-    echo "<h2>CPF descriptografado: " . htmlspecialchars($decrypted) . "</h2>";
+    $cpf = $privateKey->decrypt($encrypted);
+    // echo "<h2>CPF descriptografado: " . htmlspecialchars($decrypted) . "</h2>";
 } catch (Exception $e) {
-    echo "Erro ao descriptografar: " . $e->getMessage();
+    die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
-die('<hr>');
+// die('<hr>');
 
 
 
@@ -30,13 +30,11 @@ die('<hr>');
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    die(0);
 }
 
-if ( (!isset($_POST['cpf'])) ) {
+if ( (!isset($_POST['cpf_seguro'])) ) {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    die(0);
 }
 
 
@@ -45,7 +43,7 @@ include_once('./inc/funcoes.php');
 
 $hashevento = $_POST['hashevento'];
 
-$cpf = limparCPF($_POST['cpf']);
+$cpf = limparCPF($cpf);
 
 $sql = "select * from tbresponsavel where ativo=1 and cpf=:cpf";
 $pre = $connPDO->prepare($sql);
