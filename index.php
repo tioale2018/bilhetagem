@@ -244,7 +244,7 @@ mQIDAQAB
 
 
 <script>
-/*
+
     $(document).ready(function() {
     // Função para aplicar a máscara de CPF
     function aplicarMascaraCPF(cpf) {
@@ -320,7 +320,7 @@ mQIDAQAB
 
     
 });
-*/
+
 </script>
 
 
