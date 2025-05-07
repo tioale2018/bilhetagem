@@ -61,6 +61,7 @@ mQIDAQAB
   });
 
   */
+
   document.addEventListener("DOMContentLoaded", () => {
     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
@@ -72,7 +73,6 @@ mQIDAQAB
   mQIDAQAB
   -----END PUBLIC KEY-----`;
   
-    // Utilitários
     async function importRSAPublicKey(pem) {
       const pemBody = pem.replace(/-----.*?-----/g, "").replace(/\s/g, "");
       const binaryDer = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
@@ -113,89 +113,79 @@ mQIDAQAB
       return crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaKey, raw);
     }
   
-    // Função para validar nome e sobrenome
     function validarNomeSobrenome(nome) {
       const partes = nome.trim().split(/\s+/);
       return partes.length >= 2 && partes.every(p => p.length >= 2);
     }
   
-    // Encripta todos os formulários normalmente
+    // Manipulação de todos os formulários
     document.querySelectorAll("form").forEach(form => {
       form.addEventListener("submit", async event => {
+        event.preventDefault();
+  
         const formId = form.id;
   
-        // Formulário #form-busca-cpf: envia via fetch e NÃO criptografa
-        if (formId === "form-busca-cpf") {
-          event.preventDefault();
-          const formData = new FormData(form);
-          const params = new URLSearchParams(formData);
-  
-          try {
-            const response = await fetch('./form-index.php', {
-              method: "POST",
-              body: params,
-              headers: { "Content-Type": "application/x-www-form-urlencoded" }
-            });
-            const html = await response.text();
-            const container = document.querySelector('.area-form-index');
-            if (container) container.innerHTML = html;
-          } catch (err) {
-            console.error("Erro ao enviar:", err);
-          }
-          return;
-        }
-  
-        // Formulário #form-busca-reserva: validações extras
+        // Validações específicas para o form-busca-reserva
         if (formId === "form-busca-reserva") {
           const termos = form.querySelector('input[name="termos"]');
           if (termos && !termos.checked) {
-            event.preventDefault();
             alert('Por favor, leia e aceite os termos de uso antes de continuar.');
             return;
           }
   
           const nomeInput = form.querySelector('input[name="nome"]');
           if (nomeInput && !validarNomeSobrenome(nomeInput.value)) {
-            event.preventDefault();
             const erroNome = document.getElementById('erro-nome');
             if (erroNome) erroNome.style.display = 'block';
             return;
           }
         }
   
-        // Criptografia híbrida para os dados do formulário
-        event.preventDefault();
+        // Início da criptografia híbrida
         const rsaKey = await importRSAPublicKey(publicKeyPEM);
         const aesKey = await generateAESKey();
         const aesKeyEncrypted = await encryptAESKeyWithRSA(aesKey, rsaKey);
         const aesKeyB64 = arrayBufferToBase64(aesKeyEncrypted);
   
         const inputs = form.querySelectorAll("input, textarea, select");
+        const payload = new URLSearchParams();
+        payload.append("__key_segura", aesKeyB64);
+  
         for (const input of inputs) {
-          if (!input.name || input.type === "hidden" || input.disabled) continue;
+          if (!input.name || input.disabled || input.type === "hidden") continue;
   
           const { ciphertext, iv } = await encryptWithAES(aesKey, input.value);
-          const encryptedData = arrayBufferToBase64(ciphertext);
+          const encryptedValue = arrayBufferToBase64(ciphertext);
           const ivB64 = arrayBufferToBase64(iv);
   
-          const hiddenInput = document.createElement("input");
-          hiddenInput.type = "hidden";
-          hiddenInput.name = input.name + "_seguro";
-          hiddenInput.value = `${encryptedData}|${ivB64}`;
-          form.appendChild(hiddenInput);
-  
-          input.disabled = true;
+          payload.append(input.name + "_seguro", `${encryptedValue}|${ivB64}`);
         }
   
-        const keyInput = document.createElement("input");
-        keyInput.type = "hidden";
-        keyInput.name = "__key_segura";
-        keyInput.value = aesKeyB64;
-        form.appendChild(keyInput);
+        const destino = form.getAttribute("action") || window.location.href;
   
-        form.submit();
+        try {
+          const response = await fetch(destino, {
+            method: "POST",
+            body: payload,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
+          });
+  
+          const retorno = await response.text();
+  
+          if (formId === "form-busca-cpf") {
+            const container = document.querySelector('.area-form-index');
+            if (container) container.innerHTML = retorno;
+          } else {
+            document.open();
+            document.write(retorno);
+            document.close();
+          }
+        } catch (err) {
+          console.error("Erro ao enviar o formulário:", err);
+        }
       });
     });
   });
-  
   
