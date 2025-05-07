@@ -4,7 +4,7 @@ include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
 
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
