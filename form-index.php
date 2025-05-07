@@ -141,7 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!form) return;
 
     form.addEventListener("submit", async function(e) {
+        
         e.preventDefault(); // Impede envio imediato
+        alert("Aguarde, estamos processando seu pedido...");
+        /*
 
         try {
             const encryptedData = await window.encryptFormFields(form, publicKeyPEM);
@@ -168,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             console.error("Erro ao criptografar formulário:", err);
         }
+        */
     });
 });
 </script>
