@@ -1,3 +1,42 @@
+window.encryptFormFields = async function(form, publicKeyPEM) {
+  if (!window.crypto || !window.crypto.subtle) {
+    alert("Este navegador não suporta criptografia segura.");
+    return null;
+  }
+
+  const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+  const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+  const key = await crypto.subtle.importKey(
+    "spki",
+    binaryDer.buffer,
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    false,
+    ["encrypt"]
+  );
+
+  const encoder = new TextEncoder();
+  const result = {};
+
+  const inputs = form.querySelectorAll("input, textarea, select");
+  for (const input of inputs) {
+    if (!input.name || input.type === "hidden" || input.disabled) continue;
+
+    const encrypted = await crypto.subtle.encrypt(
+      { name: "RSA-OAEP" },
+      key,
+      encoder.encode(input.value)
+    );
+
+    const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    result[input.name + "_seguro"] = encoded;
+  }
+
+  return result;
+};
+
+
+
+/*
 
 document.addEventListener("DOMContentLoaded", () => {
     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
@@ -60,6 +99,8 @@ mQIDAQAB
     });
   });
 
+
+  */
   
 
 
