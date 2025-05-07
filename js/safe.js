@@ -1,4 +1,4 @@
-/*
+
 document.addEventListener("DOMContentLoaded", () => {
     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
@@ -60,8 +60,10 @@ mQIDAQAB
     });
   });
 
-  */
+  
 
+
+  /*
   document.addEventListener("DOMContentLoaded", () => {
     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
@@ -188,4 +190,4 @@ mQIDAQAB
       });
     });
   });
-  
+  */
