@@ -219,6 +219,7 @@ mQIDAQAB
 
 
         $('body').on('submit', '#form-busca-reserva', function(e) {
+            alert('oi');
            
             if (!$('input[name=termos]').is(':checked')) {
                 e.preventDefault(); // Impede o envio do formulário
