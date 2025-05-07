@@ -61,7 +61,6 @@ mQIDAQAB
   });
 
   */
-
   document.addEventListener("DOMContentLoaded", () => {
     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
@@ -73,7 +72,7 @@ mQIDAQAB
   mQIDAQAB
   -----END PUBLIC KEY-----`;
   
-    // Importa chave pública RSA
+    // Utilitários
     async function importRSAPublicKey(pem) {
       const pemBody = pem.replace(/-----.*?-----/g, "").replace(/\s/g, "");
       const binaryDer = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
@@ -86,7 +85,6 @@ mQIDAQAB
       );
     }
   
-    // Gera chave AES aleatória
     async function generateAESKey() {
       return crypto.subtle.generateKey(
         { name: "AES-GCM", length: 256 },
@@ -95,15 +93,13 @@ mQIDAQAB
       );
     }
   
-    // Converte ArrayBuffer em base64
     function arrayBufferToBase64(buffer) {
       return btoa(String.fromCharCode(...new Uint8Array(buffer)));
     }
   
-    // Codifica texto com AES
     async function encryptWithAES(key, plaintext) {
       const encoder = new TextEncoder();
-      const iv = crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV
+      const iv = crypto.getRandomValues(new Uint8Array(12));
       const encrypted = await crypto.subtle.encrypt(
         { name: "AES-GCM", iv },
         key,
@@ -112,24 +108,68 @@ mQIDAQAB
       return { ciphertext: encrypted, iv };
     }
   
-    // Codifica chave AES com RSA
     async function encryptAESKeyWithRSA(aesKey, rsaKey) {
       const raw = await crypto.subtle.exportKey("raw", aesKey);
       return crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaKey, raw);
     }
   
-    // Encripta dados do formulário
+    // Função para validar nome e sobrenome
+    function validarNomeSobrenome(nome) {
+      const partes = nome.trim().split(/\s+/);
+      return partes.length >= 2 && partes.every(p => p.length >= 2);
+    }
+  
+    // Encripta todos os formulários normalmente
     document.querySelectorAll("form").forEach(form => {
       form.addEventListener("submit", async event => {
-        event.preventDefault();
+        const formId = form.id;
   
+        // Formulário #form-busca-cpf: envia via fetch e NÃO criptografa
+        if (formId === "form-busca-cpf") {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const params = new URLSearchParams(formData);
+  
+          try {
+            const response = await fetch('./form-index.php', {
+              method: "POST",
+              body: params,
+              headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            });
+            const html = await response.text();
+            const container = document.querySelector('.area-form-index');
+            if (container) container.innerHTML = html;
+          } catch (err) {
+            console.error("Erro ao enviar:", err);
+          }
+          return;
+        }
+  
+        // Formulário #form-busca-reserva: validações extras
+        if (formId === "form-busca-reserva") {
+          const termos = form.querySelector('input[name="termos"]');
+          if (termos && !termos.checked) {
+            event.preventDefault();
+            alert('Por favor, leia e aceite os termos de uso antes de continuar.');
+            return;
+          }
+  
+          const nomeInput = form.querySelector('input[name="nome"]');
+          if (nomeInput && !validarNomeSobrenome(nomeInput.value)) {
+            event.preventDefault();
+            const erroNome = document.getElementById('erro-nome');
+            if (erroNome) erroNome.style.display = 'block';
+            return;
+          }
+        }
+  
+        // Criptografia híbrida para os dados do formulário
+        event.preventDefault();
         const rsaKey = await importRSAPublicKey(publicKeyPEM);
         const aesKey = await generateAESKey();
-  
         const aesKeyEncrypted = await encryptAESKeyWithRSA(aesKey, rsaKey);
         const aesKeyB64 = arrayBufferToBase64(aesKeyEncrypted);
   
-        // Processa todos os inputs
         const inputs = form.querySelectorAll("input, textarea, select");
         for (const input of inputs) {
           if (!input.name || input.type === "hidden" || input.disabled) continue;
@@ -138,25 +178,22 @@ mQIDAQAB
           const encryptedData = arrayBufferToBase64(ciphertext);
           const ivB64 = arrayBufferToBase64(iv);
   
-          // Cria campo hidden com nome_original_seguro
           const hiddenInput = document.createElement("input");
           hiddenInput.type = "hidden";
           hiddenInput.name = input.name + "_seguro";
           hiddenInput.value = `${encryptedData}|${ivB64}`;
           form.appendChild(hiddenInput);
   
-          // Desativa campo visível
           input.disabled = true;
         }
   
-        // Envia chave AES criptografada via campo hidden
         const keyInput = document.createElement("input");
         keyInput.type = "hidden";
         keyInput.name = "__key_segura";
         keyInput.value = aesKeyB64;
         form.appendChild(keyInput);
   
-        form.submit(); // Envio final
+        form.submit();
       });
     });
   });
