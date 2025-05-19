@@ -20,6 +20,8 @@ $identrada     = $_POST['identrada'];
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
+$idresponsavelSessao = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
+
 
 
 //verificar se o idvinculado pertence ao idresponsavel
@@ -30,7 +32,8 @@ $pre->bindParam(':idresponsavel', $idresponsavel, PDO::PARAM_INT);
 $pre->execute();
 if ($pre->rowCount() > 0) {
     
-    $sql1 = "update tbvinculados set  nome=:nome, nascimento=:nascimento, tipo=:tipo, lembrar=:lembrar where id_vinculado=:idvinculado";
+    // $sql1 = "update tbvinculados set  nome=:nome, nascimento=:nascimento, tipo=:tipo, lembrar=:lembrar where id_vinculado=:idvinculado";
+    $sql1 = "update tbvinculados set  nome=:nome, nascimento=:nascimento, tipo=:tipo, lembrar=:lembrar where id_vinculado=:idvinculado and id_responsavel=:idresponsavelsessao";
 
     $pre1 = $connPDO->prepare($sql1);
     $pre1->bindParam(':nome', $nome, PDO::PARAM_STR);
@@ -38,6 +41,8 @@ if ($pre->rowCount() > 0) {
     $pre1->bindParam(':tipo', $vinculo, PDO::PARAM_STR);
     $pre1->bindParam(':lembrar', $lembrar, PDO::PARAM_INT);
     $pre1->bindParam(':idvinculado', $idvinculado, PDO::PARAM_INT);
+    $pre1->bindParam(':idresponsavelsessao', $idresponsavelSessao, PDO::PARAM_INT);
+
 
     $pre1->execute();
 
@@ -52,3 +57,4 @@ if ($pre->rowCount() > 0) {
 
 
 ?>
+
