@@ -9,6 +9,8 @@ require_once('./inc/funcoes.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('./inc/conexao.php');
     // Aqui você faria a verificação do usuário (ex. consulta ao banco de dados)
+    echo $_POST['username'];
+    dei('--------------');
     $username = $_POST['username'];
     $password = $_POST['password'];
 
