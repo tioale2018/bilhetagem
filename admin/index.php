@@ -112,6 +112,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
 <!-- Jquery Core Js -->
 <script src="../assets/bundles/libscripts.bundle.js"></script>
 <script src="../assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js -->
+<script src="./js/seguro.js"></script>
 
 <style>
     .logo-brand {
@@ -145,7 +146,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
                         <div class="header">
                             <h5>Log in</h5>
                         </div>
-                        <form class="form" method="post" action="">
+                        <form class="form" method="post" action="" id="form-busca-cpf">
                             <div class="input-group">
                                 <input name="username" type="text" class="form-control" placeholder="User Name" required>
                                 <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
