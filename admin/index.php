@@ -196,6 +196,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
     </div>
 </div>
 
+<script src="./js/safe.js"></script>
 <script src="./js/seguro.js"></script>
 
 </body>
