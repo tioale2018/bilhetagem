@@ -112,7 +112,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
 <!-- Jquery Core Js -->
 <script src="../assets/bundles/libscripts.bundle.js"></script>
 <script src="../assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js -->
-<script src="./js/seguro.js"></script>
+
 
 <style>
     .logo-brand {
@@ -195,6 +195,8 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
         </div>
     </div>
 </div>
+
+<script src="./js/seguro.js"></script>
 
 </body>
 </html>

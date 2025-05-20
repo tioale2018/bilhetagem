@@ -42,6 +42,8 @@ mQIDAQAB
 
 $('#form-busca-cpf').on('submit', async function(e) {
     e.preventDefault();
+    alert('vai');
+
 
     const form = this;
 
