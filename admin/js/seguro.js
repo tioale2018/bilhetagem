@@ -40,35 +40,58 @@ LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
 mQIDAQAB
 -----END PUBLIC KEY-----`;
 
-$('#form-busca-cpf').on('submit', async function(e) {
+$('body').on('submit', '#form-busca-reserva', async function(e) {
     e.preventDefault();
-    alert('vai');
 
+    // Verifica se os termos foram aceitos
+    if (!$('input[name=termos]').is(':checked')) {
+        alert('Por favor, leia e aceite os termos de uso antes de continuar.');
+        return;
+    }
+
+    // Validação de nome completo
+    let campoNome = $('input[name="nome"]').val();
+    if (!validarNomeSobrenome(campoNome)) {
+        $('#erro-nome').show();
+        return;
+    }
 
     const form = this;
 
+    // Verifica se a função de criptografia está carregada
+    if (typeof encryptFormFields !== "function") {
+        alert("Função de criptografia não encontrada. Verifique se o safe.js foi carregado.");
+        return;
+    }
+
     try {
-        const encryptedData = await window.encryptFormFields(form, publicKeyPEM);
+        // Criptografa os dados do formulário
+        const encryptedData = await encryptFormFields(form, publicKeyPEM);
         if (!encryptedData) return;
 
-        // Cria um formulário oculto com os dados criptografados
-        const newForm = document.createElement('form');
-        newForm.method = 'POST';
-        newForm.action = 'index.php';
+        // Remove campos ocultos antigos (se existirem)
+        $(form).find('input.encrypted').remove();
 
-        for (const key in encryptedData) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = encryptedData[key];
-            newForm.appendChild(input);
+        // Adiciona campos criptografados como inputs ocultos
+        for (const [name, value] of Object.entries(encryptedData)) {
+            $('<input>', {
+                type: 'hidden',
+                name: name,
+                value: value,
+                class: 'encrypted' // marca para futura limpeza, se necessário
+            }).appendTo(form);
         }
 
-        document.body.appendChild(newForm);
-        newForm.submit(); // envia os dados criptografados e recarrega a página
+        // Desativa os campos originais para não serem enviados
+        $(form).find('input, textarea, select').each(function() {
+            if (!this.name || this.type === "hidden" || this.disabled) return;
+            this.disabled = true;
+        });
+
+        // Submete o formulário normalmente (POST, com recarregamento)
+        form.submit();
 
     } catch (error) {
-        console.error("Erro ao criptografar:", error);
+        console.error("Erro ao criptografar o formulário:", error);
     }
 });
-
