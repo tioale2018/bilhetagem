@@ -1,4 +1,14 @@
 <?php
+ require '../../vendor/autoload.php';
+
+    use phpseclib3\Crypt\RSA;
+    use phpseclib3\Crypt\PublicKeyLoader;
+
+    // Lê a chave privada
+    $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../chaves/chave_privada.pem'))
+        ->withPadding(RSA::ENCRYPTION_OAEP)
+        ->withHash('sha256');
+
 require_once('./inc/config_session.php');
 require_once('./inc/funcoes.php');
 
@@ -9,10 +19,24 @@ require_once('./inc/funcoes.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('./inc/conexao.php');
     // Aqui você faria a verificação do usuário (ex. consulta ao banco de dados)
-    echo $_POST['username'];
-    dei('--------------');
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+
+    // $username = $_POST['username'];
+    // $password = $_POST['password'];
+
+
+    // Decodifica a senha criptografada
+    $encrypted_user      = base64_decode($_POST['username'] ?? '');
+    $encrypted_pass      = base64_decode($_POST['password'] ?? '');
+
+
+    try {
+        $username        = $privateKey->decrypt($encrypted_user);
+        $password        = $privateKey->decrypt($encrypted_pass);
+    } catch (Exception $e) {
+        die ("Erro ao descriptografar: " . $e->getMessage());
+    }
+
+    
 
     // Supondo que a verificação foi bem-sucedida e obteve o user_id do banco de dados
     // $sql_busca_user = "select * from tbusuarios where login=:login and senha=MD5(:senha)";
