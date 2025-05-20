@@ -5,7 +5,7 @@
     use phpseclib3\Crypt\PublicKeyLoader;
 
     // Lê a chave privada
-    $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../chaves/chave_privada.pem'))
+    $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
         ->withPadding(RSA::ENCRYPTION_OAEP)
         ->withHash('sha256');
 
