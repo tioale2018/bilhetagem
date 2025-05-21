@@ -173,7 +173,7 @@ $variables = [
         });
         */
 
-
+/*
 
 
         $('#formAceitaTermo').submit(async function(e) {
@@ -231,9 +231,8 @@ $variables = [
         });
 
 
-        
+        */
 
-/*
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
@@ -241,7 +240,7 @@ $variables = [
 
         const form = this;
 
-        const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
+        const idPrevenda = $(form).data('id-prevenda');
 
         if (typeof encryptFormFields !== "function") {
             alert("Função de criptografia não encontrada. Verifique se safe.js foi carregado.");
@@ -277,7 +276,7 @@ $variables = [
             });
 
             $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
-                console.log(data);
+                // console.log(data);
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
                     $('#modalTermoParticipante').modal('hide');
                 });
@@ -290,7 +289,7 @@ $variables = [
         
     });
 
-*/
+
 
     // $('#btnSalvarTermo').on('click', async function() {
 /*
