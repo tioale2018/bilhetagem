@@ -261,7 +261,7 @@ $(document).ready(function() {
         };
     }
 
-
+/*
 
 $('#formEditaParticipante').submit(async function (e) {
     e.preventDefault();
@@ -298,6 +298,46 @@ $('#formEditaParticipante').submit(async function (e) {
     }
 });
 
+*/
+
+$('#formEditaParticipante').submit(async function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const dateInput = $('#nasc').val();
+
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    // Monta o objeto com os dados do formulário
+    const formDataObj = {};
+    form.serializeArray().forEach(item => {
+        formDataObj[item.name] = item.value;
+    });
+
+    // Inclui qualquer campo extra como idprevenda
+    formDataObj['idprevenda'] = $('input[name="idprevenda"]').val();
+
+    try {
+        const encryptedPayload = await encryptFormDataHybrid(formDataObj, publicKeyPEM);
+
+        // Envia os dados criptografados via POST
+        $.post('./blocos/participante-atualiza.php', encryptedPayload, function (data) {
+            // Aqui o servidor retorna algo (opcional)
+            $('#modalEditaParticipante').modal('toggle');
+
+            // Atualiza a lista de vinculados (recarrega via AJAX)
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', null);
+        });
+
+    } catch (err) {
+        console.error("Erro ao criptografar dados do formulário:", err);
+    }
+});
 
 
 
