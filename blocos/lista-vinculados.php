@@ -25,7 +25,7 @@ try {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
-echo "responsavale: ".$_SESSION['dadosResponsavel'][0]['id_responsavel'];
+// echo "responsavale: ".$_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
