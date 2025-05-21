@@ -112,6 +112,8 @@ if ($pre->rowCount()>0) {
         $('#erro-nome').hide();
         $('input[name="nome"]').focus();
 
+        $('#termos').css('border', '2px solid red');
+
         $('input[name=telefone]').mask('(00) 0000-00000', {
             onKeyPress: function(val, e, field, options) {
                 var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
