@@ -182,7 +182,7 @@ $(document).ready(function() {
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
 
-/*
+
     $('#formEditaParticipante').submit(function(e){
         e.preventDefault();
         let Form = $(this);
@@ -205,9 +205,9 @@ $(document).ready(function() {
         }        
     });
 
-    */
+    
 
-
+/*
     async function encryptFormDataHybrid(formElement, publicKeyPEM, extraData = {}) {
         // 1. Coleta os dados do formulário em um objeto
         const formData = new FormData(formElement);
@@ -285,7 +285,7 @@ $(document).ready(function() {
         }
         return buffer;
     }
-
+*/
 
 /*
 
@@ -325,6 +325,7 @@ $('#formEditaParticipante').submit(async function (e) {
 });
 
 */
+/*
 $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
@@ -358,7 +359,7 @@ $('#formEditaParticipante').submit(async function(e){
         console.error("Erro ao criptografar dados do formulário:", error);
     }
 });
-
+*/
 /*
 
 $('#formEditaParticipante').submit(async function (e) {
