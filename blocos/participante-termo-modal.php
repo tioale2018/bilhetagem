@@ -290,6 +290,9 @@ mQIDAQAB
 
     // $('#btnSalvarTermo').on('click', async function() {
     $('#formAceitaTermo').submit(async function(e) {
+        
+        e.preventDefault();
+        alert('oi');
         const form = $('#formAceitaTermo')[0];
         const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
 
