@@ -236,7 +236,6 @@ $variables = [
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
-        // alert('oi');
 
         const form = this;
 
