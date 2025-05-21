@@ -175,7 +175,7 @@ $variables = [
 
 
 
-/*
+
         $('#formAceitaTermo').submit(async function(e) {
             e.preventDefault();
 
@@ -230,9 +230,9 @@ $variables = [
         });
 
 
-        */
+        
 
-
+/*
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
@@ -289,7 +289,7 @@ $variables = [
         
     });
 
-
+*/
 
     // $('#btnSalvarTermo').on('click', async function() {
 /*
