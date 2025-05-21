@@ -90,12 +90,12 @@ if ($pre->rowCount()>0) {
    
     <div class="checkbox">
         <input id="comunica" type="checkbox" name="comunica" value="1">
-        <label for="comunica">Autorizo o uso dos meus dados de acordo com a <a href="#" id="regrascomunica">política de comunicação comercial</a> da empresa.</label>
+        <label for="comunica">Autorizo o uso dos meus dados de acordo com a <a href="#" id="regrascomunica">política de comunicação comercial</a> da empresa. (Opcional)</label>
     </div>  
               
     <div class="checkbox">
         <input id="termos" type="checkbox" name="termos" value="1" required style="border: 1px solid #f00">
-        <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
+        <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>. (Obrigatório)</label>
     </div>                            
 
     <div class="footer">
