@@ -1,17 +1,15 @@
 <?php
 session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST") {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    // __halt_compiler();
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 if ( (!isset($_POST['e'])) || (!is_numeric($_POST['e'])) || (!isset($_POST['p'])) || (!is_numeric($_POST['p'])) ) {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    // __halt_compiler();
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 include_once('../inc/conexao.php');

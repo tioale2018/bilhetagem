@@ -24,13 +24,15 @@ try {
 
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 if ( (!isset($_POST['cpf_seguro'])) ) {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 

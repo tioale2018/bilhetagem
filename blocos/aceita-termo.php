@@ -1,9 +1,28 @@
 <?php
-if (($_SERVER['REQUEST_METHOD']!="POST") || (!isset($_POST['participante']))) {
-    header(':', true, 404);
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+// Decodifica a senha criptografada
+$encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+
+try {
+    $cpf        = $privateKey->decrypt($encrypted_cpf);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' ) {
     header('X-PHP-Response-Code: 404', true, 404);
-    
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 session_start();
 include('../inc/conexao.php');

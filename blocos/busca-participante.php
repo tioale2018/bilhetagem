@@ -1,16 +1,14 @@
 <?php
 if ($_SERVER['REQUEST_METHOD']!="POST") {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 if ( (!isset($_POST['p'])) || (!is_numeric($_POST['p'])) ) {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 include_once('../inc/conexao.php');

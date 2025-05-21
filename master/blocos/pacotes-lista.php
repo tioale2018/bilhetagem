@@ -1,9 +1,9 @@
 <?php 
 session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST") {
-    header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 include('../../admin/inc/conexao.php');
 $id = $_POST['id'];
