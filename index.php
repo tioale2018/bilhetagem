@@ -85,7 +85,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                     <div class="card-plain">
                         <div class="header">
                             <h5>Preencha o cadastro</h5>
-                            <p>Acesse aqui as <a href="" class="regrasparque">regras do parque</a></p>
+                            <?php /*<p>Acesse aqui as <a href="" class="regrasparque">regras do parque</a></p> */ ?>
                             <p class="mt-1"><span>Informe abaixo os dados do responsável pelos participantes</span></p>
                         </div>
 
@@ -110,7 +110,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="company_detail">
-                        <h3><?= @$dadosEvento['titulo'] ?></h3>
+                        <h3><?php /*= @$dadosEvento['titulo'] */ ?></h3>
                         <p>Realize o seu cadastro aqui para facilitar o procedimento de acesso ao parque.</p>                        
                         
                     </div>                    

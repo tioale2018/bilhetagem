@@ -73,7 +73,7 @@ if ($pre->rowCount()>0) {
     
     <div class="blocks">
         <div class="input-group">
-            <input name="nome" type="text" class="form-control" placeholder="Nome" required value="<?= $var_nome ?>">
+            <input name="nome" type="text" class="form-control" placeholder="Nome completo" required value="<?= $var_nome ?>">
             <span class="input-group-addon"><i class="material-icons">spellcheck</i></span>
         </div>
         <div id="erro-nome" style="color:red"><small>Informe o nome com ao menos um sobrenome</small></div>
@@ -89,12 +89,12 @@ if ($pre->rowCount()>0) {
     </div>
    
     <div class="checkbox">
-        <input id="comunica" type="checkbox" name="comunica" value="1" checked>
+        <input id="comunica" type="checkbox" name="comunica" value="1">
         <label for="comunica">Autorizo o uso dos meus dados de acordo com a <a href="#" id="regrascomunica">política de comunicação comercial</a> da empresa.</label>
     </div>  
               
     <div class="checkbox">
-        <input id="termos" type="checkbox" name="termos" value="1" checked required>
+        <input id="termos" type="checkbox" name="termos" value="1" required style="border: 1px solid #f00!important;">
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
     </div>                            
 

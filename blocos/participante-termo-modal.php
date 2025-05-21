@@ -123,7 +123,7 @@ $variables = [
             <div class="col-md-12">
                 <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
                 <div class="">
-                    <label for="assinatermo"><input data-identrada="<?= htmlspecialchars($identrada) ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Confirmo que li o termo e estou de acordo com suas condições.</label>
+                    <label for="assinatermo"><input data-identrada="<?= htmlspecialchars($identrada) ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Declaro, sob minha inteira responsabilidade, que li integralmente o presente termo, compreendi seu conteúdo e estou de pleno acordo com todas as suas disposições, assumindo os efeitos legais decorrentes de sua aceitação.</label>
                 </div>
             </div>
         </div>   
@@ -242,9 +242,6 @@ $('#formAceitaTermo').submit(async function(e) {
     }
 
 
-
-
-
 function sendDeviceInfo(identrada) {
     deviceInfo = getDeviceInfo(identrada);
 
@@ -265,131 +262,6 @@ function sendDeviceInfo(identrada) {
 }
 
 
-
-
-/*
-async function encryptDeviceInfo(identrada, publicKeyPEM) {
-    const deviceInfo = getDeviceInfo(identrada);
-    const jsonString = JSON.stringify(deviceInfo);
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(jsonString);
-
-    // Converte PEM para ArrayBuffer (DER)
-    const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
-    const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
-
-    // Importa chave pública
-    const key = await crypto.subtle.importKey(
-        "spki",
-        binaryDer.buffer,
-        { name: "RSA-OAEP", hash: "SHA-256" },
-        false,
-        ["encrypt"]
-    );
-
-    // Criptografa os dados
-    const encrypted = await crypto.subtle.encrypt(
-        { name: "RSA-OAEP" },
-        key,
-        data
-    );
-
-    // Codifica em base64
-    const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
-    return encryptedBase64;
-}
-*/
-/*
-async function encryptDeviceInfo(identrada, publicKeyPEM) {
-    const deviceInfo = {
-        id_entrada: identrada,
-        userAgent: navigator.userAgent,
-        screenResolution: `${window.screen.width}x${window.screen.height}`,
-        deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-        browserLanguage: navigator.language || navigator.userLanguage,
-        operatingSystem: navigator.platform,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown'
-    };
-
-    const jsonString = JSON.stringify(deviceInfo);
-
-    // 1. Gera chave AES
-    const aesKey = await crypto.subtle.generateKey(
-        { name: "AES-GCM", length: 256 },
-        true,
-        ["encrypt"]
-    );
-
-    // 2. Gera IV
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-
-    // 3. Criptografa os dados com AES
-    const encoded = new TextEncoder().encode(jsonString);
-    const ciphertext = await crypto.subtle.encrypt(
-        { name: "AES-GCM", iv },
-        aesKey,
-        encoded
-    );
-
-    // 4. Importa a chave pública
-    const pem = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
-    const binaryDer = Uint8Array.from(atob(pem), c => c.charCodeAt(0));
-    const publicKey = await crypto.subtle.importKey(
-        "spki",
-        binaryDer.buffer,
-        { name: "RSA-OAEP", hash: "SHA-256" },
-        false,
-        ["encrypt"]
-    );
-
-    // 5. Exporta e criptografa a chave AES com RSA
-    const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
-    const encryptedKey = await crypto.subtle.encrypt(
-        { name: "RSA-OAEP" },
-        publicKey,
-        rawAesKey
-    );
-
-    // 6. Retorna os dados em base64
-    return {
-        key: btoa(String.fromCharCode(...new Uint8Array(encryptedKey))),
-        iv: btoa(String.fromCharCode(...iv)),
-        data: btoa(String.fromCharCode(...new Uint8Array(ciphertext)))
-    };
-}
-
-
-async function sendEncryptedDeviceInfo(identrada, publicKeyPEM) {
-    try {
-        const encrypted = await encryptDeviceInfo(identrada, publicKeyPEM);
-
-        $.ajax({
-            url: './blocos/save-device-info.php',
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({ payload: encrypted }),
-            success: function(response) {
-                console.log('Encrypted device info sent:', response);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error sending encrypted device info:', textStatus, errorThrown);
-            }
-        });
-    } catch (err) {
-        console.error("Erro ao criptografar informações do dispositivo:", err);
-    }
-}
-
-*/
-
-
-
-
-
-
 // Chame a função quando o checkbox for clicado
 $('#assinatermo').on('change', function() {
     if ($(this).is(':checked')) {
@@ -399,24 +271,6 @@ $('#assinatermo').on('change', function() {
     }
 });
 
-/*
-
-$('#assinatermo').on('change', function() {
-    if ($(this).is(':checked')) {
-        // Obtém o valor de identrada do atributo data-identrada
-        const identrada = $(this).data('identrada');
-
-        // Verifica se a chave pública está disponível
-        if (typeof publicKeyPEM === 'undefined') {
-            console.error('Chave pública não encontrada (publicKeyPEM).');
-            return;
-        }
-
-        // Chama a função de envio criptografado
-        sendEncryptedDeviceInfo(identrada, publicKeyPEM);
-    }
-});
-*/
     })
 </script>
 
