@@ -44,7 +44,6 @@ window.encryptFormFields = async function(form, publicKeyPEM) {
 };
 
 
-
 window.encryptRSA = async function(plainText, publicKeyPEM) {
   if (!window.crypto || !window.crypto.subtle) {
     alert("Este navegador não suporta criptografia segura.");
