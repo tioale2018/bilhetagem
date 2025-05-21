@@ -30,14 +30,4 @@ Header always set X-Frame-Options "SAMEORIGIN"
     php_flag libxml_disable_entity_loader on
 </IfModule>
 
-# Remove versão do Apache
-ServerSignature Off
-ServerTokens Prod
-
-# Remove X-Powered-By
-<IfModule mod_headers.c>
-    Header unset X-Powered-By
-</IfModule>
-
-
 # Header always set Set-Cookie "HttpOnly;Secure;SameSite=Strict"
