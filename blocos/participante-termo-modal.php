@@ -182,7 +182,8 @@ $variables = [
             const form = this;
 
             // Pega o ID da pré-venda (fora do formulário)
-            const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
+            // const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
+            const idPrevenda = $(form).data('id-prevenda');
 
             if (typeof encryptFormFields !== "function") {
                 alert("Função de criptografia não encontrada. Verifique se safe.js foi carregado.");
