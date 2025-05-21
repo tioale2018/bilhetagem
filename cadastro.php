@@ -327,11 +327,6 @@ mQIDAQAB
     });
 
 
-     $('#formAceitaTermo').submit(async function(e) {
-        e.preventDefault();
-        alert('oi');
-     });
-
 </script>
 
 
