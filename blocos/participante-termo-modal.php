@@ -122,7 +122,7 @@ $variables = [
 
 // include_once('../inc/variaveis-termo.php');
 ?>
-<form action="" id="formAceitaTermo" method="post">
+<form action="" id="formAceitaTermo" method="post"  data-id-prevenda="<?= $row_dados_participante[0]['id_prevenda'] ?>">
     <div class="modal-header">
         <h4 class="title" id="modalTermoParticipanteLabel">Termo de responsabilidade</h4>
     </div>
@@ -149,9 +149,10 @@ $variables = [
         $('#formAceitaTermo').submit(function(e){
             e.preventDefault();
             let Form = $(this).serialize();
+            const idPrevenda = $('#formAceitaTermo').data('id-prevenda');
             $.post('./blocos/aceita-termo.php', Form, function(data){
-                console.log(data);
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: <?= $row_dados_participante[0]['id_prevenda'] ?>}, function(){
+                // console.log(data);
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: idPrevenda}, function(){
                     $('#modalTermoParticipante').modal('hide');
                 });
                 
