@@ -104,12 +104,7 @@ if ($pre->rowCount()>0) {
         <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
     </div>
 </form>
-<script>
-    $(document).ready(function() {
-        $('#termos').css('border', '2px solid red');    
-    });
-    
-</script>
+
 
 <?php if ($var_nome=="") { ?>
     
