@@ -6,3 +6,12 @@
 /admin/_pagamento.php
 /admin/_lixo/
 /_lixo/
+/logs/
+/.dccache
+.dccache
+/admin/error_log
+/error_log
+php.ini
+*.log
+*.sql
+*.pem
