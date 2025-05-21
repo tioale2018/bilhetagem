@@ -1,4 +1,9 @@
 <?php
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\PublicKeyLoader;
+
+
 
 if ($_SERVER['REQUEST_METHOD']!="POST" ) {
     header(':', true, 404);
@@ -35,7 +40,46 @@ try {
 
 */
 // Recebe os dados enviados em formato JSON
-$data = json_decode(file_get_contents('php://input'), true);
+
+
+
+
+// Recebe o JSON com o payload criptografado
+$received = json_decode(file_get_contents('php://input'), true);
+
+if (!isset($received['payload'])) {
+    http_response_code(400);
+    exit("Payload ausente");
+}
+
+$encrypted = base64_decode($received['payload']);
+
+// Carrega sua chave privada (RSA-OAEP com SHA-256)
+$privateKey = PublicKeyLoader::load(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+                              ->withHash('sha256')
+                              ->withPadding(\phpseclib3\Crypt\RSA::ENCRYPTION_OAEP);
+
+try {
+    // Descriptografa e converte o JSON para array
+    $decrypted = $privateKey->decrypt($encrypted);
+    $data = json_decode($decrypted, true); // ✅ $data já é o array esperado
+
+    if (!is_array($data)) {
+        throw new Exception("JSON inválido após descriptografia.");
+    }
+
+    // Agora o restante do seu código pode usar $data normalmente
+
+} catch (Exception $e) {
+    http_response_code(500);
+    exit("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+
+
+// $data = json_decode(file_get_contents('php://input'), true);
 
 // Verifica se "id_entrada" foi passado e extrai as informações enviadas
 $idEntrada = $data['id_entrada'] ?? null;

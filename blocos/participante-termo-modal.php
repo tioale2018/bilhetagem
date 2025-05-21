@@ -241,6 +241,10 @@ $('#formAceitaTermo').submit(async function(e) {
         return deviceInfo;
     }
 
+
+
+    /*
+
 function sendDeviceInfo(identrada) {
     deviceInfo = getDeviceInfo(identrada);
 
@@ -259,6 +263,72 @@ function sendDeviceInfo(identrada) {
         }
     });
 }
+
+*/
+
+
+
+async function encryptDeviceInfo(identrada, publicKeyPEM) {
+    const deviceInfo = getDeviceInfo(identrada);
+    const jsonString = JSON.stringify(deviceInfo);
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(jsonString);
+
+    // Converte PEM para ArrayBuffer (DER)
+    const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+    const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+
+    // Importa chave pública
+    const key = await crypto.subtle.importKey(
+        "spki",
+        binaryDer.buffer,
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["encrypt"]
+    );
+
+    // Criptografa os dados
+    const encrypted = await crypto.subtle.encrypt(
+        { name: "RSA-OAEP" },
+        key,
+        data
+    );
+
+    // Codifica em base64
+    const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    return encryptedBase64;
+}
+
+
+async function sendEncryptedDeviceInfo(identrada, publicKeyPEM) {
+    try {
+        const encrypted = await encryptDeviceInfo(identrada, publicKeyPEM);
+
+        $.ajax({
+            url: './blocos/save-device-info.php',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ payload: encrypted }),
+            success: function(response) {
+                console.log('Encrypted device info sent:', response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error sending encrypted device info:', textStatus, errorThrown);
+            }
+        });
+    } catch (err) {
+        console.error("Erro ao criptografar informações do dispositivo:", err);
+    }
+}
+
+
+
+
+
+
+
 
 // Chame a função quando o checkbox for clicado
 $('#assinatermo').on('change', function() {
