@@ -84,7 +84,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
             <div class="col-lg-5 col-md-12 offset-lg-1">
                     <div class="card-plain">
                         <div class="header">
-                            <h5>Preencha o cadastro</h5>
+                            <h5>Preencha o cadastro com seus dados</h5>
                             <?php /*<p>Acesse aqui as <a href="" class="regrasparque">regras do parque</a></p> */ ?>
                             <p class="mt-1"><span>Informe abaixo os dados do responsável pelos participantes</span></p>
                         </div>
