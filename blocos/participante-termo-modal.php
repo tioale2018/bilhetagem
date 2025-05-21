@@ -329,7 +329,7 @@ async function sendEncryptedDeviceInfo(identrada, publicKeyPEM) {
 
 
 
-
+/*
 // Chame a função quando o checkbox for clicado
 $('#assinatermo').on('change', function() {
     if ($(this).is(':checked')) {
@@ -339,6 +339,23 @@ $('#assinatermo').on('change', function() {
     }
 });
 
+*/
+
+$('#assinatermo').on('change', function() {
+    if ($(this).is(':checked')) {
+        // Obtém o valor de identrada do atributo data-identrada
+        const identrada = $(this).data('identrada');
+
+        // Verifica se a chave pública está disponível
+        if (typeof publicKeyPEM === 'undefined') {
+            console.error('Chave pública não encontrada (publicKeyPEM).');
+            return;
+        }
+
+        // Chama a função de envio criptografado
+        sendEncryptedDeviceInfo(identrada, publicKeyPEM);
+    }
+});
 
     })
 </script>
