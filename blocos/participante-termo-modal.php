@@ -212,9 +212,9 @@ $('#formAceitaTermo').submit(async function(e) {
         $(form).find('[name]').removeAttr('name');
 
         // Envia os dados criptografados
-        alert(encryptedData['i']);
+        // alert(encryptedData['i']);
         $.post('./blocos/aceita-termo.php', encryptedData, function() {
-            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encodedId }, function() {
                 $('#modalTermoParticipante').modal('hide');
             });
         });
