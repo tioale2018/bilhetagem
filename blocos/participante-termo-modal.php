@@ -399,7 +399,7 @@ $('#assinatermo').on('change', function() {
     }
 });
 
-
+/*
 
 $('#assinatermo').on('change', function() {
     if ($(this).is(':checked')) {
@@ -416,7 +416,7 @@ $('#assinatermo').on('change', function() {
         sendEncryptedDeviceInfo(identrada, publicKeyPEM);
     }
 });
-
+*/
     })
 </script>
 
