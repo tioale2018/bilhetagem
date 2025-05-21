@@ -236,8 +236,8 @@ $variables = [
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
-        alert('oi');
-/*
+        // alert('oi');
+
         const form = this;
 
         const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
@@ -285,7 +285,7 @@ $variables = [
         } catch (error) {
             console.error("Erro ao criptografar o formulário:", error);
         }
-*/
+
         
     });
 
