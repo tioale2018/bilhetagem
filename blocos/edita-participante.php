@@ -321,17 +321,20 @@ $('#formEditaParticipante').submit(async function (e) {
 
     // Inclui qualquer campo extra como idprevenda
     formDataObj['idprevenda'] = $('input[name="idprevenda"]').val();
+    id = formDatataObj['idprevenda'];
 
     try {
         const encryptedPayload = await encryptFormDataHybrid(formDataObj, publicKeyPEM);
+        const encryptedID = await encryptRSA(id.toString(), publicKeyPEM);
 
         // Envia os dados criptografados via POST
         $.post('./blocos/participante-atualiza.php', encryptedPayload, function (data) {
+            console.log(data);
             // Aqui o servidor retorna algo (opcional)
             $('#modalEditaParticipante').modal('toggle');
 
             // Atualiza a lista de vinculados (recarrega via AJAX)
-            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', null);
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedID });
         });
 
     } catch (err) {
