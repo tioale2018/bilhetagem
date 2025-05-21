@@ -25,9 +25,13 @@ header("Content-Security-Policy:
     object-src 'none'; 
     frame-ancestors 'self';");
 */
-ini_set('session.cookie_secure', 1);      // Só HTTPS
-ini_set('session.cookie_httponly', 1);    // Bloqueia acesso via JavaScript
-ini_set('session.cookie_samesite', 'Strict'); // Restringe envio cross-site
+
+if (session_status() == PHP_SESSION_NONE) {
+    ini_set('session.cookie_secure', 1);      // Só HTTPS
+    ini_set('session.cookie_httponly', 1);    // Bloqueia acesso via JavaScript
+    ini_set('session.cookie_samesite', 'Strict'); // Restringe envio cross-site
+}
+
 
 session_start();
 
