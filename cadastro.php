@@ -181,7 +181,7 @@ include_once("./inc/funcoes.php");
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
-<script src="./js/safe.js"></script>
+<script src="./js/safe.js?t=<?= filemtime('./js/safe.js') ?>"></script>
 <script>
     $(document).ready(function(){
 
