@@ -10,10 +10,11 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withHash('sha256');
 
 // Decodifica a senha criptografada
-$encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+// $identrada = $_POST['participante'];
+$encrypted_identrada     = base64_decode($_POST['participante'] ?? '');
 
 try {
-    $cpf        = $privateKey->decrypt($encrypted_cpf);
+    $identrada        = $privateKey->decrypt($encrypted_identrada);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' ) {
 session_start();
 include('../inc/conexao.php');
 
-$identrada = $_POST['participante'];
+// $identrada = $_POST['participante'];
 $horaagora = time();
 
 $sql_verifica_responsavel = "SELECT tbentrada.id_vinculado, tbvinculados.id_responsavel FROM tbentrada 

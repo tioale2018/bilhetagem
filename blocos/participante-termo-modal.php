@@ -21,14 +21,6 @@ try {
 
 
 
-/*
-if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
-    header(':', true, 404);
-    header('X-PHP-Response-Code: 404', true, 404);
-    die(0);
-}
-*/
-
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
