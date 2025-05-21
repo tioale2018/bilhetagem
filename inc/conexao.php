@@ -10,6 +10,10 @@ header("X-XSS-Protection: 1; mode=block"); // Protege contra XSS
 header("X-Content-Type-Options: nosniff"); // Previne MIME sniffing
 // header("Referrer-Policy: no-referrer"); // Controla o envio de informações de referência
 
+ini_set('session.cookie_secure', 1);      // Só HTTPS
+ini_set('session.cookie_httponly', 1);    // Bloqueia acesso via JavaScript
+ini_set('session.cookie_samesite', 'Strict'); // Restringe envio cross-site
+
 session_start();
 
 // Generate CSRF token if not already set
