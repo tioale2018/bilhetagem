@@ -145,7 +145,7 @@ mQIDAQAB
 -----END PUBLIC KEY-----`;
 
     $(document).ready(function(){
-
+/*
         $('body').on('click', '.btnModalEditaParticipante', function() {
             let i = $(this).data('idparticipante');
             let j = $(this).data('idprevenda');
@@ -153,25 +153,59 @@ mQIDAQAB
             $('#modalEditaParticipante').modal();
             $('#formParticipanteContent').load('./blocos/edita-participante.php', {p:i, e:j});
         });
+*/
 
-/*
+$('body').on('click', '.btnModalEditaParticipante', async function () {
+    const idParticipante = $(this).data('idparticipante');
+    const idPrevenda = $(this).data('idprevenda');
 
-        $('body').on('click', '.btnModalTermoParticipante', function(e) {
-            e.preventDefault();
-            let i = $(this).data('id');
-            
-            $('#modalTermoParticipante').modal();
-            $('#formTermoParticipante').load('./blocos/participante-termo-modal.php', {i:i});
+    try {
+        // Garante que a chave pública está definida
+        if (typeof publicKeyPEM === 'undefined') {
+            console.error("Chave pública não está definida.");
+            return;
+        }
+
+        const encoder = new TextEncoder();
+
+        // Converte PEM para DER binário
+        const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+        const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+
+        const publicKey = await crypto.subtle.importKey(
+            "spki",
+            binaryDer.buffer,
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        // Criptografa os dois valores
+        const encryptedIdParticipante = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, encoder.encode(idParticipante.toString()));
+        const encryptedIdPrevenda = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, encoder.encode(idPrevenda.toString()));
+
+        // Converte para Base64
+        const encodedP = btoa(String.fromCharCode(...new Uint8Array(encryptedIdParticipante)));
+        const encodedE = btoa(String.fromCharCode(...new Uint8Array(encryptedIdPrevenda)));
+
+        // Exibe modal e carrega conteúdo com dados criptografados
+        $('#modalEditaParticipante').modal();
+
+        // Usa jQuery.ajax para permitir envio via POST
+        $.post('./blocos/edita-participante.php', { p: encodedP, e: encodedE }, function (data) {
+            $('#formParticipanteContent').html(data);
         });
 
-        */
+    } catch (err) {
+        console.error("Erro ao criptografar os parâmetros:", err);
+    }
+});
+
+
+
 
         $('body').on('click', '.btnModalTermoParticipante', async function(e) {
             e.preventDefault();
-
-        //     const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-        // ... SUA CHAVE AQUI ...
-        // -----END PUBLIC KEY-----`;
 
             let id = $(this).data('id');
 
@@ -190,9 +224,6 @@ mQIDAQAB
                 console.error("Erro ao criptografar o ID:", error);
             }
         });
-
-
-
 
 
         $('.excluivinculo').on('click', function(){
