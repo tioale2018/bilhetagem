@@ -232,11 +232,12 @@ mQIDAQAB
 
         */
 
-        /*
+
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
-
+        alert('oi');
+/*
         const form = this;
 
         const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
@@ -284,11 +285,14 @@ mQIDAQAB
         } catch (error) {
             console.error("Erro ao criptografar o formulário:", error);
         }
+
+        */
     });
 
-*/
+
 
     // $('#btnSalvarTermo').on('click', async function() {
+/*
     $('#formAceitaTermo').submit(async function(e) {
         
         e.preventDefault();
@@ -342,7 +346,7 @@ mQIDAQAB
         }
     });
 
-
+*/
 
     function getDeviceInfo(identrada) {
         // Coleta as informações do dispositivo via JavaScript
