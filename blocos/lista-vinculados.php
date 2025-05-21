@@ -10,7 +10,12 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withHash('sha256');
 
 // Decodifica a senha criptografada
-$encrypted_i      = base64_decode($_POST['i'] ?? '');
+if (isset($_POST['id_prevenda_seguro'])) {
+    $encrypted_i      = base64_decode($_POST['id_prevenda_seguro'] ?? '');
+} else {
+    $encrypted_i      = base64_decode($_POST['i'] ?? '');
+}
+
 // $idprevenda = intval($_POST['i']);
 
 try {
