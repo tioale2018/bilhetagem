@@ -3,32 +3,76 @@ require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\AES;
+
+// Carrega a chave privada RSA
+$privateKey = PublicKeyLoader::loadPrivateKey(
+    file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem')
+)->withPadding(RSA::ENCRYPTION_OAEP)->withHash('sha256');
+
+// Recebe os dados JSON da requisição
+$input = json_decode(file_get_contents('php://input'), true);
+
+// Verifica se os campos necessários estão presentes
+if (!isset($input['key']) || !isset($input['iv']) || !isset($input['ciphertext']) || !isset($input['tag'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Dados incompletos para descriptografia.']);
+    exit;
+}
+
+try {
+    // Descriptografa a chave AES usando a chave privada RSA
+    $aesKey = $privateKey->decrypt(base64_decode($input['key']));
+
+    // Inicializa o AES em modo GCM
+    $aes = new AES('gcm');
+    $aes->setKey($aesKey);
+    $aes->setIV(base64_decode($input['iv']));
+    $aes->setTag(base64_decode($input['tag']));
+    $aes->setAAD(''); // Opcional
+
+    // Descriptografa os dados
+    $decryptedJson = $aes->decrypt(base64_decode($input['ciphertext']));
+
+    if (!$decryptedJson) {
+        throw new Exception('Falha na descriptografia AES.');
+    }
+
+    // Converte o JSON para array
+    $data = json_decode($decryptedJson, true);
+    if (!is_array($data)) {
+        throw new Exception('JSON inválido após descriptografia.');
+    }
+
+    // Agora você pode acessar os dados normalmente
+    $nome          = $data['nome'] ?? '';
+    $nascimento    = $data['nascimento'] ?? '';
+    $vinculo       = $data['vinculo'] ?? '';
+    $pacote        = $data['pacote'] ?? '';
+    $idresponsavel = $data['idresponsavel'] ?? '';
+    $idprevenda    = $data['idprevenda'] ?? '';
+    $idvinculado   = $data['idvinculado'] ?? '';
+    $identrada     = $data['identrada'] ?? '';
+
+    // (Opcional) Processa os dados como quiser aqui...
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Erro ao descriptografar: ' . $e->getMessage()]);
+    exit;
+}
+
+
+/*
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 // Lê a chave privada
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
     ->withPadding(RSA::ENCRYPTION_OAEP)
     ->withHash('sha256');
-/*
-// Decodifica a senha criptografada
-if (isset($_POST['id_prevenda_seguro'])) {
-    $encrypted_i      = base64_decode($_POST['id_prevenda_seguro'] ?? '');
-} else {
-    $encrypted_i      = base64_decode($_POST['i'] ?? '');
-}
-*/
-
-
-// $nome          = $_POST['nome'];
-// $nascimento    = convertDateToYMD($_POST['nascimento']);
-// $vinculo       = $_POST['vinculo'];
-// $pacote        = $_POST['pacote'];
-// $idresponsavel = $_POST['idresponsavel'];
-// $idprevenda    = $_POST['idprevenda'];
-// $idvinculado   = $_POST['idvinculado'];
-// $identrada     = $_POST['identrada'];
-
-// $lembrar       = (isset($_POST['melembrar'])?1:0);
-
 
 $encrypted_nome      = base64_decode($_POST['nome'] ?? '');
 $encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
@@ -54,6 +98,10 @@ try {
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
+
+
+*/
+
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
