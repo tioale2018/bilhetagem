@@ -94,7 +94,7 @@ if ($pre->rowCount()>0) {
     </div>  
               
     <div class="checkbox">
-        <input id="termos" type="checkbox" name="termos" value="1" required style="border: 1px solid #f00!important;">
+        <input id="termos" type="checkbox" name="termos" value="1" required style="border: 1px solid #f00">
         <label for="termos">Li e concordo com as  <a href="" id="regras">termos de uso dos dados</a>.</label>
     </div>                            
 
