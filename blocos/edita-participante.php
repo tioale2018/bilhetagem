@@ -208,58 +208,84 @@ $(document).ready(function() {
     */
 
 
-    async function encryptFormDataHybrid(formDataObj, publicKeyPEM) {
-        const encoder = new TextEncoder();
-        const jsonStr = JSON.stringify(formDataObj);
-        const encodedData = encoder.encode(jsonStr);
+    async function encryptFormDataHybrid(formElement, publicKeyPEM, extraData = {}) {
+        // 1. Coleta os dados do formulário em um objeto
+        const formData = new FormData(formElement);
+        let dataObject = {};
 
-        // Gera chave AES aleatória (256 bits)
-        const aesKey = await crypto.subtle.generateKey(
-            { name: "AES-GCM", length: 256 },
-            true,
-            ["encrypt", "decrypt"]
+        formData.forEach((value, key) => {
+            dataObject[key] = value;
+        });
+
+        // Adiciona dados extras manualmente (como idprevenda via variável externa)
+        Object.assign(dataObject, extraData);
+
+        // 2. Converte os dados em JSON
+        const jsonString = JSON.stringify(dataObject);
+
+        // 3. Gera uma chave AES aleatória de 256 bits
+        const aesKey = crypto.getRandomValues(new Uint8Array(32));
+        const iv = crypto.getRandomValues(new Uint8Array(12)); // 96 bits para AES-GCM
+
+        // 4. Criptografa os dados com AES-GCM
+        const enc = new TextEncoder();
+        const aesKeyCrypto = await crypto.subtle.importKey(
+            "raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]
         );
 
-        // Vetor de inicialização (IV) aleatório de 12 bytes
-        const iv = crypto.getRandomValues(new Uint8Array(12));
-
-        // Criptografa os dados com AES-GCM
-        const encryptedDataBuffer = await crypto.subtle.encrypt(
+        const ciphertextBuffer = await crypto.subtle.encrypt(
             { name: "AES-GCM", iv: iv },
-            aesKey,
-            encodedData
+            aesKeyCrypto,
+            enc.encode(jsonString)
         );
 
-        // Importa a chave pública RSA
-        const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
-        const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
-        const publicKey = await crypto.subtle.importKey(
+        // 5. Importa a chave pública RSA
+        const rsaKey = await window.crypto.subtle.importKey(
             "spki",
-            binaryDer.buffer,
-            { name: "RSA-OAEP", hash: "SHA-256" },
+            pemToArrayBuffer(publicKeyPEM),
+            {
+                name: "RSA-OAEP",
+                hash: "SHA-256",
+            },
             false,
             ["encrypt"]
         );
 
-        // Exporta e criptografa a chave AES com RSA
-        const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
-        const encryptedKeyBuffer = await crypto.subtle.encrypt(
+        // 6. Criptografa a chave AES com RSA
+        const encryptedKey = await window.crypto.subtle.encrypt(
             { name: "RSA-OAEP" },
-            publicKey,
-            rawAesKey
+            rsaKey,
+            aesKey
         );
 
-        // Converte para Base64
-        const encryptedDataBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedDataBuffer)));
-        const encryptedKeyBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedKeyBuffer)));
-        const ivBase64 = btoa(String.fromCharCode(...iv));
+        // 7. Divide a cifra AES-GCM em partes: tag + dados
+        const ciphertext = new Uint8Array(ciphertextBuffer);
+        const tagLength = 16; // 128 bits
+        const tag = ciphertext.slice(ciphertext.length - tagLength);
+        const encryptedData = ciphertext.slice(0, ciphertext.length - tagLength);
 
+        // 8. Retorna o payload final
         return {
-            encryptedKey: encryptedKeyBase64,
-            encryptedData: encryptedDataBase64,
-            iv: ivBase64
+            key: btoa(String.fromCharCode(...new Uint8Array(encryptedKey))),
+            iv: btoa(String.fromCharCode(...iv)),
+            tag: btoa(String.fromCharCode(...tag)),
+            ciphertext: btoa(String.fromCharCode(...encryptedData))
         };
     }
+
+    // Função auxiliar: converte PEM para ArrayBuffer
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
+        const binary = atob(b64);
+        const len = binary.length;
+        const buffer = new ArrayBuffer(len);
+        const view = new Uint8Array(buffer);
+        for (let i = 0; i < len; i++) {
+            view[i] = binary.charCodeAt(i);
+        }
+        return buffer;
+    }
+
 
 /*
 
@@ -299,6 +325,41 @@ $('#formEditaParticipante').submit(async function (e) {
 });
 
 */
+$('#formEditaParticipante').submit(async function(e){
+    e.preventDefault();
+
+    const form = this;
+    const idPrevenda = $('input[name="idprevenda"]').val();
+    // const publicKeyPEM = await fetch('./chaves/chave_publica.pem').then(res => res.text());
+
+    try {
+        const encrypted = await encryptFormDataHybrid(form, publicKeyPEM, {
+            idprevenda: idPrevenda // garante que está incluso no JSON final
+        });
+
+        // Envia para o PHP via POST
+        const response = await fetch('./blocos/participante-atualiza.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(encrypted)
+        });
+
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+
+        // Após sucesso, carrega a lista atualizada
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {
+            i: idPrevenda // <- você pode criptografar isso também, se necessário
+        }, function(){
+            $('#modalEditaParticipante').modal('toggle');
+        });
+
+    } catch (error) {
+        console.error("Erro ao criptografar dados do formulário:", error);
+    }
+});
+
+/*
 
 $('#formEditaParticipante').submit(async function (e) {
     e.preventDefault();
@@ -342,7 +403,7 @@ $('#formEditaParticipante').submit(async function (e) {
     }
 });
 
-
+*/
 
 });
 </script>
