@@ -5,7 +5,7 @@
 
 header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 header("X-Frame-Options: DENY"); // Protege contra clickjacking
-// header("Content-Security-Policy: frame-ancestors 'self';"); // Restringe o uso de iframes
+header("Content-Security-Policy: frame-ancestors 'self';"); // Restringe o uso de iframes
 header("X-XSS-Protection: 1; mode=block"); // Protege contra XSS
 header("X-Content-Type-Options: nosniff"); // Previne MIME sniffing
 // header("Referrer-Policy: no-referrer"); // Controla o envio de informações de referência
@@ -15,7 +15,7 @@ header("X-Content-Type-Options: nosniff"); // Previne MIME sniffing
 
 // Apaga o header que expõe o servidor (como "X-Powered-By: PHP/8.3.0")
 header_remove("X-Powered-By");
-
+/*
 header("Content-Security-Policy: 
     default-src 'self'; 
     script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; 
@@ -24,9 +24,7 @@ header("Content-Security-Policy:
     img-src 'self' data:; 
     object-src 'none'; 
     frame-ancestors 'self';");
-
-
-
+*/
 ini_set('session.cookie_secure', 1);      // Só HTTPS
 ini_set('session.cookie_httponly', 1);    // Bloqueia acesso via JavaScript
 ini_set('session.cookie_samesite', 'Strict'); // Restringe envio cross-site
