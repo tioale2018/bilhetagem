@@ -1,14 +1,14 @@
 <?php
+/*
 require '../../vendor/autoload.php';
-
 use phpseclib3\Crypt\PublicKeyLoader;
+*/
 
 
-
-if ($_SERVER['REQUEST_METHOD']!="POST" ) {
-    header(':', true, 404);
+if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
-    die(0);
+    http_response_code(404);
+    exit('Requisição inválida.');
 }
 
 session_start(); 
@@ -62,7 +62,7 @@ $privateKey = PublicKeyLoader::load(file_get_contents(__DIR__ . '/../../chaves/c
 try {
     // Descriptografa e converte o JSON para array
     $decrypted = $privateKey->decrypt($encrypted);
-    $data = json_decode($decrypted, true); // ✅ $data já é o array esperado
+    $data = json_decode($decrypted, true); //  $data já é o array esperado
 
     if (!is_array($data)) {
         throw new Exception("JSON inválido após descriptografia.");
@@ -79,7 +79,7 @@ try {
 
 
 
-
+/*
 // Caminho para a chave privada
 $privateKeyPEM = file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem');
 
@@ -159,11 +159,11 @@ $data = [
 // (Opcional) Resposta para confirmar sucesso
 // echo json_encode(['status' => 'ok', 'data' => $data]);
 
+*/
 
 
 
-
-// $data = json_decode(file_get_contents('php://input'), true);
+$data = json_decode(file_get_contents('php://input'), true);
 
 // Verifica se "id_entrada" foi passado e extrai as informações enviadas
 $idEntrada = $data['id_entrada'] ?? null;

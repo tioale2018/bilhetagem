@@ -243,7 +243,7 @@ $('#formAceitaTermo').submit(async function(e) {
 
 
 
-    /*
+
 
 function sendDeviceInfo(identrada) {
     deviceInfo = getDeviceInfo(identrada);
@@ -264,7 +264,7 @@ function sendDeviceInfo(identrada) {
     });
 }
 
-*/
+
 
 
 /*
@@ -300,7 +300,7 @@ async function encryptDeviceInfo(identrada, publicKeyPEM) {
     return encryptedBase64;
 }
 */
-
+/*
 async function encryptDeviceInfo(identrada, publicKeyPEM) {
     const deviceInfo = {
         id_entrada: identrada,
@@ -383,13 +383,13 @@ async function sendEncryptedDeviceInfo(identrada, publicKeyPEM) {
     }
 }
 
+*/
 
 
 
 
 
 
-/*
 // Chame a função quando o checkbox for clicado
 $('#assinatermo').on('change', function() {
     if ($(this).is(':checked')) {
@@ -399,7 +399,7 @@ $('#assinatermo').on('change', function() {
     }
 });
 
-*/
+
 
 $('#assinatermo').on('change', function() {
     if ($(this).is(':checked')) {
