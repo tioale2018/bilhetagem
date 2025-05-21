@@ -36,6 +36,7 @@ session_start();
 include('../inc/conexao.php');
 include('../inc/funcoes.php');
 
+echo "responsavale: ".$_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 $sql = "SELECT tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbvinculados.tipo, tbvinculo.descricao as tipovinculo, tbvinculados.lembrar, tbentrada.id_pacote, tbperfil_acesso.titulo as perfil, tbprevenda.id_evento, tbentrada.id_prevenda,  tbentrada.autoriza
 FROM tbentrada
