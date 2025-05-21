@@ -232,6 +232,7 @@ $variables = [
 
         */
 
+        /*
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
@@ -287,7 +288,7 @@ $variables = [
         
     });
 
-
+*/
 
     // $('#btnSalvarTermo').on('click', async function() {
 /*
@@ -345,6 +346,78 @@ $variables = [
     });
 
 */
+
+
+$('#formAceitaTermo').submit(async function(e) {
+    e.preventDefault();
+
+    const form = this;
+    const idPrevenda = $(form).data('id-prevenda');
+
+    if (typeof encryptFormFields !== "function") {
+        alert("Função de criptografia não encontrada. Verifique se safe.js foi carregado.");
+        return;
+    }
+
+    try {
+        // Criptografa campos "permitidos" por safe.js
+        const encryptedData = await encryptFormFields(form, publicKeyPEM);
+
+        // Configura chave pública
+        const encoder = new TextEncoder();
+        const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+        const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+        const key = await crypto.subtle.importKey(
+            "spki",
+            binaryDer.buffer,
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        // Criptografa manualmente os inputs type=hidden
+        const hiddenInputs = $(form).find('input[type="hidden"][name]');
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            const input = hiddenInputs[i];
+            const name = input.name;
+            const value = input.value;
+
+            if (!name || !value) continue;
+
+            const encrypted = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(value)
+            );
+
+            const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+            encryptedData[name] = encoded;
+        }
+
+        // Criptografa idPrevenda também
+        const encryptedId = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(idPrevenda.toString())
+        );
+        const encodedId = btoa(String.fromCharCode(...new Uint8Array(encryptedId)));
+        encryptedData['id_prevenda_seguro'] = encodedId;
+
+        // Remove os name dos inputs para evitar envio normal
+        $(form).find('[name]').removeAttr('name');
+
+        // Envia os dados criptografados
+        $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
+                $('#modalTermoParticipante').modal('hide');
+            });
+        });
+
+    } catch (error) {
+        console.error("Erro ao criptografar o formulário:", error);
+    }
+});
+
 
     function getDeviceInfo(identrada) {
         // Coleta as informações do dispositivo via JavaScript
