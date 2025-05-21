@@ -170,6 +170,9 @@ mQIDAQAB
         });
         */
 
+
+
+/*
         $('#formAceitaTermo').submit(async function(e) {
             e.preventDefault();
 
@@ -224,21 +227,76 @@ mQIDAQAB
         });
 
 
-        function getDeviceInfo(identrada) {
-            // Coleta as informações do dispositivo via JavaScript
-            const deviceInfo = {
-                id_entrada: identrada,                                 // Adiciona o valor de id_entrada
-                userAgent: navigator.userAgent,                        // User-Agent string
-                screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
-                deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop', // Device type
-                browserLanguage: navigator.language || navigator.userLanguage, // Browser language
-                operatingSystem: navigator.platform,                   // Operating system
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Timezone
-                connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown' // Connection type
-            };
+        */
 
-            return deviceInfo;
+
+    $('#formAceitaTermo').submit(async function(e) {
+        e.preventDefault();
+
+        const form = this;
+
+        const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
+
+        if (typeof encryptFormFields !== "function") {
+            alert("Função de criptografia não encontrada. Verifique se safe.js foi carregado.");
+            return;
         }
+
+        try {
+            const encryptedData = await encryptFormFields(form, publicKeyPEM);
+
+            const encoder = new TextEncoder();
+            const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+            const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+            const key = await crypto.subtle.importKey(
+                "spki",
+                binaryDer.buffer,
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+            const encryptedId = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(idPrevenda.toString())
+            );
+            const encodedId = btoa(String.fromCharCode(...new Uint8Array(encryptedId)));
+
+            encryptedData['id_prevenda_seguro'] = encodedId;
+
+            // REMOVE os campos do formulário antes de enviar (evita envio automático de dados puros)
+            $(form).find(':input[name]').removeAttr('name');
+
+            $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
+                console.log(data);
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
+                    $('#modalTermoParticipante').modal('hide');
+                });
+            });
+
+        } catch (error) {
+            console.error("Erro ao criptografar o formulário:", error);
+        }
+    });
+
+
+
+
+    function getDeviceInfo(identrada) {
+        // Coleta as informações do dispositivo via JavaScript
+        const deviceInfo = {
+            id_entrada: identrada,                                 // Adiciona o valor de id_entrada
+            userAgent: navigator.userAgent,                        // User-Agent string
+            screenResolution: `${window.screen.width}x${window.screen.height}`, // Screen resolution
+            deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop', // Device type
+            browserLanguage: navigator.language || navigator.userLanguage, // Browser language
+            operatingSystem: navigator.platform,                   // Operating system
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Timezone
+            connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown' // Connection type
+        };
+
+        return deviceInfo;
+    }
 
 function sendDeviceInfo(identrada) {
     deviceInfo = getDeviceInfo(identrada);
