@@ -21,8 +21,10 @@ header("Content-Security-Policy:
     script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; 
     style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
     font-src 'self' https://fonts.gstatic.com; 
-    object-src 'none';
-    img-src 'self' data:;");
+    img-src 'self' data:; 
+    object-src 'none'; 
+    frame-ancestors 'self';");
+
 
 
 ini_set('session.cookie_secure', 1);      // Só HTTPS
