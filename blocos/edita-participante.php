@@ -321,7 +321,7 @@ $('#formEditaParticipante').submit(async function (e) {
 
     // Inclui qualquer campo extra como idprevenda
     formDataObj['idprevenda'] = $('input[name="idprevenda"]').val();
-    id = formDatataObj['idprevenda'];
+    id = formDataObj['idprevenda'];
 
     try {
         const encryptedPayload = await encryptFormDataHybrid(formDataObj, publicKeyPEM);
