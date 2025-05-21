@@ -9,7 +9,7 @@ LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
 mQIDAQAB
 -----END PUBLIC KEY-----`;
 
-    document.getElementById('meu-form').addEventListener('submit', async function(e) {
+    document.getElementById('form-busca-cpf').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         try {
