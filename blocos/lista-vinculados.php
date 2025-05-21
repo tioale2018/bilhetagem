@@ -8,14 +8,14 @@ use phpseclib3\Crypt\PublicKeyLoader;
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
     ->withPadding(RSA::ENCRYPTION_OAEP)
     ->withHash('sha256');
-
+/*
 // Decodifica a senha criptografada
 if (isset($_POST['id_prevenda_seguro'])) {
     $encrypted_i      = base64_decode($_POST['id_prevenda_seguro'] ?? '');
 } else {
     $encrypted_i      = base64_decode($_POST['i'] ?? '');
 }
-
+*/
 // $encrypted_i      = base64_decode($_POST['i'] ?? '');
 // $idprevenda = intval($_POST['i']);
 

@@ -205,7 +205,8 @@ $('#formAceitaTermo').submit(async function(e) {
             encoder.encode(idPrevenda.toString())
         );
         const encodedId = btoa(String.fromCharCode(...new Uint8Array(encryptedId)));
-        encryptedData['id_prevenda_seguro'] = encodedId;
+        // encryptedData['id_prevenda_seguro'] = encodedId;
+        encryptedData['i'] = encodedId;
 
         // Remove os name dos inputs para evitar envio normal
         $(form).find('[name]').removeAttr('name');
