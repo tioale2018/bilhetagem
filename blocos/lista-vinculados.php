@@ -16,7 +16,7 @@ if (isset($_POST['id_prevenda_seguro'])) {
     $encrypted_i      = base64_decode($_POST['i'] ?? '');
 }
 */
-// $encrypted_i      = base64_decode($_POST['i'] ?? '');
+$encrypted_i      = base64_decode($_POST['i'] ?? '');
 // $idprevenda = intval($_POST['i']);
 
 try {
