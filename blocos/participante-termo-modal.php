@@ -139,7 +139,9 @@ $variables = [
     <div class="modal-footer">
         <input type="hidden" name="participante" value="<?= htmlspecialchars($identrada) ?>">
         <input type="hidden" name="testetermo" value="1">
-        <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" name="btaddparticipante" value="0">Salvar e autorizar</button>
+        <!-- <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" name="btaddparticipante" value="0">Salvar e autorizar</button> -->
+        <button type="button" class="btn btn-default btn-round waves-effect addparticipante" id="btnSalvarTermo">Salvar e autorizar</button>
+
     </div>
 </form>
 
@@ -230,6 +232,7 @@ mQIDAQAB
 
         */
 
+        /*
 
     $('#formAceitaTermo').submit(async function(e) {
         e.preventDefault();
@@ -283,6 +286,57 @@ mQIDAQAB
         }
     });
 
+*/
+
+    $('#btnSalvarTermo').on('click', async function() {
+        const form = $('#formAceitaTermo')[0];
+        const idPrevenda = $('.bloco-vinculados').data('id-prevenda');
+
+        if (typeof encryptFormFields !== "function") {
+            alert("Função de criptografia não encontrada. Verifique se safe.js foi carregado.");
+            return;
+        }
+
+        try {
+            const encryptedData = await encryptFormFields(form, publicKeyPEM);
+
+            // Criptografa manualmente o idPrevenda
+            const encoder = new TextEncoder();
+            const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+            const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+            const key = await crypto.subtle.importKey(
+                "spki",
+                binaryDer.buffer,
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+            const encryptedId = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(idPrevenda.toString())
+            );
+            const encodedId = btoa(String.fromCharCode(...new Uint8Array(encryptedId)));
+
+            encryptedData['id_prevenda_seguro'] = encodedId;
+
+            // Remove os atributos name para evitar envio implícito
+            $(form).find('[name]').each(function () {
+                $(this).removeAttr('name');
+            });
+
+            // Envia os dados via POST
+            $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
+                console.log(data);
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
+                    $('#modalTermoParticipante').modal('hide');
+                });
+            });
+
+        } catch (error) {
+            console.error("Erro ao criptografar o formulário:", error);
+        }
+    });
 
 
 
