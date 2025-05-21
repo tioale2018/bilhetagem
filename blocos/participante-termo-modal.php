@@ -262,7 +262,7 @@ mQIDAQAB
             );
             const encodedId = btoa(String.fromCharCode(...new Uint8Array(encryptedId)));
 
-            encryptedData['id_prevenda_seguro'] = encodedId;
+            // encryptedData['id_prevenda_seguro'] = encodedId;
 
             // REMOVE os campos do formulário antes de enviar (evita envio automático de dados puros)
             $(form).find(':input[name]').removeAttr('name');
