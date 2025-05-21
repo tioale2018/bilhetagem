@@ -126,8 +126,6 @@ $row = $pre->fetchAll();
 <script>
     $(document).ready(function(){
         $('select').selectpicker();
-
-        
     });
 </script>
 
@@ -184,11 +182,11 @@ $(document).ready(function() {
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
 
-
+/*
     $('#formEditaParticipante').submit(function(e){
         e.preventDefault();
         let Form = $(this);
-
+        let idPrevenda = $('input[name="idprevenda"]').val();
 
         var dateInput = $('#nasc').val();
         if (!isValidDate(dateInput)) {
@@ -200,17 +198,80 @@ $(document).ready(function() {
 
               $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
 
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
-                    $('#modalEditaParticipante').modal('toggle');
-                    
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:idPrevenda }, function(){
+                    $('#modalEditaParticipante').modal('toggle'); 
                 });
-
             });
-
-        }
-        
-        
+        }        
     });
+
+    */
+
+
+    $('#formEditaParticipante').submit(async function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const idPrevenda = $('input[name="idprevenda"]').val();
+    const dateInput = $('#nasc').val();
+
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    // Garante que a chave pública está definida
+    if (typeof publicKeyPEM === 'undefined') {
+        console.error("Chave pública não definida.");
+        return;
+    }
+
+    try {
+        const encoder = new TextEncoder();
+        const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+        const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+
+        const publicKey = await crypto.subtle.importKey(
+            "spki",
+            binaryDer.buffer,
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        // Constrói o objeto com todos os campos do formulário
+        const formDataObj = {};
+        form.serializeArray().forEach(item => {
+            formDataObj[item.name] = item.value;
+        });
+
+        // Adiciona manualmente o idPrevenda (caso queira garantir que está incluído)
+        formDataObj['idprevenda'] = idPrevenda;
+
+        // Converte em JSON e criptografa
+        const jsonStr = JSON.stringify(formDataObj);
+        const encoded = encoder.encode(jsonStr);
+
+        const encryptedBuffer = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, encoded);
+        const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedBuffer)));
+
+        // Envia os dados criptografados
+        $.post('./blocos/participante-atualiza.php', { payload: encryptedBase64 }, function (data) {
+            // Recarrega os participantes vinculados e fecha o modal
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function () {
+                $('#modalEditaParticipante').modal('toggle');
+            });
+        });
+
+    } catch (err) {
+        console.error("Erro ao criptografar dados do formulário:", err);
+    }
+});
+
+
+
 });
 </script>
 
