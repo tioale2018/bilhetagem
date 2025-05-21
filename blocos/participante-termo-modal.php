@@ -329,9 +329,9 @@ mQIDAQAB
             // Envia os dados via POST
             $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
                 console.log(data);
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
-                    $('#modalTermoParticipante').modal('hide');
-                });
+                // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
+                //     $('#modalTermoParticipante').modal('hide');
+                // });
             });
 
         } catch (error) {
