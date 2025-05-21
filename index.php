@@ -66,20 +66,6 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
         height: auto;
     }
 
-    #termos {
-        appearance: none;
-        -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid red;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-    }
-
-    #termos:checked {
-    background-color: red;
-    }
 </style>
 
 </head>

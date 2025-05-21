@@ -105,6 +105,12 @@ if ($pre->rowCount()>0) {
     </div>
 </form>
 
+<script>
+    $(document).ready(function() {
+        $('input#termos').css('border', '2px solid red');
+    });
+</script>
+
 
 <?php if ($var_nome=="") { ?>
     
