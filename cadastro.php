@@ -177,6 +177,7 @@ include_once("./inc/funcoes.php");
         </div>
     </div>
 </section>
+<input type="hidden" id="idPrevendaAtual" data-id-idprevenda="<?= $idPrevendaAtual ?>" />
 
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
@@ -184,8 +185,59 @@ include_once("./inc/funcoes.php");
 <script src="./js/safe.js?t=<?= filemtime('./js/safe.js') ?>"></script>
 <script>
     $(document).ready(function(){
+        const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+mQIDAQAB
+-----END PUBLIC KEY-----`;
 
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: <?= $idPrevendaAtual ?> });
+        let idPrevendaAtual = $('#idPrevendaAtual').data('id-idprevenda');
+
+        // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: idPrevendaAtual });
+
+        async function carregarListaVinculadosCriptografado(idPrevendaAtual) {
+            if (typeof crypto === 'undefined' || !crypto.subtle) {
+                alert("Navegador não suporta criptografia segura.");
+                return;
+            }
+
+            try {
+                const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+                const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+                const key = await crypto.subtle.importKey(
+                    "spki",
+                    binaryDer.buffer,
+                    { name: "RSA-OAEP", hash: "SHA-256" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encoder = new TextEncoder();
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(idPrevendaAtual.toString())
+                );
+
+                const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+
+                // Envia o ID criptografado
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encoded });
+
+            } catch (error) {
+                console.error("Erro ao criptografar o ID da pré-venda:", error);
+            }
+        }
+
+        carregarListaVinculadosCriptografado(idPrevendaAtual);
+
+
+
+
         
         $('form#formResponsavel').on('input change', function(){
             $('.btsalvar').attr('disabled', false);            
