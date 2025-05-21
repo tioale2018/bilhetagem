@@ -1,9 +1,40 @@
 <?php
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+//$identrada = $_POST['i'];
+// Decodifica a senha criptografada
+$encrypted_id      = base64_decode($_POST['i'] ?? '');
+
+try {
+    $identrada        = $privateKey->decrypt($encrypted_id);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+/*
 if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
     header(':', true, 404);
     header('X-PHP-Response-Code: 404', true, 404);
     die(0);
 }
+*/
+
+if ($_SERVER['REQUEST_METHOD']!="POST") {
+    header(':', true, 404);
+    header('X-PHP-Response-Code: 404', true, 404);
+    die(0);
+}
+
 session_start();
 
 include('../inc/conexao.php');
@@ -63,7 +94,7 @@ $row_busca_termo = $pre_busca_termo->fetchAll();
 
 // die(var_dump($row_busca_termo[0]));
 
-$identrada = $_POST['i'];
+// $identrada = $_POST['i'];
 $sql_dados_participante = "SELECT tbentrada.id_prevenda, tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.email FROM tbentrada inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel WHERE tbentrada.id_entrada=:identrada";
 
 $pre_dados_participante = $connPDO->prepare($sql_dados_participante);
