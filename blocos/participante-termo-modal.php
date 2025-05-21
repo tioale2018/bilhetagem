@@ -267,7 +267,7 @@ function sendDeviceInfo(identrada) {
 */
 
 
-
+/*
 async function encryptDeviceInfo(identrada, publicKeyPEM) {
     const deviceInfo = getDeviceInfo(identrada);
     const jsonString = JSON.stringify(deviceInfo);
@@ -298,6 +298,66 @@ async function encryptDeviceInfo(identrada, publicKeyPEM) {
     // Codifica em base64
     const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
     return encryptedBase64;
+}
+*/
+
+async function encryptDeviceInfo(identrada, publicKeyPEM) {
+    const deviceInfo = {
+        id_entrada: identrada,
+        userAgent: navigator.userAgent,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        deviceType: /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+        browserLanguage: navigator.language || navigator.userLanguage,
+        operatingSystem: navigator.platform,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        connectionType: navigator.connection ? navigator.connection.effectiveType : 'unknown'
+    };
+
+    const jsonString = JSON.stringify(deviceInfo);
+
+    // 1. Gera chave AES
+    const aesKey = await crypto.subtle.generateKey(
+        { name: "AES-GCM", length: 256 },
+        true,
+        ["encrypt"]
+    );
+
+    // 2. Gera IV
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    // 3. Criptografa os dados com AES
+    const encoded = new TextEncoder().encode(jsonString);
+    const ciphertext = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv },
+        aesKey,
+        encoded
+    );
+
+    // 4. Importa a chave pública
+    const pem = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+    const binaryDer = Uint8Array.from(atob(pem), c => c.charCodeAt(0));
+    const publicKey = await crypto.subtle.importKey(
+        "spki",
+        binaryDer.buffer,
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["encrypt"]
+    );
+
+    // 5. Exporta e criptografa a chave AES com RSA
+    const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+    const encryptedKey = await crypto.subtle.encrypt(
+        { name: "RSA-OAEP" },
+        publicKey,
+        rawAesKey
+    );
+
+    // 6. Retorna os dados em base64
+    return {
+        key: btoa(String.fromCharCode(...new Uint8Array(encryptedKey))),
+        iv: btoa(String.fromCharCode(...iv)),
+        data: btoa(String.fromCharCode(...new Uint8Array(ciphertext)))
+    };
 }
 
 

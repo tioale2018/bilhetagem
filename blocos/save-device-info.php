@@ -42,7 +42,7 @@ try {
 // Recebe os dados enviados em formato JSON
 
 
-
+/*
 
 // Recebe o JSON com o payload criptografado
 $received = json_decode(file_get_contents('php://input'), true);
@@ -74,6 +74,90 @@ try {
     http_response_code(500);
     exit("Erro ao descriptografar: " . $e->getMessage());
 }
+
+*/
+
+
+
+
+// Caminho para a chave privada
+$privateKeyPEM = file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem');
+
+
+// Ler JSON do input raw
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (!isset($input['payload']['key'], $input['payload']['iv'], $input['payload']['data'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Payload inválido ou incompleto']);
+    exit;
+}
+
+$encryptedKey = base64_decode($input['payload']['key']);
+$iv           = base64_decode($input['payload']['iv']);
+$cipherText   = base64_decode($input['payload']['data']);
+
+// Obter recurso da chave privada
+$privateKey = openssl_pkey_get_private($privateKeyPEM);
+if (!$privateKey) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Chave privada RSA inválida']);
+    exit;
+}
+
+// Descriptografar chave AES com RSA
+$ok = openssl_private_decrypt($encryptedKey, $aesKey, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
+if (!$ok) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Falha ao descriptografar a chave AES']);
+    exit;
+}
+
+// Extrair tag (últimos 16 bytes) do ciphertext e descriptografar com AES-GCM
+$tagLength = 16;
+$tag = substr($cipherText, -$tagLength);
+$encryptedData = substr($cipherText, 0, -$tagLength);
+
+$json = openssl_decrypt(
+    $encryptedData,
+    'aes-256-gcm',
+    $aesKey,
+    OPENSSL_RAW_DATA,
+    $iv,
+    $tag
+);
+
+if ($json === false) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Erro ao descriptografar os dados com AES-GCM']);
+    exit;
+}
+
+// Decodificar JSON para array
+$decoded = json_decode($json, true);
+
+if (!is_array($decoded)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'JSON descriptografado inválido']);
+    exit;
+}
+
+// Garantir que $data terá as chaves que você precisa, com valores padrão
+$data = [
+    'id_entrada'       => $decoded['id_entrada'] ?? null,
+    'userAgent'        => $decoded['userAgent'] ?? '',
+    'screenResolution' => $decoded['screenResolution'] ?? '',
+    'deviceType'       => $decoded['deviceType'] ?? '',
+    'browserLanguage'  => $decoded['browserLanguage'] ?? '',
+    'operatingSystem'  => $decoded['operatingSystem'] ?? '',
+    'timeZone'         => $decoded['timeZone'] ?? '',
+    'connectionType'   => $decoded['connectionType'] ?? '',
+];
+
+// Agora você pode usar $data diretamente no seu código normalmente
+
+// (Opcional) Resposta para confirmar sucesso
+// echo json_encode(['status' => 'ok', 'data' => $data]);
 
 
 
