@@ -211,7 +211,7 @@ $('#formAceitaTermo').submit(async function(e) {
         $(form).find('[name]').removeAttr('name');
 
         // Envia os dados criptografados
-        $.post('./blocos/aceita-termo.php', encryptedData, function(data) {
+        $.post('./blocos/aceita-termo.php', encryptedData, function() {
             $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function() {
                 $('#modalTermoParticipante').modal('hide');
             });
