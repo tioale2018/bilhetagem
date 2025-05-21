@@ -208,67 +208,95 @@ $(document).ready(function() {
     */
 
 
-    $('#formEditaParticipante').submit(async function (e) {
-        e.preventDefault();
+    async function encryptFormDataHybrid(formDataObj, publicKeyPEM) {
+        const encoder = new TextEncoder();
+        const jsonStr = JSON.stringify(formDataObj);
+        const encodedData = encoder.encode(jsonStr);
 
-        const form = $(this);
-        const idPrevenda = $('input[name="idprevenda"]').val();
-        const dateInput = $('#nasc').val();
+        // Gera chave AES aleatória (256 bits)
+        const aesKey = await crypto.subtle.generateKey(
+            { name: "AES-GCM", length: 256 },
+            true,
+            ["encrypt", "decrypt"]
+        );
 
-        if (!isValidDate(dateInput)) {
-            $('#nasc').val('');
-            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
-            $('#nasc').focus();
-            return;
-        }
+        // Vetor de inicialização (IV) aleatório de 12 bytes
+        const iv = crypto.getRandomValues(new Uint8Array(12));
 
-        // Garante que a chave pública está definida
-        if (typeof publicKeyPEM === 'undefined') {
-            console.error("Chave pública não definida.");
-            return;
-        }
+        // Criptografa os dados com AES-GCM
+        const encryptedDataBuffer = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            aesKey,
+            encodedData
+        );
 
-        try {
-            const encoder = new TextEncoder();
-            const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
-            const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+        // Importa a chave pública RSA
+        const pemContents = publicKeyPEM.replace(/-----.*?-----/g, "").replace(/\s/g, "");
+        const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+        const publicKey = await crypto.subtle.importKey(
+            "spki",
+            binaryDer.buffer,
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
 
-            const publicKey = await crypto.subtle.importKey(
-                "spki",
-                binaryDer.buffer,
-                { name: "RSA-OAEP", hash: "SHA-256" },
-                false,
-                ["encrypt"]
-            );
+        // Exporta e criptografa a chave AES com RSA
+        const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+        const encryptedKeyBuffer = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            publicKey,
+            rawAesKey
+        );
 
-            // Constrói o objeto com todos os campos do formulário
-            const formDataObj = {};
-            form.serializeArray().forEach(item => {
-                formDataObj[item.name] = item.value;
-            });
+        // Converte para Base64
+        const encryptedDataBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedDataBuffer)));
+        const encryptedKeyBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedKeyBuffer)));
+        const ivBase64 = btoa(String.fromCharCode(...iv));
 
-            // Adiciona manualmente o idPrevenda (caso queira garantir que está incluído)
-            formDataObj['idprevenda'] = idPrevenda;
+        return {
+            encryptedKey: encryptedKeyBase64,
+            encryptedData: encryptedDataBase64,
+            iv: ivBase64
+        };
+    }
 
-            // Converte em JSON e criptografa
-            const jsonStr = JSON.stringify(formDataObj);
-            const encoded = encoder.encode(jsonStr);
 
-            const encryptedBuffer = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, encoded);
-            const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedBuffer)));
 
-            // Envia os dados criptografados
-            $.post('./blocos/participante-atualiza.php', { payload: encryptedBase64 }, function (data) {
-                // Recarrega os participantes vinculados e fecha o modal
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function () {
-                    $('#modalEditaParticipante').modal('toggle');
-                });
-            });
+$('#formEditaParticipante').submit(async function (e) {
+    e.preventDefault();
 
-        } catch (err) {
-            console.error("Erro ao criptografar dados do formulário:", err);
-        }
+    const form = $(this);
+    const idPrevenda = $('input[name="idprevenda"]').val();
+    const dateInput = $('#nasc').val();
+
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    const formDataObj = {};
+    form.serializeArray().forEach(item => {
+        formDataObj[item.name] = item.value;
     });
+
+    formDataObj['idprevenda'] = idPrevenda;
+
+    try {
+        const encryptedPayload = await encryptFormDataHybrid(formDataObj, publicKeyPEM);
+
+        $.post('./blocos/participante-atualiza.php', encryptedPayload, function (data) {
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idPrevenda }, function () {
+                $('#modalEditaParticipante').modal('toggle');
+            });
+        });
+
+    } catch (err) {
+        console.error("Erro ao criptografar dados do formulário:", err);
+    }
+});
 
 
 
