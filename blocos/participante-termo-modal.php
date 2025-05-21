@@ -140,7 +140,7 @@ $variables = [
         <input type="hidden" name="participante" value="<?= htmlspecialchars($identrada) ?>">
         <input type="hidden" name="testetermo" value="1">
         <!-- <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" name="btaddparticipante" value="0">Salvar e autorizar</button> -->
-        <button type="button" class="btn btn-default btn-round waves-effect addparticipante" id="btnSalvarTermo">Salvar e autorizar</button>
+        <button type="submit" class="btn btn-default btn-round waves-effect addparticipante" id="btnSalvarTermo">Salvar e autorizar</button>
 
     </div>
 </form>
