@@ -43,7 +43,9 @@ inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
 inner join tbvinculo on tbvinculados.tipo=tbvinculo.id_vinculo
 inner join tbperfil_acesso on tbperfil_acesso.idperfil=tbentrada.perfil_acesso
 inner join tbprevenda on tbprevenda.id_prevenda=tbentrada.id_prevenda
-WHERE tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda order by nome";
+inner join tbresponsavel on tbvinculados.id_responsavel=tbresponsavel.id
+WHERE tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda and tbresponsavel.id_responsavel=".$_SESSION['dadosResponsavel'][0]['id_responsavel']." order by nome";
+// WHERE tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda order by nome";
 
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
