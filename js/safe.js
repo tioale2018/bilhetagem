@@ -69,4 +69,3 @@ window.encryptRSA = async function(plainText, publicKeyPEM) {
 
   return btoa(String.fromCharCode(...new Uint8Array(encrypted)));
 };
-
