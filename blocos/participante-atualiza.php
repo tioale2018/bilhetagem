@@ -213,8 +213,8 @@ try {
     die("Erro ao descriptografar: " . $e->getMessage());
 }
 
+$nascimento = dataParaMySQL($nascimento);
 
-die("nascimento ". dataParaMySQL($nascimento));
 
 /*
 
