@@ -1,5 +1,7 @@
 <?php
-// die(var_dump($_POST));
+echo strlen($_POST['nome']) . " chars in nome\n";
+echo "<hr>";
+die(var_dump($_POST['nome']));
 
 require '../../vendor/autoload.php';
 
