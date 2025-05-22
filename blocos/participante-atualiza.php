@@ -1,7 +1,7 @@
 <?php
 // echo strlen($_POST['nome']) . " chars in nome\n";
 // echo "<hr>";
-die(var_dump($_POST));
+die(var_dump($_POST['vinculo']));
 
 // require '../../vendor/autoload.php';
 
@@ -168,12 +168,18 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
 
 $encrypted_nome_b64 = $_POST['nome'] ?? '';
 $encrypted_nascimento_b64 = $_POST['nascimento'] ?? '';
-$encrypted_vinculo_b64 = $_POST['vinculo'] ?? '';
-$encrypted_pacote_b64 = $_POST['pacote'] ?? '';
 $encrypted_idresponsavel_b64 = $_POST['idresponsavel'] ?? '';
+$encrypted_cpf_b64 = $_POST['cpf'] ?? '';
 $encrypted_idprevenda_b64 = $_POST['idprevenda'] ?? '';
 $encrypted_idvinculado_b64 = $_POST['idvinculado'] ?? '';
 $encrypted_identrada_b64 = $_POST['identrada'] ?? '';
+
+
+$encrypted_vinculo_b64 = $_POST['vinculo'] ?? '';
+$encrypted_pacote_b64 = $_POST['pacote'] ?? '';
+
+
+
 
 
 $encrypted_nome_raw = base64_decode($encrypted_nome_b64, true);
@@ -244,7 +250,7 @@ if ($encrypted_nome_raw === false) {
 
 echo 'Tamanho do conteúdo decodificado: ' . strlen($encrypted_nome_raw) . ' bytes';
 */
-die('fim: ' . $nome);
+
 // Deve retornar: 256 bytes
 
 
