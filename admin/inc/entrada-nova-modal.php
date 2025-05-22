@@ -56,9 +56,7 @@
 
 <script src="./js/funcoes.js"></script>
 <script>
-    $(document).ready(function(){
-
-        if (typeof publicKeyPEM === 'undefined') {
+     if (typeof publicKeyPEM === 'undefined') {
             const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
 XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
@@ -70,6 +68,9 @@ mQIDAQAB
 -----END PUBLIC KEY-----`;
             
         }
+    $(document).ready(function(){
+
+       
         
         $('body').on('change', '#cpf', function(){
             
@@ -253,8 +254,8 @@ document.querySelector('#formAddResponsavelModal').addEventListener('submit', as
         document.body.appendChild(newForm);
         newForm.submit(); // Envia como form normal (recarrega a página)
     } catch (err) {
-        alert("Erro ao criptografar os dados.");
-        console.error("Erro na criptografia:", err);
+        alert("Erro ao criptografar os dados. " + err); 
+        console.error("Erro na criptografia: ", err);
         submitBtn.disabled = false;
     }
 });
