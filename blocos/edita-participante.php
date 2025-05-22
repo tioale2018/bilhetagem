@@ -290,6 +290,10 @@ function arrayBufferToBase64(buffer) {
     return btoa(binary);
 }
 
+function arrayBufferToBase64(buffer) {
+    const binary = Array.from(new Uint8Array(buffer), byte => String.fromCharCode(byte)).join('');
+    return window.btoa(binary);
+}
 
 $('#formEditaParticipante').submit(async function(e) {
     e.preventDefault();
@@ -334,7 +338,10 @@ $('#formEditaParticipante').submit(async function(e) {
             key,
             encoder.encode(value)
         );
-        const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+        const encoded = arrayBufferToBase64(encrypted);
+
+
+        // const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
         encryptedFields[name] = encoded;
     }
 
@@ -352,7 +359,7 @@ $('#formEditaParticipante').submit(async function(e) {
             key,
             encoder.encode(value)
         );
-        const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+         const encoded = arrayBufferToBase64(encrypted);
         encryptedFields[name] = encoded;
     }
 
