@@ -35,8 +35,7 @@ try {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
-
-
+$telefone1 = $telefone;
 
 //valida se é o hash do evento
 $sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_cadastro, tbevento.msg_fimreserva
