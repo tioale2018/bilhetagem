@@ -134,8 +134,8 @@ $rowNum = $pre->rowCount();
 <?php if (isset($key)) { ?>
 
     <script>
-        /*
-    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+if (typeof publicKeyPEM === 'undefined') {
+    var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
 XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
 kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
@@ -144,7 +144,7 @@ x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
 LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
 mQIDAQAB
 -----END PUBLIC KEY-----`;
-*/
+}
     $(document).ready(function(){
 /*
         $('body').on('click', '.btnModalEditaParticipante', function() {
