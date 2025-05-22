@@ -1,9 +1,55 @@
 <?php
+require '../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
     exit('Requisição inválida.');
 }
+
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+
+// $cpf       = limparCPF($_POST['cpf']);
+// $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+
+// Decodifica a senha criptografada
+$encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+$encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
+$encrypted_telefone1= base64_decode($_POST['telefone1_seguro'] ?? '');
+$encrypted_telefone2= base64_decode($_POST['telefone2_seguro'] ?? '');
+$encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
+$encrypted_idResponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
+
+try {
+    $cpf        = limparCPF($privateKey->decrypt($encrypted_cpf));
+    // $nome       = $privateKey->decrypt($encrypted_nome);
+    // $telefone1  = $privateKey->decrypt($encrypted_telefone1);
+    // $telefone2  = $privateKey->decrypt($encrypted_telefone2);
+    // $email      = $privateKey->decrypt($encrypted_email);
+    // $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
+    $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $telefone2 = htmlspecialchars($privateKey->decrypt($encrypted_telefone2), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $email     = htmlspecialchars($privateKey->decrypt($encrypted_email), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $idResponsavel = htmlspecialchars($privateKey->decrypt($encrypted_idResponsavel), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
 require_once './inc/config_session.php';
 require_once './inc/functions.php';
 require_once './inc/funcoes.php';
@@ -16,11 +62,11 @@ include_once('./inc/conexao.php');
 $evento       = $_SESSION['evento_selecionado'];
 $evento_atual = $evento;
 
-$cpf       = limparCPF($_POST['cpf']);
-$nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $cpf       = limparCPF($_POST['cpf']);
+// $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 $datahora  = time();
 $hoje = date('Y-m-d', $datahora);
 
@@ -35,7 +81,7 @@ $_SESSION['lista_perfis'] = $row_busca_perfis;
 
 //----------------------------------------------------------------------------------------
 
-if ($_POST['idresponsavel']=='') {
+if ($idResponsavel=='') {
     //insere o responsavel
     $sql_insere_responsavel = "insert into tbresponsavel (nome, cpf, email, telefone1, telefone2, datahora_input) values (:nome, :cpf, :email, :telefone1, :telefone2, :datahora_input)";
 
@@ -61,7 +107,7 @@ if ($_POST['idresponsavel']=='') {
     $pre_addlog->execute();   
 
 } else {
-    $ultimo_id_responsavel = intval(preg_replace('/[^0-9]/', '', $_POST['idresponsavel']));
+    $ultimo_id_responsavel = intval(preg_replace('/[^0-9]/', '', $idResponsavel));
 }
 
 $dados_responsavel     = procuraResponsavel($ultimo_id_responsavel);
