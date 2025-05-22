@@ -59,7 +59,7 @@
     $(document).ready(function(){
         
         
-        /*
+        
         $('body').on('change', '#cpf', function(){
             
             let i = $(this).val().replace(/\D/g, '');
@@ -81,7 +81,8 @@
                 }
             })
         })
-        */
+        
+        /*
        $('body').on('change', '#cpf', async function () {
             let i = $(this).val().replace(/\D/g, '');
 
@@ -119,7 +120,7 @@
                 alert('Não foi possível criptografar o CPF. Verifique sua chave pública.');
             }
         });
-        
+        */
 
     })
 </script>
