@@ -109,13 +109,9 @@ include_once("./inc/funcoes.php");
                                         <td>E-mail:</td>
                                         <td><?= $dados_responsavel[0]['email'] ?></td>
                                     </tr>
-
                                 </table>
                             </div>
-                           
-                            
                         </div>
-                       
                     </div>
                 </div>
             </div>
@@ -174,6 +170,7 @@ include_once("./inc/funcoes.php");
 </section>
 <input type="hidden" id="idPrevendaAtual" data-id-idprevenda="<?= $idPrevendaAtual ?>" />
 <div data-idtoken="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" id="idcsrftoken" styte="display: none"></div>
+<div id="hashevento" data-id-hashevento="<?= $_SESSION['hash_evento'] ?>" style="display: none"></div>
 
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
@@ -342,9 +339,10 @@ mQIDAQAB
         });
 
 
-
+/*
         $('.btAcao-cancela').on('click', function(){
             let id = $(this).data('id');
+            let idHash = $('#hashevento').data('id-hashevento');
 
             swal({
                 title: "Cancelar pré-cadastro?",
@@ -358,13 +356,64 @@ mQIDAQAB
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    // alert('ok');
                     $.post('./blocos/reserva-cancela.php', {i:id}, function(data){
-                        location.href="/<?= $_SESSION['hash_evento'] ?>";
+                        location.href="/"+idHash;
                     });
                 }
             })
         })
+
+        */
+
+        $('.btAcao-cancela').on('click', async function () {
+            let id = $(this).data('id');
+            let idHash = $('#hashevento').data('id-hashevento');
+
+            try {
+                const encoder = new TextEncoder();
+                const key = await crypto.subtle.importKey(
+                    "spki",
+                    pemToArrayBuffer(publicKeyPEM),
+                    { name: "RSA-OAEP", hash: "SHA-256" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encryptedId = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(id.toString())
+                );
+
+                const encryptedIdBase64 = arrayBufferToBase64(encryptedId);
+
+                swal({
+                    title: "Cancelar pré-cadastro?",
+                    text: "Deseja realmente cancelar e excluir esta pré-cadastro?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#27ae60",
+                    confirmButtonText: "Sim",
+                    cancelButtonText: "Não",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post('./blocos/reserva-cancela.php', { i: encryptedIdBase64 }, function (data) {
+                            location.href = "/" + idHash;
+                        }).fail(function () {
+                            alert("Erro ao enviar solicitação. Verifique a conexão.");
+                        });
+                    }
+                });
+            } catch (err) {
+                console.error("Erro ao criptografar o ID:", err);
+                alert("Erro de segurança ao processar o cancelamento.");
+            }
+        });
+
+
+
 
         $('.btAcao-finaliza').on('click', function(){
             let id = $(this).data('id');
