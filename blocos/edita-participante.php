@@ -326,7 +326,7 @@ $('#formEditaParticipante').submit(async function (e) {
 });
 
 */
-/
+
 $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
