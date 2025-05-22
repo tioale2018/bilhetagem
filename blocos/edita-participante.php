@@ -208,7 +208,7 @@ $(document).ready(function() {
 
   */  
 
-  $('#formEditaParticipante').submit(async function(e){
+$('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
     const form = this;
@@ -222,18 +222,36 @@ $(document).ready(function() {
         return;
     }
 
-    // Criptografa o formulário
+    // Criptografa os campos principais do formulário
     const encryptedFields = await encryptFormFields(form, publicKeyPEM);
     if (!encryptedFields) {
         alert('Erro ao criptografar os dados do formulário.');
         return;
     }
 
-    // Criptografa idPrevenda (para envio via .load)
-    const plainIdPrevenda = $(form).find('input[name="idprevenda"]').val();
-    const encryptedIdPrevenda = await encryptRSA(plainIdPrevenda, publicKeyPEM);
+    // Coleta os dados adicionais que precisam ser criptografados
+    const camposExtras = {
+        idresponsavel: $(form).find('input[name="idresponsavel"]').val(),
+        cpf: $(form).find('input[name="cpf"]').val(),
+        idprevenda: $(form).find('input[name="idprevenda"]').val(),
+        idvinculado: $(form).find('input[name="idvinculado"]').val(),
+        identrada: $(form).find('input[name="identrada"]').val()
+    };
 
-    // Envia dados criptografados via POST para o PHP
+    // Criptografa os dados extras em um único campo 'dados_seguro'
+    const dadosSeguro = await criptografarCamposExtras(camposExtras, publicKeyPEM);
+    if (!dadosSeguro) {
+        alert('Erro ao criptografar os dados extras.');
+        return;
+    }
+
+    // Inclui os dados criptografados extras no objeto a ser enviado
+    encryptedFields.dados_seguro = dadosSeguro;
+
+    // Criptografa separadamente o idprevenda para uso em .load()
+    const encryptedIdPrevenda = await encryptRSA(camposExtras.idprevenda, publicKeyPEM);
+
+    // Envia os dados criptografados ao backend
     $.post('./blocos/participante-atualiza.php', encryptedFields, function(data){
         console.log(data);
 
