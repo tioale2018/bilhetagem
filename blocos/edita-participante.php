@@ -313,6 +313,28 @@ $('#formEditaParticipante').submit(async function(e) {
         return;
     }
 
+    // Criptografa manualmente os inputs type=hidden
+        const hiddenInputs = $(form).find('input[type="hidden"][name]');
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            const input = hiddenInputs[i];
+            const name = input.name;
+            const value = input.value;
+
+            if (!name || !value) continue;
+
+            const encrypted = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(value)
+            );
+
+            const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+            encryptedFields[name] = encoded;
+        }
+
+
+
+
     // Coleta e criptografa os campos hidden manualmente
     const camposExtras = {
         idresponsavel: $(form).find('input[name="idresponsavel"]').val(),
