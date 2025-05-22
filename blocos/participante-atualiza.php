@@ -157,6 +157,42 @@ try {
 
 require '../../vendor/autoload.php';
 
+
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+$encrypted_nome_b64 = $_POST['nome'] ?? '';
+$encrypted_nome_raw = base64_decode($encrypted_nome_b64, true);
+
+if ($encrypted_nome_raw === false) {
+    die("Erro ao decodificar base64.");
+}
+
+if (strlen($encrypted_nome_raw) !== 256) {
+    die("Tamanho incorreto: esperado 256 bytes, recebido " . strlen($encrypted_nome_raw));
+}
+
+try {
+    $nome = $privateKey->decrypt($encrypted_nome_raw);
+} catch (Exception $e) {
+    die("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+
+
+
+
+
+/*
+
+
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
@@ -173,7 +209,8 @@ if ($encrypted_nome_raw === false) {
 }
 
 echo 'Tamanho do conteúdo decodificado: ' . strlen($encrypted_nome_raw) . ' bytes';
-die('fim');
+*/
+die('fim: ' . $nome);
 // Deve retornar: 256 bytes
 
 
