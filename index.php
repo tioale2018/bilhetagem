@@ -98,7 +98,8 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                                 </div>
                             
                                 <div class="footer">
-                                    <input type="hidden" name="hashevento" value="<?= htmlspecialchars($_GET['i']) ?>">
+                                    <input type="hidden" name="hashevento" value="<?= htmlspecialchars(is_string($_GET['i'] ?? null) ? $_GET['i'] : '') ?>">
+                                    <!-- <input type="hidden" name="hashevento" value="<?= htmlspecialchars($_GET['i']) ?>"> -->
                                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                                     <button type="submit" class="btn btn-primary btn-round btn-block">Continuar</button>
                                 </div>
