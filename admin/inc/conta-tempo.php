@@ -3,7 +3,7 @@
 
 <script>
     // Recebe o tempo de expiração da sessão em segundos do PHP
-    var timeRemaining = <?php echo $time_remaining; ?>;
+    var timeRemaining = <?= isset($time_remaining) ? $time_remaining : 0; ?>;
 
     function updateTimer() {
         if (timeRemaining <= 0) {
