@@ -94,6 +94,14 @@
         return buffer.buffer;
     }
 }
+
+if (typeof arrayBufferToBase64 === 'undefined') {
+    function arrayBufferToBase64(buffer) {
+        const binary = Array.from(new Uint8Array(buffer), byte => String.fromCharCode(byte)).join('');
+        return window.btoa(binary);
+    }
+}
+
 $(document).ready(function() {
     // Função para calcular a idade com base na data de nascimento
     function calculateAge(date) {

@@ -286,11 +286,6 @@ function pemToArrayBuffer(pem) {
 }
 
 function arrayBufferToBase64(buffer) {
-    const binary = String.fromCharCode(...new Uint8Array(buffer));
-    return btoa(binary);
-}
-
-function arrayBufferToBase64(buffer) {
     const binary = Array.from(new Uint8Array(buffer), byte => String.fromCharCode(byte)).join('');
     return window.btoa(binary);
 }
