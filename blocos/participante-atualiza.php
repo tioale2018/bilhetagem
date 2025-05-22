@@ -1,7 +1,7 @@
 <?php
 // echo strlen($_POST['nome']) . " chars in nome\n";
 // echo "<hr>";
-die(var_dump($_POST['vinculo']));
+die(var_dump($_POST));
 
 // require '../../vendor/autoload.php';
 
