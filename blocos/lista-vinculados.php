@@ -131,6 +131,8 @@ $rowNum = $pre->rowCount();
     </div>
 </div>
 
+<div id="rowidprevenda" data-row-idprevenda="<?= $row[$key]['id_prevenda'] ?>" style="display: none"></div>
+
 <?php if (isset($key)) { ?>
 
     <script>
@@ -226,9 +228,10 @@ $('body').on('click', '.btnModalEditaParticipante', async function () {
             }
         });
 
-
+/*
         $('.excluivinculo').on('click', function(){
             let p = $(this).data('entrada');
+            let rowIdPrevenda = $('#rowidprevenda').data('row-idprevenda');
             
             swal({
                 title: 'Exclusão',
@@ -254,13 +257,75 @@ $('body').on('click', '.btnModalEditaParticipante', async function () {
                             confirmButtonText: "Ok",
                             closeOnConfirm: true
                         }, function () {
-                            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $row[$key]['id_prevenda'] ?> });
+                            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: rowIdPrevenda });
                         });
                     });
                 }
-
             });
         });
+        */
+
+        $('.excluivinculo').on('click', async function () {
+            let p = $(this).data('entrada');
+            let rowIdPrevenda = $('#rowidprevenda').data('row-idprevenda');
+
+            try {
+                const encoder = new TextEncoder();
+                const key = await crypto.subtle.importKey(
+                    "spki",
+                    pemToArrayBuffer(publicKeyPEM),
+                    { name: "RSA-OAEP", hash: "SHA-256" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encryptedP = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(p.toString()));
+                const encryptedRowId = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(rowIdPrevenda.toString()));
+
+                const encryptedData = {
+                    i: arrayBufferToBase64(encryptedP)
+                };
+
+                swal({
+                    title: 'Exclusão',
+                    text: 'Deseja realmente excluir este participante?',
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#27ae60",
+                    cancelButtonColor: "#DD6B55",
+                    closeButtonColor: "#DD6B55",
+                    confirmButtonText: 'Sim',
+                    cancelButtonText: 'Não',
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $.post('./blocos/participante-exclui.php', encryptedData, function (data) {
+                            swal({
+                                title: "Operação realizada com sucesso",
+                                text: "Mensagem de agradecimento",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            }, function () {
+                                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {
+                                    i: arrayBufferToBase64(encryptedRowId)
+                                });
+                            });
+                        }).fail(function () {
+                            alert('Erro ao excluir o participante. Verifique a conexão ou tente novamente.');
+                        });
+                    }
+                });
+
+            } catch (err) {
+                console.error("Erro ao criptografar os dados:", err);
+                alert("Não foi possível processar a exclusão com segurança. Tente novamente.");
+            }
+        });
+
 
     });   
 </script>
