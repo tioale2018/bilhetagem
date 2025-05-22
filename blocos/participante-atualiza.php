@@ -207,7 +207,7 @@ try {
 }
 
 
-
+die("nascimento ".$nascimento);
 
 /*
 
