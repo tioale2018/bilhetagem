@@ -75,8 +75,35 @@
         </div>
     </div>
 </div>
-
+<div id="iditem" data-id-item="<?= htmlspecialchars($_GET['item']) ?>" style="display: none"></div>
 <script>
+            if (typeof pemToArrayBuffer === 'undefined') {        
+            function pemToArrayBuffer(pem) {
+                const b64 = pem
+                    .replace(/-----BEGIN PUBLIC KEY-----/, '')
+                    .replace(/-----END PUBLIC KEY-----/, '')
+                    .replace(/\s/g, '');
+                const binary = atob(b64);
+                const buffer = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    buffer[i] = binary.charCodeAt(i);
+                }
+                return buffer.buffer;
+            }
+        }
+
+        if (typeof publicKeyPEM === 'undefined') {
+                var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+            XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+            kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+            aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+            x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+            LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+            mQIDAQAB
+            -----END PUBLIC KEY-----`;
+        }
+        
     $(document).ready(function(){
         $('select').selectpicker();   
 
@@ -132,11 +159,16 @@
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
         
+
+
+
+    /*
         
         $('#formModalParticipante').submit(function(event){
             event.preventDefault();
             $('#formModalParticipante button[type="submit"]').prop('disabled', true);
             let Form = $(this).serialize();
+            let idItem = $('#iditem').data('id-item');
 
             var dateInput = $('input[name=nascimento]').val();
             if (!isValidDate(dateInput)) {
@@ -148,7 +180,8 @@
             } else {
 
                 $.post( "./blocos/add-participante.php", Form, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> }, function(){
+                    // console.log(data);
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i: idItem }, function(){
                         location.reload();
                     });
                     // $('#formModalParticipante button[type="submit"]').prop('disabled', false);
@@ -156,9 +189,73 @@
                     // $('#modalAddParticipante').modal('hide');
                 }); 
             }
-
-
         });
+
+        */
+
+    $('#formModalParticipante').submit(async function(event){
+        event.preventDefault();
+        $('#formModalParticipante button[type="submit"]').prop('disabled', true);
+        let idItem = $('#iditem').data('id-item');
+
+        let dateInput = $('input[name=nascimento]').val();
+        if (!isValidDate(dateInput)) {
+            $('input[name=nascimento]').val('');
+            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+            $('input[name=nascimento]').focus();
+            $('#formModalParticipante button[type="submit"]').prop('disabled', false);
+            return;
+        }
+
+        try {
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            let formData = {};
+            $('#formModalParticipante')
+                .serializeArray()
+                .forEach(field => {
+                    formData[field.name] = field.value;
+                });
+
+            let encryptedData = {};
+            for (let keyName in formData) {
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(formData[keyName])
+                );
+                encryptedData[keyName] = arrayBufferToBase64(encrypted);
+            }
+
+            // Criptografa idItem
+            const encryptedIdItem = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(idItem.toString())
+            );
+            const idItemEncrypted = arrayBufferToBase64(encryptedIdItem);
+
+            $.post("./blocos/add-participante.php", encryptedData, function(data){
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function(){
+                    location.reload();
+                });
+            }).fail(function() {
+                alert("Erro ao enviar dados criptografados.");
+            });
+
+        } catch (err) {
+            console.error("Erro na criptografia dos dados:", err);
+            alert("Erro de segurança ao processar envio.");
+        }
+    });        
+
 
         $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
             $('#formModalParticipante').trigger('reset');

@@ -179,32 +179,32 @@ include_once("./inc/funcoes.php");
 <script>
     $(document).ready(function(){
         
-if (typeof pemToArrayBuffer === 'undefined') {        
-    function pemToArrayBuffer(pem) {
-        const b64 = pem
-            .replace(/-----BEGIN PUBLIC KEY-----/, '')
-            .replace(/-----END PUBLIC KEY-----/, '')
-            .replace(/\s/g, '');
-        const binary = atob(b64);
-        const buffer = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-            buffer[i] = binary.charCodeAt(i);
+        if (typeof pemToArrayBuffer === 'undefined') {        
+            function pemToArrayBuffer(pem) {
+                const b64 = pem
+                    .replace(/-----BEGIN PUBLIC KEY-----/, '')
+                    .replace(/-----END PUBLIC KEY-----/, '')
+                    .replace(/\s/g, '');
+                const binary = atob(b64);
+                const buffer = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    buffer[i] = binary.charCodeAt(i);
+                }
+                return buffer.buffer;
+            }
         }
-        return buffer.buffer;
-    }
-}
 
         if (typeof publicKeyPEM === 'undefined') {
-    var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-mQIDAQAB
------END PUBLIC KEY-----`;
-}
+                var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+            XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+            kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+            aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+            x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+            LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+            mQIDAQAB
+            -----END PUBLIC KEY-----`;
+        }
 
         let idPrevendaAtual = $('#idPrevendaAtual').data('id-idprevenda');
 
