@@ -34,12 +34,6 @@ if ($total>0) {
     header('Location: cadastro.php');
 } 
 
-/*
-$sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbpacotes.descricao, tbpacotes.duracao, tbpacotes.valor from tbentrada
-inner join tbvinculados on tbentrada.id_vinculado=tbvinculados.id_vinculado
-inner join tbpacotes on tbentrada.id_pacote=tbpacotes.id_pacote
-where tbentrada.previnculo_status=1 and tbentrada.id_prevenda=:idprevenda";
-*/
 
 $sql = "select tbentrada.id_entrada, tbentrada.id_vinculado, tbvinculados.nome, tbvinculados.nascimento, tbentrada.id_pacote, tbprevenda.id_responsavel, tbprevenda.id_evento, tbprevenda.prevenda_status, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.telefone2, tbperfil_acesso.titulo, tbprevenda.id_prevenda
 from tbentrada

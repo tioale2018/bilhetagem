@@ -16,14 +16,6 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 session_start();
 
-
-// $idprevenda = intval($_POST['i']);
-
-// $nome          = $_POST['nome'];
-// // $cpf           = $_POST['cpf'];
-// $telefone1     = $_POST['telefone1'];
-// $telefone2     = $_POST['telefone2'];
-// $email         = $_POST['email'];
 $idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 $encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');

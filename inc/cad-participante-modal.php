@@ -155,107 +155,6 @@ $(document).ready(function() {
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
 
-    /*
-     $('#formModalAddParticipante').on('submit', function(event) {
-        event.preventDefault();
-        $('#formModalAddParticipante button[type=submit]').attr('disabled', true);
-        
-        let Form = $(this).serialize();
-        let i = 1;
-
-        var dateInput = $('input[name=nascimento]').val();
-        if (!isValidDate(dateInput)) {
-            
-            $('input[name=nascimento]').val('');
-            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
-            $('input[name=nascimento]').focus();
-        } else {
-
-                $.post( "./blocos/add-participante.php", Form, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idPrevendaAtual ?> }, function(){
-                        location.reload();
-                    });
-                }); 
-        }
-    });
-*/
-
-
-/*
-$('#formModalAddParticipante').on('submit', async function(event) {
-    event.preventDefault();
-    const $form = $(this);
-    let idprevenda = $('#idprevenda').data('id-prevenda');
-    $form.find('button[type=submit]').attr('disabled', true);
-
-    const dateInput = $form.find('input[name=nascimento]').val();
-    if (!isValidDate(dateInput)) {
-        $form.find('input[name=nascimento]').val('');
-        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
-        $form.find('input[name=nascimento]').focus();
-        return;
-    }
-
-    // Extrair os campos não criptografados
-    const vinculo = $form.find('select[name="vinculo"]').val();
-    const pacote  = $form.find('select[name="pacote"]').val();
-
-    // Importa a chave pública
-    const key = await crypto.subtle.importKey(
-        "spki",
-        pemToArrayBuffer(publicKeyPEM),
-        { name: "RSA-OAEP", hash: "SHA-256" },
-        false,
-        ["encrypt"]
-    );
-
-    const encoder = new TextEncoder();
-    const encryptedFields = {};
-
-    // Campos visíveis (exceto "vinculo" e "pacote")
-    const visibleInputs = $form.find('input[name], textarea[name], select[name]').not('[type=hidden]');
-    for (let i = 0; i < visibleInputs.length; i++) {
-        const input = visibleInputs[i];
-        const name = input.name;
-        const value = input.value;
-
-        if (!name || !value) continue;
-
-        if (name === 'vinculo' || name === 'pacote') continue; // pula os selects
-
-        const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
-        encryptedFields[name + '_seguro'] = arrayBufferToBase64(encrypted);
-    }
-
-    // Campos hidden
-    const hiddenInputs = $form.find('input[type="hidden"][name]');
-    for (let i = 0; i < hiddenInputs.length; i++) {
-        const input = hiddenInputs[i];
-        const name = input.name;
-        const value = input.value;
-        if (!name || !value) continue;
-
-        const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
-        encryptedFields[name] = arrayBufferToBase64(encrypted);
-    }
-
-    // Adiciona campos não criptografados
-    encryptedFields['vinculo'] = vinculo;
-    encryptedFields['pacote'] = pacote;
-
-    // Envia via POST
-    $.post('./blocos/add-participante.php', encryptedFields, function(data) {
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idprevenda }, function() {
-            location.reload();
-        });
-    }).fail(function() {
-        alert('Erro ao enviar os dados criptografados.');
-        $form.find('button[type=submit]').attr('disabled', false);
-    });
-});
-
-*/
-
 
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault();
@@ -345,9 +244,6 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         $submitBtn.attr('disabled', false);
     }
 });
-
-
-
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
         $('#modalAddParticipante form').trigger('reset');

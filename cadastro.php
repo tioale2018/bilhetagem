@@ -1,9 +1,5 @@
 <?php
-/*
-if ($_SERVER['REQUEST_METHOD']!="POST") {
-    header('Location: index.php');
-} 
-*/
+
 session_start();
 
 if ((!isset($_SESSION['dadosResponsavel'])) || (!$_SESSION['dadosResponsavel']) ) {
