@@ -326,7 +326,7 @@ $('#formEditaParticipante').submit(async function (e) {
 });
 
 */
-/*
+/
 $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
@@ -360,9 +360,9 @@ $('#formEditaParticipante').submit(async function(e){
         console.error("Erro ao criptografar dados do formulário:", error);
     }
 });
-*/
 
 
+/*
 $('#formEditaParticipante').submit(async function (e) {
     e.preventDefault();
 
@@ -405,7 +405,7 @@ $('#formEditaParticipante').submit(async function (e) {
     }
 });
 
-
+*/
 
 });
 </script>
