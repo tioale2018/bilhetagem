@@ -245,6 +245,8 @@ mQIDAQAB
             $('.btsalvar').attr('disabled', false);            
         });
 
+        /*
+
         $('form#formResponsavel').submit(function(e){
             e.preventDefault();
             let formAtual = $(this);
@@ -261,8 +263,76 @@ mQIDAQAB
                     location.reload();
                 });                
             });
-            
         })
+
+        */
+
+        $('form#formResponsavel').submit(async function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            // Adiciona o CSRF token manualmente no formulário antes de criptografar
+            if (!form.querySelector('input[name="csrf_token"]')) {
+                const token = "<?= htmlspecialchars($_SESSION['csrf_token']) ?>";
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "csrf_token";
+                input.value = token;
+                form.appendChild(input);
+            }
+
+            // Importa a chave pública no formato PEM (presume que `publicKeyPEM` já esteja definida)
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            const encoder = new TextEncoder();
+            const encryptedFields = {};
+
+            // Criptografa os campos visíveis (input, textarea, select)
+            const visibleFields = form.querySelectorAll("input:not([type='hidden'])[name], textarea[name], select[name]");
+            for (const input of visibleFields) {
+                if (!input.name || input.disabled) continue;
+
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(input.value)
+                );
+
+                const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+                encryptedFields[input.name + "_seguro"] = encoded;
+            }
+
+            // Inclui os campos ocultos (como o CSRF) sem criptografia
+            const hiddenFields = form.querySelectorAll('input[type="hidden"][name]');
+            for (const input of hiddenFields) {
+                encryptedFields[input.name] = input.value;
+            }
+
+            // Envia via POST para o backend
+            $.post('./blocos/atualiza-responsavel.php', encryptedFields, function(data) {
+                swal({
+                    title: "Dados salvos",
+                    text: "Os dados informados foram salvos com sucesso!",
+                    type: "success",
+                    showCancelButton: false,
+                    closeOnConfirm: true
+                }, function () {
+                    location.reload();
+                });
+            }).fail(function(xhr, status, error) {
+                console.error('Erro ao enviar os dados criptografados:', error);
+                alert('Erro ao enviar os dados criptografados.');
+            });
+        });
+
+
 
         $('.btAcao-cancela').on('click', function(){
             let id = $(this).data('id');
