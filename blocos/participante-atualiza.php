@@ -165,6 +165,21 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withPadding(RSA::ENCRYPTION_OAEP)
     ->withHash('sha256');
 
+ $encrypted_nome_b64 = $_POST['nome'] ?? '';
+$encrypted_nome_raw = base64_decode($encrypted_nome_b64, true);
+
+if ($encrypted_nome_raw === false) {
+    die("Erro ao decodificar base64.");
+}
+
+echo 'Tamanho do conteúdo decodificado: ' . strlen($encrypted_nome_raw) . ' bytes';
+die('fim');
+// Deve retornar: 256 bytes
+
+
+   /* 
+
+
 $encrypted_nome      = base64_decode($_POST['nome'] ?? '');
 $encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
 $encrypted_vinculo   = base64_decode($_POST['vinculo'] ?? '');
@@ -191,7 +206,7 @@ try {
 }
 
 
-
+*/
 
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
