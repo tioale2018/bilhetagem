@@ -19,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 include('../inc/conexao.php');
 include('../inc/funcoes.php');
 
+function dataParaMySQL($data) {
+    $partes = explode('/', $data);
+    if (count($partes) === 3) {
+        return $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+    }
+    return null; // Retorna null se não tiver 3 partes
+}
+
 //onde se lê "pacote" entenda perfil
 // $nome          = $_POST['nome'];
 // $nascimento    = convertDateToYMD($_POST['nascimento']);
@@ -27,8 +35,8 @@ $perfil        = $_POST['pacote'];
 // $idresponsavel = $_POST['idresponsavel'];
 // $idprevenda    = $_POST['idprevenda'];
 
-$encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
-$encrypted_nascimento = base64_decode($_POST['nascimento_seguro'] ?? '');
+$encrypted_nome          = base64_decode($_POST['nome_seguro'] ?? '');
+$encrypted_nascimento    = base64_decode($_POST['nascimento_seguro'] ?? '');
 $encrypted_idresponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
 $encrypted_idprevenda    = base64_decode($_POST['idprevenda_seguro'] ?? '');
 
@@ -41,6 +49,7 @@ try {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
+$nascimento = dataParaMySQL($nascimento);
 $lembrar   = (isset($_POST['lembrarme'])?1:0);
 
 //insere o vínculo
