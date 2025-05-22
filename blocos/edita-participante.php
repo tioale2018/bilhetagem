@@ -295,6 +295,8 @@ function arrayBufferToBase64(buffer) {
     return window.btoa(binary);
 }
 
+
+/*
 $('#formEditaParticipante').submit(async function(e) {
     e.preventDefault();
 
@@ -390,6 +392,104 @@ $('#formEditaParticipante').submit(async function(e) {
     });
 });
 
+*/
+
+$('#formEditaParticipante').submit(async function(e) {
+    e.preventDefault();
+
+    const form = this;
+
+    // Validação da data de nascimento (ajuste para seu campo)
+    const dateInput = $('#nasc').val();
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    // Captura os valores de 'vinculo' e 'pacote' ANTES da criptografia
+    const vinculoOriginal = $(form).find('[name="vinculo"]').val();
+    const pacoteOriginal = $(form).find('[name="pacote"]').val();
+
+    // Importa a chave pública
+    const key = await crypto.subtle.importKey(
+        "spki",
+        pemToArrayBuffer(publicKeyPEM),
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["encrypt"]
+    );
+
+    const encoder = new TextEncoder();
+    const encryptedFields = {};
+
+    // Criptografa inputs visíveis (exceto 'vinculo' e 'pacote')
+    const visibleInputs = $(form).find('input[type!="hidden"][name]');
+    for (let i = 0; i < visibleInputs.length; i++) {
+        const input = visibleInputs[i];
+        const name = input.name;
+        const value = input.value;
+
+        if (!name || !value || name === 'vinculo' || name === 'pacote') continue;
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(value)
+        );
+        const encoded = arrayBufferToBase64(encrypted);
+        encryptedFields[name] = encoded;
+    }
+
+    // Criptografa inputs hidden (exceto 'vinculo' e 'pacote')
+    const hiddenInputs = $(form).find('input[type="hidden"][name]');
+    for (let i = 0; i < hiddenInputs.length; i++) {
+        const input = hiddenInputs[i];
+        const name = input.name;
+        const value = input.value;
+
+        if (!name || !value || name === 'vinculo' || name === 'pacote') continue;
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(value)
+        );
+        const encoded = arrayBufferToBase64(encrypted);
+        encryptedFields[name] = encoded;
+    }
+
+    // Adiciona os valores de 'vinculo' e 'pacote' diretamente (sem criptografia)
+    encryptedFields['vinculo'] = vinculoOriginal;
+    encryptedFields['pacote'] = pacoteOriginal;
+
+    // Envia os dados criptografados + 'vinculo' e 'pacote' puros
+    $.ajax({
+        type: 'POST',
+        url: './blocos/participante-atualiza.php',
+        data: encryptedFields,
+        success: function(data) {
+            console.log(data);
+
+            // Atualiza bloco com idprevenda criptografado (opcional)
+            const idprevenda = $(form).find('input[name="idprevenda"]').val();
+            if (idprevenda) {
+                encryptRSA(idprevenda, publicKeyPEM).then(encryptedId => {
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedId }, function() {
+                        $('#modalEditaParticipante').modal('toggle');
+                    });
+                });
+            } else {
+                $('#modalEditaParticipante').modal('toggle');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar dados:', error);
+            alert('Erro ao enviar os dados criptografados.');
+        }
+    });
+});
 
 
 
