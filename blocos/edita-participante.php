@@ -206,9 +206,69 @@ $(document).ready(function() {
         }        
     });
 
-  */  
+  */ 
+ 
+  async function criptografarCamposExtras(campos, publicKeyPEM) {
+    try {
+        // Converte o objeto de campos extras para string JSON
+        const jsonString = JSON.stringify(campos);
 
-$('#formEditaParticipante').submit(async function(e){
+        // Gera uma chave AES aleatória (256 bits)
+        const aesKey = window.crypto.getRandomValues(new Uint8Array(32));
+
+        // Gera um IV aleatório (12 bytes para AES-GCM)
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+        // Codifica o texto em Uint8Array
+        const encoder = new TextEncoder();
+        const encodedData = encoder.encode(jsonString);
+
+        // Importa a chave AES
+        const aesCryptoKey = await crypto.subtle.importKey(
+            "raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]
+        );
+
+        // Criptografa os dados com AES-GCM
+        const encryptedData = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv }, aesCryptoKey, encodedData
+        );
+
+        // Importa a chave RSA pública
+        const rsaKey = await window.crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            {
+                name: "RSA-OAEP",
+                hash: "SHA-256"
+            },
+            false,
+            ["encrypt"]
+        );
+
+        // Criptografa a chave AES com RSA
+        const encryptedAesKey = await window.crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            rsaKey,
+            aesKey
+        );
+
+        // Monta o payload: chave AES criptografada + IV + dados
+        const result = {
+            key: arrayBufferToBase64(encryptedAesKey),
+            iv: arrayBufferToBase64(iv),
+            data: arrayBufferToBase64(encryptedData)
+        };
+
+        return JSON.stringify(result);
+
+    } catch (error) {
+        console.error("Erro na criptografia dos campos extras:", error);
+        return null;
+    }
+}
+
+
+  $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
     const form = this;
@@ -261,7 +321,6 @@ $('#formEditaParticipante').submit(async function(e){
         });
     });
 });
-
 
 
 
