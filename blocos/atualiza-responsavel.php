@@ -1,4 +1,14 @@
 <?php
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
@@ -6,18 +16,38 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 session_start();
 
+
+// $idprevenda = intval($_POST['i']);
+
+// $nome          = $_POST['nome'];
+// // $cpf           = $_POST['cpf'];
+// $telefone1     = $_POST['telefone1'];
+// $telefone2     = $_POST['telefone2'];
+// $email         = $_POST['email'];
+$idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
+
+$encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
+$encrypted_telefone1 = base64_decode($_POST['telefone1_seguro'] ?? '');
+$encrypted_telefone2 = base64_decode($_POST['telefone2_seguro'] ?? '');
+$encrypted_email     = base64_decode($_POST['email_seguro'] ?? '');
+
+try {
+    $nome  = $privateKey->decrypt($encrypted_nome);
+    $telefone1 = $privateKey->decrypt($encrypted_telefone1);
+    $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    $email = $privateKey->decrypt($encrypted_email);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+
 include('../inc/conexao.php');
 include('../inc/funcoes.php');
 
 
 // var_dump($_SESSION['dadosResponsavel']);
-
-$nome          = $_POST['nome'];
-// $cpf           = $_POST['cpf'];
-$telefone1     = $_POST['telefone1'];
-$telefone2     = $_POST['telefone2'];
-$email         = $_POST['email'];
-$idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 // $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
 $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";

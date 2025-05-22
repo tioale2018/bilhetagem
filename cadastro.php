@@ -178,6 +178,7 @@ include_once("./inc/funcoes.php");
     </div>
 </section>
 <input type="hidden" id="idPrevendaAtual" data-id-idprevenda="<?= $idPrevendaAtual ?>" />
+<div data-idtoken="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" id="idcsrftoken" styte="display: none"></div>
 
 <?php include('./inc/cad-participante-modal.php') ?>
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
@@ -186,17 +187,19 @@ include_once("./inc/funcoes.php");
 <script>
     $(document).ready(function(){
         
-function pemToArrayBuffer(pem) {
-    const b64 = pem
-        .replace(/-----BEGIN PUBLIC KEY-----/, '')
-        .replace(/-----END PUBLIC KEY-----/, '')
-        .replace(/\s/g, '');
-    const binary = atob(b64);
-    const buffer = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-        buffer[i] = binary.charCodeAt(i);
+if (typeof pemToArrayBuffer === 'undefined') {        
+    function pemToArrayBuffer(pem) {
+        const b64 = pem
+            .replace(/-----BEGIN PUBLIC KEY-----/, '')
+            .replace(/-----END PUBLIC KEY-----/, '')
+            .replace(/\s/g, '');
+        const binary = atob(b64);
+        const buffer = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            buffer[i] = binary.charCodeAt(i);
+        }
+        return buffer.buffer;
     }
-    return buffer.buffer;
 }
 
         if (typeof publicKeyPEM === 'undefined') {
@@ -288,7 +291,7 @@ mQIDAQAB
 
             // Adiciona o CSRF token manualmente no formulário antes de criptografar
             if (!form.querySelector('input[name="csrf_token"]')) {
-                const token = "<?= htmlspecialchars($_SESSION['csrf_token']) ?>";
+                const token = $('#csrf_token').data('idtoken'); 
                 const input = document.createElement("input");
                 input.type = "hidden";
                 input.name = "csrf_token";
