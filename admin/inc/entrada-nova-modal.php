@@ -7,41 +7,41 @@
             </div>
             <div class="modal-body">
             
-                        <h5 class="card-inside-title">Dados do responsável</h5>
-                        <div class="row clearfix">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="cpf" class="form-label">CPF</label>
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="" id="cpf" required maxlength="14" pattern="\d*" />
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Nome</label>                            
-                                    <input  id="nome" name="nome" type="text" class="form-control" placeholder="Nome" value="" required />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="telefone1" class="form-label">Telefone 1</label>
-                                    <input id="telefone1" name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="" required />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="telfone2" class="form-label">Telefone 2</label>
-                                    <input id="telefone2" name="telefone2" type="text" class="form-control" placeholder="Telefone 2" value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Email</label>
-                                    <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="" />
-                                </div>
-                            </div> 
+                <h5 class="card-inside-title">Dados do responsável</h5>
+                <div class="row clearfix">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input name="cpf" type="text" class="form-control" placeholder="CPF" value="" id="cpf" required maxlength="14" pattern="\d*" />
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label for="" class="form-label">Nome</label>                            
+                            <input  id="nome" name="nome" type="text" class="form-control" placeholder="Nome" value="" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="telefone1" class="form-label">Telefone 1</label>
+                            <input id="telefone1" name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="telfone2" class="form-label">Telefone 2</label>
+                            <input id="telefone2" name="telefone2" type="text" class="form-control" placeholder="Telefone 2" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Email</label>
+                            <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="" />
+                        </div>
+                    </div> 
 
-                            
-                        </div>                       
+                    
+                </div>                       
                         
             </div>
             <div class="modal-footer">
@@ -57,8 +57,6 @@
 <script src="./js/funcoes.js"></script>
 <script>
     $(document).ready(function(){
-        
-        
         
         $('body').on('change', '#cpf', function(){
             
@@ -169,10 +167,90 @@
             $('input[name=telefone2]').mask(mask, options);
         }
     });
-
+/*
     $('#formAddResponsavelModal').on('submit', function(e) {
         $('#formAddResponsavelModal button[type="submit"]').prop('disabled', true);
     })
+*/
+
+
+
+// Define a função de conversão PEM → ArrayBuffer
+function pemToArrayBuffer(pem) {
+    const b64 = pem.replace(/-----BEGIN PUBLIC KEY-----/, '')
+                   .replace(/-----END PUBLIC KEY-----/, '')
+                   .replace(/\s/g, '');
+    const binary = atob(b64);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
+    }
+    return buffer.buffer;
+}
+
+function arrayBufferToBase64(buffer) {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return btoa(binary);
+}
+
+// Manipulação do submit
+document.querySelector('#formAddResponsavelModal').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
+    try {
+        const publicKey = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        const encoder = new TextEncoder();
+        const encryptedFields = {};
+
+        const inputs = form.querySelectorAll('input[name], textarea[name]');
+        for (let input of inputs) {
+            const name = input.name;
+            const value = input.value;
+            if (!name || value === '') continue;
+
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, publicKey, encoder.encode(value));
+            encryptedFields[name + '_seguro'] = arrayBufferToBase64(encrypted);
+        }
+
+        // Cria novo form invisível com os dados criptografados
+        const newForm = document.createElement('form');
+        newForm.method = 'POST';
+        newForm.action = form.action;
+        newForm.style.display = 'none';
+
+        for (let [name, value] of Object.entries(encryptedFields)) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value;
+            newForm.appendChild(input);
+        }
+
+        document.body.appendChild(newForm);
+        newForm.submit(); // Envia como form normal (recarrega a página)
+    } catch (err) {
+        alert("Erro ao criptografar os dados.");
+        console.error("Erro na criptografia:", err);
+        submitBtn.disabled = false;
+    }
+});
+
+
+
+/* ************************* */
+
+
 
     $('#addResponsavelModal').on('hidden.bs.modal', function (e) {
         $('#formAddResponsavelModal').trigger('reset');
