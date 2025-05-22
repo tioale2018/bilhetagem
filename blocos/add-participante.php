@@ -1,4 +1,15 @@
 <?php
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
@@ -9,12 +20,26 @@ include('../inc/conexao.php');
 include('../inc/funcoes.php');
 
 //onde se lê "pacote" entenda perfil
-$nome          = $_POST['nome'];
-$nascimento    = convertDateToYMD($_POST['nascimento']);
+// $nome          = $_POST['nome'];
+// $nascimento    = convertDateToYMD($_POST['nascimento']);
 $vinculo       = $_POST['vinculo'];
 $perfil        = $_POST['pacote'];
-$idresponsavel = $_POST['idresponsavel'];
-$idprevenda    = $_POST['idprevenda'];
+// $idresponsavel = $_POST['idresponsavel'];
+// $idprevenda    = $_POST['idprevenda'];
+
+$encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
+$encrypted_nascimento = base64_decode($_POST['nascimento_seguro'] ?? '');
+$encrypted_idresponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
+$encrypted_idprevenda    = base64_decode($_POST['idprevenda_seguro'] ?? '');
+
+try {
+    $nome  = $privateKey->decrypt($encrypted_nome);
+    $nascimento = $privateKey->decrypt($encrypted_nascimento);
+    $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel);
+    $idprevenda = $privateKey->decrypt($encrypted_idprevenda);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
 
 $lembrar   = (isset($_POST['lembrarme'])?1:0);
 
