@@ -197,6 +197,7 @@ $(document).ready(function() {
         } else {
 
               $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
+                console.log(data);
 
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:idPrevenda }, function(){
                     $('#modalEditaParticipante').modal('toggle'); 
