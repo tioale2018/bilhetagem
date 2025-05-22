@@ -185,6 +185,20 @@ include_once("./inc/funcoes.php");
 <script src="./js/safe.js?t=<?= filemtime('./js/safe.js') ?>"></script>
 <script>
     $(document).ready(function(){
+        
+function pemToArrayBuffer(pem) {
+    const b64 = pem
+        .replace(/-----BEGIN PUBLIC KEY-----/, '')
+        .replace(/-----END PUBLIC KEY-----/, '')
+        .replace(/\s/g, '');
+    const binary = atob(b64);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
+    }
+    return buffer.buffer;
+}
+
         if (typeof publicKeyPEM === 'undefined') {
     var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
