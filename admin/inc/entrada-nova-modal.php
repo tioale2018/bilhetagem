@@ -58,6 +58,7 @@
 <script>
     $(document).ready(function(){
         $('body').on('change', '#cpf', function(){
+            /*
             let i = $(this).val().replace(/\D/g, '');
             // $(this).val(i);
 
@@ -77,6 +78,45 @@
                 }
             })
         })
+        */
+       $('body').on('change', '#cpf', async function () {
+            let i = $(this).val().replace(/\D/g, '');
+
+            try {
+                const key = await crypto.subtle.importKey(
+                    "spki",
+                    pemToArrayBuffer(publicKeyPEM),
+                    { name: "RSA-OAEP", hash: "SHA-256" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encoder = new TextEncoder();
+                const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(i));
+                const cpfCriptografado = arrayBufferToBase64(encrypted);
+
+                $.post('./blocos/procura-responsavel.php', { id_seguro: cpfCriptografado }, function (data) {
+                    $('form')[0].reset();
+                    $('#cpf').val(i); // Mantém o CPF visível no input
+
+                    if (data == 0) {
+                        $('#idresponsavel').val('');
+                    } else {
+                        let dados = JSON.parse(data);
+                        $('#idresponsavel').val(dados[0].id_responsavel);
+                        $('#nome').val(dados[0].nome);
+                        $('#telefone1').val(dados[0].telefone1);
+                        $('#telefone2').val(dados[0].telefone2);
+                        $('#email').val(dados[0].email);
+                    }
+                });
+
+            } catch (err) {
+                console.error('Erro na criptografia do CPF:', err);
+                alert('Não foi possível criptografar o CPF. Verifique sua chave pública.');
+            }
+        });
+
     })
 </script>
 

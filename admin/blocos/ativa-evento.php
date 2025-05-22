@@ -42,7 +42,8 @@ WHERE tbusuarios_evento.ativo=1 and tbusuarios_evento.idusuario=:iduser and tbev
 */
 $sql_eventos_usuario = "SELECT * FROM tbusuarios_evento
 inner join tbevento on tbevento.id_evento=tbusuarios_evento.idevento
-WHERE tbusuarios_evento.ativo=1 and tbusuarios_evento.idusuario=:iduser and tbevento.id_evento=:idevento";
+WHERE tbusuarios_evento.ativo=1 and tbusuarios_evento.idusuario=:iduser and tbusuarios_evento.idevento=:idevento";
+// WHERE tbusuarios_evento.ativo=1 and tbusuarios_evento.idusuario=:iduser and tbevento.id_evento=:idevento";
 
 $pre_eventos_usuario = $connPDO->prepare($sql_eventos_usuario); 
 $pre_eventos_usuario->bindParam(':iduser', $idUser, PDO::PARAM_INT);

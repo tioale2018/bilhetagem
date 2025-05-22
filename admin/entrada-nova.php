@@ -62,7 +62,8 @@
     setInterval(recarregarPagina, <?= $_SESSION['evento']['tempo_atualiza'] * 1000 ?> ); 
 </script>
 <?php } */ ?>
-
+<script src="./js/safe.js"></script>
+<script src="./js/operacional.js"></script>
 <script>
 
 $(document).ready(function(){
