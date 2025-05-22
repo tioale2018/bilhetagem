@@ -103,7 +103,7 @@
             mQIDAQAB
             -----END PUBLIC KEY-----`;
         }
-        
+
     $(document).ready(function(){
         $('select').selectpicker();   
 
@@ -243,8 +243,9 @@
             const idItemEncrypted = arrayBufferToBase64(encryptedIdItem);
 
             $.post("./blocos/add-participante.php", encryptedData, function(data){
+                console.log(data);
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function(){
-                    location.reload();
+                    // location.reload();
                 });
             }).fail(function() {
                 alert("Erro ao enviar dados criptografados.");
