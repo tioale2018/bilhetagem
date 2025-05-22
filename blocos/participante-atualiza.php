@@ -157,14 +157,21 @@ try {
 
 require '../../vendor/autoload.php';
 
-
-
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
     ->withPadding(RSA::ENCRYPTION_OAEP)
     ->withHash('sha256');
+
+
+function dataParaMySQL($data) {
+    $partes = explode('/', $data);
+    if (count($partes) === 3) {
+        return $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+    }
+    return null; // Retorna null se não tiver 3 partes
+}
 
 $encrypted_nome_b64 = $_POST['nome'] ?? '';
 $encrypted_nascimento_b64 = $_POST['nascimento'] ?? '';
@@ -207,7 +214,7 @@ try {
 }
 
 
-die("nascimento ".$nascimento);
+die("nascimento ". dataParaMySQL($nascimento));
 
 /*
 
