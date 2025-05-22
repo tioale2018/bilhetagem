@@ -272,7 +272,7 @@ function arrayBufferToBase64(buffer) {
 
 
 
-  $('#formEditaParticipante').submit(async function(e){
+  $('#formEditaParticipante').submit(async function(e) {
     e.preventDefault();
 
     const form = this;
@@ -286,40 +286,39 @@ function arrayBufferToBase64(buffer) {
         return;
     }
 
-    // Criptografa os campos principais do formulário
+    // Criptografa os campos visíveis do formulário
     const encryptedFields = await encryptFormFields(form, publicKeyPEM);
     if (!encryptedFields) {
         alert('Erro ao criptografar os dados do formulário.');
         return;
     }
 
-    // Coleta os dados adicionais que precisam ser criptografados
+    // Coleta e criptografa os campos hidden
     const camposExtras = {
-        idresponsavel: $(form).find('input[name="idresponsavel"]').val(),
-        cpf: $(form).find('input[name="cpf"]').val(),
-        idprevenda: $(form).find('input[name="idprevenda"]').val(),
-        idvinculado: $(form).find('input[name="idvinculado"]').val(),
-        identrada: $(form).find('input[name="identrada"]').val()
+        idresponsavel: form.querySelector('input[name="idresponsavel"]')?.value || '',
+        cpf:           form.querySelector('input[name="cpf"]')?.value || '',
+        idprevenda:    form.querySelector('input[name="idprevenda"]')?.value || '',
+        idvinculado:   form.querySelector('input[name="idvinculado"]')?.value || '',
+        identrada:     form.querySelector('input[name="identrada"]')?.value || ''
     };
 
-    // Criptografa os dados extras em um único campo 'dados_seguro'
     const dadosSeguro = await criptografarCamposExtras(camposExtras, publicKeyPEM);
     if (!dadosSeguro) {
         alert('Erro ao criptografar os dados extras.');
         return;
     }
 
-    // Inclui os dados criptografados extras no objeto a ser enviado
+    // Adiciona os campos extras criptografados ao envio
     encryptedFields.dados_seguro = dadosSeguro;
 
-    // Criptografa separadamente o idprevenda para uso em .load()
+    // Criptografa o idprevenda para atualizar o bloco
     const encryptedIdPrevenda = await encryptRSA(camposExtras.idprevenda, publicKeyPEM);
 
-    // Envia os dados criptografados ao backend
+    // Envia os dados ao backend
     $.post('./blocos/participante-atualiza.php', encryptedFields, function(data){
         console.log(data);
 
-        // Atualiza lista com idPrevenda criptografado
+        // Atualiza lista vinculada com idPrevenda criptografado
         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedIdPrevenda }, function(){
             $('#modalEditaParticipante').modal('toggle');
         });
