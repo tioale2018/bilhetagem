@@ -210,47 +210,67 @@ $(document).ready(function() {
  
   async function criptografarCamposExtras(campos) {
     try {
+        // Converte o objeto campos para JSON (string)
         const jsonString = JSON.stringify(campos);
+
+        // Gera chave AES-256 (32 bytes) aleatória
         const aesKey = crypto.getRandomValues(new Uint8Array(32));
+
+        // Gera vetor de inicialização (IV) para AES-GCM (12 bytes)
         const iv = crypto.getRandomValues(new Uint8Array(12));
+
+        // Codifica string JSON em Uint8Array
         const encoder = new TextEncoder();
         const encodedData = encoder.encode(jsonString);
 
+        // Importa chave AES para uso com SubtleCrypto
         const aesCryptoKey = await crypto.subtle.importKey(
-            "raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]
+            "raw", 
+            aesKey, 
+            { name: "AES-GCM" }, 
+            false, 
+            ["encrypt"]
         );
 
+        // Criptografa os dados JSON usando AES-GCM
         const encryptedData = await crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv }, aesCryptoKey, encodedData
+            { name: "AES-GCM", iv: iv }, 
+            aesCryptoKey, 
+            encodedData
         );
 
+        // Importa a chave RSA pública no formato SPKI
         const rsaKey = await crypto.subtle.importKey(
             "spki",
-            pemToArrayBuffer(publicKeyPEM), // Assume que já está declarada fora
-            {
-                name: "RSA-OAEP",
-                hash: "SHA-256"
-            },
+            pemToArrayBuffer(publicKeyPEM),  // publicKeyPEM deve estar disponível
+            { name: "RSA-OAEP", hash: "SHA-256" },
             false,
             ["encrypt"]
         );
 
+        // Criptografa a chave AES usando RSA-OAEP
         const encryptedAesKey = await crypto.subtle.encrypt(
-            { name: "RSA-OAEP" }, rsaKey, aesKey
+            { name: "RSA-OAEP" },
+            rsaKey,
+            aesKey
         );
 
+        // Converte ArrayBuffers para Base64 para transporte fácil
         const result = {
             key: arrayBufferToBase64(encryptedAesKey),
             iv: arrayBufferToBase64(iv),
             data: arrayBufferToBase64(encryptedData)
         };
 
+        // Retorna JSON string contendo os dados criptografados
         return JSON.stringify(result);
+
     } catch (error) {
         console.error("Erro ao criptografar campos extras:", error);
         return null;
     }
 }
+
 
 function pemToArrayBuffer(pem) {
     const b64 = pem
@@ -272,7 +292,7 @@ function arrayBufferToBase64(buffer) {
 
 
 
-  $('#formEditaParticipante').submit(async function(e) {
+$('#formEditaParticipante').submit(async function(e) {
     e.preventDefault();
 
     const form = this;
@@ -286,20 +306,20 @@ function arrayBufferToBase64(buffer) {
         return;
     }
 
-    // Criptografa os campos visíveis do formulário
+    // Criptografa os campos principais do formulário
     const encryptedFields = await encryptFormFields(form, publicKeyPEM);
     if (!encryptedFields) {
         alert('Erro ao criptografar os dados do formulário.');
         return;
     }
 
-    // Coleta e criptografa os campos hidden
+    // Coleta e criptografa os campos hidden manualmente
     const camposExtras = {
-        idresponsavel: form.querySelector('input[name="idresponsavel"]')?.value || '',
-        cpf:           form.querySelector('input[name="cpf"]')?.value || '',
-        idprevenda:    form.querySelector('input[name="idprevenda"]')?.value || '',
-        idvinculado:   form.querySelector('input[name="idvinculado"]')?.value || '',
-        identrada:     form.querySelector('input[name="identrada"]')?.value || ''
+        idresponsavel: $(form).find('input[name="idresponsavel"]').val(),
+        cpf:           $(form).find('input[name="cpf"]').val(),
+        idprevenda:    $(form).find('input[name="idprevenda"]').val(),
+        idvinculado:   $(form).find('input[name="idvinculado"]').val(),
+        identrada:     $(form).find('input[name="identrada"]').val()
     };
 
     const dadosSeguro = await criptografarCamposExtras(camposExtras, publicKeyPEM);
@@ -308,20 +328,29 @@ function arrayBufferToBase64(buffer) {
         return;
     }
 
-    // Adiciona os campos extras criptografados ao envio
+    // Adiciona dados extras ao payload criptografado
     encryptedFields.dados_seguro = dadosSeguro;
 
-    // Criptografa o idprevenda para atualizar o bloco
+    // Criptografa o idprevenda para atualização via .load()
     const encryptedIdPrevenda = await encryptRSA(camposExtras.idprevenda, publicKeyPEM);
 
-    // Envia os dados ao backend
-    $.post('./blocos/participante-atualiza.php', encryptedFields, function(data){
-        console.log(data);
+    // Envia os dados ao backend sem anexar o form automaticamente
+    $.ajax({
+        type: 'POST',
+        url: './blocos/participante-atualiza.php',
+        data: encryptedFields, // Apenas os campos criptografados
+        success: function(data) {
+            console.log(data);
 
-        // Atualiza lista vinculada com idPrevenda criptografado
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedIdPrevenda }, function(){
-            $('#modalEditaParticipante').modal('toggle');
-        });
+            // Atualiza bloco com idprevenda criptografado
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedIdPrevenda }, function(){
+                $('#modalEditaParticipante').modal('toggle');
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar dados:', error);
+            alert('Erro ao enviar os dados criptografados.');
+        }
     });
 });
 
