@@ -291,7 +291,102 @@ function arrayBufferToBase64(buffer) {
 }
 
 
+$('#formEditaParticipante').submit(async function(e) {
+    e.preventDefault();
 
+    const form = this;
+
+    // Validação da data de nascimento (ajuste para seu campo)
+    const dateInput = $('#nasc').val();
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    // Importar chave pública
+    const key = await crypto.subtle.importKey(
+        "spki",
+        pemToArrayBuffer(publicKeyPEM),
+        {
+            name: "RSA-OAEP",
+            hash: "SHA-256"
+        },
+        false,
+        ["encrypt"]
+    );
+
+    const encoder = new TextEncoder();
+    const encryptedFields = {};
+
+    // Criptografa campos visíveis do formulário
+    const visibleInputs = $(form).find('input[type!="hidden"][name]');
+    for (let i = 0; i < visibleInputs.length; i++) {
+        const input = visibleInputs[i];
+        const name = input.name;
+        const value = input.value;
+
+        if (!name || !value) continue;
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(value)
+        );
+        const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+        encryptedFields[name] = encoded;
+    }
+
+    // Criptografa campos hidden manualmente (campos extras)
+    const hiddenInputs = $(form).find('input[type="hidden"][name]');
+    for (let i = 0; i < hiddenInputs.length; i++) {
+        const input = hiddenInputs[i];
+        const name = input.name;
+        const value = input.value;
+
+        if (!name || !value) continue;
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(value)
+        );
+        const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+        encryptedFields[name] = encoded;
+    }
+
+    // Envia os dados criptografados por AJAX
+    $.ajax({
+        type: 'POST',
+        url: './blocos/participante-atualiza.php',
+        data: encryptedFields, // Envia só dados criptografados
+        success: function(data) {
+            console.log(data);
+
+            // Atualiza bloco com idprevenda criptografado (opcional)
+            const idprevenda = $(form).find('input[name="idprevenda"]').val();
+            if (idprevenda) {
+                encryptRSA(idprevenda, publicKeyPEM).then(encryptedId => {
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedId }, function(){
+                        $('#modalEditaParticipante').modal('toggle');
+                    });
+                });
+            } else {
+                $('#modalEditaParticipante').modal('toggle');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar dados:', error);
+            alert('Erro ao enviar os dados criptografados.');
+        }
+    });
+});
+
+
+
+
+/*
 $('#formEditaParticipante').submit(async function(e) {
     e.preventDefault();
 
@@ -313,27 +408,7 @@ $('#formEditaParticipante').submit(async function(e) {
         return;
     }
 
-    // Criptografa manualmente os inputs type=hidden
-        const hiddenInputs = $(form).find('input[type="hidden"][name]');
-        for (let i = 0; i < hiddenInputs.length; i++) {
-            const input = hiddenInputs[i];
-            const name = input.name;
-            const value = input.value;
-
-            if (!name || !value) continue;
-
-            const encrypted = await crypto.subtle.encrypt(
-                { name: "RSA-OAEP" },
-                key,
-                encoder.encode(value)
-            );
-
-            const encoded = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
-            encryptedFields[name] = encoded;
-        }
-
-
-
+    
 
     // Coleta e criptografa os campos hidden manualmente
     const camposExtras = {
@@ -376,7 +451,7 @@ $('#formEditaParticipante').submit(async function(e) {
     });
 });
 
-
+*/
 
 /*
     async function encryptFormDataHybrid(formElement, publicKeyPEM, extraData = {}) {
