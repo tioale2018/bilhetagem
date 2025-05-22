@@ -80,6 +80,20 @@
 </div>
 
 <script>
+    if (typeof pemToArrayBuffer === 'undefined') {        
+    function pemToArrayBuffer(pem) {
+        const b64 = pem
+            .replace(/-----BEGIN PUBLIC KEY-----/, '')
+            .replace(/-----END PUBLIC KEY-----/, '')
+            .replace(/\s/g, '');
+        const binary = atob(b64);
+        const buffer = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            buffer[i] = binary.charCodeAt(i);
+        }
+        return buffer.buffer;
+    }
+}
 $(document).ready(function() {
     // Função para calcular a idade com base na data de nascimento
     function calculateAge(date) {
