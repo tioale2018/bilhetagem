@@ -27,6 +27,8 @@ if (isset($_POST['id_prevenda_seguro'])) {
 // $idprevenda    = $data['idprevenda'] ?? '';
 // $idvinculado   = $data['idvinculado'] ?? '';
 // $identrada     = $data['identrada'] ?? '';
+
+/*
 $encrypted_nome      = base64_decode($_POST['nome'] ?? '');
 $encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
 $encrypted_vinculo   = base64_decode($_POST['vinculo'] ?? '');
@@ -52,6 +54,43 @@ try {
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
+
+*/
+
+
+function safeBase64Decode($field) {
+    $val = $_POST[$field] ?? '';
+    $decoded = base64_decode($val, true);
+    if ($decoded === false) {
+        throw new Exception("Campo '$field' inválido ou não está em base64.");
+    }
+    return $decoded;
+}
+
+try {
+    $encrypted_nome        = safeBase64Decode('nome');
+    $encrypted_nascimento  = safeBase64Decode('nascimento');
+    $encrypted_vinculo     = safeBase64Decode('vinculo');
+    $encrypted_pacote      = safeBase64Decode('pacote');
+    $encrypted_idresponsavel = safeBase64Decode('idresponsavel');
+    $encrypted_idprevenda    = safeBase64Decode('idprevenda');
+    $encrypted_idvinculado   = safeBase64Decode('idvinculado');
+    $encrypted_identrada     = safeBase64Decode('identrada');
+
+    $nome          = $privateKey->decrypt($encrypted_nome);
+    $nascimento    = $privateKey->decrypt($encrypted_nascimento);
+    $vinculo       = $privateKey->decrypt($encrypted_vinculo);
+    $pacote        = $privateKey->decrypt($encrypted_pacote);
+    $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel);
+    $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
+    $idvinculado   = $privateKey->decrypt($encrypted_idvinculado);
+    $identrada     = $privateKey->decrypt($encrypted_identrada);
+
+} catch (Exception $e) {
+    die("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
 
 
 /*
