@@ -251,28 +251,6 @@ mQIDAQAB
             $('.btsalvar').attr('disabled', false);            
         });
 
-        /*
-
-        $('form#formResponsavel').submit(function(e){
-            e.preventDefault();
-            let formAtual = $(this);
-            formAtual.append('<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">');
-            $.post('./blocos/atualiza-responsavel.php', formAtual.serialize(), function(data){
-                swal({
-                    title: "Dados salvos",
-                    text: "Os dados informados foram salvos com sucesso!",
-                    type: "success",
-                    showCancelButton: false,
-                    closeOnConfirm: true
-                }, function () {
-                    // $('.btsalvar').attr('disabled', true);
-                    location.reload();
-                });                
-            });
-        })
-
-        */
-
         $('form#formResponsavel').submit(async function(e) {
             e.preventDefault();
 
