@@ -254,9 +254,6 @@ mQIDAQAB
 
         carregarListaVinculadosCriptografado(idPrevendaAtual);
 
-
-
-
         
         $('form#formResponsavel').on('input change', function(){
             $('.btsalvar').attr('disabled', false);            

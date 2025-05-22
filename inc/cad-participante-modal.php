@@ -78,6 +78,7 @@
         </div>
     </div>
 </div>
+<div id="idprevenda" data-id-prevenda="<?= $idPrevendaAtual ?>" style="display: none"></div>
 
 <script>
     if (typeof pemToArrayBuffer === 'undefined') {        
@@ -179,9 +180,12 @@ $(document).ready(function() {
     });
 */
 
+
+/*
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault();
     const $form = $(this);
+    let idprevenda = $('#idprevenda').data('id-prevenda');
     $form.find('button[type=submit]').attr('disabled', true);
 
     const dateInput = $form.find('input[name=nascimento]').val();
@@ -241,7 +245,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 
     // Envia via POST
     $.post('./blocos/add-participante.php', encryptedFields, function(data) {
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: <?= $idPrevendaAtual ?> }, function() {
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idprevenda }, function() {
             location.reload();
         });
     }).fail(function() {
@@ -249,6 +253,100 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         $form.find('button[type=submit]').attr('disabled', false);
     });
 });
+
+*/
+
+
+$('#formModalAddParticipante').on('submit', async function(event) {
+    event.preventDefault();
+    const $form = $(this);
+    const $submitBtn = $form.find('button[type=submit]');
+    $submitBtn.attr('disabled', true);
+
+    const dateInput = $form.find('input[name=nascimento]').val();
+    if (!isValidDate(dateInput)) {
+        $form.find('input[name=nascimento]').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $form.find('input[name=nascimento]').focus();
+        $submitBtn.attr('disabled', false);
+        return;
+    }
+
+    // Extrai campos não criptografados
+    const vinculo = $form.find('select[name="vinculo"]').val();
+    const pacote  = $form.find('select[name="pacote"]').val();
+
+    // Obtém o valor de idprevenda (do atributo data-id-prevenda)
+    const idprevenda = $('#idprevenda').data('id-prevenda');
+
+    try {
+        // Importa a chave pública
+        const key = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        const encoder = new TextEncoder();
+        const encryptedFields = {};
+
+        // Criptografa os inputs visíveis (exceto os select especiais)
+        const visibleInputs = $form.find('input[name], textarea[name], select[name]').not('[type=hidden]');
+        for (let i = 0; i < visibleInputs.length; i++) {
+            const input = visibleInputs[i];
+            const name = input.name;
+            const value = input.value;
+
+            if (!name || !value) continue;
+            if (name === 'vinculo' || name === 'pacote') continue;
+
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
+            encryptedFields[name + '_seguro'] = arrayBufferToBase64(encrypted);
+        }
+
+        // Criptografa os inputs hidden
+        const hiddenInputs = $form.find('input[type="hidden"][name]');
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            const input = hiddenInputs[i];
+            const name = input.name;
+            const value = input.value;
+            if (!name || !value) continue;
+
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
+            encryptedFields[name] = arrayBufferToBase64(encrypted);
+        }
+
+        // Criptografa idprevenda
+        if (idprevenda) {
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(String(idprevenda)));
+            encryptedFields['idprevenda_seguro'] = arrayBufferToBase64(encrypted);
+        }
+
+        // Adiciona campos não criptografados
+        encryptedFields['vinculo'] = vinculo;
+        encryptedFields['pacote'] = pacote;
+
+        // Envia os dados
+        $.post('./blocos/add-participante.php', encryptedFields, function(data) {
+            // Após o envio bem-sucedido, recarrega lista vinculada
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedFields['idprevenda_seguro'] }, function() {
+                location.reload();
+            });
+        }).fail(function() {
+            alert('Erro ao enviar os dados criptografados.');
+            $submitBtn.attr('disabled', false);
+        });
+
+    } catch (err) {
+        console.error('Erro ao criptografar os dados:', err);
+        alert('Erro de criptografia. Verifique a chave pública.');
+        $submitBtn.attr('disabled', false);
+    }
+});
+
+
 
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
