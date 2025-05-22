@@ -167,8 +167,27 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withHash('sha256');
 
 $encrypted_nome_b64 = $_POST['nome'] ?? '';
-$encrypted_nome_raw = base64_decode($encrypted_nome_b64, true);
+$encrypted_nascimento_b64 = $_POST['nascimento'] ?? '';
+$encrypted_vinculo_b64 = $_POST['vinculo'] ?? '';
+$encrypted_pacote_b64 = $_POST['pacote'] ?? '';
+$encrypted_idresponsavel_b64 = $_POST['idresponsavel'] ?? '';
+$encrypted_idprevenda_b64 = $_POST['idprevenda'] ?? '';
+$encrypted_idvinculado_b64 = $_POST['idvinculado'] ?? '';
+$encrypted_identrada_b64 = $_POST['identrada'] ?? '';
 
+
+$encrypted_nome_raw = base64_decode($encrypted_nome_b64, true);
+$encrypted_nascimento_raw = base64_decode($encrypted_nascimento_b64, true);
+$encrypted_vinculo_raw = base64_decode($encrypted_vinculo_b64, true);
+$encrypted_pacote_raw = base64_decode($encrypted_pacote_b64, true);
+$encrypted_idresponsavel_raw = base64_decode($encrypted_idresponsavel_b64, true);
+$encrypted_idprevenda_raw = base64_decode($encrypted_idprevenda_b64, true);
+$encrypted_idvinculado_raw = base64_decode($encrypted_idvinculado_b64, true);
+$encrypted_identrada_raw = base64_decode($encrypted_identrada_b64, true);
+
+
+
+/*
 if ($encrypted_nome_raw === false) {
     die("Erro ao decodificar base64.");
 }
@@ -176,14 +195,29 @@ if ($encrypted_nome_raw === false) {
 if (strlen($encrypted_nome_raw) !== 256) {
     die("Tamanho incorreto: esperado 256 bytes, recebido " . strlen($encrypted_nome_raw));
 }
-
+*/
 try {
     $nome = $privateKey->decrypt($encrypted_nome_raw);
+    $nascimento = $privateKey->decrypt($encrypted_nascimento_raw);
+    $vinculo = $privateKey->decrypt($encrypted_vinculo_raw);
+    $pacote = $privateKey->decrypt($encrypted_pacote_raw);
+    $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel_raw);
+    $idprevenda = $privateKey->decrypt($encrypted_idprevenda_raw);
+    $idvinculado = $privateKey->decrypt($encrypted_idvinculado_raw);
+    $identrada = $privateKey->decrypt($encrypted_identrada_raw);
 } catch (Exception $e) {
     die("Erro ao descriptografar: " . $e->getMessage());
 }
 
-
+die('nome: ' . $nome . "\n" . 
+    'nascimento: ' . $nascimento . "\n" . 
+    'vinculo: ' . $vinculo . "\n" . 
+    'pacote: ' . $pacote . "\n" . 
+    'idresponsavel: ' . $idresponsavel . "\n" . 
+    'idprevenda: ' . $idprevenda . "\n" . 
+    'idvinculado: ' . $idvinculado . "\n" .
+    'identrada: ' . $identrada
+);
 
 
 
