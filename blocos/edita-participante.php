@@ -208,35 +208,25 @@ $(document).ready(function() {
 
   */ 
  
-  async function criptografarCamposExtras(campos, publicKeyPEM) {
+  async function criptografarCamposExtras(campos) {
     try {
-        // Converte o objeto de campos extras para string JSON
         const jsonString = JSON.stringify(campos);
-
-        // Gera uma chave AES aleatória (256 bits)
-        const aesKey = window.crypto.getRandomValues(new Uint8Array(32));
-
-        // Gera um IV aleatório (12 bytes para AES-GCM)
-        const iv = window.crypto.getRandomValues(new Uint8Array(12));
-
-        // Codifica o texto em Uint8Array
+        const aesKey = crypto.getRandomValues(new Uint8Array(32));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
         const encoder = new TextEncoder();
         const encodedData = encoder.encode(jsonString);
 
-        // Importa a chave AES
         const aesCryptoKey = await crypto.subtle.importKey(
             "raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]
         );
 
-        // Criptografa os dados com AES-GCM
         const encryptedData = await crypto.subtle.encrypt(
             { name: "AES-GCM", iv: iv }, aesCryptoKey, encodedData
         );
 
-        // Importa a chave RSA pública
-        const rsaKey = await window.crypto.subtle.importKey(
+        const rsaKey = await crypto.subtle.importKey(
             "spki",
-            pemToArrayBuffer(publicKeyPEM),
+            pemToArrayBuffer(publicKeyPEM), // Assume que já está declarada fora
             {
                 name: "RSA-OAEP",
                 hash: "SHA-256"
@@ -245,14 +235,10 @@ $(document).ready(function() {
             ["encrypt"]
         );
 
-        // Criptografa a chave AES com RSA
-        const encryptedAesKey = await window.crypto.subtle.encrypt(
-            { name: "RSA-OAEP" },
-            rsaKey,
-            aesKey
+        const encryptedAesKey = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" }, rsaKey, aesKey
         );
 
-        // Monta o payload: chave AES criptografada + IV + dados
         const result = {
             key: arrayBufferToBase64(encryptedAesKey),
             iv: arrayBufferToBase64(iv),
@@ -260,19 +246,21 @@ $(document).ready(function() {
         };
 
         return JSON.stringify(result);
-
     } catch (error) {
-        console.error("Erro na criptografia dos campos extras:", error);
+        console.error("Erro ao criptografar campos extras:", error);
         return null;
     }
 }
 
 function pemToArrayBuffer(pem) {
-    const b64Lines = pem.replace(/-----.*?-----/g, "").replace(/\s+/g, '');
-    const b64 = atob(b64Lines);
-    const buffer = new Uint8Array(b64.length);
-    for (let i = 0; i < b64.length; i++) {
-        buffer[i] = b64.charCodeAt(i);
+    const b64 = pem
+        .replace(/-----BEGIN PUBLIC KEY-----/, '')
+        .replace(/-----END PUBLIC KEY-----/, '')
+        .replace(/\s/g, '');
+    const binary = atob(b64);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
     }
     return buffer.buffer;
 }
