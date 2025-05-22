@@ -3,15 +3,19 @@
 // echo "<hr>";
 // die(var_dump($_POST['nome']));
 
-require '../../vendor/autoload.php';
+// require '../../vendor/autoload.php';
 
-use phpseclib3\Crypt\RSA;
-use phpseclib3\Crypt\PublicKeyLoader;
+// use phpseclib3\Crypt\RSA;
+// use phpseclib3\Crypt\PublicKeyLoader;
 
-// Lê a chave privada
-$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
-    ->withPadding(RSA::ENCRYPTION_OAEP)
-    ->withHash('sha256');
+// // Lê a chave privada
+// $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+//     ->withPadding(RSA::ENCRYPTION_OAEP)
+//     ->withHash('sha256');
+
+
+
+
 /*
 // Decodifica a senha criptografada
 if (isset($_POST['id_prevenda_seguro'])) {
@@ -58,7 +62,7 @@ try {
 }
 
 */
-
+/*
 
 function safeBase64Decode($field) {
     $val = $_POST[$field] ?? '';
@@ -92,7 +96,7 @@ try {
     die("Erro ao descriptografar: " . $e->getMessage());
 }
 
-
+*/
 
 
 /*
@@ -150,7 +154,7 @@ try {
 }
 */
 
-/*
+
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -187,7 +191,7 @@ try {
 }
 
 
-*/
+
 
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
