@@ -267,6 +267,22 @@ $(document).ready(function() {
     }
 }
 
+function pemToArrayBuffer(pem) {
+    const b64Lines = pem.replace(/-----.*?-----/g, "").replace(/\s+/g, '');
+    const b64 = atob(b64Lines);
+    const buffer = new Uint8Array(b64.length);
+    for (let i = 0; i < b64.length; i++) {
+        buffer[i] = b64.charCodeAt(i);
+    }
+    return buffer.buffer;
+}
+
+function arrayBufferToBase64(buffer) {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return btoa(binary);
+}
+
+
 
   $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
