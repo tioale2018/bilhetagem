@@ -1,15 +1,60 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
+
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
-use phpseclib3\Crypt\AES;
 
-// Carrega a chave privada RSA
-$privateKey = PublicKeyLoader::loadPrivateKey(
-    file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem')
-)->withPadding(RSA::ENCRYPTION_OAEP)->withHash('sha256');
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+/*
+// Decodifica a senha criptografada
+if (isset($_POST['id_prevenda_seguro'])) {
+    $encrypted_i      = base64_decode($_POST['id_prevenda_seguro'] ?? '');
+} else {
+    $encrypted_i      = base64_decode($_POST['i'] ?? '');
+}
+*/
+
+// $nome          = $data['nome'] ?? '';
+// $nascimento    = $data['nascimento'] ?? '';
+// $vinculo       = $data['vinculo'] ?? '';
+// $pacote        = $data['pacote'] ?? '';
+// $idresponsavel = $data['idresponsavel'] ?? '';
+// $idprevenda    = $data['idprevenda'] ?? '';
+// $idvinculado   = $data['idvinculado'] ?? '';
+// $identrada     = $data['identrada'] ?? '';
+$encrypted_nome      = base64_decode($_POST['nome'] ?? '');
+$encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
+$encrypted_vinculo   = base64_decode($_POST['vinculo'] ?? '');
+$encrypted_pacote    = base64_decode($_POST['pacote'] ?? '');
+$encrypted_idresponsavel = base64_decode($_POST['idresponsavel'] ?? '');
+$encrypted_idprevenda    = base64_decode($_POST['idprevenda'] ?? '');
+$encrypted_idvinculado   = base64_decode($_POST['idvinculado'] ?? '');
+$encrypted_identrada     = base64_decode($_POST['identrada'] ?? '');
+
+// $idprevenda = intval($_POST['i']);
+
+try {
+    $nome          = $privateKey->decrypt($encrypted_nome);
+    $nascimento    = $privateKey->decrypt($encrypted_nascimento);
+    $vinculo       = $privateKey->decrypt($encrypted_vinculo);
+    $pacote        = $privateKey->decrypt($encrypted_pacote);
+    $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel);
+    $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
+    $idvinculado   = $privateKey->decrypt($encrypted_idvinculado);
+    $identrada     = $privateKey->decrypt($encrypted_identrada);
+
+    
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+/*
 
 // Recebe os dados JSON da requisição
 $input = json_decode(file_get_contents('php://input'), true);
@@ -62,7 +107,7 @@ try {
     echo json_encode(['error' => 'Erro ao descriptografar: ' . $e->getMessage()]);
     exit;
 }
-
+*/
 
 /*
 require '../../vendor/autoload.php';
