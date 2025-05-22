@@ -208,7 +208,46 @@ $(document).ready(function() {
 
   */  
 
+  $('#formEditaParticipante').submit(async function(e){
+    e.preventDefault();
 
+    const form = this;
+
+    // Validação da data de nascimento
+    const dateInput = $('#nasc').val();
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        return;
+    }
+
+    // Criptografa o formulário
+    const encryptedFields = await encryptFormFields(form, publicKeyPEM);
+    if (!encryptedFields) {
+        alert('Erro ao criptografar os dados do formulário.');
+        return;
+    }
+
+    // Criptografa idPrevenda (para envio via .load)
+    const plainIdPrevenda = $(form).find('input[name="idprevenda"]').val();
+    const encryptedIdPrevenda = await encryptRSA(plainIdPrevenda, publicKeyPEM);
+
+    // Envia dados criptografados via POST para o PHP
+    $.post('./blocos/participante-atualiza.php', encryptedFields, function(data){
+        console.log(data);
+
+        // Atualiza lista com idPrevenda criptografado
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedIdPrevenda }, function(){
+            $('#modalEditaParticipante').modal('toggle');
+        });
+    });
+});
+
+
+
+
+/*
     async function encryptFormDataHybrid(formElement, publicKeyPEM, extraData = {}) {
         // 1. Coleta os dados do formulário em um objeto
         const formData = new FormData(formElement);
@@ -286,7 +325,7 @@ $(document).ready(function() {
         }
         return buffer;
     }
-
+*/
 
 /*
 
@@ -326,7 +365,7 @@ $('#formEditaParticipante').submit(async function (e) {
 });
 
 */
-
+/*
 $('#formEditaParticipante').submit(async function(e){
     e.preventDefault();
 
@@ -360,7 +399,7 @@ $('#formEditaParticipante').submit(async function(e){
         console.error("Erro ao criptografar dados do formulário:", error);
     }
 });
-
+*/
 
 /*
 $('#formEditaParticipante').submit(async function (e) {
