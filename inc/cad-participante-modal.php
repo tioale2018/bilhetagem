@@ -242,6 +242,8 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         // Envia os dados
         $.post('./blocos/add-participante.php', encryptedFields, function(data) {
             console.log('Dados enviados com sucesso:', data);
+            console.log('Tamanho do nome:', new TextEncoder().encode(formData['nome']).length);
+
             // Após o envio bem-sucedido, recarrega lista vinculada
             // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedFields['idprevenda_seguro'] }, function() {
             //     location.reload();
