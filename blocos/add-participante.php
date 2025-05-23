@@ -1,7 +1,5 @@
 <?php
 // die(var_dump($_POST));
-
-/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -53,9 +51,9 @@ try {
 }
 
 
-*/
 
 
+/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\AES;
@@ -88,7 +86,7 @@ try {
 
     // Detecta se é criptografia híbrida (campos 'dados_seguro', 'chave_segura' e 'iv' estão presentes)
     if (isset($_POST['dados_seguro'], $_POST['chave_segura'], $_POST['iv'])) {
-        // 🔐 Modo híbrido AES+RSA
+        // Modo híbrido AES+RSA
         $dados_criptografados = base64_decode($_POST['dados_seguro']);
         $chave_criptografada = base64_decode($_POST['chave_segura']);
         $iv = base64_decode($_POST['iv']);
@@ -114,7 +112,7 @@ try {
         $dados['vinculo'] = $_POST['vinculo'] ?? '';
         $dados['pacote'] = $_POST['pacote'] ?? '';
     } else {
-        // 🔐 Modo RSA direto (campo a campo, padrão antigo)
+        // Modo RSA direto (campo a campo, padrão antigo)
         $camposEsperados = ['nome_seguro', 'nascimento_seguro', 'idresponsavel_seguro', 'idprevenda_seguro'];
 
         foreach ($camposEsperados as $campo) {
@@ -130,7 +128,7 @@ try {
         $dados['pacote'] = $_POST['pacote'] ?? '';
     }
 
-    // ✅ Agora os dados já estão disponíveis, seja qual for o formato de entrada
+    // Agora os dados já estão disponíveis, seja qual for o formato de entrada
     $nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $nascimento    = dataParaMySQL($dados['nascimento'] ?? '');
     $idresponsavel = (int) ($dados['idresponsavel'] ?? 0);
@@ -148,7 +146,7 @@ try {
 }
 
 // die('aqui: ' . $nome);
-
+*/
 
 
 $nascimento = dataParaMySQL($nascimento);
