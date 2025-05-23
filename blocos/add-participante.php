@@ -55,7 +55,7 @@ try {
 
 */
 
-die(var_dump($_POST));
+
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\AES;
@@ -139,7 +139,7 @@ try {
     die("Erro ao processar os dados: " . $e->getMessage());
 }
 
-
+die('aqui: ' . $nome);
 
 
 
