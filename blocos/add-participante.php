@@ -129,6 +129,8 @@ try {
         $dados['pacote'] = $_POST['pacote'] ?? '';
     }
 
+    die(var_dump($dados));
+
     // Agora os dados já estão disponíveis, seja qual for o formato de entrada
     $nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $nascimento    = dataParaMySQL($dados['nascimento']) ?? '';
