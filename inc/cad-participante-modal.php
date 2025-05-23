@@ -611,6 +611,8 @@ function isValidDate(dateStr) {
 
 */
 
+/*
+
 function isValidDate(dateStr) {
     const parts = dateStr.split('/');
     if (parts.length !== 3) return false;
@@ -618,6 +620,34 @@ function isValidDate(dateStr) {
     const date = new Date(`${yyyy}-${mm}-${dd}`);
     return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
 }
+
+*/
+
+
+function isValidDate(dateStr) {
+    if (typeof dateStr !== 'string') return false;
+
+    // Garante formato dd/mm/aaaa
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = dateStr.match(regex);
+    if (!match) return false;
+
+    const dd = parseInt(match[1], 10);
+    const mm = parseInt(match[2], 10);
+    const yyyy = parseInt(match[3], 10);
+
+    // Valida faixas básicas
+    if (dd < 1 || mm < 1 || mm > 12 || yyyy < 1900 || yyyy > 2100) return false;
+
+    // Cria e valida objeto Date
+    const date = new Date(yyyy, mm - 1, dd);
+    return (
+        date.getFullYear() === yyyy &&
+        date.getMonth() === mm - 1 &&
+        date.getDate() === dd
+    );
+}
+
 
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault(); // Corrigido
