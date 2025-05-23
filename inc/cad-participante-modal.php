@@ -658,11 +658,11 @@ $('#formModalAddParticipante').on('submit', async function(event) {
     submitBtn.prop('disabled', true);
 
     // Validação da data de nascimento
-    const dateInput = $('#nasc').val();
+    const dateInput = $('#fnascimento').val();
     if (!isValidDate(dateInput)) {
-        $('#nasc').val('');
+        $('#fnascimento').val('');
         alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
-        $('#nasc').focus();
+        $('#fnascimento').focus();
         submitBtn.prop('disabled', false);
         return;
     }
