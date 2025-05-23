@@ -584,7 +584,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 
 <script>
 
-    
+    /*
 function isValidDate(dateStr) {
     if (typeof dateStr !== 'string') return false;
 
@@ -609,6 +609,15 @@ function isValidDate(dateStr) {
     );
 }
 
+*/
+
+function isValidDate(dateStr) {
+    const parts = dateStr.split('/');
+    if (parts.length !== 3) return false;
+    const [dd, mm, yyyy] = parts.map(Number);
+    const date = new Date(`${yyyy}-${mm}-${dd}`);
+    return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
+}
 
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault(); // Corrigido
