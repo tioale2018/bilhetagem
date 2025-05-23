@@ -131,10 +131,8 @@ $rowNum = $pre->rowCount();
     </div>
 </div>
 
-<div id="rowidprevenda" data-row-idprevenda="<?= $row[$key]['id_prevenda'] ?>" style="display: none"></div>
-
 <?php if (isset($key)) { ?>
-
+<div id="rowidprevenda" data-row-idprevenda="<?= $row[$key]['id_prevenda'] ?>" style="display: none"></div>
     <script>
 if (typeof publicKeyPEM === 'undefined') {
     var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
