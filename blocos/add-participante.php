@@ -147,7 +147,7 @@ try {
     die("Erro ao processar os dados: " . $e->getMessage());
 }
 
-die('aqui: ' . $nome);
+// die('aqui: ' . $nome);
 
 
 
