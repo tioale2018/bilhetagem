@@ -460,6 +460,7 @@ function arrayBufferToBase64(buffer) {
 
 $('#formModalAddParticipante').on('submit', async function(event) {
     e.preventDefault();
+    alert('ok');
 
     const form = this;
 
