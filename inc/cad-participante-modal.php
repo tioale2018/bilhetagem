@@ -583,6 +583,33 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 
 
 <script>
+
+    
+function isValidDate(dateStr) {
+    if (typeof dateStr !== 'string') return false;
+
+    const parts = dateStr.split('/');
+    if (parts.length !== 3) return false;
+
+    const [dd, mm, yyyy] = parts.map(Number);
+
+    if (
+        isNaN(dd) || isNaN(mm) || isNaN(yyyy) ||
+        dd < 1 || mm < 1 || mm > 12 || yyyy < 1900 || yyyy > 2100
+    ) {
+        return false;
+    }
+
+    // Verifica a validade da data usando o objeto Date
+    const date = new Date(yyyy, mm - 1, dd);
+    return (
+        date.getFullYear() === yyyy &&
+        date.getMonth() === mm - 1 &&
+        date.getDate() === dd
+    );
+}
+
+
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault(); // Corrigido
 
@@ -727,29 +754,6 @@ function isValidDate(dateString) {
     }
 */
 
-function isValidDate(dateStr) {
-    if (typeof dateStr !== 'string') return false;
-
-    const parts = dateStr.split('/');
-    if (parts.length !== 3) return false;
-
-    const [dd, mm, yyyy] = parts.map(Number);
-
-    if (
-        isNaN(dd) || isNaN(mm) || isNaN(yyyy) ||
-        dd < 1 || mm < 1 || mm > 12 || yyyy < 1900 || yyyy > 2100
-    ) {
-        return false;
-    }
-
-    // Verifica a validade da data usando o objeto Date
-    const date = new Date(yyyy, mm - 1, dd);
-    return (
-        date.getFullYear() === yyyy &&
-        date.getMonth() === mm - 1 &&
-        date.getDate() === dd
-    );
-}
 
 
 
