@@ -53,7 +53,7 @@ try {
 
 
 */
-die(var_dump($_POST));
+// die(var_dump($_POST));
 
 require '../../vendor/autoload.php';
 
@@ -150,7 +150,7 @@ try {
 
 
 
-$nascimento = dataParaMySQL($nascimento);
+// $nascimento = dataParaMySQL($nascimento);
 $lembrar   = (isset($_POST['lembrarme'])?1:0);
 
 //insere o vínculo
