@@ -323,8 +323,6 @@ $('body').on('click', '.btnModalEditaParticipante', async function () {
                 alert("Não foi possível processar a exclusão com segurança. Tente novamente.");
             }
         });
-
-
     });   
 </script>
 
