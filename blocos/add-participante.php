@@ -114,7 +114,8 @@ try {
         $dados['pacote'] = $_POST['pacote'] ?? '';
     } else {
         // Modo RSA direto (campo a campo, padrão antigo)
-        $camposEsperados = ['nome_seguro', 'nascimento_seguro', 'idresponsavel_seguro', 'idprevenda_seguro'];
+        // $camposEsperados = ['nome_seguro', 'nascimento_seguro', 'idresponsavel_seguro', 'idprevenda_seguro'];
+        $camposEsperados = ['nome', 'nascimento', 'idresponsavel', 'idprevenda'];
 
         foreach ($camposEsperados as $campo) {
             if (isset($_POST[$campo])) {
