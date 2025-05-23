@@ -694,7 +694,7 @@ function isValidDate(dateStr) {
     return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
 }
     */
-
+/*
      function isValidDate(dateStr) {
         if (typeof dateStr !== 'string' || !dateStr.includes('/')) return false;
 
@@ -711,6 +711,21 @@ function isValidDate(dateStr) {
             date.getFullYear() === yyyy
         );
     }
+
+    */
+function isValidDate(dateString) {
+        var parts = dateString.split("/");
+        if (parts.length !== 3) return false;
+
+        var day = parseInt(parts[0], 10);
+        var month = parseInt(parts[1], 10) - 1; // meses são baseados em zero
+        var year = parseInt(parts[2], 10);
+
+        var date = new Date(year, month, day);
+        return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
+    }
+
+
 
 function pemToArrayBuffer(pem) {
     const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s/g, '');
