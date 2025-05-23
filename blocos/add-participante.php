@@ -131,7 +131,7 @@ try {
 
     // Agora os dados já estão disponíveis, seja qual for o formato de entrada
     $nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $nascimento    = dataParaMySQL($dados['nascimento'] ?? '');
+    $nascimento    = dataParaMySQL($dados['nascimento']) ?? '';
     $idresponsavel = (int) ($dados['idresponsavel'] ?? 0);
     $idprevenda    = (int) ($dados['idprevenda'] ?? 0);
     $vinculo       = $dados['vinculo'] ?? '';
