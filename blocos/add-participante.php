@@ -55,7 +55,7 @@ try {
 
 */
 
-
+die(var_dump($_POST));
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\AES;
