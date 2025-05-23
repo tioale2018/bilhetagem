@@ -156,6 +156,25 @@ $(document).ready(function() {
         }
     });
 
+    function isValidDate(dateStr) {
+        if (typeof dateStr !== 'string' || !dateStr.includes('/')) return false;
+
+        const parts = dateStr.split('/');
+        if (parts.length !== 3) return false;
+
+        const [dd, mm, yyyy] = parts.map(Number);
+        const date = new Date(`${yyyy}-${mm}-${dd}`);
+        return (
+            date instanceof Date &&
+            !isNaN(date) &&
+            date.getDate() === dd &&
+            date.getMonth() + 1 === mm &&
+            date.getFullYear() === yyyy
+        );
+    }
+
+
+    /*
     function isValidDate(dateString) {
         var parts = dateString.split("/");
         if (parts.length !== 3) return false;
@@ -167,6 +186,8 @@ $(document).ready(function() {
         var date = new Date(year, month, day);
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
+
+    */
 /*
 
 $('#formModalAddParticipante').on('submit', async function(event) {
@@ -678,6 +699,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
     }
 });
 
+/*
 // Helpers (certifique-se de que estes estejam definidos no seu código)
 function isValidDate(dateStr) {
     const parts = dateStr.split('/');
@@ -686,6 +708,7 @@ function isValidDate(dateStr) {
     const date = new Date(`${yyyy}-${mm}-${dd}`);
     return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
 }
+    */
 
 function pemToArrayBuffer(pem) {
     const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s/g, '');
