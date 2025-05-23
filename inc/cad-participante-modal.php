@@ -724,15 +724,15 @@ $('#formModalAddParticipante').on('submit', async function(event) {
                 if (idprevenda) {
                     encryptRSA(idprevenda, publicKeyPEM).then(encryptedId => {
                         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedId }, function() {
-                            $('#modalEditaParticipante').modal('hide');
+                            $('#modalAddParticipante').modal('hide');
                         });
                     }).catch(err => {
                         console.error("Erro ao criptografar idprevenda:", err);
                         alert("Erro ao processar ID do projeto.");
-                        $('#modalEditaParticipante').modal('hide');
+                        $('#modalAddParticipante').modal('hide');
                     });
                 } else {
-                    $('#modalEditaParticipante').modal('hide');
+                    $('#modalAddParticipante').modal('hide');
                 }
             },
             error: function(xhr, status, error) {
