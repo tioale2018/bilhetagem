@@ -70,6 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 include('../inc/conexao.php');
 include('../inc/funcoes.php');
 
+function dataParaMySQL($data) {
+    $partes = explode('/', $data);
+    if (count($partes) === 3) {
+        return $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+    }
+    return null; // Retorna null se não tiver 3 partes
+}
+
 // Carrega a chave privada
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
     ->withPadding(RSA::ENCRYPTION_OAEP)
@@ -124,7 +132,7 @@ try {
 
     // ✅ Agora os dados já estão disponíveis, seja qual for o formato de entrada
     $nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $nascimento    = convertDateToYMD($dados['nascimento'] ?? '');
+    $nascimento    = dataParaMySQL($dados['nascimento'] ?? '');
     $idresponsavel = (int) ($dados['idresponsavel'] ?? 0);
     $idprevenda    = (int) ($dados['idprevenda'] ?? 0);
     $vinculo       = $dados['vinculo'] ?? '';
