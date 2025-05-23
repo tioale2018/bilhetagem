@@ -459,17 +459,16 @@ function arrayBufferToBase64(buffer) {
 }
 
 
-
+/*
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault();
     alert('ok');
 });
+*/
 
-/*
 
 $('#formModalAddParticipante').on('submit', async function(event) {
-// $('body').on('submit', '#formModalAddParticipante', async function(event) {
-    e.preventDefault();
+    event.preventDefault();
     alert('ok');
 
     const form = this;
@@ -567,7 +566,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 });
 
 
-*/
+
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
         $('#modalAddParticipante form').trigger('reset');
