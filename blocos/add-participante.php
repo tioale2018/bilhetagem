@@ -1,5 +1,7 @@
 <?php
 // die(var_dump($_POST));
+
+/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -49,6 +51,97 @@ try {
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
+
+
+*/
+
+
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\AES;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    http_response_code(404);
+    exit('Requisição inválida.');
+}
+
+include('../inc/conexao.php');
+include('../inc/funcoes.php');
+
+// Carrega a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+try {
+    $dados = [];
+
+    // Detecta se é criptografia híbrida (campos 'dados_seguro', 'chave_segura' e 'iv' estão presentes)
+    if (isset($_POST['dados_seguro'], $_POST['chave_segura'], $_POST['iv'])) {
+        // 🔐 Modo híbrido AES+RSA
+        $dados_criptografados = base64_decode($_POST['dados_seguro']);
+        $chave_criptografada = base64_decode($_POST['chave_segura']);
+        $iv = base64_decode($_POST['iv']);
+
+        // Descriptografa a chave AES com a chave RSA privada
+        $chave_aes = $privateKey->decrypt($chave_criptografada);
+
+        $aes = new AES('gcm');
+        $aes->setKey($chave_aes);
+        $aes->setIV($iv);
+        $aes->setAAD('');
+        $aes->setTagLength(16);
+
+        $dados_json = $aes->decrypt($dados_criptografados);
+
+        if (!$dados_json) {
+            throw new Exception("Falha ao descriptografar os dados híbridos.");
+        }
+
+        $dados = json_decode($dados_json, true);
+
+        // Adiciona campos não criptografados
+        $dados['vinculo'] = $_POST['vinculo'] ?? '';
+        $dados['pacote'] = $_POST['pacote'] ?? '';
+    } else {
+        // 🔐 Modo RSA direto (campo a campo, padrão antigo)
+        $camposEsperados = ['nome_seguro', 'nascimento_seguro', 'idresponsavel_seguro', 'idprevenda_seguro'];
+
+        foreach ($camposEsperados as $campo) {
+            if (isset($_POST[$campo])) {
+                $decrypted = $privateKey->decrypt(base64_decode($_POST[$campo]));
+                $chaveOriginal = str_replace('_seguro', '', $campo);
+                $dados[$chaveOriginal] = $decrypted;
+            }
+        }
+
+        // Adiciona campos não criptografados
+        $dados['vinculo'] = $_POST['vinculo'] ?? '';
+        $dados['pacote'] = $_POST['pacote'] ?? '';
+    }
+
+    // ✅ Agora os dados já estão disponíveis, seja qual for o formato de entrada
+    $nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $nascimento    = convertDateToYMD($dados['nascimento'] ?? '');
+    $idresponsavel = (int) ($dados['idresponsavel'] ?? 0);
+    $idprevenda    = (int) ($dados['idprevenda'] ?? 0);
+    $vinculo       = $dados['vinculo'] ?? '';
+    $perfil        = $dados['pacote'] ?? '';
+
+    // Aqui segue seu INSERT normalmente, usando as variáveis acima
+    // Exemplo:
+    // $sql = "INSERT INTO participantes (...) VALUES (...)";
+
+} catch (Exception $e) {
+    http_response_code(400);
+    die("Erro ao processar os dados: " . $e->getMessage());
+}
+
+
+
+
 
 $nascimento = dataParaMySQL($nascimento);
 $lembrar   = (isset($_POST['lembrarme'])?1:0);

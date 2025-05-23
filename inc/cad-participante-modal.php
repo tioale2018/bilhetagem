@@ -166,7 +166,7 @@ $(document).ready(function() {
         var date = new Date(year, month, day);
         return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
     }
-
+/*
 
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault();
@@ -242,12 +242,10 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         // Envia os dados
         $.post('./blocos/add-participante.php', encryptedFields, function(data) {
             console.log('Dados enviados com sucesso:', data);
-            console.log('Tamanho do nome:', new TextEncoder().encode(formData['nome']).length);
-
             // Após o envio bem-sucedido, recarrega lista vinculada
-            // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedFields['idprevenda_seguro'] }, function() {
-            //     location.reload();
-            // });
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedFields['idprevenda_seguro'] }, function() {
+                location.reload();
+            });
         }).fail(function() {
             alert('Erro ao enviar os dados criptografados.');
             $submitBtn.attr('disabled', false);
@@ -259,6 +257,117 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         $submitBtn.attr('disabled', false);
     }
 });
+
+*/
+
+
+$('#formModalAddParticipante').on('submit', async function(event) {
+    event.preventDefault();
+    const $form = $(this);
+    const $submitBtn = $form.find('button[type=submit]');
+    $submitBtn.attr('disabled', true);
+
+    const dateInput = $form.find('input[name=nascimento]').val();
+    if (!isValidDate(dateInput)) {
+        $form.find('input[name=nascimento]').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $form.find('input[name=nascimento]').focus();
+        $submitBtn.attr('disabled', false);
+        return;
+    }
+
+    const vinculo = $form.find('select[name="vinculo"]').val();
+    const pacote = $form.find('select[name="pacote"]').val();
+    const idprevenda = $('#idprevenda').data('id-prevenda');
+
+    try {
+        const encoder = new TextEncoder();
+
+        // Objeto com todos os dados que você quer criptografar
+        const dados = {
+            nome: $form.find('input[name="nome"]').val(),
+            nascimento: $form.find('input[name="nascimento"]').val(),
+            idresponsavel: $form.find('input[name="idresponsavel"]').val(),
+            idprevenda: String(idprevenda)
+        };
+
+        // Gera chave AES
+        const aesKey = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt"]);
+
+        // Gera IV aleatório
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+
+        // Converte o JSON dos dados para string e criptografa com AES-GCM
+        const dadosString = JSON.stringify(dados);
+        const encryptedData = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            aesKey,
+            encoder.encode(dadosString)
+        );
+
+        // Converte a chave AES para raw para criptografar com RSA
+        const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+
+        // Importa chave RSA pública
+        const rsaKey = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        // Criptografa a chave AES com RSA
+        const encryptedAesKey = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            rsaKey,
+            rawAesKey
+        );
+
+        // Monta dados para enviar
+        const payload = {
+            dados_seguro: arrayBufferToBase64(encryptedData),
+            chave_segura: arrayBufferToBase64(encryptedAesKey),
+            iv: arrayBufferToBase64(iv),
+            vinculo: vinculo,
+            pacote: pacote
+        };
+
+        // Envia
+        $.post('./blocos/add-participante.php', payload, function(data) {
+            console.log('Enviado com sucesso:', data);
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idprevenda }, function() {
+                location.reload();
+            });
+        }).fail(function() {
+            alert('Erro ao enviar os dados criptografados.');
+            $submitBtn.attr('disabled', false);
+        });
+
+    } catch (err) {
+        console.error('Erro de criptografia:', err);
+        alert('Erro de criptografia. Verifique a chave pública.');
+        $submitBtn.attr('disabled', false);
+    }
+});
+
+// Funções auxiliares
+function arrayBufferToBase64(buffer) {
+    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+}
+
+function pemToArrayBuffer(pem) {
+    const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s+/g, '');
+    const binary = atob(b64);
+    const len = binary.length;
+    const buffer = new ArrayBuffer(len);
+    const view = new Uint8Array(buffer);
+    for (let i = 0; i < len; i++) {
+        view[i] = binary.charCodeAt(i);
+    }
+    return buffer;
+}
+
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
         $('#modalAddParticipante form').trigger('reset');
