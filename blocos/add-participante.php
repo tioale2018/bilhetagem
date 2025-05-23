@@ -1,5 +1,6 @@
 <?php
 // die(var_dump($_POST));
+/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -51,9 +52,9 @@ try {
 }
 
 
+*/
 
 
-/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\AES;
@@ -146,7 +147,7 @@ try {
 }
 
 // die('aqui: ' . $nome);
-*/
+
 
 
 $nascimento = dataParaMySQL($nascimento);
