@@ -375,7 +375,7 @@ function pemToArrayBuffer(pem) {
 
 
 
-
+/*
   async function criptografarCamposExtras(campos) {
     try {
         // Converte o objeto campos para JSON (string)
@@ -466,7 +466,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 });
 */
 
-
+/*
 $('#formModalAddParticipante').on('submit', async function(event) {
     event.preventDefault();
     alert('ok');
@@ -566,7 +566,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 });
 
 
-
+*/
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
         $('#modalAddParticipante form').trigger('reset');
@@ -574,3 +574,150 @@ $('#formModalAddParticipante').on('submit', async function(event) {
         
 });
 </script>
+
+
+<script>
+$('#formModalAddParticipante').on('submit', async function(event) {
+    event.preventDefault(); // Corrigido
+
+    const form = this;
+
+    const submitBtn = $(form).find('button[type="submit"]');
+    submitBtn.prop('disabled', true);
+
+    // Validação da data de nascimento
+    const dateInput = $('#nasc').val();
+    if (!isValidDate(dateInput)) {
+        $('#nasc').val('');
+        alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+        $('#nasc').focus();
+        submitBtn.prop('disabled', false);
+        return;
+    }
+
+    try {
+        // Importa a chave pública
+        const key = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        const encoder = new TextEncoder();
+        const encryptedFields = {};
+
+        // Coleta os campos visíveis (exceto vinculo e pacote)
+        const visibleInputs = $(form).find('input[type!="hidden"][name], textarea[name], select[name]');
+        for (let i = 0; i < visibleInputs.length; i++) {
+            const input = visibleInputs[i];
+            const name = input.name;
+            const value = input.value;
+
+            if (!name || !value) continue;
+            if (name === 'vinculo' || name === 'pacote') continue;
+
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
+            encryptedFields[name] = arrayBufferToBase64(encrypted);
+        }
+
+        // Coleta campos hidden
+        const hiddenInputs = $(form).find('input[type="hidden"][name]');
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            const input = hiddenInputs[i];
+            const name = input.name;
+            const value = input.value;
+
+            if (!name || !value) continue;
+
+            const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, encoder.encode(value));
+            encryptedFields[name] = arrayBufferToBase64(encrypted);
+        }
+
+        // Captura dados não criptografados
+        encryptedFields['vinculo'] = $(form).find('[name="vinculo"]').val();
+        encryptedFields['pacote']  = $(form).find('[name="pacote"]').val();
+
+        // Envia os dados para o backend
+        $.ajax({
+            type: 'POST',
+            url: './blocos/add-participante.php',
+            data: encryptedFields,
+            success: function(data) {
+                console.log('Resposta do servidor:', data);
+
+                // Recarrega lista vinculada com ID criptografado, se houver
+                const idprevenda = $(form).find('input[name="idprevenda"]').val();
+                if (idprevenda) {
+                    encryptRSA(idprevenda, publicKeyPEM).then(encryptedId => {
+                        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: encryptedId }, function() {
+                            $('#modalEditaParticipante').modal('hide');
+                        });
+                    }).catch(err => {
+                        console.error("Erro ao criptografar idprevenda:", err);
+                        alert("Erro ao processar ID do projeto.");
+                        $('#modalEditaParticipante').modal('hide');
+                    });
+                } else {
+                    $('#modalEditaParticipante').modal('hide');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro ao enviar dados:', error);
+                alert('Erro ao enviar os dados criptografados.');
+            },
+            complete: function() {
+                submitBtn.prop('disabled', false);
+            }
+        });
+    } catch (err) {
+        console.error('Erro de criptografia:', err);
+        alert('Erro ao criptografar os dados. Verifique a chave pública.');
+        submitBtn.prop('disabled', false);
+    }
+});
+
+// Helpers (certifique-se de que estes estejam definidos no seu código)
+function isValidDate(dateStr) {
+    const parts = dateStr.split('/');
+    if (parts.length !== 3) return false;
+    const [dd, mm, yyyy] = parts.map(Number);
+    const date = new Date(`${yyyy}-${mm}-${dd}`);
+    return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
+}
+
+function pemToArrayBuffer(pem) {
+    const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s/g, '');
+    const binary = atob(b64);
+    const len = binary.length;
+    const buffer = new ArrayBuffer(len);
+    const view = new Uint8Array(buffer);
+    for (let i = 0; i < len; i++) {
+        view[i] = binary.charCodeAt(i);
+    }
+    return buffer;
+}
+
+function arrayBufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+}
+
+async function encryptRSA(value, pem) {
+    const key = await crypto.subtle.importKey(
+        "spki",
+        pemToArrayBuffer(pem),
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["encrypt"]
+    );
+    const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, key, new TextEncoder().encode(value));
+    return arrayBufferToBase64(encrypted);
+}
+</script>
+
