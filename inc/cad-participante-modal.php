@@ -335,10 +335,10 @@ $('#formModalAddParticipante').on('submit', async function(event) {
 
         // Envia
         $.post('./blocos/add-participante.php', payload, function(data) {
-            console.log('Enviado com sucesso:', data);
-            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idprevenda }, function() {
-                location.reload();
-            });
+            console.log('aqui: ', data);
+            // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idprevenda }, function() {
+            //     location.reload();
+            // });
         }).fail(function() {
             alert('Erro ao enviar os dados criptografados.');
             $submitBtn.attr('disabled', false);
