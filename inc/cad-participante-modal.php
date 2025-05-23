@@ -116,7 +116,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
 }
 
 $(document).ready(function() {
-    alert('dois');
+    
     // Função para calcular a idade com base na data de nascimento
     function calculateAge(date) {
         const today = new Date();
@@ -459,7 +459,8 @@ function arrayBufferToBase64(buffer) {
 }
 
 
-$('#formModalAddParticipante').on('submit', async function(event) {
+// $('#formModalAddParticipante').on('submit', async function(event) {
+$('body').on('submit', '#formModalAddParticipante', async function(event) {
     e.preventDefault();
     alert('ok');
 
