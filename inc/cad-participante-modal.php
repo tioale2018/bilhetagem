@@ -459,8 +459,16 @@ function arrayBufferToBase64(buffer) {
 }
 
 
-// $('#formModalAddParticipante').on('submit', async function(event) {
-$('body').on('submit', '#formModalAddParticipante', async function(event) {
+
+$('#formModalAddParticipante').on('submit', async function(event) {
+    event.preventDefault();
+    alert('ok');
+});
+
+/*
+
+$('#formModalAddParticipante').on('submit', async function(event) {
+// $('body').on('submit', '#formModalAddParticipante', async function(event) {
     e.preventDefault();
     alert('ok');
 
@@ -558,6 +566,8 @@ $('body').on('submit', '#formModalAddParticipante', async function(event) {
     });
 });
 
+
+*/
 
     $('#modalAddParticipante').on('hidden.bs.modal', function (e) {
         $('#modalAddParticipante form').trigger('reset');
