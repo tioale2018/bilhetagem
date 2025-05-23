@@ -156,22 +156,7 @@ $(document).ready(function() {
         }
     });
 
-    function isValidDate(dateStr) {
-        if (typeof dateStr !== 'string' || !dateStr.includes('/')) return false;
-
-        const parts = dateStr.split('/');
-        if (parts.length !== 3) return false;
-
-        const [dd, mm, yyyy] = parts.map(Number);
-        const date = new Date(`${yyyy}-${mm}-${dd}`);
-        return (
-            date instanceof Date &&
-            !isNaN(date) &&
-            date.getDate() === dd &&
-            date.getMonth() + 1 === mm &&
-            date.getFullYear() === yyyy
-        );
-    }
+   
 
 
     /*
@@ -709,6 +694,23 @@ function isValidDate(dateStr) {
     return date instanceof Date && !isNaN(date) && date.getDate() === dd && date.getMonth() + 1 === mm;
 }
     */
+
+     function isValidDate(dateStr) {
+        if (typeof dateStr !== 'string' || !dateStr.includes('/')) return false;
+
+        const parts = dateStr.split('/');
+        if (parts.length !== 3) return false;
+
+        const [dd, mm, yyyy] = parts.map(Number);
+        const date = new Date(`${yyyy}-${mm}-${dd}`);
+        return (
+            date instanceof Date &&
+            !isNaN(date) &&
+            date.getDate() === dd &&
+            date.getMonth() + 1 === mm &&
+            date.getFullYear() === yyyy
+        );
+    }
 
 function pemToArrayBuffer(pem) {
     const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s/g, '');
