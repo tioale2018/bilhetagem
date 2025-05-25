@@ -1,11 +1,11 @@
 <?php
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-exit;
+// echo "<pre>";
+// print_r($_POST);
+// echo "</pre>";
+// exit;
 
-die('Requisição inválida.');
+// die('Requisição inválida.');
 
 /*
 require '../../vendor/autoload.php';
@@ -65,6 +65,8 @@ try {
 
 */
 
+
+/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -132,6 +134,102 @@ $email         = htmlspecialchars($dados['email'] ?? '', ENT_QUOTES | ENT_HTML5,
 $idResponsavel = htmlspecialchars($dados['idresponsavel'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
 // continue com o processamento (inserir no banco etc.)
+
+*/
+
+
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\AES;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    http_response_code(404);
+    exit('Requisição inválida.');
+}
+
+// Carrega a chave privada RSA
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256')
+    ->withMGFHash('sha256'); // importante para RSA-OAEP-SHA256
+
+// Obtém e decodifica a chave AES criptografada
+$encryptedAesKey = base64_decode($_POST['chaveAES_segura'] ?? '');
+
+try {
+    $aesKey = $privateKey->decrypt($encryptedAesKey);
+} catch (Exception $e) {
+    die("Erro ao descriptografar chave AES: " . $e->getMessage());
+}
+
+// Função para descriptografar campo individual com AES-GCM
+function decryptAesGcmField($base64Data, $aesKey) {
+    $binaryData = base64_decode($base64Data);
+    if (strlen($binaryData) < 28) {
+        return null; // inválido (12 bytes IV + pelo menos alguns bytes de texto + 16 bytes de tag)
+    }
+
+    $iv = substr($binaryData, 0, 12);
+    $tag = substr($binaryData, -16);
+    $ciphertext = substr($binaryData, 12, -16);
+
+    $aes = new AES('gcm');
+    $aes->setKey($aesKey);
+    $aes->setIV($iv);
+    $aes->setTag($tag);
+
+    return $aes->decrypt($ciphertext);
+}
+
+// Lista de campos criptografados
+$campos = [
+    'cpf_seguro',
+    'nome_seguro',
+    'telefone1_seguro',
+    'telefone2_seguro',
+    'email_seguro',
+    'idresponsavel_seguro'
+];
+
+// Descriptografa cada campo
+$dados = [];
+foreach ($campos as $campo) {
+    if (!isset($_POST[$campo])) {
+        continue;
+    }
+
+    $valor = decryptAesGcmField($_POST[$campo], $aesKey);
+
+    if ($valor === false || $valor === null) {
+        die("Erro ao descriptografar o campo: $campo");
+    }
+
+    $dados[$campo] = $valor;
+}
+
+// Sanitiza os dados recebidos
+$cpf           = limparCPF($dados['cpf_seguro'] ?? '');
+$nome          = htmlspecialchars($dados['nome_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone1     = htmlspecialchars($dados['telefone1_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone2     = htmlspecialchars($dados['telefone2_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$email         = htmlspecialchars($dados['email_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$idResponsavel = htmlspecialchars($dados['idresponsavel_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+// Continue o processamento (ex: salvar no banco de dados)
+// Exemplo de debug:
+echo "<pre>";
+print_r([
+    'cpf' => $cpf,
+    'nome' => $nome,
+    'telefone1' => $telefone1,
+    'telefone2' => $telefone2,
+    'email' => $email,
+    'idResponsavel' => $idResponsavel
+]);
+echo "</pre>";
+die('Requisição inválida.');
 
 
 
