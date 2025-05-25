@@ -1,5 +1,5 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
 require '../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -19,10 +19,11 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../c
     ->withHash('sha256');
 
 // Decodifica a senha criptografada
-$encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+$encrypted_id      = base64_decode($_POST['id'] ?? '');
 
 try {
-    $cpf        = $privateKey->decrypt($encrypted_cpf);
+    // $cpf        = $privateKey->decrypt($encrypted_cpf);
+    $id        = $privateKey->decrypt($encrypted_id);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
