@@ -68,6 +68,27 @@ mQIDAQAB
 -----END PUBLIC KEY-----`;
             
         }
+
+
+// Define a função de conversão PEM → ArrayBuffer
+function pemToArrayBuffer(pem) {
+    const b64 = pem.replace(/-----BEGIN PUBLIC KEY-----/, '')
+                   .replace(/-----END PUBLIC KEY-----/, '')
+                   .replace(/\s/g, '');
+    const binary = atob(b64);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
+    }
+    return buffer.buffer;
+}
+
+function arrayBufferToBase64(buffer) {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return btoa(binary);
+}
+
+
     $(document).ready(function(){
         
         /*
@@ -182,12 +203,16 @@ $('body').on('change', '#cpf', async function() {
         });
         */
 
+
+        /*
     })
 </script>
 
 <script>
     $(document).ready(function() {
     // Função para aplicar a máscara de CPF
+
+    */
 
     // Máscara e validação do CPF no campo de entrada
     $('input[name="cpf"]').on('input', function() {
@@ -237,23 +262,6 @@ $('body').on('change', '#cpf', async function() {
 
 
 
-// Define a função de conversão PEM → ArrayBuffer
-function pemToArrayBuffer(pem) {
-    const b64 = pem.replace(/-----BEGIN PUBLIC KEY-----/, '')
-                   .replace(/-----END PUBLIC KEY-----/, '')
-                   .replace(/\s/g, '');
-    const binary = atob(b64);
-    const buffer = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-        buffer[i] = binary.charCodeAt(i);
-    }
-    return buffer.buffer;
-}
-
-function arrayBufferToBase64(buffer) {
-    const binary = String.fromCharCode(...new Uint8Array(buffer));
-    return btoa(binary);
-}
 
 // Manipulação do submit
 document.querySelector('#formAddResponsavelModal').addEventListener('submit', async function(e) {
