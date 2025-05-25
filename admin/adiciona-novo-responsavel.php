@@ -1,6 +1,11 @@
 <?php
 
-// die(var_dump($_POST));
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+exit;
+
+die('Requisição inválida.');
 
 /*
 require '../../vendor/autoload.php';
