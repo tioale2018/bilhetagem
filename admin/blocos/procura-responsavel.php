@@ -43,7 +43,7 @@ function limparCPF($cpf) {
 
 include_once('../inc/conexao.php');
 
-$id = limparCPF($_POST['id']);
+$id = limparCPF($id);
 
 $sql_responsavel = "select * from tbresponsavel where cpf=:cpf";
 $pre_responsavel = $connPDO->prepare($sql_responsavel);
