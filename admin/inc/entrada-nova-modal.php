@@ -350,12 +350,12 @@ document.querySelector('#formAddResponsavelModal').addEventListener('submit', as
 
 
 
-        console.log("Debug AES:");
-        console.log("AES Key (base64):", chaveAESBase64);
-        console.log("IV (base64):", ivBase64);
-        console.log("Ciphertext (base64):", arrayBufferToBase64(ciphertext));
-        console.log("Tag (base64):", arrayBufferToBase64(tag));
-        console.log("Payload JSON:", JSON.stringify(dados_seguro, null, 2));
+        // console.log("Debug AES:");
+        // console.log("AES Key (base64):", chaveAESBase64);
+        // console.log("IV (base64):", ivBase64);
+        // console.log("Ciphertext (base64):", arrayBufferToBase64(ciphertext));
+        // console.log("Tag (base64):", arrayBufferToBase64(tag));
+        // console.log("Payload JSON:", JSON.stringify(dados_seguro, null, 2));
 
 
 
