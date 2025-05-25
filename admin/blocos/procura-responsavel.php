@@ -47,7 +47,7 @@ $id = limparCPF($_POST['id']);
 
 $sql_responsavel = "select * from tbresponsavel where cpf=:cpf";
 $pre_responsavel = $connPDO->prepare($sql_responsavel);
-$pre_responsavel->bindParam(':cpf', $id, PDO::PARAM_INT);
+$pre_responsavel->bindParam(':cpf', $id, PDO::PARAM_STR);
 $pre_responsavel->execute();
 
 if ($pre_responsavel->rowCount()>0) {
