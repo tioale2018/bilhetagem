@@ -205,6 +205,9 @@ $('body').on('change', '#cpf', async function() {
 */
 
 
+
+/*
+
 // Manipulação do submit
 document.querySelector('#formAddResponsavelModal').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -257,6 +260,123 @@ document.querySelector('#formAddResponsavelModal').addEventListener('submit', as
         submitBtn.disabled = false;
     }
 });
+
+*/
+
+
+document.querySelector('#formAddResponsavelModal').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
+    try {
+        // Importa a chave pública RSA (formato PEM)
+        const publicKey = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        // Coleta e prepara os dados do formulário
+        const inputs = form.querySelectorAll('input[name], textarea[name]');
+        const data = {};
+        for (let input of inputs) {
+            const name = input.name;
+            const value = input.value;
+            if (!name || value === '') continue;
+            data[name] = value;
+        }
+
+        // Serializa os dados como JSON
+        const encoder = new TextEncoder();
+        const jsonData = JSON.stringify(data);
+        const jsonDataBuffer = encoder.encode(jsonData);
+
+        // Gera chave AES aleatória
+        const aesKey = await crypto.subtle.generateKey(
+            { name: "AES-GCM", length: 256 },
+            true,
+            ["encrypt"]
+        );
+
+        // Gera IV aleatório
+        const iv = crypto.getRandomValues(new Uint8Array(12)); // 96 bits para AES-GCM
+
+        // Criptografa os dados com AES-GCM
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            aesKey,
+            jsonDataBuffer
+        );
+
+        // Exporta a chave AES como raw
+        const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+
+        // Criptografa a chave AES com RSA-OAEP
+        const encryptedAesKey = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            publicKey,
+            rawAesKey
+        );
+
+        // Prepara payload final para envio
+        const payload = {
+            iv: arrayBufferToBase64(iv),
+            ciphertext: arrayBufferToBase64(encrypted.slice(0, encrypted.byteLength - 16)), // dados
+            tag: arrayBufferToBase64(encrypted.slice(encrypted.byteLength - 16)) // último bloco = tag
+        };
+
+        // Cria novo formulário com os dados criptografados
+        const newForm = document.createElement('form');
+        newForm.method = 'POST';
+        newForm.action = form.action;
+        newForm.style.display = 'none';
+
+        const campoChave = document.createElement('input');
+        campoChave.type = 'hidden';
+        campoChave.name = 'chaveAES_segura';
+        campoChave.value = arrayBufferToBase64(encryptedAesKey);
+        newForm.appendChild(campoChave);
+
+        const campoPayload = document.createElement('input');
+        campoPayload.type = 'hidden';
+        campoPayload.name = 'dados_seguro';
+        campoPayload.value = JSON.stringify(payload);
+        newForm.appendChild(campoPayload);
+
+        document.body.appendChild(newForm);
+        newForm.submit();
+
+    } catch (err) {
+        alert("Erro ao criptografar os dados. " + err);
+        console.error("Erro na criptografia:", err);
+        submitBtn.disabled = false;
+    }
+
+    // Funções auxiliares
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    function arrayBufferToBase64(buffer) {
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let b of bytes) binary += String.fromCharCode(b);
+        return btoa(binary);
+    }
+});
+
+
 
 
 
