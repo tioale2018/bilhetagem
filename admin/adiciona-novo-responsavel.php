@@ -7,7 +7,7 @@
 
 // die('Requisição inválida.');
 
-/*
+
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -46,7 +46,7 @@ $encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
 $encrypted_idResponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
 
 try {
-    $cpf        = limparCPF($privateKey->decrypt($encrypted_cpf));
+    // $cpf        = limparCPF($privateKey->decrypt($encrypted_cpf));
     // $nome       = $privateKey->decrypt($encrypted_nome);
     // $telefone1  = $privateKey->decrypt($encrypted_telefone1);
     // $telefone2  = $privateKey->decrypt($encrypted_telefone2);
@@ -63,7 +63,7 @@ try {
 }
 
 
-*/
+
 
 
 /*
@@ -137,6 +137,10 @@ $idResponsavel = htmlspecialchars($dados['idresponsavel'] ?? '', ENT_QUOTES | EN
 
 */
 
+
+
+
+/*
 die('aqui vai: ' . $_POST['chaveAES_segura'] ?? 'nada');
 require '../../vendor/autoload.php';
 
@@ -231,6 +235,8 @@ print_r([
 echo "</pre>";
 die('Requisição inválida.');
 
+
+*/
 
 
 
