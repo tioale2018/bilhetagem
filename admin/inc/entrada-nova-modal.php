@@ -206,9 +206,7 @@ $('body').on('change', '#cpf', async function() {
 
         /*
     })
-</script>
 
-<script>
     $(document).ready(function() {
     // Função para aplicar a máscara de CPF
 
