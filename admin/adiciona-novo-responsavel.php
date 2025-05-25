@@ -55,9 +55,9 @@ try {
     // $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $nome      = $privateKey->decrypt($encrypted_nome);
     $cpf       = $privateKey->decrypt($encrypted_cpf);
-    $telefone1 = $privateKey->decrypt($encrypted_telefone1) ?? '';
-    $telefone2 = $privateKey->decrypt($encrypted_telefone2) ?? '';
-    $email     = $privateKey->decrypt($encrypted_email) ?? '';
+    $telefone1 = $privateKey->decrypt($encrypted_telefone1);
+    $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    $email     = $privateKey->decrypt($encrypted_email);
     $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
 
     // $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -70,7 +70,7 @@ try {
 }
 
 
-die('nome: ' . $nome . '<br>cpf: ' . $cpf . '<br>telefone1: ' . $telefone1 . '<br>telefone2: ' . $telefone2 . '<br>email: ' . $email . '<br>idResponsavel: ' . $idResponsavel);
+// die('nome: ' . $nome . '<br>cpf: ' . $cpf . '<br>telefone1: ' . $telefone1 . '<br>telefone2: ' . $telefone2 . '<br>email: ' . $email . '<br>idResponsavel: ' . $idResponsavel);
 
 /*
 require '../../vendor/autoload.php';
