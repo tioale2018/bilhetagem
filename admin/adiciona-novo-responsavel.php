@@ -1,5 +1,8 @@
 <?php
+
 // die(var_dump($_POST));
+
+/*
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -53,6 +56,79 @@ try {
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
+
+
+*/
+
+require '../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    http_response_code(404);
+    exit('Requisição inválida.');
+}
+
+// Carrega a chave privada RSA
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+// Obtém e decodifica os dados recebidos
+$encryptedAesKey = base64_decode($_POST['chaveAES_segura'] ?? '');
+$encryptedPayloadJson = $_POST['dados_seguro'] ?? '';
+
+// Descriptografa a chave AES
+try {
+    $aesKey = $privateKey->decrypt($encryptedAesKey);
+} catch (Exception $e) {
+    die("Erro ao descriptografar chave AES: " . $e->getMessage());
+}
+
+// Decodifica os dados criptografados com AES-GCM
+$payload = json_decode($encryptedPayloadJson, true);
+
+if (!$payload || !isset($payload['iv'], $payload['ciphertext'], $payload['tag'])) {
+    die("Dados AES inválidos.");
+}
+
+// Converte campos do JSON (Base64 → binário)
+$iv = base64_decode($payload['iv']);
+$ciphertext = base64_decode($payload['ciphertext']);
+$tag = base64_decode($payload['tag']);
+
+// Descriptografa com AES-GCM
+$plaintext = openssl_decrypt(
+    $ciphertext . $tag,             // AES-GCM espera o tag anexado no final
+    'aes-256-gcm',
+    $aesKey,
+    OPENSSL_RAW_DATA,
+    $iv,
+    $tag // TAG também passada separadamente
+);
+
+if ($plaintext === false) {
+    die("Erro ao descriptografar dados AES.");
+}
+
+// Decodifica o JSON dos dados finais
+$dados = json_decode($plaintext, true);
+if (!is_array($dados)) {
+    die("Erro ao decodificar JSON interno.");
+}
+
+// Agora os dados estão disponíveis:
+$cpf           = limparCPF($dados['cpf'] ?? '');
+$nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone1     = htmlspecialchars($dados['telefone1'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$telefone2     = htmlspecialchars($dados['telefone2'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$email         = htmlspecialchars($dados['email'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$idResponsavel = htmlspecialchars($dados['idresponsavel'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+// continue com o processamento (inserir no banco etc.)
+
+
 
 
 // Verifica a sessão
