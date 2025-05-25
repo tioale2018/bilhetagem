@@ -70,6 +70,8 @@ try {
 }
 
 
+die('nome: ' . $nome . '<br>cpf: ' . $cpf . '<br>telefone1: ' . $telefone1 . '<br>telefone2: ' . $telefone2 . '<br>email: ' . $email . '<br>idResponsavel: ' . $idResponsavel);
+
 /*
 require '../../vendor/autoload.php';
 
