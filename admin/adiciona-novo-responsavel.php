@@ -137,7 +137,7 @@ $idResponsavel = htmlspecialchars($dados['idresponsavel'] ?? '', ENT_QUOTES | EN
 
 */
 
-
+die('aqui vai: ' . $_POST['chaveAES_segura'] ?? 'nada');
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\AES;
