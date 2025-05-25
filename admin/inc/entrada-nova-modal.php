@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
             
-                <h5 class="card-inside-title">Dados do responsável</h5>
+                <h5 class="card-inside-title">Dados do responsávelYY</h5>
                 <div class="row clearfix">
                     <div class="col-md-5">
                         <div class="form-group">
