@@ -69,13 +69,11 @@ mQIDAQAB
             
         }
     $(document).ready(function(){
-
-       
         
+        /*
         $('body').on('change', '#cpf', function(){
             
             let i = $(this).val().replace(/\D/g, '');
-            // $(this).val(i);
 
             $.post('./blocos/procura-responsavel.php', {id:i}, function(data){
                 $('form')[0].reset();
@@ -93,7 +91,57 @@ mQIDAQAB
                 }
             })
         })
+
+        */
         
+
+$('body').on('change', '#cpf', async function() {
+    let i = $(this).val().replace(/\D/g, '');
+
+    try {
+        // Importa a chave pública
+        const key = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        const encoder = new TextEncoder();
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(i)
+        );
+
+        const encryptedId = arrayBufferToBase64(encrypted);
+
+        $.post('./blocos/procura-responsavel.php', { id: encryptedId }, function(data) {
+            $('form')[0].reset();
+            $('#cpf').val(i); // Mostra o CPF original no campo
+            console.log(data);
+
+            if (data == 0) {
+                $('#idresponsavel').val('');
+            } else {
+                let dados = JSON.parse(data);
+                $('#idresponsavel').val(dados[0].id_responsavel);
+                $('#nome').val(dados[0].nome);
+                $('#telefone1').val(dados[0].telefone1);
+                $('#telefone2').val(dados[0].telefone2);
+                $('#email').val(dados[0].email);
+            }
+        });
+    } catch (err) {
+        console.error('Erro ao criptografar o CPF:', err);
+        alert('Erro ao processar o CPF.');
+    }
+});
+
+
+
+
         /*
        $('body').on('change', '#cpf', async function () {
             let i = $(this).val().replace(/\D/g, '');
