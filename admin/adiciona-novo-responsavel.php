@@ -52,18 +52,19 @@ try {
     // $telefone2  = $privateKey->decrypt($encrypted_telefone2);
     // $email      = $privateKey->decrypt($encrypted_email);
     // $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
-    $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $telefone2 = htmlspecialchars($privateKey->decrypt($encrypted_telefone2), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $email     = htmlspecialchars($privateKey->decrypt($encrypted_email), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $idResponsavel = htmlspecialchars($privateKey->decrypt($encrypted_idResponsavel), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $nome      = $privateKey->decrypt($encrypted_nome);
+    // $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // $telefone2 = htmlspecialchars($privateKey->decrypt($encrypted_telefone2), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // $email     = htmlspecialchars($privateKey->decrypt($encrypted_email), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // $idResponsavel = htmlspecialchars($privateKey->decrypt($encrypted_idResponsavel), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
 
-
+die('nome: ' . $nome);
 
 
 /*
