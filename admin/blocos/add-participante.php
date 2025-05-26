@@ -93,6 +93,8 @@ include_once('../inc/funcoes.php');
 $lembrarme     = isset($_POST['lembrarme']) ? 1 : 0;
 $nascimento = dataParaMySQL($nascimento);
 
+die('nascimento: ' . $nascimento);
+
 //insere o vínculo
 $sql_insere_vinculo = "insert into tbvinculados (id_responsavel, nome, nascimento, tipo, lembrar) values (:id_responsavel, :nome, :nascimento, :tipo, $lembrarme)";
 $pre_insere_vinculo = $connPDO->prepare($sql_insere_vinculo);
