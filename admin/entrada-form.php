@@ -240,7 +240,7 @@ $row = $pre->fetchAll();
 
     // let iditem = document.querySelector('#iditem').dataset.idItem;
 
-    
+  /*  
 (async () => {
     const iditem = document.querySelector('#iditem').dataset.idItem;
 
@@ -294,6 +294,93 @@ $row = $pre->fetchAll();
     console.log(resultadoCriptografado);
     iditem = resultadoCriptografado.dados_seguro;
 })();
+
+*/
+
+(async () => {
+    // Captura o valor do iditem
+    const iditem = document.querySelector('#iditem').dataset.idItem;
+
+    // Gera chave AES e IV
+    const aesKey = crypto.getRandomValues(new Uint8Array(32));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    // Codifica os dados como JSON
+    const encoder = new TextEncoder();
+    const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
+
+    // Importa a chave AES
+    const chaveAesImportada = await crypto.subtle.importKey(
+        'raw',
+        aesKey,
+        'AES-GCM',
+        false,
+        ['encrypt']
+    );
+
+    // Criptografa os dados com AES-GCM
+    const encrypted = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        chaveAesImportada,
+        dadosBytes
+    );
+
+    // Separa o ciphertext e a tag (últimos 16 bytes)
+    const encryptedBytes = new Uint8Array(encrypted);
+    const ciphertext = encryptedBytes.slice(0, -16);
+    const tag = encryptedBytes.slice(-16);
+
+    // Define a chave pública PEM (não deve ser declarada dentro de `if`)
+    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+mQIDAQAB
+-----END PUBLIC KEY-----`;
+
+    // Converte PEM em ArrayBuffer
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+        const bin = atob(b64);
+        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+    }
+
+    // Importa a chave RSA e criptografa a chave AES
+    const rsaKey = await crypto.subtle.importKey(
+        'spki',
+        pemToArrayBuffer(publicKeyPEM),
+        { name: 'RSA-OAEP', hash: 'SHA-256' },
+        false,
+        ['encrypt']
+    );
+
+    const encryptedAesKey = await crypto.subtle.encrypt(
+        { name: 'RSA-OAEP' },
+        rsaKey,
+        aesKey
+    );
+
+    // Monta o resultado criptografado
+    const resultadoCriptografado = {
+        chaveAES_segura: btoa(String.fromCharCode(...new Uint8Array(encryptedAesKey))),
+        dados_seguro: JSON.stringify({
+            iv: btoa(String.fromCharCode(...iv)),
+            ciphertext: btoa(String.fromCharCode(...ciphertext)),
+            tag: btoa(String.fromCharCode(...tag))
+        })
+    };
+
+    // Armazena o conteúdo criptografado na nova variável
+    const iditemCriptografado = resultadoCriptografado.dados_seguro;
+
+    console.log(iditemCriptografado);
+})();
+
+
+
 
 
     if (typeof arrayBufferToBase64 === 'undefined') {    
