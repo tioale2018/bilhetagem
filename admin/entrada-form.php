@@ -297,6 +297,8 @@ $row = $pre->fetchAll();
 
 */
 
+
+/*
 (async () => {
     // Captura o valor do iditem
     const iditem = document.querySelector('#iditem').dataset.idItem;
@@ -378,6 +380,75 @@ mQIDAQAB
 
     console.log(iditemCriptografado);
 })();
+
+*/
+
+
+(async () => {
+    const iditem = document.querySelector('#iditem').dataset.idItem;
+
+    // Gera chave AES e IV
+    const aesKey = crypto.getRandomValues(new Uint8Array(32)); // AES-256
+    const iv = crypto.getRandomValues(new Uint8Array(12));     // 96-bit IV
+
+    // Codifica o valor
+    const encoder = new TextEncoder();
+    const dadosBytes = encoder.encode(iditem);
+
+    // Criptografa com AES-GCM
+    const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
+
+    // Separa tag do final do ciphertext
+    const encryptedBytes = new Uint8Array(encrypted);
+    const ciphertext = encryptedBytes.slice(0, -16);
+    const tag = encryptedBytes.slice(-16);
+
+    // Concatena IV + ciphertext + tag
+    const resultadoBytes = new Uint8Array(iv.length + ciphertext.length + tag.length);
+    resultadoBytes.set(iv, 0);
+    resultadoBytes.set(ciphertext, iv.length);
+    resultadoBytes.set(tag, iv.length + ciphertext.length);
+
+    // Chave pública RSA em formato PEM
+    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+mQIDAQAB
+-----END PUBLIC KEY-----`;
+
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s+/g, '');
+        const bin = atob(b64);
+        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+    }
+
+    // Criptografa chave AES com RSA-OAEP
+    const rsaKey = await crypto.subtle.importKey(
+        'spki',
+        pemToArrayBuffer(publicKeyPEM),
+        { name: 'RSA-OAEP', hash: 'SHA-256' },
+        false,
+        ['encrypt']
+    );
+
+    const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
+
+    // Concatena chaveAES criptografada + dados AES (iv + ciphertext + tag)
+    const finalBytes = new Uint8Array(encryptedAesKey.byteLength + resultadoBytes.byteLength);
+    finalBytes.set(new Uint8Array(encryptedAesKey), 0);
+    finalBytes.set(resultadoBytes, encryptedAesKey.byteLength);
+
+    // Codifica tudo em base64
+    const iditemX = btoa(String.fromCharCode(...finalBytes));
+
+    console.log('iditemX:', iditemX);
+})();
+
 
 
 
