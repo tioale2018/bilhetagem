@@ -385,7 +385,7 @@ mQIDAQAB
 
 
 (async () => {
-    let iditem = document.querySelector('#iditem').dataset.idItem;
+    const codIditem = document.querySelector('#iditem').dataset.idItem;
 
     // Gera chave AES e IV
     const aesKey = crypto.getRandomValues(new Uint8Array(32)); // AES-256
@@ -393,7 +393,7 @@ mQIDAQAB
 
     // Codifica o valor
     const encoder = new TextEncoder();
-    const dadosBytes = encoder.encode(iditem);
+    const dadosBytes = encoder.encode(codIditem);
 
     // Criptografa com AES-GCM
     const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
@@ -447,9 +447,10 @@ mQIDAQAB
     const iditemX = btoa(String.fromCharCode(...finalBytes));
 
     console.log('iditemX:', iditemX);
+    let iditem = iditemX;
 })();
 
-iditem = iditemX;
+
 
 
 
