@@ -1,5 +1,69 @@
 <?php
 die(var_dump($_POST));
+
+
+require '../../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+
+if ($_SERVER['REQUEST_METHOD']!="POST") {
+    header('X-PHP-Response-Code: 404', true, 404);
+    http_response_code(404);
+    exit('Requisição inválida.');
+}
+
+require_once './inc/config_session.php';
+require_once './inc/functions.php';
+require_once './inc/funcoes.php';
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+
+// $cpf       = limparCPF($_POST['cpf']);
+// $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+// $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+
+
+
+// Decodifica a senha criptografada
+// $encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
+// $nome          = htmlspecialchars($_POST['nome']);
+// $nascimento    = htmlspecialchars(convertDateToYMD($_POST['nascimento']));
+// $vinculo       = htmlspecialchars($_POST['vinculo']);
+// $perfil        = htmlspecialchars($_POST['perfil']);
+// $idresponsavel = htmlspecialchars($_POST['idresponsavel']);
+// $idprevenda    = htmlspecialchars($_POST['idprevenda']);
+// $lembrarme     = htmlspecialchars((isset($_POST['lembrarme']) ? 1 : 0));
+
+$encrypted_nome       = base64_decode($_POST['nome'] ?? '');
+$encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
+$encrypted_vinculo    = base64_decode($_POST['vinculo'] ?? '');
+$encrypted_perfil     = base64_decode($_POST['perfil'] ?? '');
+$encrypted_idResponsavel = base64_decode($_POST['idresponsavel'] ?? '');
+$encrypted_idprevenda    = base64_decode($_POST['idprevenda'] ?? '');
+// $encrypted_lembrarme     = base64_decode($_POST['lembrarme'] ?? '');
+
+try {
+    $nome      = $privateKey->decrypt($encrypted_nome);
+    $nascimento = $privateKey->decrypt($encrypted_nascimento);
+    $vinculo   = $privateKey->decrypt($encrypted_vinculo);
+    $perfil    = $privateKey->decrypt($encrypted_perfil);
+    $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
+    $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+/*
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
@@ -9,14 +73,17 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes.php');
 
-$nome          = htmlspecialchars($_POST['nome']);
-$nascimento    = htmlspecialchars(convertDateToYMD($_POST['nascimento']));
-$vinculo       = htmlspecialchars($_POST['vinculo']);
-// $pacote        = htmlspecialchars($_POST['pacote']);
-$perfil        = htmlspecialchars($_POST['perfil']);
-$idresponsavel = htmlspecialchars($_POST['idresponsavel']);
-$idprevenda    = htmlspecialchars($_POST['idprevenda']);
-$lembrarme     = htmlspecialchars((isset($_POST['lembrarme']) ? 1 : 0));
+*/
+
+
+// $nome          = htmlspecialchars($_POST['nome']);
+// $nascimento    = htmlspecialchars(convertDateToYMD($_POST['nascimento']));
+// $vinculo       = htmlspecialchars($_POST['vinculo']);
+// // $pacote        = htmlspecialchars($_POST['pacote']);
+// $perfil        = htmlspecialchars($_POST['perfil']);
+// $idresponsavel = htmlspecialchars($_POST['idresponsavel']);
+// $idprevenda    = htmlspecialchars($_POST['idprevenda']);
+$lembrarme     = isset($_POST['lembrarme']) ? 1 : 0;
 
 //insere o vínculo
 $sql_insere_vinculo = "insert into tbvinculados (id_responsavel, nome, nascimento, tipo, lembrar) values (:id_responsavel, :nome, :nascimento, :tipo, $lembrarme)";
