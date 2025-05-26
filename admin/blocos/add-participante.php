@@ -24,6 +24,14 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withPadding(RSA::ENCRYPTION_OAEP)
     ->withHash('sha256');
 
+function dataParaMySQL($data) {
+    $partes = explode('/', $data);
+    if (count($partes) === 3) {
+        return $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+    }
+    return null; // Retorna null se não tiver 3 partes
+}
+
 
 // $cpf       = limparCPF($_POST['cpf']);
 // $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -83,6 +91,7 @@ include_once('../inc/funcoes.php');
 // $idresponsavel = htmlspecialchars($_POST['idresponsavel']);
 // $idprevenda    = htmlspecialchars($_POST['idprevenda']);
 $lembrarme     = isset($_POST['lembrarme']) ? 1 : 0;
+$nascimento = dataParaMySQL($nascimento);
 
 //insere o vínculo
 $sql_insere_vinculo = "insert into tbvinculados (id_responsavel, nome, nascimento, tipo, lembrar) values (:id_responsavel, :nome, :nascimento, :tipo, $lembrarme)";
