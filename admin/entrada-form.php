@@ -385,7 +385,7 @@ mQIDAQAB
 
 
 (async () => {
-    const iditem = document.querySelector('#iditem').dataset.idItem;
+    let iditem = document.querySelector('#iditem').dataset.idItem;
 
     // Gera chave AES e IV
     const aesKey = crypto.getRandomValues(new Uint8Array(32)); // AES-256
@@ -448,6 +448,10 @@ mQIDAQAB
 
     console.log('iditemX:', iditemX);
 })();
+
+iditem = iditemX;
+
+
 
 
 
