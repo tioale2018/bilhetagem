@@ -384,7 +384,7 @@ mQIDAQAB
 */
 
 
-// (async () => {
+(async () => {
     const codIditem = document.querySelector('#iditem').dataset.idItem;
 
     // Gera chave AES e IV
@@ -447,8 +447,8 @@ mQIDAQAB
     const iditemX = btoa(String.fromCharCode(...finalBytes));
 
     // console.log('iditemX:', iditemX);
-    let iditem = iditemX;
-// })();
+    var iditem = iditemX;
+})();
 
 
 console.log('iditem:', iditem);
