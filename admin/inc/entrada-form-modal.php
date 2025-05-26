@@ -253,7 +253,7 @@
 
         } catch (err) {
             console.error("Erro na criptografia dos dados:", err);
-            alert("Erro de segurança ao processar envio.");
+            alert("Erro de segurança ao processar enviox.");
         }
     });        
 
