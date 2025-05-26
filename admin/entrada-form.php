@@ -221,15 +221,77 @@ $row = $pre->fetchAll();
     </div>
 </div>
 
+<div id="iditem" data-id-item="<?= htmlspecialchars($_GET['item']) ?>" style="display: none"></div>
+
 <?php include('./inc/javascript.php'); ?>
 
 <script>
+    if (typeof publicKeyPEM === 'undefined') {
+            const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+        XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+        kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+        aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+        x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+        LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+        mQIDAQAB
+        -----END PUBLIC KEY-----`;
+    }
+
+    // let iditem = document.querySelector('#iditem').dataset.idItem;
+
+    
+(async () => {
+    const iditem = document.querySelector('#iditem').dataset.idItem;
+
+    // Gera chave AES e IV
+    const aesKey = crypto.getRandomValues(new Uint8Array(32));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    // Prepara dados e criptografa com AES-GCM
+    const encoder = new TextEncoder();
+    const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
+    const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
+
+    // Separa ciphertext e tag
+    const encryptedBytes = new Uint8Array(encrypted);
+    const ciphertext = encryptedBytes.slice(0, -16);
+    const tag = encryptedBytes.slice(-16);
+
+    // Converte PEM para ArrayBuffer
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+        const bin = atob(b64);
+        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+    }
+
+    // Importa chave pública RSA e criptografa chave AES
+    const rsaKey = await crypto.subtle.importKey('spki', pemToArrayBuffer(chavePublicaPEM), { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['encrypt']);
+    const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
+
+    // Armazena resultado em variável
+    const resultadoCriptografado = {
+        chaveAES_segura: btoa(String.fromCharCode(...new Uint8Array(encryptedAesKey))),
+        dados_seguro: JSON.stringify({
+            iv: btoa(String.fromCharCode(...iv)),
+            ciphertext: btoa(String.fromCharCode(...ciphertext)),
+            tag: btoa(String.fromCharCode(...tag))
+        })
+    };
+
+    console.log(resultadoCriptografado);
+})();
+
+
     if (typeof arrayBufferToBase64 === 'undefined') {    
         function arrayBufferToBase64(buffer) {
             const binary = String.fromCharCode(...new Uint8Array(buffer));
             return btoa(binary);
         }
     }
+
+
     $(document).ready(function(){
         $('form#formResponsavel').on('input change', function(){
             $('form#formResponsavel button[type=submit]').attr('disabled', false);
@@ -251,17 +313,17 @@ $row = $pre->fetchAll();
             });
         })
 
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
 
         $('body').on('change', '.lista-vinculados select',  function(e){
             // $(this).attr('disabled', true);
             let entrada = $(this).data('identrada');
             let pacote  = $(this).val();
             if (pacote==='') {
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
             } else {
                 $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= htmlspecialchars($_GET['item']) ?> });
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
                 });    
             }            
         });
@@ -284,7 +346,7 @@ $row = $pre->fetchAll();
                 });
                 botao.attr('disabled', false);
             } else {
-                location.href='pagamento.php?item=<?= htmlspecialchars($_GET['item']) ?>';
+                location.href='pagamento.php?item='+iditem;
             }
 
         });
@@ -305,7 +367,7 @@ $row = $pre->fetchAll();
                 }, function (isConfirm) {
                     if (isConfirm) {
                         
-                        $.post("./blocos/prevenda-exclui.php", { i: <?= htmlspecialchars($_GET['item']) ?> }, function(data){
+                        $.post("./blocos/prevenda-exclui.php", { i: iditem }, function(data){
                             window.location.href = 'controle.php';
                         });
                         
@@ -315,12 +377,8 @@ $row = $pre->fetchAll();
         <?php } ?>
 
         $('select').selectpicker();
-    });
-</script>
+    
 
-
-<script>
-    $(document).ready(function() {
     // Função para aplicar a máscara de CPF
     function aplicarMascaraCPF(cpf) {
         return cpf
