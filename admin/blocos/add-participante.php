@@ -55,7 +55,7 @@ try {
     $nascimento = $privateKey->decrypt($encrypted_nascimento);
     $vinculo   = $privateKey->decrypt($encrypted_vinculo);
     $perfil    = $privateKey->decrypt($encrypted_perfil);
-    $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
+    $idresponsavel = $privateKey->decrypt($encrypted_idResponsavel);
     $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
