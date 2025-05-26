@@ -7,7 +7,7 @@ use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
 
-session_start();
+// session_start();
 
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
