@@ -282,7 +282,17 @@ $row = $pre->fetchAll();
         return arrayBufferToBase64(encrypted);
     }
 
-    // Primeira carga da lista
+    
+if (typeof arrayBufferToBase64 === 'undefined') {    
+    function arrayBufferToBase64(buffer) {
+        const binary = String.fromCharCode(...new Uint8Array(buffer));
+        return btoa(binary);
+    }
+}
+
+    $(document).ready(function(){
+
+        // Primeira carga da lista
     criptografarIdItem(iditem).then(function (idItemEncrypted) {
         $.post('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function (html) {
             $('.bloco-vinculados').html(html);
@@ -325,16 +335,6 @@ $row = $pre->fetchAll();
             });
         }
     });
-
-
-    if (typeof arrayBufferToBase64 === 'undefined') {    
-        function arrayBufferToBase64(buffer) {
-            const binary = String.fromCharCode(...new Uint8Array(buffer));
-            return btoa(binary);
-        }
-    }
-
-    $(document).ready(function(){
         $('form#formResponsavel').on('input change', function(){
             $('form#formResponsavel button[type=submit]').attr('disabled', false);
         });
@@ -376,7 +376,6 @@ $row = $pre->fetchAll();
             } else {
                 location.href='pagamento.php?item='+iditem;
             }
-
         });
 
         <?php if ( $row[0]['origem_prevenda'] ==2) { ?>
