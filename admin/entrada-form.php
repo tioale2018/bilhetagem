@@ -733,7 +733,9 @@ try {
 
 
 
-$('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted });
+// $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }); /// sei la
+
+
 
         // Monitoramento de mudança nos selects
         $('body').on('change', '.lista-vinculados select', function () {
