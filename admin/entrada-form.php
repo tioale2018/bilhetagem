@@ -594,7 +594,7 @@ try {
 */
 
 
-
+/*
     (async () => {
         try {
             const idItem = $('#iditem').data('idItem'); // valor original do HTML
@@ -651,6 +651,80 @@ try {
     })();
 
 
+*/
+
+
+// $(document).ready(function () {
+    let iditem = $('#iditem').data('idItem');
+
+    async function criptografarIdItem(iditem) {
+        const encoder = new TextEncoder();
+//         const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+// XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+// kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+// aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+// x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+// LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+// mQIDAQAB
+// -----END PUBLIC KEY-----`;
+
+        function pemToArrayBuffer(pem) {
+            const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+            const bin = atob(b64);
+            return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+        }
+
+        function arrayBufferToBase64(buffer) {
+            return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        }
+
+        const key = await crypto.subtle.importKey(
+            "spki",
+            pemToArrayBuffer(publicKeyPEM),
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            false,
+            ["encrypt"]
+        );
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "RSA-OAEP" },
+            key,
+            encoder.encode(iditem.toString())
+        );
+
+        return arrayBufferToBase64(encrypted);
+    }
+
+    // Primeira carga da lista
+    criptografarIdItem(iditem).then(function (idItemEncrypted) {
+        $.post('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function (html) {
+            $('.bloco-vinculados').html(html);
+        });
+    });
+
+    // Troca de pacotes
+    $('body').on('change', '.lista-vinculados select', function (e) {
+        let entrada = $(this).data('identrada');
+        let pacote = $(this).val();
+
+        if (pacote === '') {
+            criptografarIdItem(iditem).then(function (idItemEncrypted) {
+                $.post('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function (html) {
+                    $('.bloco-vinculados').html(html);
+                });
+            });
+        } else {
+            $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function (data) {
+                criptografarIdItem(iditem).then(function (idItemEncrypted) {
+                    $.post('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function (html) {
+                        $('.bloco-vinculados').html(html);
+                    });
+                });
+            });
+        }
+    });
+// });
 
 
 
