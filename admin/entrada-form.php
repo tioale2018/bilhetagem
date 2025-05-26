@@ -292,6 +292,7 @@ $row = $pre->fetchAll();
     };
 
     console.log(resultadoCriptografado);
+    iditem = resultadoCriptografado.dados_seguro;
 })();
 
 
