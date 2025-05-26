@@ -27,12 +27,19 @@ function dataParaMySQL($data) {
     return null; // Retorna null se não tiver 3 partes
 }
 
+// $idvinculado   = htmlspecialchars($_POST['idvinculado'], ENT_QUOTES, 'UTF-8');
+// $identrada     = htmlspecialchars($_POST['identrada'], ENT_QUOTES, 'UTF-8');
+
 $encrypted_nome       = base64_decode($_POST['nome'] ?? '');
 $encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
 $encrypted_vinculo    = base64_decode($_POST['vinculo'] ?? '');
 $encrypted_perfil     = base64_decode($_POST['perfil'] ?? '');
+$enccrypted_idvinculado   = base64_decode($_POST['idvinculado'] ?? '');
+$encrypted_identrada     = base64_decode($_POST['identrada'] ?? '');
+
+
 // $encrypted_idResponsavel = base64_decode($_POST['idresponsavel'] ?? '');
-$encrypted_idprevenda    = base64_decode($_POST['idprevenda'] ?? '');
+// $encrypted_idprevenda    = base64_decode($_POST['idprevenda'] ?? '');
 // $encrypted_lembrarme     = base64_decode($_POST['lembrarme'] ?? '');
 
 try {
@@ -40,7 +47,8 @@ try {
     $nascimento = $privateKey->decrypt($encrypted_nascimento);
     $vinculo   = $privateKey->decrypt($encrypted_vinculo);
     $perfil    = $privateKey->decrypt($encrypted_perfil);
-    $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
+    $idvinculado   = $privateKey->decrypt($enccrypted_idvinculado);
+    $identrada     = $privateKey->decrypt($encrypted_identrada);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
