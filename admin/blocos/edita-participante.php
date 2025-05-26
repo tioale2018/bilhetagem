@@ -342,6 +342,7 @@ $(document).ready(function() {
 
             $.post('./blocos/participante-atualiza.php', encryptedData, function(data){
                 console.log(data);
+                
                 $.post('./blocos/lista-vinculados.php', { i: prevendaEncrypted }, function(html) {
                     $('.bloco-vinculados').html(html);
                     $('#formEditaParticipante button[type=submit]').prop('disabled', false);
