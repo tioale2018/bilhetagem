@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
     exit('Requisição inválida.');
 }
 
-require_once './inc/config_session.php';
-require_once './inc/functions.php';
-require_once './inc/funcoes.php';
+require_once '../inc/config_session.php';
+require_once '../inc/functions.php';
+require_once '../inc/funcoes.php';
 
 // Lê a chave privada
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../../chaves/chave_privada.pem'))
