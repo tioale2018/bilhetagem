@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 require_once '../inc/config_session.php';
 require_once '../inc/functions.php';
 require_once '../inc/funcoes.php';
+include_once('../inc/conexao.php');
 
 // Lê a chave privada
 $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../../chaves/chave_privada.pem'))
@@ -29,8 +30,6 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
 // $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 // $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 // $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-
 
 
 // Decodifica a senha criptografada
