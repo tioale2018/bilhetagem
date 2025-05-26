@@ -511,7 +511,8 @@ mQIDAQAB
             })
         };
         */
-       return b64encode(encryptedAesKey);
+    //    return b64encode(encryptedAesKey);
+       return arrayBufferToBase64(encryptedAesKey);
     }
 
     const iditem = $('#iditem').data('idItem');
