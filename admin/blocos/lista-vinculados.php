@@ -6,13 +6,16 @@ require '../../../vendor/autoload.php';
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
-/*
+
+session_start();
+
+
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
     exit('Requisição inválida.');
 }
-*/
+
 
 require_once '../inc/config_session.php';
 require_once '../inc/functions.php';
@@ -37,12 +40,14 @@ try {
 
 
 
-session_start();
+
+/*
 if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
     exit('Requisição inválida.');
 }
+    */
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes-gerais.php');
 // $idprevenda = intval($_POST['i']);
