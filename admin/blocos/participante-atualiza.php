@@ -39,7 +39,6 @@ try {
     $nascimento = $privateKey->decrypt($encrypted_nascimento);
     $vinculo   = $privateKey->decrypt($encrypted_vinculo);
     $perfil    = $privateKey->decrypt($encrypted_perfil);
-    // $idresponsavel = $privateKey->decrypt($encrypted_idResponsavel);
     $idprevenda    = $privateKey->decrypt($encrypted_idprevenda);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
@@ -58,6 +57,8 @@ try {
 // include_once('../inc/conexao.php');
 // include_once('../inc/funcoes.php');
 
+$nascimento = dataParaMySQL($nascimento);
+/*
 $nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
 $nascimento    = convertDateToYMD(htmlspecialchars($_POST['nascimento'], ENT_QUOTES, 'UTF-8'));
 $vinculo       = htmlspecialchars($_POST['vinculo'], ENT_QUOTES, 'UTF-8');
@@ -67,6 +68,8 @@ $idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
 $idprevenda    = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES, 'UTF-8');
 $idvinculado   = htmlspecialchars($_POST['idvinculado'], ENT_QUOTES, 'UTF-8');
 $identrada     = htmlspecialchars($_POST['identrada'], ENT_QUOTES, 'UTF-8');
+*/
+
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
