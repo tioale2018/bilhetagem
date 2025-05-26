@@ -1,4 +1,5 @@
 <?php
+die(var_dump($_POST));
 session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
     header('X-PHP-Response-Code: 404', true, 404);
