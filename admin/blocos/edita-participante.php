@@ -100,8 +100,43 @@ $row = $pre->fetchAll();
     </div>
 </form>
 
+<div id="idprevenda" style="display: none;" data-id-prevenda="<?= $prevenda ?>"></div>
+
 
 <script>
+    if (typeof publicKeyPEM === 'undefined') {
+            var publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+mQIDAQAB
+-----END PUBLIC KEY-----`;
+            
+        }
+
+
+// Define a função de conversão PEM → ArrayBuffer
+function pemToArrayBuffer(pem) {
+    const b64 = pem.replace(/-----BEGIN PUBLIC KEY-----/, '')
+                   .replace(/-----END PUBLIC KEY-----/, '')
+                   .replace(/\s/g, '');
+    const binary = atob(b64);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
+    }
+    return buffer.buffer;
+}
+
+function arrayBufferToBase64(buffer) {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return btoa(binary);
+}
+
+
 $(document).ready(function() {
 
     function calculateAge(date) {
@@ -156,10 +191,12 @@ $(document).ready(function() {
       
     $('select').selectpicker();
 
+    /*
     $('#formEditaParticipante').submit(function(e){
         e.preventDefault();
         $('#formEditaParticipante button[type=submit]').prop('disabled', true);
         let Form = $(this);
+        let prevenda = $('#idprevenda').data('id-prevenda');
 
         var dateInput = $('#nascEdita').val();
         if (!isValidDate(dateInput)) {
@@ -171,7 +208,7 @@ $(document).ready(function() {
         } else {
 
             $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $prevenda ?> }, function(){
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:prevenda }, function(){
                     $('#formEditaParticipante button[type=submit]').prop('disabled', false);
                     $('#modalEditaParticipante').modal('toggle');
                 });
@@ -179,5 +216,78 @@ $(document).ready(function() {
             });
         }
     });
+    */
+
+
+    $('#formEditaParticipante').submit(async function(e) {
+        e.preventDefault();
+        $('#formEditaParticipante button[type=submit]').prop('disabled', true);
+
+        let Form = $(this);
+        let prevenda = $('#idprevenda').data('id-prevenda');
+
+        let dateInput = $('#nascEdita').val();
+        if (!isValidDate(dateInput)) {
+            $('#nascEdita').val('');
+            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+            $('#nascEdita').focus();
+            $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+            return;
+        }
+
+        try {
+//             const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+// XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+// kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+// aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+// x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+// LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+// mQIDAQAB
+// -----END PUBLIC KEY-----`;
+
+            function pemToArrayBuffer(pem) {
+                const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+                const bin = atob(b64);
+                return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+            }
+
+            function arrayBufferToBase64(buffer) {
+                return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+            }
+
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            const encryptedPrevenda = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(prevenda.toString())
+            );
+            const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
+
+            // Envia os dados do formulário (sem criptografar os outros campos) + prevenda criptografado
+            $.post('./blocos/participante-atualiza.php', Form.serialize(), function(data){
+                $.post('./blocos/lista-vinculados.php', { i: prevendaEncrypted }, function(html) {
+                    $('.bloco-vinculados').html(html);
+                    $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+                    $('#modalEditaParticipante').modal('toggle');
+                });
+            });
+
+        } catch (err) {
+            console.error("Erro na criptografia de prevenda:", err);
+            alert("Erro ao processar dados com segurança.");
+            $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+        }
+    });
+
+
 });
 </script>
