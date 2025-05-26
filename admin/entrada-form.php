@@ -446,11 +446,12 @@ mQIDAQAB
     // Codifica tudo em base64
     const iditemX = btoa(String.fromCharCode(...finalBytes));
 
-    console.log('iditemX:', iditemX);
+    // console.log('iditemX:', iditemX);
     let iditem = iditemX;
 })();
 
 
+console.log('iditem:', iditem);
 
 
 
