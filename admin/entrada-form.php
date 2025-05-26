@@ -238,235 +238,7 @@ $row = $pre->fetchAll();
         -----END PUBLIC KEY-----`;
     }
 
-    // let iditem = document.querySelector('#iditem').dataset.idItem;
-
-  /*  
-(async () => {
-    const iditem = document.querySelector('#iditem').dataset.idItem;
-
-    // Gera chave AES e IV
-    const aesKey = crypto.getRandomValues(new Uint8Array(32));
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-
-    // Prepara dados e criptografa com AES-GCM
-    const encoder = new TextEncoder();
-    const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
-    const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
-    const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
-
-    // Separa ciphertext e tag
-    const encryptedBytes = new Uint8Array(encrypted);
-    const ciphertext = encryptedBytes.slice(0, -16);
-    const tag = encryptedBytes.slice(-16);
-
-    // Converte PEM para ArrayBuffer
-    if (typeof publicKeyPEM === 'undefined') {
-            const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-        XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-        kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-        aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-        x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-        LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-        mQIDAQAB
-        -----END PUBLIC KEY-----`;
-    }
-    function pemToArrayBuffer(pem) {
-        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
-        const bin = atob(b64);
-        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
-    }
-
-    // Importa chave pública RSA e criptografa chave AES
-    const rsaKey = await crypto.subtle.importKey('spki', pemToArrayBuffer(publicKeyPEM), { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['encrypt']);
-    const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
-
-    // Armazena resultado em variável
-    const resultadoCriptografado = {
-        chaveAES_segura: btoa(String.fromCharCode(...new Uint8Array(encryptedAesKey))),
-        dados_seguro: JSON.stringify({
-            iv: btoa(String.fromCharCode(...iv)),
-            ciphertext: btoa(String.fromCharCode(...ciphertext)),
-            tag: btoa(String.fromCharCode(...tag))
-        })
-    };
-
-    console.log(resultadoCriptografado);
-    iditem = resultadoCriptografado.dados_seguro;
-})();
-
-*/
-
-
-/*
-(async () => {
-    // Captura o valor do iditem
-    const iditem = document.querySelector('#iditem').dataset.idItem;
-
-    // Gera chave AES e IV
-    const aesKey = crypto.getRandomValues(new Uint8Array(32));
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-
-    // Codifica os dados como JSON
-    const encoder = new TextEncoder();
-    const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
-
-    // Importa a chave AES
-    const chaveAesImportada = await crypto.subtle.importKey(
-        'raw',
-        aesKey,
-        'AES-GCM',
-        false,
-        ['encrypt']
-    );
-
-    // Criptografa os dados com AES-GCM
-    const encrypted = await crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv },
-        chaveAesImportada,
-        dadosBytes
-    );
-
-    // Separa o ciphertext e a tag (últimos 16 bytes)
-    const encryptedBytes = new Uint8Array(encrypted);
-    const ciphertext = encryptedBytes.slice(0, -16);
-    const tag = encryptedBytes.slice(-16);
-
-    // Define a chave pública PEM (não deve ser declarada dentro de `if`)
-    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-mQIDAQAB
------END PUBLIC KEY-----`;
-
-    // Converte PEM em ArrayBuffer
-    function pemToArrayBuffer(pem) {
-        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
-        const bin = atob(b64);
-        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
-    }
-
-    // Importa a chave RSA e criptografa a chave AES
-    const rsaKey = await crypto.subtle.importKey(
-        'spki',
-        pemToArrayBuffer(publicKeyPEM),
-        { name: 'RSA-OAEP', hash: 'SHA-256' },
-        false,
-        ['encrypt']
-    );
-
-    const encryptedAesKey = await crypto.subtle.encrypt(
-        { name: 'RSA-OAEP' },
-        rsaKey,
-        aesKey
-    );
-
-    // Monta o resultado criptografado
-    const resultadoCriptografado = {
-        chaveAES_segura: btoa(String.fromCharCode(...new Uint8Array(encryptedAesKey))),
-        dados_seguro: JSON.stringify({
-            iv: btoa(String.fromCharCode(...iv)),
-            ciphertext: btoa(String.fromCharCode(...ciphertext)),
-            tag: btoa(String.fromCharCode(...tag))
-        })
-    };
-
-    // Armazena o conteúdo criptografado na nova variável
-    const iditemCriptografado = resultadoCriptografado.dados_seguro;
-
-    console.log(iditemCriptografado);
-})();
-
-*/
-
-/*
-(async () => {
-    const codIditem = document.querySelector('#iditem').dataset.idItem;
-
-    // Gera chave AES e IV
-    const aesKey = crypto.getRandomValues(new Uint8Array(32)); // AES-256
-    const iv = crypto.getRandomValues(new Uint8Array(12));     // 96-bit IV
-
-    // Codifica o valor
-    const encoder = new TextEncoder();
-    const dadosBytes = encoder.encode(codIditem);
-
-    // Criptografa com AES-GCM
-    const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
-    const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
-
-    // Separa tag do final do ciphertext
-    const encryptedBytes = new Uint8Array(encrypted);
-    const ciphertext = encryptedBytes.slice(0, -16);
-    const tag = encryptedBytes.slice(-16);
-
-    // Concatena IV + ciphertext + tag
-    const resultadoBytes = new Uint8Array(iv.length + ciphertext.length + tag.length);
-    resultadoBytes.set(iv, 0);
-    resultadoBytes.set(ciphertext, iv.length);
-    resultadoBytes.set(tag, iv.length + ciphertext.length);
-
-    // Chave pública RSA em formato PEM
-    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-mQIDAQAB
------END PUBLIC KEY-----`;
-
-    function pemToArrayBuffer(pem) {
-        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s+/g, '');
-        const bin = atob(b64);
-        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
-    }
-
-    // Criptografa chave AES com RSA-OAEP
-    const rsaKey = await crypto.subtle.importKey(
-        'spki',
-        pemToArrayBuffer(publicKeyPEM),
-        { name: 'RSA-OAEP', hash: 'SHA-256' },
-        false,
-        ['encrypt']
-    );
-
-    const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
-
-    // Concatena chaveAES criptografada + dados AES (iv + ciphertext + tag)
-    const finalBytes = new Uint8Array(encryptedAesKey.byteLength + resultadoBytes.byteLength);
-    finalBytes.set(new Uint8Array(encryptedAesKey), 0);
-    finalBytes.set(resultadoBytes, encryptedAesKey.byteLength);
-
-    // Codifica tudo em base64
-    const iditemX = btoa(String.fromCharCode(...finalBytes));
-
-    // console.log('iditemX:', iditemX);
-    var iditem = iditemX;
-})();
-
-
-console.log('iditem:', iditem);
-
-*/
-
-/*
-    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-mQIDAQAB
------END PUBLIC KEY-----`;
-*/
-
+    
     function pemToArrayBuffer(pem) {
         const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
         const bin = atob(b64);
@@ -476,198 +248,12 @@ mQIDAQAB
     function b64encode(buffer) {
         return btoa(String.fromCharCode(...new Uint8Array(buffer)));
     }
-/*
-    async function criptografarIdItem(iditem) {
-        // Gera chave AES e IV
-        const aesKey = crypto.getRandomValues(new Uint8Array(32));
-        const iv = crypto.getRandomValues(new Uint8Array(12));
-        const encoder = new TextEncoder();
-        const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
-
-        const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
-        const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
-
-        const encryptedBytes = new Uint8Array(encrypted);
-        const ciphertext = encryptedBytes.slice(0, -16);
-        const tag = encryptedBytes.slice(-16);
-
-        // Criptografa chave AES com RSA
-        const rsaKey = await crypto.subtle.importKey(
-            'spki',
-            pemToArrayBuffer(publicKeyPEM),
-            { name: 'RSA-OAEP', hash: 'SHA-256' },
-            false,
-            ['encrypt']
-        );
-        const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
-
-        
-        // return {
-        //     chaveAES_segura: b64encode(encryptedAesKey),
-        //     dados_seguro: JSON.stringify({
-        //         iv: b64encode(iv),
-        //         ciphertext: b64encode(ciphertext),
-        //         tag: b64encode(tag)
-        //     })
-        // };
-        
-    //    return b64encode(encryptedAesKey);
-       return arrayBufferToBase64(encryptedAesKey);
-    }
-
-    const iditem = $('#iditem').data('idItem');
-
-    criptografarIdItem(iditem).then(iditemX => {
-        // Primeira carga
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
-
-        // Monitoramento de mudança nos selects
-        $('body').on('change', '.lista-vinculados select', function () {
-            const entrada = $(this).data('identrada');
-            const pacote = $(this).val();
-
-            if (pacote === '') {
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
-            } else {
-                $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function () {
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
-                });
-            }
-        });
-    }).catch(console.error);
-    
-*/
 
 
-
-/*
-try {
-    const encoder = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-        "spki",
-        pemToArrayBuffer(publicKeyPEM),
-        { name: "RSA-OAEP", hash: "SHA-256" },
-        false,
-        ["encrypt"]
-    );
-
-    // let formData = {};
-    // $('#formModalParticipante')
-    //     .serializeArray()
-    //     .forEach(field => {
-    //         formData[field.name] = field.value;
-    //     });
-
-    // let encryptedData = {};
-    // for (let keyName in formData) {
-    //     const encrypted = await crypto.subtle.encrypt(
-    //         { name: "RSA-OAEP" },
-    //         key,
-    //         encoder.encode(formData[keyName])
-    //     );
-    //     encryptedData[keyName] = arrayBufferToBase64(encrypted);
-    // }
-
-    // Criptografa idItem
-    const encryptedIdItem = await crypto.subtle.encrypt(
-        { name: "RSA-OAEP" },
-        key,
-        encoder.encode(idItem.toString())
-    );
-    const idItemEncrypted = arrayBufferToBase64(encryptedIdItem);
-
-    // $.post("./blocos/add-participante.php", encryptedData, function(data){
-    //     console.log(data);
-    //     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function(){
-    //         // location.reload();
-    //     });
-    // }).fail(function() {
-    //     alert("Erro ao enviar dados criptografados.");
-    // });
-    
-
-} catch (err) {
-    console.error("Erro na criptografia dos dados:", err);
-    alert("Erro de segurança ao processar enviox.");
-}
-
-*/
-
-
-/*
-    (async () => {
-        try {
-            const idItem = $('#iditem').data('idItem'); // valor original do HTML
-            const encoder = new TextEncoder();
-
-//             const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-// XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-// kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-// aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-// x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-// LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-// mQIDAQAB
-// -----END PUBLIC KEY-----`;
-
-            function pemToArrayBuffer(pem) {
-                const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
-                const bin = atob(b64);
-                return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
-            }
-
-            function arrayBufferToBase64(buffer) {
-                return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-            }
-
-            const key = await crypto.subtle.importKey(
-                "spki",
-                pemToArrayBuffer(publicKeyPEM),
-                { name: "RSA-OAEP", hash: "SHA-256" },
-                false,
-                ["encrypt"]
-            );
-
-            // Criptografa idItem
-            const encryptedIdItem = await crypto.subtle.encrypt(
-                { name: "RSA-OAEP" },
-                key,
-                encoder.encode(idItem.toString())
-            );
-            const idItemEncrypted = arrayBufferToBase64(encryptedIdItem);
-
-            // Envia para o PHP via jQuery
-            $.post("./blocos/add-participante.php", {}, function (data) {
-                console.log(data);
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted });
-            }).fail(function () {
-                alert("Erro ao enviar dados criptografados.");
-            });
-
-        } catch (err) {
-            console.error("Erro na criptografia dos dados:", err);
-            alert("Erro de segurança ao processar envio.");
-        }
-    })();
-
-
-*/
-
-
-// $(document).ready(function () {
     let iditem = $('#iditem').data('idItem');
 
     async function criptografarIdItem(iditem) {
         const encoder = new TextEncoder();
-//         const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-// XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-// kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-// aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-// x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-// LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-// mQIDAQAB
-// -----END PUBLIC KEY-----`;
 
         function pemToArrayBuffer(pem) {
             const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
@@ -724,33 +310,21 @@ try {
             });
         }
     });
-// });
 
 
+    // Monitoramento de mudança nos selects
+    $('body').on('change', '.lista-vinculados select', function () {
+        const entrada = $(this).data('identrada');
+        const pacote = $(this).val();
 
-
-
-
-
-
-// $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }); /// sei la
-
-
-
-        // Monitoramento de mudança nos selects
-        $('body').on('change', '.lista-vinculados select', function () {
-            const entrada = $(this).data('identrada');
-            const pacote = $(this).val();
-
-            if (pacote === '') {
+        if (pacote === '') {
+            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted  });
+        } else {
+            $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function () {
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted  });
-            } else {
-                $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function () {
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted  });
-                });
-            }
-        });
-
+            });
+        }
+    });
 
 
     if (typeof arrayBufferToBase64 === 'undefined') {    
@@ -759,7 +333,6 @@ try {
             return btoa(binary);
         }
     }
-
 
     $(document).ready(function(){
         $('form#formResponsavel').on('input change', function(){
@@ -783,29 +356,6 @@ try {
         });
 
         
-
-
-        /*
-
-         let iditem = document.querySelector('#iditem').dataset.idItem;
-
-        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
-
-        $('body').on('change', '.lista-vinculados select',  function(e){
-            // $(this).attr('disabled', true);
-            let entrada = $(this).data('identrada');
-            let pacote  = $(this).val();
-            if (pacote==='') {
-                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
-            } else {
-                $.post( "./blocos/troca-pacote.php", { e: entrada, p: pacote }, function(data){
-                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
-                });    
-            }            
-        });
-
-        */
-
         $('body').on('click','#btnpagamento', function(event){
             let botao = $(this);
             botao.attr('disabled', true);
@@ -828,6 +378,7 @@ try {
             }
 
         });
+
         <?php if ( $row[0]['origem_prevenda'] ==2) { ?>
         $('body').on('click', '.prevenda-exclui', function(e){
             e.preventDefault();
@@ -856,7 +407,6 @@ try {
 
         $('select').selectpicker();
     
-
         // Função para aplicar a máscara de CPF
         function aplicarMascaraCPF(cpf) {
             return cpf
