@@ -185,7 +185,8 @@ $(document).ready(function(){
                 }, function (isConfirm) {
                     if (isConfirm) {
                         $.post("./blocos/exclui-vinculo.php", { e: entrada }, function(data){
-                            $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idprevenda ?> });
+                            // $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:<?= $idprevenda ?> });
+                            location.reload();
                         });
                     } 
                 });
