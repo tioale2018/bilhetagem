@@ -77,6 +77,12 @@
 </div>
 <div id="iditem" data-id-item="<?= htmlspecialchars($_GET['item']) ?>" style="display: none"></div>
 <script>
+    if (typeof arrayBufferToBase64 === 'undefined') {    
+        function arrayBufferToBase64(buffer) {
+            const binary = String.fromCharCode(...new Uint8Array(buffer));
+            return btoa(binary);
+        }
+    }
             if (typeof pemToArrayBuffer === 'undefined') {        
             function pemToArrayBuffer(pem) {
                 const b64 = pem

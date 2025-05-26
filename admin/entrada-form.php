@@ -224,6 +224,12 @@ $row = $pre->fetchAll();
 <?php include('./inc/javascript.php'); ?>
 
 <script>
+    if (typeof arrayBufferToBase64 === 'undefined') {    
+        function arrayBufferToBase64(buffer) {
+            const binary = String.fromCharCode(...new Uint8Array(buffer));
+            return btoa(binary);
+        }
+    }
     $(document).ready(function(){
         $('form#formResponsavel').on('input change', function(){
             $('form#formResponsavel button[type=submit]').attr('disabled', false);
