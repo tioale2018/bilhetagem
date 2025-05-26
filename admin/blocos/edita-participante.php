@@ -218,7 +218,7 @@ $(document).ready(function() {
     });
     */
 
-
+/*
     $('#formEditaParticipante').submit(async function(e) {
         e.preventDefault();
         $('#formEditaParticipante button[type=submit]').prop('disabled', true);
@@ -236,15 +236,6 @@ $(document).ready(function() {
         }
 
         try {
-//             const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
-// MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
-// XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
-// kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
-// aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
-// x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
-// LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
-// mQIDAQAB
-// -----END PUBLIC KEY-----`;
 
             function pemToArrayBuffer(pem) {
                 const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
@@ -287,6 +278,88 @@ $(document).ready(function() {
             $('#formEditaParticipante button[type=submit]').prop('disabled', false);
         }
     });
+    */
+
+    
+    $('#formEditaParticipante').submit(async function(e) {
+        e.preventDefault();
+        $('#formEditaParticipante button[type=submit]').prop('disabled', true);
+
+        let Form = $(this);
+        let prevenda = $('#idprevenda').data('id-prevenda');
+
+        let dateInput = $('#nascEdita').val();
+        if (!isValidDate(dateInput)) {
+            $('#nascEdita').val('');
+            alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa.');
+            $('#nascEdita').focus();
+            $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+            return;
+        }
+
+        try {
+
+            function pemToArrayBuffer(pem) {
+                const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+                const bin = atob(b64);
+                return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+            }
+
+            function arrayBufferToBase64(buffer) {
+                return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+            }
+
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            let formData = {};
+            Form.serializeArray().forEach(field => {
+                formData[field.name] = field.value;
+            });
+
+            let encryptedData = {};
+            for (let keyName in formData) {
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(formData[keyName])
+                );
+                encryptedData[keyName] = arrayBufferToBase64(encrypted);
+            }
+
+            const encryptedPrevenda = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(prevenda.toString())
+            );
+            const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
+
+            $.post('./blocos/participante-atualiza.php', encryptedData, function(data){
+                console.log(data);
+                $.post('./blocos/lista-vinculados.php', { i: prevendaEncrypted }, function(html) {
+                    $('.bloco-vinculados').html(html);
+                    $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+                    $('#modalEditaParticipante').modal('toggle');
+                });
+            }).fail(function() {
+                alert("Erro ao enviar dados criptografados.");
+                $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+            });
+
+        } catch (err) {
+            console.error("Erro na criptografia:", err);
+            alert("Erro ao processar dados com segurança.");
+            $('#formEditaParticipante button[type=submit]').prop('disabled', false);
+        }
+    });
+
+
 
 
 });
