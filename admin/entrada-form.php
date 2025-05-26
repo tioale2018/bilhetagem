@@ -383,7 +383,7 @@ mQIDAQAB
 
 */
 
-
+/*
 (async () => {
     const codIditem = document.querySelector('#iditem').dataset.idItem;
 
@@ -453,9 +453,83 @@ mQIDAQAB
 
 console.log('iditem:', iditem);
 
+*/
 
 
+    const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l
+XfPN1PHujl9CTumnjnM58/2vCtkEaqNbVMXbqhFbqSIpbd1J2k6nn9QMyEvA2uLe
+kVgQhMBhxtxFNnuMYWJAeLddas1+Vhn5jygLhdk+PxZSXi/ZKrrCqq1QwA+PSeRq
+aL4StVkBNCaxXRElxWXjsPVm0JUgXAuAfzBwGeKwelSUjgoTAmTLcNOOxDL+LGYD
+x7IM5PjofaiJwLj3oQpkcfsxvDZ3SMpj/Jo+V+i8OBQwCyVOAfOEvUN+O1YZlBUT
+LcM7KvDLMtcQyGf//3QsjLsfqa/XEAvdAISjHO5TNAXy9MXPiEwd1cPyis7toz/d
+mQIDAQAB
+-----END PUBLIC KEY-----`;
 
+    function pemToArrayBuffer(pem) {
+        const b64 = pem.replace(/-----(BEGIN|END) PUBLIC KEY-----/g, '').replace(/\s/g, '');
+        const bin = atob(b64);
+        return Uint8Array.from([...bin].map(c => c.charCodeAt(0))).buffer;
+    }
+
+    function b64encode(buffer) {
+        return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    }
+
+    async function criptografarIdItem(iditem) {
+        // Gera chave AES e IV
+        const aesKey = crypto.getRandomValues(new Uint8Array(32));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const encoder = new TextEncoder();
+        const dadosBytes = encoder.encode(JSON.stringify({ iditem }));
+
+        const chaveAesImportada = await crypto.subtle.importKey('raw', aesKey, 'AES-GCM', false, ['encrypt']);
+        const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, chaveAesImportada, dadosBytes);
+
+        const encryptedBytes = new Uint8Array(encrypted);
+        const ciphertext = encryptedBytes.slice(0, -16);
+        const tag = encryptedBytes.slice(-16);
+
+        // Criptografa chave AES com RSA
+        const rsaKey = await crypto.subtle.importKey(
+            'spki',
+            pemToArrayBuffer(publicKeyPEM),
+            { name: 'RSA-OAEP', hash: 'SHA-256' },
+            false,
+            ['encrypt']
+        );
+        const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
+
+        return {
+            chaveAES_segura: b64encode(encryptedAesKey),
+            dados_seguro: JSON.stringify({
+                iv: b64encode(iv),
+                ciphertext: b64encode(ciphertext),
+                tag: b64encode(tag)
+            })
+        };
+    }
+
+    const iditem = $('#iditem').data('idItem');
+
+    criptografarIdItem(iditem).then(iditemX => {
+        // Primeira carga
+        $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
+
+        // Monitoramento de mudança nos selects
+        $('body').on('change', '.lista-vinculados select', function () {
+            const entrada = $(this).data('identrada');
+            const pacote = $(this).val();
+
+            if (pacote === '') {
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
+            } else {
+                $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function () {
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: iditemX });
+                });
+            }
+        });
+    }).catch(console.error);
 
 
 
@@ -487,7 +561,14 @@ console.log('iditem:', iditem);
                     $('form#formResponsavel button[type=submit]').attr('disabled', true);
                 });                
             });
-        })
+        });
+
+        
+
+
+        /*
+
+         let iditem = document.querySelector('#iditem').dataset.idItem;
 
         $('.bloco-vinculados').load('./blocos/lista-vinculados.php', {i:iditem });
 
@@ -503,6 +584,8 @@ console.log('iditem:', iditem);
                 });    
             }            
         });
+
+        */
 
         $('body').on('click','#btnpagamento', function(event){
             let botao = $(this);
