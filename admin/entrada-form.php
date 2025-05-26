@@ -476,7 +476,7 @@ mQIDAQAB
     function b64encode(buffer) {
         return btoa(String.fromCharCode(...new Uint8Array(buffer)));
     }
-
+/*
     async function criptografarIdItem(iditem) {
         // Gera chave AES e IV
         const aesKey = crypto.getRandomValues(new Uint8Array(32));
@@ -501,16 +501,16 @@ mQIDAQAB
         );
         const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
 
-        /*
-        return {
-            chaveAES_segura: b64encode(encryptedAesKey),
-            dados_seguro: JSON.stringify({
-                iv: b64encode(iv),
-                ciphertext: b64encode(ciphertext),
-                tag: b64encode(tag)
-            })
-        };
-        */
+        
+        // return {
+        //     chaveAES_segura: b64encode(encryptedAesKey),
+        //     dados_seguro: JSON.stringify({
+        //         iv: b64encode(iv),
+        //         ciphertext: b64encode(ciphertext),
+        //         tag: b64encode(tag)
+        //     })
+        // };
+        
     //    return b64encode(encryptedAesKey);
        return arrayBufferToBase64(encryptedAesKey);
     }
@@ -535,7 +535,74 @@ mQIDAQAB
             }
         });
     }).catch(console.error);
+    
+*/
 
+try {
+    const encoder = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+        "spki",
+        pemToArrayBuffer(publicKeyPEM),
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["encrypt"]
+    );
+
+    // let formData = {};
+    // $('#formModalParticipante')
+    //     .serializeArray()
+    //     .forEach(field => {
+    //         formData[field.name] = field.value;
+    //     });
+
+    // let encryptedData = {};
+    // for (let keyName in formData) {
+    //     const encrypted = await crypto.subtle.encrypt(
+    //         { name: "RSA-OAEP" },
+    //         key,
+    //         encoder.encode(formData[keyName])
+    //     );
+    //     encryptedData[keyName] = arrayBufferToBase64(encrypted);
+    // }
+
+    // Criptografa idItem
+    const encryptedIdItem = await crypto.subtle.encrypt(
+        { name: "RSA-OAEP" },
+        key,
+        encoder.encode(idItem.toString())
+    );
+    const idItemEncrypted = arrayBufferToBase64(encryptedIdItem);
+
+    // $.post("./blocos/add-participante.php", encryptedData, function(data){
+    //     console.log(data);
+    //     $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function(){
+    //         // location.reload();
+    //     });
+    // }).fail(function() {
+    //     alert("Erro ao enviar dados criptografados.");
+    // });
+    
+
+} catch (err) {
+    console.error("Erro na criptografia dos dados:", err);
+    alert("Erro de segurança ao processar enviox.");
+}
+
+$('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted });
+
+        // Monitoramento de mudança nos selects
+        $('body').on('change', '.lista-vinculados select', function () {
+            const entrada = $(this).data('identrada');
+            const pacote = $(this).val();
+
+            if (pacote === '') {
+                $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted  });
+            } else {
+                $.post('./blocos/troca-pacote.php', { e: entrada, p: pacote }, function () {
+                    $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted  });
+                });
+            }
+        });
 
 
 
