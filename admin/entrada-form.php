@@ -278,7 +278,7 @@ $row = $pre->fetchAll();
     }
 
     // Importa chave pública RSA e criptografa chave AES
-    const rsaKey = await crypto.subtle.importKey('spki', pemToArrayBuffer(chavePublicaPEM), { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['encrypt']);
+    const rsaKey = await crypto.subtle.importKey('spki', pemToArrayBuffer(publicKeyPEM), { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['encrypt']);
     const encryptedAesKey = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaKey, aesKey);
 
     // Armazena resultado em variável
