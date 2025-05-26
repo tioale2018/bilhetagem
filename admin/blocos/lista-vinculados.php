@@ -1,5 +1,41 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
+
+require '../../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+
+
+if ($_SERVER['REQUEST_METHOD']!="POST") {
+    header('X-PHP-Response-Code: 404', true, 404);
+    http_response_code(404);
+    exit('Requisição inválida.');
+}
+
+require_once '../inc/config_session.php';
+require_once '../inc/functions.php';
+require_once '../inc/funcoes.php';
+include_once('../inc/conexao.php');
+
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+    // $idprevenda = intval($_POST['i']);
+$encrypted_i       = base64_decode($_POST['i'] ?? '');
+
+try {
+    // $nome      = $privateKey->decrypt($encrypted_nome);
+    $idprevenda = $privateKey->decrypt($encrypted_i);
+
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
 session_start();
 if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric($_POST['i']))) {
     header('X-PHP-Response-Code: 404', true, 404);
@@ -8,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST" || (!isset($_POST['i'])) || (!is_numeric(
 }
 include_once('../inc/conexao.php');
 include_once('../inc/funcoes-gerais.php');
-$idprevenda = intval($_POST['i']);
+// $idprevenda = intval($_POST['i']);
 
 // die($idprevenda);
 /*
