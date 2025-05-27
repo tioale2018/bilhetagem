@@ -191,7 +191,7 @@ if ($entradasaida==1) {
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=$idprevenda and tbentrada.id_vinculado in ($vinculados)";
 
-    // die($sql_saida);
+    die($sql_saida);
     $pre_saida = $connPDO->prepare($sql_saida);
     // $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     // $pre_saida->bindParam(':vinculados', $vinculados, PDO::PARAM_STR);
