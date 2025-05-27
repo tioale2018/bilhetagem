@@ -65,7 +65,13 @@ $sql_atualiza_prevenda = "update tbprevenda set prevenda_status=1, pre_reservada
 $pre_atualiza_prevenda = $connPDO->prepare($sql_atualiza_prevenda);
 $pre_atualiza_prevenda->bindParam(':idprevenda', $idPrevendaAtual, PDO::PARAM_INT);
 $pre_atualiza_prevenda->execute();
+
+
+die("<script>alert('Dirija-se ao caixa');location.href='/".$hashEvento."';</script>");
+
 ?>
+
+
 <!doctype html>
 <html class="no-js " lang="pt-br">
 <head>
