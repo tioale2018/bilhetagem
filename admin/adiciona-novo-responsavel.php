@@ -302,13 +302,15 @@ if ($idResponsavel=='') {
 
     $ultimo_id_responsavel = $connPDO->lastInsertId();
 
+    $textolog = 'addresponsavel id ' . $ultimo_id_responsavel;
+
     $sql_addlog = "insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (:userid, :datahora, :codigolog, :ipusuario, :acao)";
     $pre_addlog = $connPDO->prepare($sql_addlog);
     $pre_addlog->bindParam(':userid', $_SESSION['user_id'], PDO::PARAM_INT);
     $pre_addlog->bindParam(':datahora', $datahora, PDO::PARAM_INT);
     $pre_addlog->bindParam(':codigolog', $ultimo_id_responsavel, PDO::PARAM_INT);
     $pre_addlog->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
-    $pre_addlog->bindParam(':acao', 'addresponsavel id ' . $ultimo_id_responsavel, PDO::PARAM_STR);
+    $pre_addlog->bindParam(':acao', $textolog , PDO::PARAM_STR);
     $pre_addlog->execute();   
 
 } else {
