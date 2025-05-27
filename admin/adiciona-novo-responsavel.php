@@ -1,5 +1,5 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
 // echo "<pre>";
 // print_r($_POST);
 // echo "</pre>";
@@ -43,7 +43,14 @@ $encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone1= base64_decode($_POST['telefone1_seguro'] ?? '');
 $encrypted_telefone2= base64_decode($_POST['telefone2_seguro'] ?? '');
 $encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
-$encrypted_idResponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
+if (isset($_POST['idresponsavel_seguro'])) {
+    // Verifica se o campo idresponsavel_seguro está definido antes de tentar decodificar
+    // Isso evita erros caso o campo não seja enviado
+    $encrypted_idResponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
+} else {
+    $_POST['idresponsavel_seguro'] = '';
+}
+
 
 try {
     // $cpf        = limparCPF($privateKey->decrypt($encrypted_cpf));
@@ -53,12 +60,18 @@ try {
     // $email      = $privateKey->decrypt($encrypted_email);
     // $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
     // $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $nome      = $privateKey->decrypt($encrypted_nome);
+    // $nome      =  htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $nome      =  $privateKey->decrypt($encrypted_nome);
     $cpf       = $privateKey->decrypt($encrypted_cpf);
     $telefone1 = $privateKey->decrypt($encrypted_telefone1);
     $telefone2 = $privateKey->decrypt($encrypted_telefone2);
     $email     = $privateKey->decrypt($encrypted_email);
-    $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
+    if ($_POST['idresponsavel_seguro'] != '') {
+        $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
+    } else {
+        $idResponsavel = '';
+    }
+    
 
     // $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     // $telefone2 = htmlspecialchars($privateKey->decrypt($encrypted_telefone2), ENT_QUOTES | ENT_HTML5, 'UTF-8');
