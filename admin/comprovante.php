@@ -1,7 +1,7 @@
 <?php
 // session_start();
 
-if (($_SERVER['REQUEST_METHOD']!="POST") || (!isset($_POST['i']))) {
+if (($_SERVER['REQUEST_METHOD']!="POST")) {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
     exit('Requisição inválida.');
