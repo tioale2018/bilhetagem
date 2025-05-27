@@ -390,10 +390,7 @@ include_once("./inc/funcoes.php");
             }
         });
 
-
-
-
-        $('.btAcao-finaliza').on('click', function(){
+        $('body').on('click', '.btAcao-finaliza', function(){
             let id = $(this).data('id');
 
             swal({
