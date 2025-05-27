@@ -1,4 +1,5 @@
 <?php 
+die(var_dump($_SESSION));
 session_start();
 
 if (!isset($_SESSION['dadosResponsavel'])) {
