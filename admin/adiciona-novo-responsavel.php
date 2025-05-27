@@ -362,10 +362,12 @@ if ($crianovaPrevenda) {
     $stmt = $connPDO->prepare("select * from tbvinculados where lembrar=1 and id_responsavel=:id_responsavel");
     $stmt->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
     $stmt->execute();
-    $row_busca_vinculados = $pre_busca_vinculados->fetchAll();
+    
 
     //caso exista vinculados com o campo "lembrar=1" para este responsavel, insere na prevenda
     if ($pre_busca_vinculados->rowCount()>0) {
+        $row_busca_vinculados = $pre_busca_vinculados->fetchAll();
+        
         foreach ($row_busca_vinculados as $key => $value) {
             $idVinculado = $row_busca_vinculados[$key]['id_vinculado'];
             $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso, autoriza, datahora_autoriza) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].", 2, '$datahora')";
