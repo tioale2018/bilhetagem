@@ -252,6 +252,9 @@
                 console.log(data);
                 $('.bloco-vinculados').load('./blocos/lista-vinculados.php', { i: idItemEncrypted }, function(){
                     // location.reload();
+                    //feche o modal e limpe o formulário
+                    $('#formModalParticipante').trigger('reset');
+                    $('#modalAddParticipante').modal('hide');
                 });
             }).fail(function() {
                 alert("Erro ao enviar dados criptografados.");
