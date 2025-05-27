@@ -137,9 +137,7 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
-
     $(document).ready(function(){
-        
 
         $('body').on('click', '#regras', function(e){
             e.preventDefault();
@@ -165,23 +163,6 @@ $dadosEvento = buscarPorHash($row, $_GET['i']);
                 html: '<?= @$dadosEvento['regras_comunica'] ?>'
             });
         });
-
-        /*
-
-        $('#form-busca-cpf').on('submit', function(e) {
-            e.preventDefault();
-            let dadosForm = $(this).serialize();
-
-            $.post('./form-index.php', dadosForm, function(response) {
-                $('.area-form-index').html(response);
-            }).fail(function(xhr) {
-                console.log("Ocorreu um erro: " + xhr.status + " " + xhr.statusText);
-            });
-
-        });
-
-        */
-
 
         const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0BxUXjrrGvXDCIplSQ7l

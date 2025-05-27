@@ -107,6 +107,7 @@ if ($pre->rowCount()>0) {
 
 <script>
     $(document).ready(function() {
+        $('#erro-nome').hide();
         $('input#termos').css('border', '2px solid red');
     });
 </script>
@@ -116,7 +117,7 @@ if ($pre->rowCount()>0) {
     
 <script>
    $(document).ready(function() {
-        $('#erro-nome').hide();
+        
         $('input[name="nome"]').focus();
 
         
