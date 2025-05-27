@@ -359,15 +359,15 @@ if ($crianovaPrevenda) {
     $perfil_padrao = searchInMultidimensionalArray($_SESSION['lista_perfis'], 'padrao_evento', '1');
 
     //procedimento de busca dos vinculados "lembrar" deste responsavel
-    $stmt = $connPDO->prepare("select * from tbvinculados where lembrar=1 and id_responsavel=:id_responsavel");
-    $stmt->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
-    $stmt->execute();
+    $pre_busca_vinculados = $connPDO->prepare("select * from tbvinculados where lembrar=1 and id_responsavel=:id_responsavel");
+    $pre_busca_vinculados->bindParam(':id_responsavel', $idResponsavel, PDO::PARAM_INT);
+    $pre_busca_vinculados->execute();
     
 
     //caso exista vinculados com o campo "lembrar=1" para este responsavel, insere na prevenda
     if ($pre_busca_vinculados->rowCount()>0) {
         $row_busca_vinculados = $pre_busca_vinculados->fetchAll();
-        
+
         foreach ($row_busca_vinculados as $key => $value) {
             $idVinculado = $row_busca_vinculados[$key]['id_vinculado'];
             $sql_insere_vinculados = "insert into tbentrada (id_prevenda, id_vinculado, perfil_acesso, autoriza, datahora_autoriza) values ($idPrevendaAtual, $idVinculado, ".$perfil_padrao['idperfil'].", 2, '$datahora')";
