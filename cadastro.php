@@ -40,21 +40,12 @@ include_once("./inc/funcoes.php");
 </style>
 </head>
 <body class="theme-black">
-<!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
         <div class="m-t-30"><img src="assets/images/logo.svg" width="48" height="48" alt="Alpino"></div>
         <p>Aguarde</p>        
     </div>
 </div>
-<?php
-
-
-?>
-
-<?php //include('./inc/menu_topo.php') ?>
-<?php //include('./inc/menu_principal.php') ?>
-<?php //include('./inc/menu_lateral.php') ?>
 
 <section class="content mt-2">    
     <div class="container">
