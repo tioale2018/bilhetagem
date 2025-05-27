@@ -345,12 +345,14 @@ if ($crianovaPrevenda) {
 
     $idPrevendaAtual = $connPDO->lastInsertId();
 
+    $textolog2 = 'addprevenda id ' . $idPrevendaAtual;
+
     $stmt = $connPDO->prepare("insert into tbuserlog (idusuario, datahora, codigolog, ipusuario, acao) values (:idusuario, :datahora, :codigolog, :ipusuario, :acao)");
     $stmt->bindParam(':idusuario', $_SESSION['user_id'], PDO::PARAM_INT);
     $stmt->bindParam(':datahora', $datahora, PDO::PARAM_STR);
     $stmt->bindParam(':codigolog', $idPrevendaAtual, PDO::PARAM_INT);
     $stmt->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
-    $stmt->bindParam(':acao', 'addprevenda id: ' . $idPrevendaAtual, PDO::PARAM_STR);
+    $stmt->bindParam(':acao', $textolog2, PDO::PARAM_STR);
     $stmt->execute();
 
 
