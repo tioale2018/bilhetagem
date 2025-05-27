@@ -1,6 +1,7 @@
 <?php 
-die(var_dump($_SESSION));
 session_start();
+die(var_dump($_SESSION));
+
 
 if (!isset($_SESSION['dadosResponsavel'])) {
     header('Location: index.php');
