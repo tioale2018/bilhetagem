@@ -191,7 +191,7 @@ if ($entradasaida==1) {
     inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
     where tbentrada.previnculo_status=4 and tbentrada.id_prevenda=$idprevenda and tbentrada.id_vinculado in ($vinculados)";
 
-    die($sql_saida);
+    // die($sql_saida);
     $pre_saida = $connPDO->prepare($sql_saida);
     // $pre_saida->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
     // $pre_saida->bindParam(':vinculados', $vinculados, PDO::PARAM_STR);
@@ -229,6 +229,7 @@ if ($entradasaida==1) {
                         $total = $row_saida[$k]['pgto_extra_valor'] + $total;
 
                         $dados_pessoa = calcularTempoPermanencia($row_saida[$k]['datahora_entra'], $row_saida[$k]['datahora_saida'], $row_saida[$k]['pct_duracao'], $row_saida[$k]['pct_tolerancia']);
+                        $dados_pessoa['descricao'] = $row_saida[$k]['descricao'];
                         ?>
                     <tr>
                         <td style="padding-top: 15px!important"><?= htmlentities($row_saida[$k]['nomecrianca']) ?></td>
