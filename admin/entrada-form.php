@@ -334,10 +334,8 @@ if (typeof arrayBufferToBase64 === 'undefined') {
 
 
     $('form#formResponsavel').submit(async function(e){
-        alert('ok');
         e.preventDefault();
         let Form = $(this);
-
 
         try {
 
@@ -384,12 +382,12 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                 }, function () {
                     $('form#formResponsavel button[type=submit]').attr('disabled', true);
                 });                
+            }).fail(function() {
+                console.log('Erro ao salvar os dados do responsável.');
             });
 
-
-
         } catch (error) {
-         
+            consele.log('Erro ao criptografar os dados:', error);
         }
        
     });
