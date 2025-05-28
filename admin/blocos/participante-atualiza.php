@@ -1,5 +1,4 @@
 <?php
-// die(var_dump($_POST));
 require '../../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -27,20 +26,12 @@ function dataParaMySQL($data) {
     return null; // Retorna null se não tiver 3 partes
 }
 
-// $idvinculado   = htmlspecialchars($_POST['idvinculado'], ENT_QUOTES, 'UTF-8');
-// $identrada     = htmlspecialchars($_POST['identrada'], ENT_QUOTES, 'UTF-8');
-
 $encrypted_nome       = base64_decode($_POST['nome'] ?? '');
 $encrypted_nascimento = base64_decode($_POST['nascimento'] ?? '');
 $encrypted_vinculo    = base64_decode($_POST['vinculo'] ?? '');
 $encrypted_perfil     = base64_decode($_POST['perfil'] ?? '');
 $enccrypted_idvinculado   = base64_decode($_POST['idvinculado'] ?? '');
 $encrypted_identrada     = base64_decode($_POST['identrada'] ?? '');
-
-
-// $encrypted_idResponsavel = base64_decode($_POST['idresponsavel'] ?? '');
-// $encrypted_idprevenda    = base64_decode($_POST['idprevenda'] ?? '');
-// $encrypted_lembrarme     = base64_decode($_POST['lembrarme'] ?? '');
 
 try {
     $nome      = $privateKey->decrypt($encrypted_nome);
@@ -53,32 +44,7 @@ try {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
-
-
-
-
-// if ($_SERVER['REQUEST_METHOD']!="POST") {
-//     header('X-PHP-Response-Code: 404', true, 404);
-//     http_response_code(404);
-//     exit('Requisição inválida.');
-// }
-// session_start();
-// include_once('../inc/conexao.php');
-// include_once('../inc/funcoes.php');
-
 $nascimento = dataParaMySQL($nascimento);
-/*
-$nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
-$nascimento    = convertDateToYMD(htmlspecialchars($_POST['nascimento'], ENT_QUOTES, 'UTF-8'));
-$vinculo       = htmlspecialchars($_POST['vinculo'], ENT_QUOTES, 'UTF-8');
-$perfil        = htmlspecialchars($_POST['perfil'], ENT_QUOTES, 'UTF-8');
-// $pacote        = htmlspecialchars($_POST['pacote'], ENT_QUOTES, 'UTF-8');
-$idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
-$idprevenda    = htmlspecialchars($_POST['idprevenda'], ENT_QUOTES, 'UTF-8');
-$idvinculado   = htmlspecialchars($_POST['idvinculado'], ENT_QUOTES, 'UTF-8');
-$identrada     = htmlspecialchars($_POST['identrada'], ENT_QUOTES, 'UTF-8');
-*/
-
 
 $lembrar       = (isset($_POST['melembrar'])?1:0);
 
