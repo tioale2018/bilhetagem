@@ -373,6 +373,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
 
              $.post('./blocos/atualiza-responsavel.php', encryptedData, function(data){
+                console.log(data);
                 swal({
                     title: "Dados salvos",
                     text: "Os dados informados foram salvos com sucesso!" + data,
