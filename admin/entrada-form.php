@@ -333,7 +333,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
     });
 
 
-    $('form#formResponsavel').submit(function(e){
+    $('form#formResponsavel').submit(async function(e){
         e.preventDefault();
         let Form = $(this);
 
