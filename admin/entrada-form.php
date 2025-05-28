@@ -334,6 +334,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
 
 
     $('form#formResponsavel').submit(async function(e){
+        alert('ok');
         e.preventDefault();
         let Form = $(this);
 
