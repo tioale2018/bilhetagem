@@ -387,7 +387,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             });
 
         } catch (error) {
-            consele.log('Erro ao criptografar os dados:', error);
+            console.log('Erro ao criptografar os dados:', error);
         }
        
     });
