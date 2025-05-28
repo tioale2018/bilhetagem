@@ -96,7 +96,7 @@ $row = $pre->fetchAll();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Dados do responsávelx</h2>
+                        <h2>Dados do responsávelXX</h2>
                         <!-- <ul class="header-dropdown">
                             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu slideUp">
@@ -164,13 +164,6 @@ $row = $pre->fetchAll();
                         
                         <ul class="header-dropdown">
                             <li><a href="#modalAddParticipante" data-toggle="modal" data-target="#modalAddParticipante"><i class="zmdi zmdi-plus-circle"></i></a></li>
-                            <!-- <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                <ul class="dropdown-menu slideUp">
-                                    <li><a href="javascript:void(0);">Item 1</a></li>
-                                    <li><a href="javascript:void(0);">Item 2</a></li>
-                                    <li><a href="javascript:void(0);">Item 3</a></li>
-                                </ul>
-                            </li>     -->
                         </ul>
                     </div>
                     <div class="">
@@ -248,7 +241,6 @@ $row = $pre->fetchAll();
     function b64encode(buffer) {
         return btoa(String.fromCharCode(...new Uint8Array(buffer)));
     }
-
 
     let iditem = $('#iditem').data('idItem');
 
@@ -335,14 +327,52 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             });
         }
     });
-        $('form#formResponsavel').on('input change', function(){
-            $('form#formResponsavel button[type=submit]').attr('disabled', false);
-        });
 
-        $('form#formResponsavel').submit(function(e){
-            e.preventDefault();
-            let formAtual = $(this);
-            $.post('./blocos/atualiza-responsavel.php', formAtual.serialize(), function(data){
+    $('form#formResponsavel').on('input change', function(){
+        $('form#formResponsavel button[type=submit]').attr('disabled', false);
+    });
+
+
+    $('form#formResponsavel').submit(function(e){
+        e.preventDefault();
+        let Form = $(this);
+
+
+        try {
+
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            let formData = {};
+            Form.serializeArray().forEach(field => {
+                formData[field.name] = field.value;
+            });
+
+            let encryptedData = {};
+            for (let keyName in formData) {
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(formData[keyName])
+                );
+                encryptedData[keyName] = arrayBufferToBase64(encrypted);
+            }
+            /*
+            const encryptedPrevenda = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(prevenda.toString())
+            );
+            */
+            const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
+
+             $.post('./blocos/atualiza-responsavel.php', encryptedData, function(data){
                 swal({
                     title: "Dados salvos",
                     text: "Os dados informados foram salvos com sucesso!" + data,
@@ -353,7 +383,14 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                     $('form#formResponsavel button[type=submit]').attr('disabled', true);
                 });                
             });
-        });
+
+
+
+        } catch (error) {
+         
+        }
+       
+    });
 
         
         $('body').on('click','#btnpagamento', function(event){

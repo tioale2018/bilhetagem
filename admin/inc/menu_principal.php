@@ -32,7 +32,7 @@
                     </li>
                     */ ?>
 
-                    <li><a href="javascript:void(0)">Operacional</a>
+                    <li><a href="javascript:void(0)">Caixa</a>
                         <ul class="sub-menu">
                             <li><a href="caixa-tipopgto">Pagamentos</a></li>
                             <li><a href="caixa-fechamento">Fechamento de caixa</a></li>
