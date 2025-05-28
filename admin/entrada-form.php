@@ -369,7 +369,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                 encoder.encode(prevenda.toString())
             );
             */
-            const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
+            // const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
 
              $.post('./blocos/atualiza-responsavel.php', encryptedData, function(data){
                 console.log(data);
