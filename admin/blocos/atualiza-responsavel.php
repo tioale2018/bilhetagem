@@ -1,5 +1,8 @@
 <?php
-die(var_dump($_POST));
+require '../../../vendor/autoload.php';
+
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
@@ -7,19 +10,73 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
     exit('Requisição inválida.');
 }
 session_start();
+require_once '../inc/funcoes.php';
+include_once('../inc/conexao.php');
 
-include('../inc/conexao.php');
+// Lê a chave privada
+$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../../chaves/chave_privada.pem'))
+    ->withPadding(RSA::ENCRYPTION_OAEP)
+    ->withHash('sha256');
+
+// function dataParaMySQL($data) {
+//     $partes = explode('/', $data);
+//     if (count($partes) === 3) {
+//         return $partes[2] . '-' . $partes[1] . '-' . $partes[0];
+//     }
+//     return null; // Retorna null se não tiver 3 partes
+// }
+
+
+
+// $nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
+// $cpf           = htmlspecialchars($_POST['cpf']);
+// $telefone1     = htmlspecialchars($_POST['telefone1'], ENT_QUOTES, 'UTF-8');
+// $telefone2     = htmlspecialchars($_POST['telefone2'], ENT_QUOTES, 'UTF-8');
+// $email         = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+// $idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
+
+$encrypted_nome       = base64_decode($_POST['nome'] ?? '');
+$encrypted_cpf        = base64_decode($_POST['cpf'] ?? '');
+$encrypted_telefone1 = base64_decode($_POST['telefone1'] ?? '');
+$encrypted_telefone2 = base64_decode($_POST['telefone2'] ?? '');
+$encrypted_email      = base64_decode($_POST['email'] ?? '');
+$encrypted_idresponsavel = base64_decode($_POST['idresponsavel']);
+
+try {
+    $nome      = $privateKey->decrypt($encrypted_nome);
+    $cpf       = $privateKey->decrypt($encrypted_cpf);
+    $telefone1 = $privateKey->decrypt($encrypted_telefone1);
+    $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    $email     = $privateKey->decrypt($encrypted_email);
+    $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel);       
+
+} catch (Exception $e) {
+    die ("Erro ao descriptografar: " . $e->getMessage());
+}
+
+
+
+
+
+// if ($_SERVER['REQUEST_METHOD']!="POST") {
+//     header('X-PHP-Response-Code: 404', true, 404);
+//     http_response_code(404);
+//     exit('Requisição inválida.');
+// }
+// session_start();
+
+// include('../inc/conexao.php');
 // include('../inc/funcoes.php');
 
 
 // var_dump($_SESSION['dadosResponsavel']);
 
-$nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
-$cpf           = htmlspecialchars($_POST['cpf']);
-$telefone1     = htmlspecialchars($_POST['telefone1'], ENT_QUOTES, 'UTF-8');
-$telefone2     = htmlspecialchars($_POST['telefone2'], ENT_QUOTES, 'UTF-8');
-$email         = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
-$idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
+// $nome          = htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8');
+// $cpf           = htmlspecialchars($_POST['cpf']);
+// $telefone1     = htmlspecialchars($_POST['telefone1'], ENT_QUOTES, 'UTF-8');
+// $telefone2     = htmlspecialchars($_POST['telefone2'], ENT_QUOTES, 'UTF-8');
+// $email         = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+// $idresponsavel = htmlspecialchars($_POST['idresponsavel'], ENT_QUOTES, 'UTF-8');
 
 $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
 $pre_atualiza_responsavel = $connPDO->prepare($sql_atualiza_responsavel);
