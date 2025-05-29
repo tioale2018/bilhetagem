@@ -23,6 +23,11 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
 $encrypted_nome       = base64_decode($_POST['nome'] ?? '');
 $encrypted_cpf        = base64_decode($_POST['cpf'] ?? '');
 $encrypted_telefone1 = base64_decode($_POST['telefone1'] ?? '');
+
+if (isset($_POST['telefone2']) && !empty($_POST['telefone2'])) {
+    $encrypted_telefone2 = base64_decode($_POST['telefone2']);
+}
+
 $encrypted_telefone2 = base64_decode($_POST['telefone2'] ?? '');
 $encrypted_email      = base64_decode($_POST['email'] ?? '');
 $encrypted_idresponsavel = base64_decode($_POST['idresponsavel']);
@@ -31,6 +36,13 @@ try {
     $nome      = $privateKey->decrypt($encrypted_nome);
     $cpf       = $privateKey->decrypt($encrypted_cpf);
     $telefone1 = $privateKey->decrypt($encrypted_telefone1);
+
+    if (isset($_POST['telefone2']) && !empty($_POST['telefone2'])) {
+        $encrypted_telefone2 = base64_decode($_POST['telefone2']);
+    } else {
+        $encrypted_telefone2 = '';
+    }
+    
     $telefone2 = $privateKey->decrypt($encrypted_telefone2);
     $email     = $privateKey->decrypt($encrypted_email);
     $idresponsavel = $privateKey->decrypt($encrypted_idresponsavel);       

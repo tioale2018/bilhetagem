@@ -97,15 +97,6 @@ $row = $pre->fetchAll();
                 <div class="card">
                     <div class="header">
                         <h2>Dados do responsávelXX</h2>
-                        <!-- <ul class="header-dropdown">
-                            <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                <ul class="dropdown-menu slideUp">
-                                    <li><a href="javascript:void(0);">Adiciona responsável</a></li>
-                                    <li><a href="javascript:void(0);">Resp. participante</a></li>
-                                    <li><a href="javascript:void(0);">Limpar</a></li>
-                                </ul>
-                            </li>                            
-                        </ul> -->
                     </div>
                     <div class="body">
                         <form action="" method="post" id="formResponsavel" >
@@ -120,13 +111,13 @@ $row = $pre->fetchAll();
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" name="nome" />
+                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" name="nome" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" name="telefone1" />
+                                    <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" name="telefone1" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -362,14 +353,6 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                 );
                 encryptedData[keyName] = arrayBufferToBase64(encrypted);
             }
-            /*
-            const encryptedPrevenda = await crypto.subtle.encrypt(
-                { name: "RSA-OAEP" },
-                key,
-                encoder.encode(prevenda.toString())
-            );
-            */
-            // const prevendaEncrypted = arrayBufferToBase64(encryptedPrevenda);
 
              $.post('./blocos/atualiza-responsavel.php', encryptedData, function(data){
                 console.log(data);
