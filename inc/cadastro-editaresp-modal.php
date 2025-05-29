@@ -19,13 +19,13 @@
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" />
+                                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
-                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['telefone1']:'') ?>" />
+                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['telefone1']:'') ?>" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -37,7 +37,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
-                                    <input name="email" type="text" class="form-control" placeholder="Email" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['email']:'') ?>" />
+                                    <input name="email" type="text" class="form-control" placeholder="Email" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['email']:'') ?>" required />
                                 </div>
                             </div> 
 
