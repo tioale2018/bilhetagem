@@ -1,4 +1,5 @@
 <?php
+die(var_dump($_POST));
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -20,6 +21,11 @@ $idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 $encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone1 = base64_decode($_POST['telefone1_seguro'] ?? '');
+
+if (isset($_POST['telefone2_seguro'])) {
+    $encrypted_telefone2 = base64_decode($_POST['telefone2_seguro']);
+}
+
 $encrypted_telefone2 = base64_decode($_POST['telefone2_seguro'] ?? '');
 $encrypted_email     = base64_decode($_POST['email_seguro'] ?? '');
 
