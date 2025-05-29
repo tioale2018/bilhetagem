@@ -1,5 +1,5 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -22,7 +22,7 @@ $idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 $encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone1 = base64_decode($_POST['telefone1_seguro'] ?? '');
 
-if (isset($_POST['telefone2_seguro'])) {
+if (isset($_POST['telefone2_seguro']) && !empty($_POST['telefone2_seguro'])) {
     $encrypted_telefone2 = base64_decode($_POST['telefone2_seguro']);
 }
 
@@ -32,7 +32,13 @@ $encrypted_email     = base64_decode($_POST['email_seguro'] ?? '');
 try {
     $nome  = $privateKey->decrypt($encrypted_nome);
     $telefone1 = $privateKey->decrypt($encrypted_telefone1);
-    $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    
+    if (isset($_POST['telefone2_seguro']) && !empty($_POST['telefone2_seguro'])) {
+        $telefone2 = $privateKey->decrypt($encrypted_telefone2);    
+    } else {
+        $telefone2 = '';
+    }
+    
     $email = $privateKey->decrypt($encrypted_email);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
