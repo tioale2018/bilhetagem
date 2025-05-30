@@ -15,7 +15,8 @@ function generateSqlQuery($date) {
     }
     $startTimestamp = $dateTime->setTime(0, 0)->getTimestamp();
     $endTimestamp = $dateTime->setTime(23, 59, 59)->getTimestamp();
-    $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbprevenda.id_evento=:id_evento and tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN :startTimestamp AND :endTimestamp order by tbprevenda.id_prevenda desc, tbfinanceiro.hora_pgto desc";
+    $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbprevenda.id_evento=".$_SESSION['evento_selecionado']." and tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN $startTimestamp AND $endTimestamp order by tbprevenda.id_prevenda desc, tbfinanceiro.hora_pgto desc";
+    // $sql = "SELECT tbfinanceiro.*, tbprevenda.id_evento FROM tbfinanceiro inner join tbprevenda on tbfinanceiro.id_prevenda=tbprevenda.id_prevenda WHERE tbprevenda.id_evento=:id_evento and tbfinanceiro.ativo=1 AND tbfinanceiro.hora_pgto BETWEEN :startTimestamp AND :endTimestamp order by tbprevenda.id_prevenda desc, tbfinanceiro.hora_pgto desc";
     return $sql;
 }
 
@@ -29,7 +30,7 @@ $varget = '';
     }
 
     $sql_busca_pgto = generateSqlQuery($dataRelata);
-    // die($sql_busca_pgto);
+    die($sql_busca_pgto);
     $pre_busca_pgto = $connPDO->prepare($sql_busca_pgto);
     $pre_busca_pgto->bindParam(':id_evento', $_SESSION['evento_selecionado']);
     $pre_busca_pgto->bindParam(':startTimestamp', $startTimestamp);
