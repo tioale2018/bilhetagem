@@ -1,10 +1,6 @@
 <?php include('./inc/head.php') ?>
 <?php include('./inc/conexao.php') ?>
-<?php 
 
-
-
-?>
 </head>
 <body class="theme-black">
 <?php include('./inc/pageloader.php') ?>
