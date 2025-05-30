@@ -1,18 +1,8 @@
 <?php
-// die(var_dump($_POST));
-// echo "<pre>";
-// print_r($_POST);
-// echo "</pre>";
-// exit;
-
-// die('Requisição inválida.');
-
-
 require '../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
-
 
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
@@ -30,22 +20,16 @@ $privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../.
     ->withHash('sha256');
 
 
-// $cpf       = limparCPF($_POST['cpf']);
-// $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-
 // Decodifica a senha criptografada
 $encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
 $encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone1= base64_decode($_POST['telefone1_seguro'] ?? '');
-$encrypted_telefone2= base64_decode($_POST['telefone2_seguro'] ?? '');
+if (isset($_POST['telefone2_seguro']) && !empty($_POST['telefone2_seguro'])) {
+    $encrypted_telefone2= base64_decode($_POST['telefone2_seguro'] ?? '');
+}
+// $encrypted_telefone2= base64_decode($_POST['telefone2_seguro'] ?? '');
 $encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
 if (isset($_POST['idresponsavel_seguro'])) {
-    // Verifica se o campo idresponsavel_seguro está definido antes de tentar decodificar
-    // Isso evita erros caso o campo não seja enviado
     $encrypted_idResponsavel = base64_decode($_POST['idresponsavel_seguro'] ?? '');
 } else {
     $_POST['idresponsavel_seguro'] = '';
@@ -53,211 +37,25 @@ if (isset($_POST['idresponsavel_seguro'])) {
 
 
 try {
-    // $cpf        = limparCPF($privateKey->decrypt($encrypted_cpf));
-    // $nome       = $privateKey->decrypt($encrypted_nome);
-    // $telefone1  = $privateKey->decrypt($encrypted_telefone1);
-    // $telefone2  = $privateKey->decrypt($encrypted_telefone2);
-    // $email      = $privateKey->decrypt($encrypted_email);
-    // $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
-    // $nome      = htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    // $nome      =  htmlspecialchars($privateKey->decrypt($encrypted_nome), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $nome      =  $privateKey->decrypt($encrypted_nome);
     $cpf       = $privateKey->decrypt($encrypted_cpf);
     $telefone1 = $privateKey->decrypt($encrypted_telefone1);
-    $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    if (isset($_POST['telefone2_seguro']) && !empty($_POST['telefone2_seguro'])) {
+        $telefone2 = $privateKey->decrypt($encrypted_telefone2);
+    } else {
+        $telefone2 = '';
+    }
+    
     $email     = $privateKey->decrypt($encrypted_email);
     if ($_POST['idresponsavel_seguro'] != '') {
         $idResponsavel = $privateKey->decrypt($encrypted_idResponsavel);
     } else {
         $idResponsavel = '';
-    }
-    
+    }    
 
-    // $telefone1 = htmlspecialchars($privateKey->decrypt($encrypted_telefone1), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    // $telefone2 = htmlspecialchars($privateKey->decrypt($encrypted_telefone2), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    // $email     = htmlspecialchars($privateKey->decrypt($encrypted_email), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    // $idResponsavel = htmlspecialchars($privateKey->decrypt($encrypted_idResponsavel), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
-
-
-// die('nome: ' . $nome . '<br>cpf: ' . $cpf . '<br>telefone1: ' . $telefone1 . '<br>telefone2: ' . $telefone2 . '<br>email: ' . $email . '<br>idResponsavel: ' . $idResponsavel);
-
-/*
-require '../../vendor/autoload.php';
-
-use phpseclib3\Crypt\RSA;
-use phpseclib3\Crypt\PublicKeyLoader;
-
-if ($_SERVER['REQUEST_METHOD'] !== "POST") {
-    http_response_code(404);
-    exit('Requisição inválida.');
-}
-
-// Carrega a chave privada RSA
-$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
-    ->withPadding(RSA::ENCRYPTION_OAEP)
-    ->withHash('sha256');
-
-// Obtém e decodifica os dados recebidos
-$encryptedAesKey = base64_decode($_POST['chaveAES_segura'] ?? '');
-$encryptedPayloadJson = $_POST['dados_seguro'] ?? '';
-
-// Descriptografa a chave AES
-try {
-    $aesKey = $privateKey->decrypt($encryptedAesKey);
-} catch (Exception $e) {
-    die("Erro ao descriptografar chave AES: " . $e->getMessage());
-}
-
-// Decodifica os dados criptografados com AES-GCM
-$payload = json_decode($encryptedPayloadJson, true);
-
-if (!$payload || !isset($payload['iv'], $payload['ciphertext'], $payload['tag'])) {
-    die("Dados AES inválidos.");
-}
-
-// Converte campos do JSON (Base64 → binário)
-$iv = base64_decode($payload['iv']);
-$ciphertext = base64_decode($payload['ciphertext']);
-$tag = base64_decode($payload['tag']);
-
-// Descriptografa com AES-GCM
-$plaintext = openssl_decrypt(
-    $ciphertext . $tag,             // AES-GCM espera o tag anexado no final
-    'aes-256-gcm',
-    $aesKey,
-    OPENSSL_RAW_DATA,
-    $iv,
-    $tag // TAG também passada separadamente
-);
-
-if ($plaintext === false) {
-    die("Erro ao descriptografar dados AES.");
-}
-
-// Decodifica o JSON dos dados finais
-$dados = json_decode($plaintext, true);
-if (!is_array($dados)) {
-    die("Erro ao decodificar JSON interno.");
-}
-
-// Agora os dados estão disponíveis:
-$cpf           = limparCPF($dados['cpf'] ?? '');
-$nome          = htmlspecialchars($dados['nome'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone1     = htmlspecialchars($dados['telefone1'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone2     = htmlspecialchars($dados['telefone2'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$email         = htmlspecialchars($dados['email'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$idResponsavel = htmlspecialchars($dados['idresponsavel'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-// continue com o processamento (inserir no banco etc.)
-
-*/
-
-
-
-
-/*
-die('aqui vai: ' . $_POST['chaveAES_segura'] ?? 'nada');
-require '../../vendor/autoload.php';
-
-use phpseclib3\Crypt\AES;
-use phpseclib3\Crypt\RSA;
-use phpseclib3\Crypt\PublicKeyLoader;
-
-if ($_SERVER['REQUEST_METHOD'] !== "POST") {
-    http_response_code(404);
-    exit('Requisição inválida.');
-}
-
-// Carrega a chave privada RSA
-$privateKey = PublicKeyLoader::loadPrivateKey(file_get_contents(__DIR__ . '/../../chaves/chave_privada.pem'))
-    ->withPadding(RSA::ENCRYPTION_OAEP)
-    ->withHash('sha256')
-    ->withMGFHash('sha256'); // importante para RSA-OAEP-SHA256
-
-// Obtém e decodifica a chave AES criptografada
-$encryptedAesKey = base64_decode($_POST['chaveAES_segura'] ?? '');
-
-try {
-    $aesKey = $privateKey->decrypt($encryptedAesKey);
-} catch (Exception $e) {
-    die("Erro ao descriptografar chave AES: " . $e->getMessage());
-}
-
-// Função para descriptografar campo individual com AES-GCM
-function decryptAesGcmField($base64Data, $aesKey) {
-    $binaryData = base64_decode($base64Data);
-    if (strlen($binaryData) < 28) {
-        return null; // inválido (12 bytes IV + pelo menos alguns bytes de texto + 16 bytes de tag)
-    }
-
-    $iv = substr($binaryData, 0, 12);
-    $tag = substr($binaryData, -16);
-    $ciphertext = substr($binaryData, 12, -16);
-
-    $aes = new AES('gcm');
-    $aes->setKey($aesKey);
-    $aes->setIV($iv);
-    $aes->setTag($tag);
-
-    return $aes->decrypt($ciphertext);
-}
-
-// Lista de campos criptografados
-$campos = [
-    'cpf_seguro',
-    'nome_seguro',
-    'telefone1_seguro',
-    'telefone2_seguro',
-    'email_seguro',
-    'idresponsavel_seguro'
-];
-
-// Descriptografa cada campo
-$dados = [];
-foreach ($campos as $campo) {
-    if (!isset($_POST[$campo])) {
-        continue;
-    }
-
-    $valor = decryptAesGcmField($_POST[$campo], $aesKey);
-
-    if ($valor === false || $valor === null) {
-        die("Erro ao descriptografar o campo: $campo");
-    }
-
-    $dados[$campo] = $valor;
-}
-
-// Sanitiza os dados recebidos
-$cpf           = limparCPF($dados['cpf_seguro'] ?? '');
-$nome          = htmlspecialchars($dados['nome_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone1     = htmlspecialchars($dados['telefone1_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$telefone2     = htmlspecialchars($dados['telefone2_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$email         = htmlspecialchars($dados['email_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-$idResponsavel = htmlspecialchars($dados['idresponsavel_seguro'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-// Continue o processamento (ex: salvar no banco de dados)
-// Exemplo de debug:
-echo "<pre>";
-print_r([
-    'cpf' => $cpf,
-    'nome' => $nome,
-    'telefone1' => $telefone1,
-    'telefone2' => $telefone2,
-    'email' => $email,
-    'idResponsavel' => $idResponsavel
-]);
-echo "</pre>";
-die('Requisição inválida.');
-
-
-*/
-
-
 
 // Verifica a sessão
 verificarSessao();
@@ -267,11 +65,6 @@ include_once('./inc/conexao.php');
 $evento       = $_SESSION['evento_selecionado'];
 $evento_atual = $evento;
 
-// $cpf       = limparCPF($_POST['cpf']);
-// $nome      = htmlspecialchars($_POST['nome'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $telefone1 = htmlspecialchars($_POST['telefone1'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $telefone2 = htmlspecialchars($_POST['telefone2'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-// $email     = htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 $datahora  = time();
 $hoje = date('Y-m-d', $datahora);
 
