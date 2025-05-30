@@ -32,6 +32,7 @@ $varget = '';
     $sql_busca_pgto = generateSqlQuery($dataRelata);
     // die($sql_busca_pgto);
     $idevento_selecionado = $_SESSION['evento_selecionado'];
+    
     $pre_busca_pgto = $connPDO->prepare($sql_busca_pgto);
     $pre_busca_pgto->bindParam(':id_evento', $idevento_selecionado, PDO::PARAM_INT);
     $pre_busca_pgto->bindParam(':startTimestamp', $startTimestamp, PDO::PARAM_STR);
