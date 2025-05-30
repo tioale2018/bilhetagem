@@ -42,7 +42,7 @@ $varget = '';
 
     $total = 0;  
     
-    die(var_dump($row_busca_pgto));
+    // die(var_dump($row_busca_pgto));
 ?>
 
 </head>
