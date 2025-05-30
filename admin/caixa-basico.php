@@ -37,7 +37,9 @@ $varget = '';
     $pre_busca_pgto->execute();
     $row_busca_pgto = $pre_busca_pgto->fetchAll();
 
-    $total = 0;   
+    $total = 0;  
+    
+    die(var_dump($row_busca_pgto));
 ?>
 
 </head>
