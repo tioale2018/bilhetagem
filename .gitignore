@@ -11,6 +11,7 @@
 .dccache
 /admin/error_log
 /error_log
+error_log
 php.ini
 *.log
 *.sql
