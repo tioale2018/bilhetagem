@@ -1,5 +1,5 @@
 <?php
-die(var_dump($_POST));
+// die(var_dump($_POST));
 $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
