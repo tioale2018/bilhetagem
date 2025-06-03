@@ -196,35 +196,21 @@ mQIDAQAB
     });
 
 
-
-
-
-
-
-
         $('body').on('submit', '#form-busca-reserva', async function(e) {
-            // alert('oi');
             e.preventDefault();
            
             if (!$('input[name=termos]').is(':checked')) {
-                // e.preventDefault(); // Impede o envio do formulário
                 alert('Por favor, leia e aceite os termos de uso antes de continuar.');
                 return;
             }
 
             let campoNome = $('input[name="nome"]').val();
-            //  alert(validarNomeSobrenome(campoNome));
-
-            //e.preventDefault(); // Impede o envio do formulário
 
             if (!validarNomeSobrenome(campoNome)) {
-                    // e.preventDefault(); // Impede o envio do formulário
-                    $('#erro-nome').show();
-                    return;
-                }
-
-
-                
+                $('#erro-nome').show();
+                return;
+            }
+               
                 const form = this;
 
                 if (typeof encryptFormFields !== "function") {
@@ -257,8 +243,6 @@ mQIDAQAB
                 } catch (error) {
                     console.error("Erro ao criptografar o formulário:", error);
                 }
-
-                
   
         });
 
@@ -340,15 +324,10 @@ mQIDAQAB
         let cpf = $(this).val().replace(/\D/g, '');
         $(this).val(cpf);
     });
-
-  
-
     
 });
 
 </script>
-
-
 
 </body>
 </html>
