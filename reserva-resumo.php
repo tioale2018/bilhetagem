@@ -69,6 +69,7 @@ $pre_atualiza_prevenda->execute();
 
 die("<script>alert('Dirija-se ao caixa');location.href='/".$hashEvento."';</script>");
 
+/*
 ?>
 
 
@@ -192,3 +193,6 @@ include_once("./inc/head.php");
 
 </body>
 </html>
+
+
+<?php */ ?>
