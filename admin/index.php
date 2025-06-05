@@ -34,9 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password        = $privateKey->decrypt($encrypted_pass);
     } catch (Exception $e) {
         die ("Erro ao descriptografar: " . $e->getMessage());
-    }
-
-    
+    }  
 
     // Supondo que a verificação foi bem-sucedida e obteve o user_id do banco de dados
     // $sql_busca_user = "select * from tbusuarios where login=:login and senha=MD5(:senha)";
@@ -81,10 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pre_insere_log->bindParam(':ipusuario', $ipUsuario, PDO::PARAM_STR);
         $pre_insere_log->bindParam(':acao', $acaolog, PDO::PARAM_STR);
         $pre_insere_log->execute();
-        
-        // Redireciona para a página protegida
-        // header('Location: controle.php');
-        // exit();
     }
     
 }
