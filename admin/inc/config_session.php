@@ -72,15 +72,39 @@ $user_ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'];
 // Verifica se conexão é segura (HTTPS)
 $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
+//verifica se o dominio é o homologadev.com.br
+if ($_SERVER['SERVER_NAME'] == 'homologadev.com.br') {
+    session_set_cookie_params([
+        'lifetime' => $inactive,
+        'path' => '/',
+        'domain' => 'homologadev.com.br', // sem "/"
+        'secure' => $isSecure,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]);
+    
+} elseif ($_SERVER['SERVER_NAME'] == 'rapidticket.com.br') {
+    // Define parâmetros do cookie de sessão para o domínio rapidticket.com.br
+    // sem "/"
+   session_set_cookie_params([
+        'lifetime' => $inactive,
+        'path' => '/',
+        'domain' => 'rapidticket.com.br', // sem "/"
+        'secure' => $isSecure,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]); 
+}
+
 // Define parâmetros do cookie de sessão (ANTES do session_start)
-session_set_cookie_params([
-    'lifetime' => $inactive,
-    'path' => '/',
-    'domain' => 'homologadev.com.br', // sem "/"
-    'secure' => $isSecure,
-    'httponly' => true,
-    'samesite' => 'Strict'
-]);
+// session_set_cookie_params([
+//     'lifetime' => $inactive,
+//     'path' => '/',
+//     'domain' => 'homologadev.com.br', // sem "/"
+//     'secure' => $isSecure,
+//     'httponly' => true,
+//     'samesite' => 'Strict'
+// ]);
 
 // Define tempo de vida da sessão no servidor
 ini_set('session.gc_maxlifetime', $inactive);
