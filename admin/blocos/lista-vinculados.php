@@ -112,7 +112,7 @@ $textoBtErro = 'Verifique pacotes pendentes'
                 <tr>
                     <td><?= $row[$key]['nome'] ?></td>
                     <td>
-                        <div><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></div>
+                        <?php /* <div><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></div> */ ?>
                         <div>(<?= calcularIdade($row[$key]['nascimento']) ?> Anos)</div>
                     </td>
                     <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
