@@ -154,8 +154,8 @@ input:checked + .slider:before {
                                         <td>Participante</td>
                                         <td>
                                             <div class="container">
-                                                <label class="switch" for="checkbox">
-                                                    <input type="checkbox" id="checkbox" />
+                                                <label class="switch" for="checkbox1">
+                                                    <input type="checkbox" id="checkbox1" />
                                                     <div class="slider round"></div>
                                                 </label>
                                             </div>
@@ -212,8 +212,8 @@ input:checked + .slider:before {
                                         <td>Participante</td>
                                         <td>
                                             <div class="container">
-                                                <label class="switch" for="checkbox">
-                                                    <input type="checkbox" id="checkbox" />
+                                                <label class="switch" for="checkbox2">
+                                                    <input type="checkbox" id="checkbox2" />
                                                     <div class="slider round"></div>
                                                 </label>
                                             </div>
