@@ -18,6 +18,9 @@
                                 
                                 <tbody>
                                     <tr>
+                                        <td colspan="2" class="text-center"><strong>Responsável</strong></td>
+                                    </tr>
+                                    <tr>
                                         <td scope="row" width="30%">Nome</td>
                                         <td width="70%" id="nomeresponsavel"></td>
                                     </tr>
@@ -43,8 +46,11 @@
                                 
                                 <tbody>
                                     <tr>
+                                        <td colspan="2" class="text-center"><strong>Responsável Legal secundário</strong></td>
+                                    </tr>
+                                    <tr>
                                         <td scope="row" width="30%">Nome</td>
-                                        <td width="70%"></td>
+                                        <td width="70%">{{nome}}</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">CPF</td>
