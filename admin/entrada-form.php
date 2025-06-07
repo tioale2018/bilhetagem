@@ -226,13 +226,21 @@ $row = $pre->fetchAll();
                 <div class="card">
                     <div class="body">
                         <div class="row justify-content-end">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                                 <div class="form-group">
                                 <?php if ($row[0]['origem_prevenda'] ==2) { ?>
                                     <a class="btn btn-raised btn-danger waves-effect btn-round prevenda-exclui" href="">Excluir reserva</a>    
                                 <?php } ?>                           
                                 </div>
                             </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group js-sweetalert">
+                                    <a class="btn btn-raised btn-primary waves-effect btn-round" href="#">Imprimir Termo</a>                               
+                                </div>
+                            </div>
+
+
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
                                     <a class="btn btn-raised btn-primary waves-effect btn-round" href="entrada-nova">Retornar</a>                               
