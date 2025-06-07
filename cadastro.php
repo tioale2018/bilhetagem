@@ -67,7 +67,7 @@ include_once("./inc/funcoes.php");
                     
                     <div class="body">
                         <div class="row">
-                            <div class="col-8"><h5>Dados do responsávelzxzx</h5></div>
+                            <div class="col-8"><h5>Dados do responsável</h5></div>
                             <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round">Editar dados</a></div>
                         </div>
                         <div class="row">
@@ -107,6 +107,55 @@ include_once("./inc/funcoes.php");
                 </div>
             </div>
         </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-8"><h5>Responsável legal secundário (Obrigatório)</h5></div>
+                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round">Editar dados</a></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-12 text-end"></div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="" width="100%">
+                                    <tr>
+                                        <th width="30%">CPF:</th>
+                                        <td width="70%">(...))</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nome:</td>
+                                        <td>(...)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>(...)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefone:</td>
+                                        <td>(...)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefone:</td>
+                                        <td>(...)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>E-mail:</td>
+                                        <td>(...)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
