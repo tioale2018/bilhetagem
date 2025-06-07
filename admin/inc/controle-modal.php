@@ -13,7 +13,6 @@
 
                 <div class="row">
                     <div class="col-6">
-
                         <div class="body table-responsive">
                             <table class="table table-bordered">
                                 
@@ -37,7 +36,31 @@
                                 </tbody>
                             </table>
                         </div>
-
+                    </div>
+                    <div class="col-6">
+                        <div class="body table-responsive">
+                            <table class="table table-bordered">
+                                
+                                <tbody>
+                                    <tr>
+                                        <td scope="row" width="30%">Nome</td>
+                                        <td width="70%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">CPF</td>
+                                        <td>{{cpf}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Telefone 1</td>
+                                        <td>{{tel1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Telefone 2</td>
+                                        <td>{{tel2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
