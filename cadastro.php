@@ -67,7 +67,7 @@ include_once("./inc/funcoes.php");
                     
                     <div class="body">
                         <div class="row">
-                            <div class="col-8"><h5>Dados do responsável</h5></div>
+                            <div class="col-8"><h5>Dados do responsávelzxzx</h5></div>
                             <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round">Editar dados</a></div>
                         </div>
                         <div class="row">
@@ -112,10 +112,7 @@ include_once("./inc/funcoes.php");
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
-                         <!-- <h2> </h2> -->
-                          <div style="text-align:center">
-                          <a href="#modalResponsavelLegal" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalResponsavelLegal" style="background-color:rgb(213, 28, 28)!important">Adicionar Responsável Legal secundário (obrigatório)</a>
-                          </div>
+                        
 
                           <div style="text-align:center">
                           <a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante" style="background-color: #27ae60!important">Adicionar participante</a>
@@ -165,7 +162,7 @@ include_once("./inc/funcoes.php");
 <div id="hashevento" data-id-hashevento="<?= $_SESSION['hash_evento'] ?>" style="display: none"></div>
 
 <?php include('./inc/cad-participante-modal.php') ?>
-<?php include('./inc/cad-responsavel-modal.php') ?>
+<?php //include('./inc/cad-responsavel-modal.php') ?>
 
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
