@@ -40,9 +40,9 @@ include_once("./inc/funcoes.php");
 
 .switch {
   display: inline-block;
-  height: 34px;
+  height: 25px;
   position: relative;
-  width: 60px;
+  width: 40px;
 }
 
 .switch input {
