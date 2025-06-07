@@ -236,7 +236,7 @@ $row = $pre->fetchAll();
 
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
-                                    <a target="_blank" href="termo-pdf?t=<?= 0 ?>" class="btn btn-primary btn-xs waves-effect" title="Imprimir"><i class="material-icons">print</i></a>
+                                    <a target="_blank" href="termo-pdf?t=<?= 86874 ?>" class="btn btn-primary btn-xs waves-effect" title="Imprimir"><i class="material-icons">print</i></a>
                                     <!-- <a class="btn btn-raised btn-primary waves-effect btn-round" href="#">Imprimir Termo</a>                                -->
                                 </div>
                             </div>
