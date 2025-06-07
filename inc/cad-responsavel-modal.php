@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form action="" method="post" id="formModalResponsavelLegal">
                 <div class="modal-header">
-                    <h4 class="title" id="modalResponsavelLegalLabel">Adicionar participantes</h4>
+                    <h4 class="title" id="modalResponsavelLegalLabel">Representante Legal</h4>
                 </div>
                 <div class="modal-body"> 
                     <div class="row clearfix">
