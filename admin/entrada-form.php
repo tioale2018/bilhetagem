@@ -230,22 +230,33 @@ input:checked + .slider:before {
                                     <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="secundarionome" required />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="secundariotelefone1" required />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="secundariotelefone2" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
                                     <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="secundarioemail" />
+                                </div>
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Participante</label>                            
+                                        <div class="container">
+                                            <label class="switch" for="checkbox2">
+                                                <input type="checkbox" id="checkbox2" />
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
                                 </div>
                             </div> 
 
