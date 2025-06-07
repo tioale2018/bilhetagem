@@ -69,6 +69,56 @@ $row = $pre->fetchAll();
     z-index: 99999;
     display: none;
 }
+
+
+.switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
 
 </head>
@@ -114,22 +164,33 @@ $row = $pre->fetchAll();
                                     <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" name="nome" required />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" name="telefone1" required />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 2" value="<?= $row[0]['telefone2'] ?>" name="telefone2" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
                                     <input type="text" class="form-control" placeholder="Email" value="<?= $row[0]['email'] ?>" required name="email" />
+                                </div>
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Participante</label>                            
+                                        <div class="container">
+                                            <label class="switch" for="checkbox1">
+                                                <input type="checkbox" id="checkbox1" />
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
                                 </div>
                             </div> 
 
