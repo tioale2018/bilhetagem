@@ -114,7 +114,7 @@ include_once("./inc/funcoes.php");
                     <div class="header">
                          <!-- <h2> </h2> -->
                           <div style="text-align:center">
-                          <a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante" style="background-color:rgb(213, 28, 28)!important">Adicionar Responsável Legal secundário (obrigatório)</a>
+                          <a href="#modalResponsavelLegal" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalResponsavelLegal" style="background-color:rgb(213, 28, 28)!important">Adicionar Responsável Legal secundário (obrigatório)</a>
                           </div>
 
                           <div style="text-align:center">
@@ -165,6 +165,8 @@ include_once("./inc/funcoes.php");
 <div id="hashevento" data-id-hashevento="<?= $_SESSION['hash_evento'] ?>" style="display: none"></div>
 
 <?php include('./inc/cad-participante-modal.php') ?>
+<?php include('./inc/cad-responsavel-modal.php') ?>
+
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
 <script src="./js/safe.js?t=<?= filemtime('./js/safe.js') ?>"></script>
