@@ -93,9 +93,9 @@ $textoBtErro = 'Verifique pacotes pendentes'
             <thead>
                 <tr>
                     <th width="20%">Nome</th>
-                    <th width="20%">Nascimento / Idade</th>
+                    <th width="10%">Idade</th>
                     <th width="10%">Vínculo</th>
-                    <th width="10%">Perfil</th>
+                    <th width="20%">Perfil</th>
                     <th width="30%">Pacote</th>
                     <th width="10%">Ações</th>
                 </tr>

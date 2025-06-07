@@ -160,31 +160,31 @@ $row = $pre->fetchAll();
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="{{cpf}}" name="cpf" readonly />
+                                    <input type="text" class="form-control" placeholder="CPF" value="{{cpf}}" name="secundariocpf" readonly />
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="nome" required />
+                                    <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="secundarionome" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="telefone1" required />
+                                    <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="secundariotelefone1" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="telefone2" />
+                                    <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="secundariotelefone2" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
-                                    <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="email" />
+                                    <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="secundarioemail" />
                                 </div>
                             </div> 
 
