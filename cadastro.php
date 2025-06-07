@@ -125,27 +125,27 @@ include_once("./inc/funcoes.php");
                                 <table class="" width="100%">
                                     <tr>
                                         <th width="30%">CPF:</th>
-                                        <td width="70%">(...))</td>
+                                        <td width="70%">{{cpf}}</td>
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
-                                        <td>(...)</td>
+                                        <td>{{nome}}</td>
                                     </tr>
                                     <tr>
                                         <td>Email:</td>
-                                        <td>(...)</td>
+                                        <td>{{email}}</td>
                                     </tr>
                                     <tr>
                                         <td>Telefone:</td>
-                                        <td>(...)</td>
+                                        <td>{{telefone1}}</td>
                                     </tr>
                                     <tr>
                                         <td>Telefone:</td>
-                                        <td>(...)</td>
+                                        <td>{{telefone2}}</td>
                                     </tr>
                                     <tr>
                                         <td>E-mail:</td>
-                                        <td>(...)</td>
+                                        <td>{{email}}</td>
                                     </tr>
                                 </table>
                             </div>
