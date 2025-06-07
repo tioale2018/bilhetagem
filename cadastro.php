@@ -264,7 +264,7 @@ input:checked + .slider:before {
                         
                         <div class="row justify-content-end">
                             <div class="col-md-3">
-                                <a href="#" class="btnModalTermoParticipante" data-id="<?= $row[0]['id_entrada'] ?>"><span class="badge badge-danger">Autorizar</span></a>
+                                <button type="button" class="btn btn-raised btn-success waves-effect btn-round btnModalTermoParticipante" data-id="<?= 0 ?>">Autorizar</button>
                             </div>
                              <div class="col-md-3">
                                 <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-danger waves-effect btn-round btAcao-cancela">Cancelar pré-cadastro</button>
