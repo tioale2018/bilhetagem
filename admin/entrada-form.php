@@ -215,7 +215,7 @@ input:checked + .slider:before {
                         <h2>Responsável Legal Secundário</h2>
                     </div>
                     <div class="body">
-                        <form action="" method="post" id="formResponsavel" >
+                        <form action="" method="post" id="formResponsavel2" >
                         
                         <div class="row clearfix">
                             <div class="col-md-5">
