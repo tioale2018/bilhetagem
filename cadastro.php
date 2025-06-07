@@ -114,7 +114,7 @@ include_once("./inc/funcoes.php");
                     <div class="header">
                          <!-- <h2> </h2> -->
                           <div style="text-align:center">
-                          <a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante" style="background-color: #27ae60!important">Adicionar Responsável Legal secundário (obrigatório)</a>
+                          <a href="#modalAddParticipante" data-toggle="modal" class="btn btn-primary btn-round btn-block" data-target="#modalAddParticipante" style="background-color:rgb(213, 28, 28)!important">Adicionar Responsável Legal secundário (obrigatório)</a>
                           </div>
 
                           <div style="text-align:center">
