@@ -96,7 +96,7 @@ $row = $pre->fetchAll();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Dados do responsávelXX</h2>
+                        <h2>Dados do responsável</h2>
                     </div>
                     <div class="body">
                         <form action="" method="post" id="formResponsavel" >
@@ -146,6 +146,61 @@ $row = $pre->fetchAll();
                 </div>
             </div>
         </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Responsável Legal Secundário</h2>
+                    </div>
+                    <div class="body">
+                        <form action="" method="post" id="formResponsavel" >
+                        
+                        <div class="row clearfix">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="cpf" class="form-label">CPF</label>                               
+                                    <input type="text" class="form-control" placeholder="CPF" value="{{cpf}}" name="cpf" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Nome</label>                            
+                                    <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="nome" required />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Telefone 1</label>                            
+                                    <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="telefone1" required />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Telefone 2</label>                            
+                                    <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="telefone2" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Email</label>                            
+                                    <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="email" />
+                                </div>
+                            </div> 
+
+                            <div class="col-md-6">
+                                <div class="form-group js-sweetalert">                                   
+                                    <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="salvo" type="submit" disabled>Salvar</button>                                
+                                </div>
+                            </div> 
+                            
+                        </div>                       
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">

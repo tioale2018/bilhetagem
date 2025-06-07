@@ -19,8 +19,6 @@ try {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
-
-
 if ($_SERVER['REQUEST_METHOD']!="POST") {
     header('X-PHP-Response-Code: 404', true, 404);
     http_response_code(404);
