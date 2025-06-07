@@ -19,8 +19,8 @@
                                 
                                 <tbody>
                                     <tr>
-                                        <td scope="row" width="20%">Nome</td>
-                                        <td width="80%" id="nomeresponsavel"></td>
+                                        <td scope="row" width="30%">Nome</td>
+                                        <td width="70%" id="nomeresponsavel"></td>
                                     </tr>
                                     <tr>
                                         <td scope="row">CPF</td>
