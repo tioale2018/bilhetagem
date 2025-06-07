@@ -208,6 +208,17 @@ input:checked + .slider:before {
                                         <td>E-mail:</td>
                                         <td>{{email}}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Participante</td>
+                                        <td>
+                                            <div class="container">
+                                                <label class="switch" for="checkbox">
+                                                    <input type="checkbox" id="checkbox" />
+                                                    <div class="slider round"></div>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
