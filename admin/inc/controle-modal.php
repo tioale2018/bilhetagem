@@ -11,29 +11,39 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="body table-responsive">
-                        <table class="table table-bordered">
-                            
-                            <tbody>
-                                <tr>
-                                    <td scope="row" width="20%">Nome</td>
-                                    <td width="80%" id="nomeresponsavel"></td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">CPF</td>
-                                    <td id="cpf"></td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">Telefone 1</td>
-                                    <td id="tel1"></td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">Telefone 2</td>
-                                    <td id="tel2"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="row">
+                    <div class="col-6">
+
+                        <div class="body table-responsive">
+                            <table class="table table-bordered">
+                                
+                                <tbody>
+                                    <tr>
+                                        <td scope="row" width="20%">Nome</td>
+                                        <td width="80%" id="nomeresponsavel"></td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">CPF</td>
+                                        <td id="cpf"></td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Telefone 1</td>
+                                        <td id="tel1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Telefone 2</td>
+                                        <td id="tel2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
+                </div>
+
+                    
+
+
 
                     <div id="tabelaDados" class="body table-responsive my-3"></div>
 
