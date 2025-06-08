@@ -150,17 +150,7 @@ input:checked + .slider:before {
                                         <td>E-mail:</td>
                                         <td><?= $dados_responsavel[0]['email'] ?></td>
                                     </tr>
-                                    <tr>
-                                        <td>Participante</td>
-                                        <td>
-                                            <div class="container">
-                                                <label class="switch" for="checkbox1">
-                                                    <input type="checkbox" id="checkbox1" />
-                                                    <div class="slider round"></div>
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -208,7 +198,7 @@ input:checked + .slider:before {
                                         <td>E-mail:</td>
                                         <td>{{email}}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Participante</td>
                                         <td>
                                             <div class="container">
@@ -218,7 +208,7 @@ input:checked + .slider:before {
                                                 </label>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </table>
                             </div>
                         </div>
@@ -226,8 +216,6 @@ input:checked + .slider:before {
                 </div>
             </div>
         </div>
-
-
 
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
@@ -263,9 +251,6 @@ input:checked + .slider:before {
                         </div>
                         
                         <div class="row justify-content-end">
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-raised btn-info waves-effect btn-round btnModalTermoParticipante" data-id="<?= 0 ?>">Autorizar</button>
-                            </div>
                              <div class="col-md-3">
                                 <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="1" name="btnCancela" class="btn btn-raised btn-danger waves-effect btn-round btAcao-cancela">Cancelar pré-cadastro</button>
                             </div>
