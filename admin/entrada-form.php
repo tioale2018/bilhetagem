@@ -164,25 +164,25 @@ input:checked + .slider:before {
                                     <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nome'] ?>" name="nome" required />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 1" value="<?= $row[0]['telefone1'] ?>" name="telefone1" required />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 2" value="<?= $row[0]['telefone2'] ?>" name="telefone2" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
                                     <input type="text" class="form-control" placeholder="Email" value="<?= $row[0]['email'] ?>" required name="email" />
                                 </div>
                             </div> 
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Participante</label>                            
                                         <div class="container">
@@ -192,7 +192,7 @@ input:checked + .slider:before {
                                             </label>
                                         </div>
                                 </div>
-                            </div> 
+                            </div>  -->
 
                             <div class="col-md-6">
                                 <div class="form-group js-sweetalert">                                   
@@ -230,25 +230,25 @@ input:checked + .slider:before {
                                     <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="secundarionome" required />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="secundariotelefone1" required />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 2</label>                            
                                     <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="secundariotelefone2" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Email</label>                            
                                     <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="secundarioemail" />
                                 </div>
                             </div> 
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Participante</label>                            
                                         <div class="container">
@@ -258,7 +258,7 @@ input:checked + .slider:before {
                                             </label>
                                         </div>
                                 </div>
-                            </div> 
+                            </div>  -->
 
                             <div class="col-md-6">
                                 <div class="form-group js-sweetalert">                                   
