@@ -83,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 }
 
-//if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==1) { -- versão original
-if (isset($_SESSION['user_id'])) { //versão pra resolver o problema de redirecionamento
+if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==1) { //-- versão original
+// if (isset($_SESSION['user_id'])) { //versão pra resolver o problema de redirecionamento
     // Se estiver definida, redireciona para a página do sistema
     header('Location: controle.php');
     exit();
