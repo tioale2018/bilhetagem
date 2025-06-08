@@ -78,8 +78,8 @@ $rowNum = $pre->rowCount();
                     <!-- <th>Nascimento</th> 
                     <th>Vínculo</th>
                     <th>Lembrar</th>
-                    <th>Perfil</th> 
-                    <th>Autorizar</th> -->
+                    <th>Perfil</th>  -->
+                    <th>Autorizar</th>
                     <th>Edita/Exclui</th>
                 </tr>
             </thead>                                
@@ -97,7 +97,7 @@ $rowNum = $pre->rowCount();
                     <!-- <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
                     <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
                     <!-- <td><?= $row[$key]['perfil'] ?></td> -->
-                    <!-- <td class="text-center">
+                    <td class="text-center">
                         <?php 
                             if ($row[$key]['autoriza']==0) {
                                 $travaBtEnvia = 'true';
@@ -107,7 +107,7 @@ $rowNum = $pre->rowCount();
                                 echo '<span class="badge badge-success">Autorizado</span>';
                             }
                         ?>
-                    </td> -->
+                    </td>
                     <td>
                         <button data-idprevenda="<?= $row[$key]['id_prevenda'] ?>" data-idparticipante="<?= $row[$key]['id_vinculado'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 btnModalEditaParticipante"><i class="zmdi zmdi-edit"></i></button>
                         <button data-entrada="<?= $row[$key]['id_entrada'] ?>" class="btn btn-icon btn-neutral btn-icon-mini margin-0 excluivinculo"><i class="zmdi zmdi-delete"></i></button>
