@@ -89,7 +89,7 @@ if (isset($_SESSION['user_id'])) { //versão pra resolver o problema de redireci
     header('Location: controle.php');
     exit();
 }
-/*
+
 //remover isto ao resolver o problema de redirecionamento
 
 if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
@@ -97,7 +97,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
     header('Location: ../master');
     exit();
 }
-*/
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
