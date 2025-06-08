@@ -1,7 +1,7 @@
 <?php 
 include('../admin/inc/conexao.php');
 include('./inc/config_session.php');
-include('./inc/functions.php');
+// include('./inc/functions.php');
 verificarSessao();
 ?>
 <!doctype html>
