@@ -44,6 +44,11 @@ if ($server_name == 'homologadev.com.br') {
   $username = "rapidcom_userbilhetagem";
   $password = "i#U9ZPP-IB3V";
   $database = "rapidcom_bdbilhetagem";
+} elseif ($server_name == 'w3brand.com.br') {
+  //produção w3brand
+  $username = "brandw3com_userbilhetagem";
+  $password = "eEnKheFf567VUP6";
+  $database = "brandw3com_bdbilhetagem";
 }
 
 date_default_timezone_set('America/Sao_Paulo');

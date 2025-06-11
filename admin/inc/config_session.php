@@ -94,6 +94,17 @@ if ($_SERVER['SERVER_NAME'] == 'homologadev.com.br') {
         'httponly' => true,
         'samesite' => 'Strict'
     ]); 
+} elseif ($_SERVER['SERVER_NAME'] == 'w3brand.com.br') {
+    // Define parâmetros do cookie de sessão para o domínio rapidticket.com.br
+    // sem "/"
+   session_set_cookie_params([
+        'lifetime' => $inactive,
+        'path' => '/',
+        'domain' => 'w3brand.com.br', // sem "/"
+        'secure' => $isSecure,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]); 
 }
 
 // Define parâmetros do cookie de sessão (ANTES do session_start)
