@@ -16,14 +16,14 @@
                                     <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= formatarCPF($id) ?>" maxlength="14" pattern="\d*" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
                                     <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" required />
                                 </div>
                             </div>
                             <!-- inclua um select com os tipos de vinculo -->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Vínculo</label>
                                     <select name="vinculo" class="form-control" required>
