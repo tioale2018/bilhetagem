@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 echo "<script>alert('Perfil: ".$_SESSION['user_perfil']."');</script>";
 
+/*
 //if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==1) { -- versão original
 if (isset($_SESSION['user_id'])) { //versão pra resolver o problema de redirecionamento
     // Se estiver definida, redireciona para a página do sistema
@@ -99,7 +100,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_perfil']==2) {
     // header('Location: ../master');
     exit();
 }
-
+*/
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
