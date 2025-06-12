@@ -26,7 +26,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Vínculo</label>
-                                    <select name="vinculo" class="form-control" required>
+                                    <select name="vinculo" class="form-control show-tick p-0" required>
                                         <option value="">Selecione o vínculo</option>
                                         <option value="Pai" >Pai</option>
                                         <option value="Mãe" >Mãe</option>
