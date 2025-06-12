@@ -135,6 +135,10 @@ input:checked + .slider:before {
                                         <td><?= $dados_responsavel[0]['nome'] ?></td>
                                     </tr>
                                     <tr>
+                                        <td>Vínculo:</td>
+                                        <td><?= $dados_responsavel[0]['descricao_vinculo'] ?></td>
+                                    </tr>
+                                    <tr>
                                         <td>Email:</td>
                                         <td><?= $dados_responsavel[0]['email'] ?></td>
                                     </tr>
