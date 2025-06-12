@@ -183,20 +183,8 @@ input:checked + .slider:before {
                                         <td>{{nome}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Email:</td>
-                                        <td>{{email}}</td>
-                                    </tr>
-                                    <tr>
                                         <td>Telefone:</td>
                                         <td>{{telefone1}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Telefone:</td>
-                                        <td>{{telefone2}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>E-mail:</td>
-                                        <td>{{email}}</td>
                                     </tr>
                                     <!-- <tr>
                                         <td>Participante</td>

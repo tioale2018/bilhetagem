@@ -10,16 +10,28 @@
                         
                         
                         <div class="row clearfix">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
                                     <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= formatarCPF($id) ?>" maxlength="14" pattern="\d*" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
                                     <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" required />
+                                </div>
+                            </div>
+                            <!-- inclua um select com os tipos de vinculo -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Vínculo</label>
+                                    <select name="vinculo" class="form-control" required>
+                                        <option value="">Selecione o vínculo</option>
+                                        <option value="Pai" >Pai</option>
+                                        <option value="Mãe" >Mãe</option>
+                                        <option value="Responsável" >Responsável</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
