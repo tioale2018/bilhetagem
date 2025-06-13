@@ -40,7 +40,7 @@ if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
 
 $idprevenda = htmlspecialchars($_GET['item']);
 
-$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
+$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -182,6 +182,25 @@ input:checked + .slider:before {
                                     <input type="text" class="form-control" placeholder="Email" value="<?= $row[0]['email'] ?>" required name="email" />
                                 </div>
                             </div> 
+                            <!-- endereco, bairro, cidade -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Endereço</label>                            
+                                    <input type="text" class="form-control" placeholder="Endereço" value="<?= $row[0]['endereco'] ?>" name="endereco" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Bairro</label>                            
+                                    <input type="text" class="form-control" placeholder="Bairro" value="<?= $row[0]['bairro'] ?>" name="bairro" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Cidade</label>                            
+                                    <input type="text" class="form-control" placeholder="Cidade" value="<?= $row[0]['cidade'] ?>" name="cidade" />
+                                </div>
+                            </div>
                             <!-- <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Participante</label>                            
