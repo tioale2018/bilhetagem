@@ -6,7 +6,6 @@ include_once("./inc/funcoes.php");
 if ((!isset($_SESSION['dadosResponsavel'])) || (!$_SESSION['dadosResponsavel']) ) {
     header('Location: /'.$_SESSION['hash_evento']);
 }
-
 // include_once("./inc/cad-participantes-regras.php");
 
 $row               = $_SESSION['row'];
@@ -14,7 +13,6 @@ $evento_atual      = $_SESSION['evento_atual'];
 $id                = $_SESSION['cpf'];
 $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
-
 
 $sql_secundario = "SELECT * from tbsecundario WHERE ativo=1 and idprevenda = :idPrevenda";
 $pre_secundario = $connPDO->prepare($sql_secundario);
@@ -29,8 +27,6 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
-
-
 $sql_prevenda_info = "SELECT * FROM tbprevenda_info WHERE ativo=1 and idprevenda = :idPrevenda";
 $pre_prevenda_info = $connPDO->prepare($sql_prevenda_info);
 $pre_prevenda_info->bindValue(':idPrevenda', $idPrevendaAtual, PDO::PARAM_INT);
@@ -41,8 +37,6 @@ if ($pre_prevenda_info->rowCount() > 0) {
 } else {
     $row_prevendainfo = [];
 }
-
-echo var_dump($row_prevendainfo);
 
 ?>
 <!doctype html>
