@@ -35,7 +35,8 @@ $row = $pre->fetchAll();
 $total = $row[0]['total'];
 
 if ($total>=1) {
-    header('Location: cadastro.php');
+    // header('Location: cadastro.php');
+    die("<script>alert('Existem participantes pendentes de autorização.');location.href='/".$hashEvento."';</script>");
 } 
 
 
