@@ -13,12 +13,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?=  (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'') ?>" maxlength="14" pattern="\d*" />
+                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?=  (isset($_SESSION['dadosSecundario'][0]['cpf'])?$_SESSION['dadosSecundario'][0]['cpf']:'') ?>" maxlength="14" pattern="\d*" />
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="" class="form-label">Nome</label>                            
+                                    <label for="" class="form-label">Nome completo</label>                            
                                     <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($_SESSION['dadosSecundario'][0]['nome'])?$_SESSION['dadosSecundario'][0]['nome']:'') ?>" required />
                                 </div>
                             </div>

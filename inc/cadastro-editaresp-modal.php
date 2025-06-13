@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="" class="form-label">Nome</label>                            
+                                    <label for="" class="form-label">Nome completo</label>                            
                                     <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" required />
                                 </div>
                             </div>
