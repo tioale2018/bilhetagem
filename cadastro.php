@@ -38,6 +38,7 @@ if ($pre_prevenda_info->rowCount() > 0) {
     $row_prevendainfo = [];
 }
 
+$bloqueia_envio = false;
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -175,6 +176,43 @@ input:checked + .slider:before {
                                         <td>E-mail:</td>
                                         <td><?= $dados_responsavel[0]['email'] ?></td>
                                     </tr>
+                                    <tr>
+                                        <td>Endereço Completo:</td>
+                                        <td><?php
+                                         if($dados_responsavel[0]['endereco']== '') {
+                                            echo '<span style="color: red">Preenchimento obrigatório</span>';
+                                            $bloqueia_envio = true;
+                                         } else {
+                                             echo $dados_responsavel[0]['endereco'];
+                                         }
+                                         
+                                         ?></td>
+                                    </tr>
+                                    <!-- fazer o mesmo acima com bairro e cidade  -->
+                                     
+                                    <tr>
+                                        <td>Bairro:</td>
+                                        <td><?php
+                                         if($dados_responsavel[0]['bairro']== '') {
+                                            echo '<span style="color: red">Preenchimento obrigatório</span>';
+                                            $bloqueia_envio = true;
+                                         } else {
+                                             echo $dados_responsavel[0]['bairro'];
+                                         }
+                                         ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cidade:</td>
+                                        <td><?php
+                                         if($dados_responsavel[0]['cidade']== '') {
+                                            echo '<span style="color: red">Preenchimento obrigatório</span>';
+                                            $bloqueia_envio = true;
+                                         } else {
+                                             echo $dados_responsavel[0]['cidade'];
+                                         }
+                                         ?></td>
+                                    </tr>
+
                                     
                                 </table>
                             </div>
@@ -293,8 +331,8 @@ input:checked + .slider:before {
                             </div>
 
                             <div class="col-md-3">
-                                <?php if (empty($_SESSION['dadosSecundario'])) { ?>
-                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-meiopgto="" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Cadastre o responsável secundário</button>
+                                <?php if (empty($_SESSION['dadosSecundario']) || $bloqueia_envio) { ?>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-meiopgto="" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Verifique as pendências no cadastro</button>
                                 <?php } else { ?>
                                     <button type="button" data-id="<?= $idPrevendaAtual ?>" data-meiopgto="" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
                                 <?php } ?>
