@@ -429,6 +429,7 @@ input:checked + .slider:before {
             }).fail(function(xhr, status, error) {
                 console.error('Erro ao enviar os dados criptografados:', error);
                 alert('Erro ao enviar os dados criptografados.');
+                console.log(data);
             });
         });
 
