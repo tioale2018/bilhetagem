@@ -143,14 +143,19 @@ include_once('../inc/variaveis-termo.php');
     * {
         margin: 0;
         padding: 0;
-        font-size: 1em;
+        font-size: 12px;
         font-family: "Roboto", sans-serif;
         font-optical-sizing: auto;
-        font-weight: <weight>;
+        font-weight: normal;
         font-style: normal;
         font-variation-settings:
             "wdth" 100;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
     }
+body {
+    width: 100vw;
+}
 </style>
 </head>
 <body>
