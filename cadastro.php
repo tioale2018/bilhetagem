@@ -13,6 +13,23 @@ $id                = $_SESSION['cpf'];
 $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
 
+
+
+
+$sql_secundario = "SELECT * from tbsecundario WHERE ativo=1 and idprevenda = :idPrevenda";
+$pre_secundario = $connPDO->prepare($sql_secundario);
+$pre_secundario->bindValue(':idPrevenda', $idPrevendaAtual, PDO::PARAM_INT);
+$pre_secundario->execute();
+
+if ($pre_secundario->rowCount() > 0) {
+    $dados_secundario = $pre_secundario->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $dados_secundario = [];
+}
+
+$_SESSION['dadosSecundario'] = $dados_secundario;
+
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -176,7 +193,7 @@ input:checked + .slider:before {
                                 <table class="" width="100%">
                                     <tr>
                                         <th width="30%">CPF:</th>
-                                        <td width="70%">{{cpf}}</td>
+                                        <td width="70%"><?= (isset($_SESSION['dadosSecundario']['cpf'])?formatarCPF($_SESSION['dadosSecundario']['cpf']):'<span style="color: red">Não informado</span>') ?></td>
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
