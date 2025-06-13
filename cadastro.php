@@ -279,7 +279,7 @@ input:checked + .slider:before {
 <div id="hashevento" data-id-hashevento="<?= $_SESSION['hash_evento'] ?>" style="display: none"></div>
 
 <?php include('./inc/cad-participante-modal.php') ?>
-<?php //include('./inc/cad-responsavel-modal.php') ?>
+<?php include('./inc/cad-responsavel-modal.php') ?>
 
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
