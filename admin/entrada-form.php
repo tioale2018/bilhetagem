@@ -183,19 +183,19 @@ input:checked + .slider:before {
                                 </div>
                             </div> 
                             <!-- endereco, bairro, cidade -->
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="" class="form-label">Endereço</label>                            
                                     <input type="text" class="form-control" placeholder="Endereço" value="<?= $row[0]['endereco'] ?>" name="endereco" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Bairro</label>                            
                                     <input type="text" class="form-control" placeholder="Bairro" value="<?= $row[0]['bairro'] ?>" name="bairro" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="" class="form-label">Cidade</label>                            
                                     <input type="text" class="form-control" placeholder="Cidade" value="<?= $row[0]['cidade'] ?>" name="cidade" />
