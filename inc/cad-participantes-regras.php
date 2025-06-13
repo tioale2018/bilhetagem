@@ -4,7 +4,6 @@ $hash = $_POST['hashevento'];
 include_once("./inc/conexao.php");
 include_once("./inc/funcoes.php");
 
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use phpseclib3\Crypt\RSA;
@@ -22,20 +21,18 @@ $encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
 $encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone = base64_decode($_POST['telefone_seguro'] ?? '');
 $encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
-$encrypted_comunica = base64_decode($_POST['comunica_seguro'] ?? '');
-
-
+// $encrypted_comunica = base64_decode($_POST['comunica_seguro'] ?? '');
 
 try {
     $cpf        = $privateKey->decrypt($encrypted_cpf);
     $nome       = $privateKey->decrypt($encrypted_nome);
     $telefone   = $privateKey->decrypt($encrypted_telefone);
     $email      = $privateKey->decrypt($encrypted_email);
-    $comunica   = $privateKey->decrypt($encrypted_comunica);
+    // $comunica   = $privateKey->decrypt($encrypted_comunica);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
-
+$comunica = (isset($_POST['comunica_seguro'])) ? 1 : 0;
 $telefone1 = $telefone;
 
 //valida se é o hash do evento
@@ -195,12 +192,7 @@ if ($crianovaPrevenda) {
 $_SESSION['idPrevenda']       = $idPrevendaAtual;
 $_SESSION['dadosResponsavel'] = $dados_responsavel;
 
-
-
-
 /* ************************************************************************ */
-
-// $comunica = (isset($_POST['comunica'])) ? 1 : 0;
 
 function getDeviceInfo($idprevenda) {
     // Informações adicionais coletadas pelo PHP
@@ -241,8 +233,6 @@ $screenResolution = 'Desconhecido';
 $deviceType       = 'Desconhecido';
 $idTermoAtivo     = 0;
 
-
-
 $stmt = $connPDO->prepare("INSERT INTO device_info (
     idprevenda, ip_address, user_agent, screen_resolution, device_type, 
     browser_language, server_language, operating_system, 
@@ -276,6 +266,5 @@ $idDevice = $connPDO->lastInsertId();
 $sql_atualizaResponsavel = "update tbresponsavel set comunica=$comunica, device_comunica=$idDevice where id_responsavel=$idResponsavel";
 $pre_atualizaResponsavel = $connPDO->prepare($sql_atualizaResponsavel);
 $pre_atualizaResponsavel->execute();
-
 
 ?>
