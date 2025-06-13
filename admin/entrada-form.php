@@ -41,7 +41,7 @@ if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
 $idprevenda = htmlspecialchars($_GET['item']);
 
 // $sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
-$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade, tbsecundario.cpf as cpfsecundario, tbsecundario.nome as nomesecundario, tbsecundario.telefone as telefonesecundario from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel inner join tbsecundario on tbsecundario.idprevenda=tbprevenda.id_prevenda where tbprevenda.prevenda_status=1 and tbsecundario.ativo=1 and tbprevenda.id_prevenda=:idprevenda";
+$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade, tbsecundario.cpf as cpfsecundario, tbsecundario.nome as nomesecundario, tbsecundario.telefone as telefonesecundario, tbsecundario.id as idsecundario from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel inner join tbsecundario on tbsecundario.idprevenda=tbprevenda.id_prevenda where tbprevenda.prevenda_status=1 and tbsecundario.ativo=1 and tbprevenda.id_prevenda=:idprevenda";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -52,7 +52,7 @@ if ($pre->rowCount()<1) {
 }
 
 $row = $pre->fetchAll();
-
+$_SESSION['secundarioid'] = $row[0]['idsecundario'];
 // die(var_dump($row));
 ?>
 
@@ -235,13 +235,13 @@ input:checked + .slider:before {
                         <h2>Responsável Legal Secundário</h2>
                     </div>
                     <div class="body">
-                        <form action="" method="post" id="formResponsavel2" >
+                        <form action="" method="post" id="formSecundario" >
                         
                         <div class="row clearfix">
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpfsecundario'] ?>" name="secundariocpf" readonly />
+                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpfsecundario'] ?>" name="secundariocpf" required />
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -253,7 +253,7 @@ input:checked + .slider:before {
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone" value="<?= $row[0]['telefonesecundario'] ?>" name="secundariotelefone1" required />
+                                    <input type="text" class="form-control" placeholder="Telefone" value="<?= $row[0]['telefonesecundario'] ?>" name="secundariotelefone" required />
                                 </div>
                             </div>
                             
@@ -454,6 +454,10 @@ if (typeof arrayBufferToBase64 === 'undefined') {
 
     $('form#formResponsavel').on('input change', function(){
         $('form#formResponsavel button[type=submit]').attr('disabled', false);
+    });
+
+    $('form#formSecundario').on('input change', function(){
+        $('form#formSecundario button[type=submit]').attr('disabled', false);
     });
 
 
