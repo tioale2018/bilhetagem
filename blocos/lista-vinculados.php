@@ -76,11 +76,11 @@ $rowNum = $pre->rowCount();
                 <tr>
                     <th width="40%">Nome</th>
                     <!-- <th>Nascimento</th> -->
-                    <th width="25%">Vínculo</th>
+                    <th width="20%">Vínculo com o responsável principal</th>
                     <!--<th>Lembrar</th>
                     <th>Perfil</th>  -->
-                    <th width="25%">Autorizar</th>
-                    <th width="10%">Edita/Exclui</th>
+                    <th width="20%">Autorizar</th>
+                    <th width="20%">Edita/Exclui</th>
                 </tr>
             </thead>                                
             <tbody>
