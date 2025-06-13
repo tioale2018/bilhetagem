@@ -3,7 +3,7 @@
         <div class="modal-content">
         <form action="" method="post"  class="js-sweetalert" id="formResponsavel">
             <div class="modal-header">
-                <h4 class="title">Editar dados do responsável</h4>
+                <h4 class="title">Dados do responsável principal</h4>
             </div>
 
             <div class="modal-body">           
@@ -40,6 +40,25 @@
                                     <input name="email" type="text" class="form-control" placeholder="Email" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['email']:'') ?>" required />
                                 </div>
                             </div> 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Endereço completo</label>                            
+                                    <input name="endereco" type="text" class="form-control" placeholder="Endereço completo" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['endereco']:'') ?>" required />
+                                </div>
+                            </div> 
+                            <!-- bairro e cidade -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Bairro</label>                            
+                                    <input name="bairro" type="text" class="form-control" placeholder="Bairro" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['bairro']:'') ?>" required />
+                                </div>
+
+                            </div>                   
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Cidade</label>                            
+                                    <input name="cidade" type="text" class="form-control" placeholder="Cidade" required value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['cidade']:'') ?>" required />
+                                </div>
 
                         </div>                   
                        
