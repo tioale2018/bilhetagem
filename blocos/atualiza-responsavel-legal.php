@@ -59,13 +59,14 @@ if ($pre_secundario->rowCount() > 0) {
     $pre_atualiza_secundario->bindParam(':lastupdate', $horaagora, PDO::PARAM_INT);
     $pre_atualiza_secundario->execute();    
 } else {
-    // Caso contrário, cria um novo responsável secundário    
-    $sql_insere_secundario = "INSERT INTO tbsecundario (nome, cpf, telefone, idprevenda) VALUES (:nome, :cpf, :telefone, :idPrevenda)";
+    // Caso contrário, cria um novo responsável secundário
+    $sql_insere_secundario = "INSERT INTO tbsecundario (nome, cpf, telefone, idprevenda,lastupdate) VALUES (:nome, :cpf, :telefone, :idPrevenda, :lastupdate)";
     $pre_insere_secundario = $connPDO->prepare($sql_insere_secundario);
     $pre_insere_secundario->bindParam(':nome', $nome, PDO::PARAM_STR);
     $pre_insere_secundario->bindParam(':cpf', $cpf, PDO::PARAM_STR);
     $pre_insere_secundario->bindParam(':telefone', $telefone, PDO::PARAM_STR);
     $pre_insere_secundario->bindParam(':idPrevenda', $idPrevendaAtual, PDO::PARAM_INT);
+    $pre_insere_secundario->bindParam(':lastupdate', $horaagora, PDO::PARAM_INT);
     $pre_insere_secundario->execute();
 }
 
