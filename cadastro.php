@@ -269,11 +269,11 @@ input:checked + .slider:before {
                                 <p>O pagamento será realizado excluisivamente no caixa, no momento do ingresso ao brinquedo. Para sua comodidade, informe abaixo o meio de pagamento que pretende utilizar.</p>
                                 <!-- crie um select com os tipos de pagamento -->
                                 <select name="meio_pagamento" class="form-control show-tick p-0" id="meiopgto">
-                                    <option value="" <?= (!isset($row_prevendainfo[0]['meiopgto']) ? 'selected' : '' )?>>Selecione o meio de pagamento</option>
-                                    <option value="1" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '1' ? 'selected' : '') ?>>Dinheiro</option>
-                                    <option value="2" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '2' ? 'selected' : '') ?>>Pix</option>
-                                    <option value="3" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '3' ? 'selected' : '') ?>>Cartão de Crédito</option>
-                                    <option value="4" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '4' ? 'selected' : '') ?>>Cartão de Débito</option>
+                                    <option value="" <?= !isset($row_prevendainfo[0]['meiopgto']) ? 'selected' : '' ?>>Selecione o meio de pagamento</option>
+                                    <option value="1" <?= isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '1' ? 'selected' : '' ?>>Dinheiro</option>
+                                    <option value="2" <?= isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '2' ? 'selected' : '' ?>>Pix</option>
+                                    <option value="3" <?= isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '3' ? 'selected' : '' ?>>Cartão de Crédito</option>
+                                    <option value="4" <?= isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '4' ? 'selected' : '' ?>>Cartão de Débito</option>
                                 </select>
                             </div>
                         </div>
@@ -326,16 +326,6 @@ input:checked + .slider:before {
 <script src="./js/funcoes.js?v=<?= filemtime('./js/funcoes.js') ?>"></script>
 <script>
     $(document).ready(function(){
-
-        // $('.btAcao-finaliza').data('meiopgto', $('#meiopgto').val());
-
-        //crie uma funcao em jquery onde ao alterar o select de meio de pagamento, ele armazena o valor selecionado em um atributo data-meiopgto do botao de finalizar
-        
-        $('#meiopgto').on('change', function() {
-            let meioPagamento = $(this).val();
-            // $('.btAcao-finaliza').data('meiopgto', meioPagamento);
-            alert("Meio de pagamento selecionado: " + meioPagamento);
-        });
         
         if (typeof pemToArrayBuffer === 'undefined') {        
             function pemToArrayBuffer(pem) {
@@ -550,6 +540,36 @@ input:checked + .slider:before {
             }).fail(function(xhr, status, error) {
                 console.error('Erro ao enviar os dados criptografados:', error);
                 alert('Erro ao enviar os dados criptografados.');
+            });
+        });
+
+
+          
+        $('#meiopgto').on('change', function() {
+            let meioPagamento = $(this).val();
+
+            //criptografa de acordo com a criptografia e a chave publica acima a variável meioPagamento e envia via POST para o backend
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            const encryptedMeioPagamento = await crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                key,
+                encoder.encode(meioPagamento)
+            );
+
+            const encryptedMeioPagamentoBase64 = arrayBufferToBase64(encryptedMeioPagamento);
+
+            $.post('./blocos/atualiza-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
+                console.log(data);
+            }).fail(function() {
+                alert("Erro ao enviar meio de pagamento.");
             });
         });
 
