@@ -139,12 +139,12 @@ input:checked + .slider:before {
                                         <td><?= $dados_responsavel[0]['email'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Telefone:</td>
+                                        <td>Telefone 1:</td>
                                         <td><?= $dados_responsavel[0]['telefone1'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Telefone:</td>
-                                        <td><?= $dados_responsavel[0]['telefone2'] ?></td>
+                                        <td>Telefone 2:</td>
+                                        <td><?= ($dados_responsavel[0]['telefone2']==''?'<span class="text-muted">Não informado</span>':$dados_responsavel[0]['telefone2']) ?></td>
                                     </tr>
                                     <tr>
                                         <td>E-mail:</td>
