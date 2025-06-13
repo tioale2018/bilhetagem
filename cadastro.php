@@ -197,7 +197,7 @@ input:checked + .slider:before {
                                 <table class="" width="100%">
                                     <tr>
                                         <th width="30%">CPF:</th>
-                                        <td width="70%"><?= (isset($_SESSION['dadosSecundario']['cpf'])?formatarCPF($_SESSION['dadosSecundario']['cpf']):'<span style="color: red">Não informado</span>') ?></td>
+                                        <td width="70%"><?= (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'<span style="color: red">Não informado</span>') ?></td>
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
