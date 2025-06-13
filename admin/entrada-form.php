@@ -52,7 +52,7 @@ if ($pre->rowCount()<1) {
 }
 
 $row = $pre->fetchAll();
-$_SESSION['secundarioid'] = $row[0]['idsecundario'];
+$_SESSION['idsecundario'] = $row[0]['idsecundario'];
 // die(var_dump($row));
 ?>
 
@@ -241,19 +241,19 @@ input:checked + .slider:before {
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpfsecundario'] ?>" name="secundariocpf" required />
+                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpfsecundario'] ?>" name="cpfsecundario" required />
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="" class="form-label">Nome</label>                            
-                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nomesecundario'] ?>" name="secundarionome" required />
+                                    <label for="" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nomesecundario'] ?>" name="nomesecundario" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone" value="<?= $row[0]['telefonesecundario'] ?>" name="secundariotelefone" required />
+                                    <input type="text" class="form-control" placeholder="Telefone" value="<?= $row[0]['telefonesecundario'] ?>" name="telefonesecundario" required />
                                 </div>
                             </div>
                             
@@ -509,8 +509,61 @@ if (typeof arrayBufferToBase64 === 'undefined') {
         } catch (error) {
             console.log('Erro ao criptografar os dados:', error);
         }
-       
     });
+
+
+
+
+    $('form#formSecundario').submit(async function(e){
+        e.preventDefault();
+        let Form = $(this);
+
+        try {
+
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey(
+                "spki",
+                pemToArrayBuffer(publicKeyPEM),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+
+            let formData = {};
+            Form.serializeArray().forEach(field => {
+                formData[field.name] = field.value;
+            });
+
+            let encryptedData = {};
+            for (let keyName in formData) {
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "RSA-OAEP" },
+                    key,
+                    encoder.encode(formData[keyName])
+                );
+                encryptedData[keyName] = arrayBufferToBase64(encrypted);
+            }
+
+             $.post('./blocos/atualiza-secundario.php', encryptedData, function(data){
+                console.log(data);
+                swal({
+                    title: "Dados salvos",
+                    text: "Os dados informados foram salvos com sucesso!" + data,
+                    type: "success",
+                    showCancelButton: false,
+                    closeOnConfirm: true
+                }, function () {
+                    $('form#formSecundario button[type=submit]').attr('disabled', true);
+                });                
+            }).fail(function() {
+                console.log('Erro ao salvar os dados do responsável.');
+            });
+
+        } catch (error) {
+            console.log('Erro ao criptografar os dados:', error);
+        }
+    });
+
 
         
         $('body').on('click','#btnpagamento', function(event){
@@ -633,6 +686,15 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             $(this).val(cpf);
         });
 
+         $('input[name^="telefone"]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                field.mask(mask, options);
+            }
+        });
+
+
+/*
         $('input[name="telefone1"]').mask('(00) 0000-00000', {
             onKeyPress: function(val, e, field, options) {
                 var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
@@ -645,6 +707,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                 $('input[name=telefone2]').mask(mask, options);
             }
         });
+        */
     });
 </script>
 
