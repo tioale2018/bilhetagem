@@ -8,6 +8,8 @@ if ((!isset($_SESSION['dadosResponsavel'])) || (!$_SESSION['dadosResponsavel']) 
 }
 // include_once("./inc/cad-participantes-regras.php");
 
+$bloqueia_envio = false;
+
 $row               = $_SESSION['row'];
 $evento_atual      = $_SESSION['evento_atual'];
 $id                = $_SESSION['cpf'];
@@ -34,11 +36,16 @@ $pre_prevenda_info->execute();
 
 if ($pre_prevenda_info->rowCount() > 0) {
     $row_prevendainfo = $pre_prevenda_info->fetchAll(PDO::FETCH_ASSOC);
+    if ($row_prevendainfo[0]['meiopgto'] == '0') {
+        $bloqueia_envio = true; 
+    }
+
 } else {
-    $row_prevendainfo = [];
+    // $row_prevendainfo = [];
+    $bloqueia_envio = true; 
 }
 
-$bloqueia_envio = false;
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -113,6 +120,9 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.borda-vermelha {
+    border: 2px solid red !important;
+}
 </style>
 </head>
 <body class="theme-black">
@@ -505,7 +515,12 @@ input:checked + .slider:before {
         });
 
 
-
+        //verifique se o campo meiopgto está vazio ou com valor 0, se sim, adicione a classe 'invalid' para borda vermelha
+        if ($('#meiopgto').val() === '' || $('#meiopgto').val() === '0') {
+            $('#meiopgto').addClass('borda-vermelha');
+        } else {
+            $('#meiopgto').removeClass('borda-vermelha');
+        }
 
 
 
