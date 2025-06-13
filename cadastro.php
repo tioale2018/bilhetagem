@@ -31,7 +31,7 @@ $_SESSION['dadosSecundario'] = $dados_secundario;
 
 //verifica se array é vazio
 if (empty($_SESSION['dadosSecundario'])) {
-    echo "<h1>array vazio</h1>";
+    
 }
 
 echo var_dump($_SESSION['dadosSecundario']);
@@ -267,7 +267,11 @@ input:checked + .slider:before {
                             </div>
 
                             <div class="col-md-3">
-                                <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
+                                <?php if (empty($_SESSION['dadosSecundario'])) { ?>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Verifique pendndências</button>
+                                <?php } else { ?>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
+                                <?php } ?>
                             </div>
                         </div>
 
