@@ -75,9 +75,9 @@ $rowNum = $pre->rowCount();
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <!-- <th>Nascimento</th> 
+                    <!-- <th>Nascimento</th> -->
                     <th>Vínculo</th>
-                    <th>Lembrar</th>
+                    <!--<th>Lembrar</th>
                     <th>Perfil</th>  -->
                     <th>Autorizar</th>
                     <th>Edita/Exclui</th>
@@ -94,8 +94,8 @@ $rowNum = $pre->rowCount();
                         <div><?= calcularIdade($row[$key]['nascimento']) ?> Anos</div>
                     </td>
                     <!-- <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td> -->
-                    <!-- <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
-                    <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
+                    <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
+                    <!-- <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
                     <!-- <td><?= $row[$key]['perfil'] ?></td> -->
                     <td class="text-center">
                         <?php 
