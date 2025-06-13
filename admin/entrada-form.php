@@ -587,6 +587,32 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             }
         });
 
+
+
+
+
+        /* ****************************** */
+
+        $(document).on('click', '#btimprimetermo', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            var iframe = $('<iframe>', {
+                id: 'print-iframe',
+                src: url,
+                style: 'visibility: hidden; position: fixed; right: 0; bottom: 0; width: 0; height: 0; border: none;'
+            }).appendTo('body');
+
+            iframe.on('load', function() {
+                this.contentWindow.focus();
+                this.contentWindow.print();
+                setTimeout(() => { iframe.remove(); }, 1000); // Remove o iframe após imprimir
+            });
+        });
+
+
+        /* ****************************** */
+
         <?php if ( $row[0]['origem_prevenda'] ==2) { ?>
         $('body').on('click', '.prevenda-exclui', function(e){
             e.preventDefault();
