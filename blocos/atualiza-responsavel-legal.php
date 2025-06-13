@@ -51,14 +51,15 @@ if ($pre_secundario->rowCount() > 0) {
     $dados_secundario = $pre_secundario->fetchAll(PDO::FETCH_ASSOC);
     $idSecundario = $dados_secundario[0]['idsecundario'];
 
-    $sql_atualiza_secundario = "UPDATE tbsecundario SET nome=:nome, cpf=:cpf, telefone=:telefone, lastupdate=:lastupdate WHERE id=".$idSecundario;
+    $sql_atualiza_secundario = "UPDATE tbsecundario SET nome=:nome, cpf=:cpf, telefone=:telefone, lastupdate=:lastupdate WHERE id=:id";
     $pre_atualiza_secundario = $connPDO->prepare($sql_atualiza_secundario);
     $pre_atualiza_secundario->bindParam(':nome', $nome, PDO::PARAM_STR);
     $pre_atualiza_secundario->bindParam(':cpf', $cpf, PDO::PARAM_STR);
     $pre_atualiza_secundario->bindParam(':telefone', $telefone, PDO::PARAM_STR);
     $pre_atualiza_secundario->bindParam(':lastupdate', $horaagora, PDO::PARAM_INT);
-    $pre_atualiza_secundario->execute();   
-    
+    $pre_atualiza_secundario->bindParam(':id', $idSecundario, PDO::PARAM_INT);
+    $pre_atualiza_secundario->execute();
+
     //echo ok em json
     header('Content-Type: application/json');
     echo json_encode(['status' => 'ok', 'message' => 'Responsável legal atualizado com sucesso.']);
