@@ -259,12 +259,9 @@ input:checked + .slider:before {
                                     <option value="pix">Pix</option>
                                     <option value="cartao_credito">Cartão de Crédito</option>
                                     <option value="cartao_debito">Cartão de Débito</option>
-                                    
                                 </select>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -288,9 +285,9 @@ input:checked + .slider:before {
 
                             <div class="col-md-3">
                                 <?php if (empty($_SESSION['dadosSecundario'])) { ?>
-                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Cadastre o responsável secundário</button>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-meiopgto="" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Cadastre o responsável secundário</button>
                                 <?php } else { ?>
-                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-meiopgto="" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
                                 <?php } ?>
                             </div>
                         </div>
@@ -314,6 +311,14 @@ input:checked + .slider:before {
 <script src="./js/funcoes.js?v=<?= filemtime('./js/funcoes.js') ?>"></script>
 <script>
     $(document).ready(function(){
+
+        $('.btAcao-finaliza').data('meiopgto', $('#meiopgto').val());
+
+        //crie uma funcao em jquery onde ao alterar o select de meio de pagamento, ele armazena o valor selecionado em um atributo data-meiopgto do botao de finalizar
+        $('#meiopgto').on('change', function() {
+            let meioPagamento = $(this).val();
+            $('.btAcao-finaliza').data('meiopgto', meioPagamento);
+        });
         
         if (typeof pemToArrayBuffer === 'undefined') {        
             function pemToArrayBuffer(pem) {
