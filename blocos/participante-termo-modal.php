@@ -85,7 +85,7 @@ $row_busca_termo = $pre_busca_termo->fetchAll();
 // die(var_dump($row_busca_termo[0]));
 
 // $identrada = $_POST['i'];
-$sql_dados_participante = "SELECT tbentrada.id_prevenda, tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.email FROM tbentrada inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel WHERE tbentrada.id_entrada=:identrada";
+$sql_dados_participante = "SELECT tbentrada.id_prevenda, tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbresponsavel.email, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade FROM tbentrada inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado inner join tbresponsavel on tbresponsavel.id_responsavel=tbvinculados.id_responsavel WHERE tbentrada.id_entrada=:identrada";
 
 $pre_dados_participante = $connPDO->prepare($sql_dados_participante);
 $pre_dados_participante->bindParam(':identrada', $identrada, PDO::PARAM_INT);
@@ -118,6 +118,7 @@ $variables = [
 ];
 
 // include_once('../inc/variaveis-termo.php');
+var_dump($row_dados_participante[0]);
 ?>
 <form action="" id="formAceitaTermo" method="post"  data-id-prevenda="<?= $row_dados_participante[0]['id_prevenda'] ?>">
     <div class="modal-header">
