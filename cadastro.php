@@ -416,7 +416,7 @@ input:checked + .slider:before {
 
             // Envia via POST para o backend
             $.post('./blocos/atualiza-responsavel.php', encryptedFields, function(data) {
-                // console.log(data);
+                console.log(data);
                 swal({
                     title: "Dados salvos",
                     text: "Os dados informados foram salvos com sucesso!",
