@@ -276,6 +276,7 @@ $('#formModalAddParticipante').on('submit', async function(event) {
                 } else {
                     $('#modalAddParticipante').modal('hide');
                 }
+                window.location.reload();
             },
             error: function(xhr, status, error) {
                 console.error('Erro ao enviar dados:', error);
