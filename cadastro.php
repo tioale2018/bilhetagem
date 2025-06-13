@@ -29,6 +29,11 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
+//verifica se array é vazio
+if (empty($_SESSION['dadosSecundario'])) {
+    echo "<h1>array vazio</h1>";
+}
+
 echo var_dump($_SESSION['dadosSecundario']);
 
 ?>
