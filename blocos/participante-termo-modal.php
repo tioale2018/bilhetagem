@@ -120,6 +120,40 @@ $variables = [
 // include_once('../inc/variaveis-termo.php');
 var_dump($row_dados_participante[0]);
 ?>
+<table class="table">
+    <tr>
+        <th>Nome do responsável</th>
+        <td><?= $row_dados_participante[0]['responsavelnome'] ?></td>
+    </tr>
+    <tr>
+        <th>CPF do responsável</th>
+        <td><?= $row_dados_participante[0]['cpf'] ?></td>
+    </tr>
+    <tr>
+        <th>Telefone do responsável</th>
+        <td><?= $row_dados_participante[0]['telefone1'] ?></td>
+    </tr>
+    <tr>
+        <th>Email do responsável</th>
+        <td><?= $row_dados_participante[0]['email'] ?></td>
+    </tr>
+    <tr>
+        <th>Endereço do responsável</th>
+        <td><?= $row_dados_participante[0]['endereco'] . ', ' . $row_dados_participante[0]['bairro'] . ', ' . $row_dados_participante[0]['cidade'] ?></td>
+    </tr>
+    <tr>
+        <th>Nome do participante</th>
+        <td><?= $row_dados_participante[0]['participantenome'] ?></td>
+    </tr>
+    <tr>
+        <th>Data de nascimento do participante</th>
+        <td><?= date('d/m/Y', strtotime($row_dados_participante[0]['nascimento'])) ?></td>
+    </tr>
+    <tr>
+        <th>Idade do participante</th>
+        <td><?= calculateAge($row_dados_participante[0]['nascimento']) ?> Anos</td>
+    </tr>
+</table>
 <form action="" id="formAceitaTermo" method="post"  data-id-prevenda="<?= $row_dados_participante[0]['id_prevenda'] ?>">
     <div class="modal-header">
         <h4 class="title" id="modalTermoParticipanteLabel">Termo de responsabilidade</h4>
