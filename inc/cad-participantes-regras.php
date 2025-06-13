@@ -22,21 +22,20 @@ $encrypted_cpf      = base64_decode($_POST['cpf_seguro'] ?? '');
 $encrypted_nome     = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone = base64_decode($_POST['telefone_seguro'] ?? '');
 $encrypted_email    = base64_decode($_POST['email_seguro'] ?? '');
-$encrypted_comunica = base64_decode($_POST['comunica_seguro'] ?? '');
-
-
+// $encrypted_comunica = base64_decode($_POST['comunica_seguro'] ?? '');
 
 try {
     $cpf        = $privateKey->decrypt($encrypted_cpf);
     $nome       = $privateKey->decrypt($encrypted_nome);
     $telefone   = $privateKey->decrypt($encrypted_telefone);
     $email      = $privateKey->decrypt($encrypted_email);
-    $comunica   = $privateKey->decrypt($encrypted_comunica);
+    // $comunica   = $privateKey->decrypt($encrypted_comunica);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
 
 $telefone1 = $telefone;
+$comunica = (isset($_POST['comunica_seguro'])) ? 1 : 0;
 
 //valida se é o hash do evento
 $sql = "select tbevento_ativo.hash, tbevento_ativo.idevento, tbevento.titulo, tbevento.local, tbevento.modo_pgto, tbevento.regras_cadastro, tbevento.msg_fimreserva
@@ -195,12 +194,7 @@ if ($crianovaPrevenda) {
 $_SESSION['idPrevenda']       = $idPrevendaAtual;
 $_SESSION['dadosResponsavel'] = $dados_responsavel;
 
-
-
-
 /* ************************************************************************ */
-
-// $comunica = (isset($_POST['comunica'])) ? 1 : 0;
 
 function getDeviceInfo($idprevenda) {
     // Informações adicionais coletadas pelo PHP
