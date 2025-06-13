@@ -128,7 +128,8 @@ $variables = [
     <div class="modal-body"> 
         <div class="row clearfix">
             <div class="col-md-12">
-                <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
+                <?php // replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
+                <?= $row_busca_termo[0]['textotermo']; ?>
                 <div class="">
                     <label for="assinatermo"><input data-identrada="<?= htmlspecialchars($identrada) ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Declaro, sob minha inteira responsabilidade, que li integralmente o presente termo, compreendi seu conteúdo e estou de pleno acordo com todas as suas disposições, assumindo os efeitos legais decorrentes de sua aceitação.</label>
                 </div>
@@ -156,8 +157,6 @@ $variables = [
 // -----END PUBLIC KEY-----`;
     
     $(document).ready(function(){
-        
-
 
 $('#formAceitaTermo').submit(async function(e) {
     e.preventDefault();
