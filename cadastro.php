@@ -144,7 +144,7 @@ input:checked + .slider:before {
                                     </tr>
                                     <tr>
                                         <td>Telefone 2:</td>
-                                        <td><?= ($dados_responsavel[0]['telefone2']==''?'<span class="text-muted">Não informado</span>':$dados_responsavel[0]['telefone2']) ?></td>
+                                        <td><?= ($dados_responsavel[0]['telefone2']==''?'<span class="text-muted" style="color: red">Não informado</span>':$dados_responsavel[0]['telefone2']) ?></td>
                                     </tr>
                                     <tr>
                                         <td>E-mail:</td>
