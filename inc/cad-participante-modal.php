@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="fvinculo" class="form-label">Vínculo com respon. principal</label>                            
+                                <label for="fvinculo" class="form-label">Vínculo com responsável principal</label>                            
                                 <select name="vinculo" class="form-control show-tick p-0" name="vinculo" id="fvinculo">
                                     <option value="">Escolha</option>
                                     <?php foreach ($_SESSION['lista_vinculos'] as $k => $v) { ?>

@@ -64,7 +64,7 @@ $row = $pre->fetchAll();
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="" class="form-label">Vínculo com respon. principal</label>                            
+                    <label for="" class="form-label">Vínculo com responsável principal</label>                            
                     <select name="vinculo" class="form-control show-tick p-0" name="vinculo">
                         <option value="">Escolha</option>
                         <?php foreach ($_SESSION['lista_vinculos'] as $k => $v) { ?>
