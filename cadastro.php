@@ -500,6 +500,22 @@ input:checked + .slider:before {
             }
         })
 
+        $('input[name^="telefone"]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                field.mask(mask, options);
+            }
+        });
+
+        /*
+
+        $('input[name=telefone]').mask('(00) 0000-00000', {
+            onKeyPress: function(val, e, field, options) {
+                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
+                $('input[name=telefone1]').mask(mask, options);
+            }
+        });
+
         $('input[name=telefone1]').mask('(00) 0000-00000', {
             onKeyPress: function(val, e, field, options) {
                 var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
@@ -513,6 +529,8 @@ input:checked + .slider:before {
                 $('input[name=telefone2]').mask(mask, options);
             }
         });
+
+        */
     });
 
 
