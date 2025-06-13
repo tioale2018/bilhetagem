@@ -545,7 +545,7 @@ input:checked + .slider:before {
 
 
           
-        $('#meiopgto').on('change', function() {
+        $('#meiopgto').on('change', async function() {
             let meioPagamento = $(this).val();
 
             //criptografa de acordo com a criptografia e a chave publica acima a variável meioPagamento e envia via POST para o backend
@@ -566,7 +566,7 @@ input:checked + .slider:before {
 
             const encryptedMeioPagamentoBase64 = arrayBufferToBase64(encryptedMeioPagamento);
 
-            $.post('./blocos/atualizas-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
+            $.post('./blocos/atualiza-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
                 console.log(data);
             }).fail(function() {
                 alert("Erro ao enviar meio de pagamento.");
