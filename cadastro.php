@@ -182,7 +182,7 @@ input:checked + .slider:before {
                     <div class="body">
                         <div class="row">
                             <div class="col-8"><h5>Responsável legal secundário (Obrigatório)</h5></div>
-                            <div class="col-4 text-end" ><a href="#modalEditaResp" data-target="#modalEditaResp" data-toggle="modal" class="btn btn-primary btn-round">Informa/Editar dados</a></div>
+                            <div class="col-4 text-end" ><a href="#modalResponsavelLegal" data-target="#modalResponsavelLegal" data-toggle="modal" class="btn btn-primary btn-round">Informa/Editar dados</a></div>
                         </div>
                         <div class="row">
                                 <div class="col-12 text-end"></div>

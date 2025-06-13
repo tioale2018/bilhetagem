@@ -3,7 +3,7 @@
         <div class="modal-content">
         <form action="" method="post"  class="js-sweetalert" id="formResponsavel">
             <div class="modal-header">
-                <h4 class="title">Editar dados do responsávelXX</h4>
+                <h4 class="title">Editar dados do responsável</h4>
             </div>
 
             <div class="modal-body">           
