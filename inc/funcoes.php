@@ -17,8 +17,6 @@ function formatarCPF($cpf) {
 function procuraResponsavel($i) {
     $id              = limparCPF($i); //$GLOBALS['id'];
     $sql_responsavel = "select * from tbresponsavel where cpf=:cpf";
-    // $sql_responsavel = "select tbresponsavel.*, tbvinculoresponsavel.descricao from tbresponsavel inner join tbvinculoresponsavel on tbresponsavel.vinculo = tbvinculoresponsavel.id where cpf=:cpf";
-    // $sql_responsavel = "select tbresponsavel.*, tbvinculoresponsavel.id as idvinculo, tbvinculoresponsavel.descricao as descricao_vinculo from tbresponsavel inner join tbvinculoresponsavel on tbresponsavel.vinculo = tbvinculoresponsavel.id where cpf=:cpf";
     $pre_responsavel = $GLOBALS['connPDO']->prepare($sql_responsavel);
     $pre_responsavel->bindParam(':cpf', $id, PDO::PARAM_INT);
     $pre_responsavel->execute();
