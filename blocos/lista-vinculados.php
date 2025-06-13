@@ -94,7 +94,7 @@ $rowNum = $pre->rowCount();
                         <div><?= calcularIdade($row[$key]['nascimento']) ?> Anos</div>
                     </td>
                     <!-- <td><?= date('d/m/Y', strtotime($row[$key]['nascimento'])) ?></td> -->
-                    <td><span class="badge badge-success"><?= $row[$key]['tipovinculo'] ?></span></td>
+                    <td><?= $row[$key]['tipovinculo'] ?></td>
                     <!-- <td><span class="badge badge-success"><?= ($row[$key]['lembrar']==1?'Sim':'Não') ?></span></td> -->
                     <!-- <td><?= $row[$key]['perfil'] ?></td> -->
                     <td class="text-center">
