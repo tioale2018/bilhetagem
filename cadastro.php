@@ -284,6 +284,7 @@ input:checked + .slider:before {
 <?php include('./inc/cadastro-editaresp-modal.php') ?>
 <?php include('./inc/javascript.php') ?>
 <script src="./js/safe.js?t=<?= filemtime('./js/safe.js') ?>"></script>
+<script src="./js/funcoes.js?v=<?= filemtime('./js/funcoes.js') ?>"></script>
 <script>
     $(document).ready(function(){
         
