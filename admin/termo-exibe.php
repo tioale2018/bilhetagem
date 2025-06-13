@@ -162,6 +162,68 @@ body {
 </head>
 <body>
 <?= "<h2>Termo de autorização</h2>"; ?>
+<table style="width: 100%">
+    <tr>
+        <th>Nome do responsável principal</th>
+        <td>{{nomeresponsavel}}</td>
+    </tr>
+    <tr>
+        <th>CPF do responsável principal</th>
+        <td>{{cpfresponsavel}}</td>
+    </tr>
+    <tr>
+        <th>Telefone do responsável principal</th>
+        <td>{{telefoneresponsavel}}</td>
+    </tr>
+    <tr>
+        <th>Email do responsável principal</th>
+        <td>{{emailresponsavel}}</td>
+    </tr>
+    <tr>
+        <th>Endereço do responsável principal</th>
+        <td>{{enderecoresponsavel}}</td>
+    </tr>
+    <tr>
+        <th>Nome do responsável secundário</th>
+        <td>{{nomeresponsavelsecundario}}</td>
+    </tr>
+    <tr>
+        <th>CPF do responsável secundário</th>
+        <td>{{cpfresponsavelsecundario}}</td>
+    </tr>
+    <tr>
+        <th>Telefone do responsável secundário</th>
+        <td>{{telefoneresponsavelsecundario}}</td>
+    </tr>
+</table>
+<p>Participantes:</p>
+<table style="width: 100%">
+    <tr>
+        <th>Nome do participante</th>
+        <td>{{nomeparticipante}}</td>
+    </tr>
+    <tr>
+        <th>Data de nascimento do participante</th>
+        <td>{{datanascimento}}</td>
+    </tr>
+    <tr>
+        <th>Idade do participante</th>
+        <td>{{idade}} Anos</td>
+    </tr>
+    <tr>
+        <th>Nome do participante</th>
+        <td>{{nomeparticipante}}</td>
+    </tr>
+    <tr>
+        <th>Data de nascimento do participante</th>
+        <td>{{datanascimento}}</td>
+    </tr>
+    <tr>
+        <th>Idade do participante</th>
+        <td>{{idade}} Anos</td>
+    </tr>
+    
+</table>
 <?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
 <div >
