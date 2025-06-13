@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalResponsavelLegal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-        <form action="" method="post"  class="js-sweetalert" id="formResponsavel">
+        <form action="" method="post"  class="js-sweetalert" id="formResponsavelLegal">
             <div class="modal-header">
                 <h4 class="title">Responsável Legal Secundário</h4>
             </div>
@@ -13,7 +13,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?=  (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'') ?>" maxlength="14" pattern="\d*" readonly />
+                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?=  (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'') ?>" maxlength="14" pattern="\d*" />
                                 </div>
                             </div>
                             <div class="col-md-8">
