@@ -242,6 +242,33 @@ input:checked + .slider:before {
                 </div>
             </div>
         </div> 
+
+        <div class="clearfix">
+            <div class="">
+                <div class="card">
+                
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Informe o meio de pagamento</h5>
+                                <p>O pagamento será realizado excluisivamente no caixa, no momento do ingresso ao brinquedo. Para sua comodidade, informe abaixo o meio de pagamento que pretende utilizar.</p>
+                                <!-- crie um select com os tipos de pagamento -->
+                                <select name="meio_pagamento" class="form-control show-tick p-0" id="meiopgto">
+                                    <option value="">Selecione o meio de pagamento</option>
+                                    <option value="dinheiro">Dinheiro</option>
+                                    <option value="pix">Pix</option>
+                                    <option value="cartao_credito">Cartão de Crédito</option>
+                                    <option value="cartao_debito">Cartão de Débito</option>
+                                    
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="clearfix">
             <div class="">

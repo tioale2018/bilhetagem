@@ -96,6 +96,12 @@ $dataAgora = time();
 
 $row_participante = $row_dados_participante[0];
 
+//busca o responsável secundário
+
+$nomeResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_SESSION['dadosSecundario'][0]['nome'] : '';
+$cpfResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_SESSION['dadosSecundario'][0]['cpf'] : '';
+$telefoneResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['telefone']) ? $_SESSION['dadosSecundario'][0]['telefone'] : '';
+
 
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
@@ -107,7 +113,10 @@ $variables = [
     'datahoje' => formatDate($dataAgora),
     'cidadetermo' => ($row_busca_termo[0]['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo[0]['cidadetermo']),
     'empresa' => $row_busca_termo[0]['empresa'],
-    'cnpj' => $row_busca_termo[0]['cnpj']
+    'cnpj' => $row_busca_termo[0]['cnpj'],
+    'nomeResponsavelSecundario' => $nomeResponsavelSecundario,
+    'cpfResponsavelSecundario' => $cpfResponsavelSecundario,
+    'telefoneResponsavelSecundario' => $telefoneResponsavelSecundario
 ];
 
 // include_once('../inc/variaveis-termo.php');
