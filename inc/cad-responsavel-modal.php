@@ -37,7 +37,7 @@
             <div class="modal-footer">
                 <div class="row">
                 <div class="col-md-12">
-                        <div class="form-group">   
+                        <div class="form-group"> 
                             <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary btn-round waves-effect btsalvaLegal" name="btsalvaLegal" disabled>Salvar e adicionar</button>                                
                             <!-- <button class="btn btn-raised btn-primary waves-effect btn-round " type="submit" disabled>Salvar</button>                                 -->
@@ -47,7 +47,7 @@
 
             </div>
 
-            </form>
+        </form>
 
         </div>
     </div>
