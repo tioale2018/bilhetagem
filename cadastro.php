@@ -547,8 +547,7 @@ input:checked + .slider:before {
           
         $('#meiopgto').on('change', function() {
             let meioPagamento = $(this).val();
-            alert("Meio de pagamento selecionado: " + meioPagamento);
-/*
+
             //criptografa de acordo com a criptografia e a chave publica acima a variável meioPagamento e envia via POST para o backend
             const encoder = new TextEncoder();
             const key = await crypto.subtle.importKey(
@@ -567,12 +566,11 @@ input:checked + .slider:before {
 
             const encryptedMeioPagamentoBase64 = arrayBufferToBase64(encryptedMeioPagamento);
 
-            $.post('./blocos/atualiza-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
+            $.post('./blocos/atualizas-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
                 console.log(data);
             }).fail(function() {
                 alert("Erro ao enviar meio de pagamento.");
             });
-            */
         });
 
 
