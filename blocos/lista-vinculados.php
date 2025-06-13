@@ -74,13 +74,13 @@ $rowNum = $pre->rowCount();
         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
             <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th width="40%">Nome</th>
                     <!-- <th>Nascimento</th> -->
-                    <th>Vínculo</th>
+                    <th width="25%">Vínculo</th>
                     <!--<th>Lembrar</th>
                     <th>Perfil</th>  -->
-                    <th>Autorizar</th>
-                    <th>Edita/Exclui</th>
+                    <th width="25%">Autorizar</th>
+                    <th width="10%">Edita/Exclui</th>
                 </tr>
             </thead>                                
             <tbody>
