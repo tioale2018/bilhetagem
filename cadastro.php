@@ -16,8 +16,6 @@ $dados_responsavel = $_SESSION['dadosResponsavel'];
 $idPrevendaAtual   = $_SESSION['idPrevenda'];
 
 
-
-
 $sql_secundario = "SELECT * from tbsecundario WHERE ativo=1 and idprevenda = :idPrevenda";
 $pre_secundario = $connPDO->prepare($sql_secundario);
 $pre_secundario->bindValue(':idPrevenda', $idPrevendaAtual, PDO::PARAM_INT);
@@ -30,6 +28,8 @@ if ($pre_secundario->rowCount() > 0) {
 }
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
+
+echo var_dump($_SESSION['dadosSecundario']);
 
 ?>
 <!doctype html>
@@ -194,15 +194,15 @@ input:checked + .slider:before {
                                 <table class="" width="100%">
                                     <tr>
                                         <th width="30%">CPF:</th>
-                                        <td width="70%"><?= (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'<span style="color: red">Não informado</span>') ?></td>
+                                        <td width="70%"><?= (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'<span style="color: red">Preenchimento obrigatório</span>') ?></td>
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
-                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['nome'])?$_SESSION['dadosSecundario'][0]['nome']:'<span style="color: red">Não informado</span>') ?></td>
+                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['nome'])?$_SESSION['dadosSecundario'][0]['nome']:'<span style="color: red">Preenchimento obrigatório</span>') ?></td>
                                     </tr>
                                     <tr>
                                         <td>Telefone:</td>
-                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['telefone'])?$_SESSION['dadosSecundario'][0]['telefone']:'<span style="color: red">Não informado</span>') ?></td>
+                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['telefone'])?$_SESSION['dadosSecundario'][0]['telefone']:'<span style="color: red">Preenchimento obrigatório</span>') ?></td>
                                     </tr>
                                     <!-- <tr>
                                         <td>Participante</td>
@@ -423,32 +423,6 @@ input:checked + .slider:before {
             });
         });
 
-
-/*
-        $('.btAcao-cancela').on('click', function(){
-            let id = $(this).data('id');
-            let idHash = $('#hashevento').data('id-hashevento');
-
-            swal({
-                title: "Cancelar pré-cadastro?",
-                text: "Deseja realmente cancelar e excluir esta pré-cadastro?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#27ae60",
-                confirmButtonText: "Sim",
-                cancelButtonText: "Não",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    $.post('./blocos/reserva-cancela.php', {i:id}, function(data){
-                        location.href="/"+idHash;
-                    });
-                }
-            })
-        })
-
-        */
 
         $('.btAcao-cancela').on('click', async function () {
             let id = $(this).data('id');
