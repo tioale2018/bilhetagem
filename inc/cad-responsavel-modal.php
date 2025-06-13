@@ -13,19 +13,19 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?= formatarCPF($id) ?>" maxlength="14" pattern="\d*" readonly />
+                                    <input name="cpf" type="text" class="form-control" placeholder="CPF" value="<?=  (isset($_SESSION['dadosSecundario'][0]['cpf'])?formatarCPF($_SESSION['dadosSecundario'][0]['cpf']):'') ?>" maxlength="14" pattern="\d*" readonly />
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['nome']:'') ?>" required />
+                                    <input name="nome" type="text" class="form-control" placeholder="Nome" value="<?= (isset($_SESSION['dadosSecundario'][0]['nome'])?$_SESSION['dadosSecundario'][0]['nome']:'') ?>" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone 1</label>                            
-                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($dados_responsavel)?$dados_responsavel[0]['telefone1']:'') ?>" required />
+                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($_SESSION['dadosSecundario'][0]['telefone1'])?$_SESSION['dadosSecundario'][0]['telefone1']:'') ?>" required />
                                 </div>
                             </div>
                             
