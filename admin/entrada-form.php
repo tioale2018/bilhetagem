@@ -40,7 +40,8 @@ if ((!isset($_GET['item'])) || (!is_numeric($_GET['item']))) {
 
 $idprevenda = htmlspecialchars($_GET['item']);
 
-$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
+// $sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel where tbprevenda.prevenda_status=1 and tbprevenda.id_prevenda=:idprevenda";
+$sql = "SELECT tbresponsavel.*, tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbprevenda.origem_prevenda, tbprevenda.prevenda_status, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade, tbsecundario.cpf as cpfsecundario, tbsecundario.nome as nomesecundario, tbsecundario.telefone as telefonesecundario from tbprevenda inner JOIN tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel inner join tbsecundario on tbsecundario.idprevenda=tbprevenda.id_prevenda where tbprevenda.prevenda_status=1 and tbsecundario.ativo=1 and tbprevenda.id_prevenda=:idprevenda";
 $pre = $connPDO->prepare($sql);
 $pre->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
 
@@ -240,19 +241,19 @@ input:checked + .slider:before {
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="cpf" class="form-label">CPF</label>                               
-                                    <input type="text" class="form-control" placeholder="CPF" value="{{cpf}}" name="secundariocpf" readonly />
+                                    <input type="text" class="form-control" placeholder="CPF" value="<?= $row[0]['cpfsecundario'] ?>" name="secundariocpf" readonly />
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
-                                    <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="secundarionome" required />
+                                    <input type="text" class="form-control" placeholder="Nome" value="<?= $row[0]['nomesecundario'] ?>" name="secundarionome" required />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="form-label">Telefone</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone" value="{{telefone1}}" name="secundariotelefone1" required />
+                                    <input type="text" class="form-control" placeholder="Telefone" value="<?= $row[0]['telefonesecundario'] ?>" name="secundariotelefone1" required />
                                 </div>
                             </div>
                             
