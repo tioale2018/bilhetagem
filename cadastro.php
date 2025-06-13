@@ -136,7 +136,7 @@ input:checked + .slider:before {
                                     </tr>
                                     <tr>
                                         <td>Vínculo:</td>
-                                        <td><?= $dados_responsavel[0]['descricao_vinculo'] ?></td>
+                                        <td><?= $dados_responsavel[0]['descricao'] ?></td>
                                     </tr>
                                     <tr>
                                         <td>Email:</td>
