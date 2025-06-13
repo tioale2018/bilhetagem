@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD']!="POST") {
 }
 session_start();
 
-$idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
+// $idresponsavel = $_SESSION['dadosResponsavel'][0]['id_responsavel'];
 
 $encrypted_nome      = base64_decode($_POST['nome_seguro'] ?? '');
 $encrypted_telefone = base64_decode($_POST['telefone_seguro'] ?? '');
@@ -49,7 +49,7 @@ $pre_secundario->execute();
 if ($pre_secundario->rowCount() > 0) {
     // Se já existe um responsável secundário, atualiza os dados
     $dados_secundario = $pre_secundario->fetchAll(PDO::FETCH_ASSOC);
-    $idSecundario = $dados_secundario[0]['idsecundario'];
+    $idSecundario = $dados_secundario[0]['id'];
 
     $sql_atualiza_secundario = "UPDATE tbsecundario SET nome=:nome, cpf=:cpf, telefone=:telefone, lastupdate=:lastupdate WHERE id=:id";
     $pre_atualiza_secundario = $connPDO->prepare($sql_atualiza_secundario);
