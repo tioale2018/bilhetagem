@@ -243,7 +243,7 @@ input:checked + .slider:before {
                                     <input type="text" class="form-control" placeholder="CPF" value="{{cpf}}" name="secundariocpf" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="" class="form-label">Nome</label>                            
                                     <input type="text" class="form-control" placeholder="Nome" value="{{nome}}" name="secundarionome" required />
@@ -251,34 +251,11 @@ input:checked + .slider:before {
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="" class="form-label">Telefone 1</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 1" value="{{telefone1}}" name="secundariotelefone1" required />
+                                    <label for="" class="form-label">Telefone</label>                            
+                                    <input type="text" class="form-control" placeholder="Telefone" value="{{telefone1}}" name="secundariotelefone1" required />
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Telefone 2</label>                            
-                                    <input type="text" class="form-control" placeholder="Telefone 2" value="{{telefone2}}" name="secundariotelefone2" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Email</label>                            
-                                    <input type="text" class="form-control" placeholder="Email" value="{{email}}" required name="secundarioemail" />
-                                </div>
-                            </div> 
-                            <!-- <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="" class="form-label">Participante</label>                            
-                                        <div class="container">
-                                            <label class="switch" for="checkbox2">
-                                                <input type="checkbox" id="checkbox2" />
-                                                <div class="slider round"></div>
-                                            </label>
-                                        </div>
-                                </div>
-                            </div>  -->
-
+                            
                             <div class="col-md-6">
                                 <div class="form-group js-sweetalert">                                   
                                     <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="salvo" type="submit" disabled>Salvar</button>                                
