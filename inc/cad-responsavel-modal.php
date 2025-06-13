@@ -52,3 +52,36 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function(){
+       // Máscara e validação do CPF no campo de entrada
+        $('input[name="cpf"]').on('input', function() {
+            let cpf = $(this).val();
+            $(this).val(aplicarMascaraCPF(cpf));
+            
+            // Validação do CPF
+            if (!validarCPF(cpf.replace(/\D/g, ''))) {
+                $(this).css('border', '2px solid red'); // Borda vermelha se o CPF for inválido
+                $('button[type="submit"]').prop('disabled', true); // Impede o submit
+            } else {
+                $(this).css('border', ''); // Reseta a borda
+                $('button[type="submit"]').prop('disabled', false); // Permite o submit
+            }
+        });
+
+        // Reseta a borda ao corrigir o CPF
+        $('input[name="cpf"]').on('focus', function() {
+            $(this).css('border', '');
+            let cpf = $(this).val().replace(/\D/g, '');
+            $(this).val(aplicarMascaraCPF(cpf));
+        });
+
+        // Remove a máscara ao perder o foco
+        $('input[name="cpf"]').on('blur', function() {
+            let cpf = $(this).val().replace(/\D/g, '');
+            $(this).val(cpf);
+        });
+    });
+</script>
