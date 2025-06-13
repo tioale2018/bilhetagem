@@ -102,8 +102,8 @@ $nomeResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_S
 $cpfResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_SESSION['dadosSecundario'][0]['cpf'] : '';
 $telefoneResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['telefone']) ? $_SESSION['dadosSecundario'][0]['telefone'] : '';
 
-$row_participante = $row_dados_participante[0];
-/*
+// $row_participante = $row_dados_participante[0];
+
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
@@ -113,11 +113,11 @@ $variables = [
     'participanteidade' => calculateAge($row_dados_participante[0]['nascimento']),
     'datahoje' => formatDate($dataAgora),
     'cidadetermo' => ($row_busca_termo[0]['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo[0]['cidadetermo']),
-    'empresa' => $row_busca_termo[0]['empresa'],
-    'cnpj' => $row_busca_termo[0]['cnpj']
+    'empresatermo' => $row_busca_termo[0]['empresa'],
+    'cnpjtermo' => $row_busca_termo[0]['cnpj']
 ];
-*/
-include_once('../inc/variaveis-termo.php');
+
+// include_once('../inc/variaveis-termo.php');
 ?>
 <form action="" id="formAceitaTermo" method="post"  data-id-prevenda="<?= $row_dados_participante[0]['id_prevenda'] ?>">
     <div class="modal-header">
