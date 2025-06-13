@@ -31,6 +31,8 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
+echo var_dump($_SESSION['dadosSecundario']);
+
 
 ?>
 <!doctype html>
