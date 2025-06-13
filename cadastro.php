@@ -599,7 +599,8 @@ input:checked + .slider:before {
             const encryptedMeioPagamentoBase64 = arrayBufferToBase64(encryptedMeioPagamento);
 
             $.post('./blocos/atualiza-meio-pagamento.php', { meioPagamento: encryptedMeioPagamentoBase64 }, function(data) {
-                console.log(data);
+                // console.log(data);
+                window.location.reload();
             }).fail(function() {
                 alert("Erro ao enviar meio de pagamento.");
             });
