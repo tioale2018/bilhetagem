@@ -29,6 +29,19 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
+
+
+$sql_prevenda_info = "SELECT * FROM tbprevenda_info WHERE ativo=1 and idprevenda = :idPrevenda";
+$pre_prevenda_info = $connPDO->prepare($sql_prevenda_info);
+$pre_prevenda_info->bindValue(':idPrevenda', $idPrevendaAtual, PDO::PARAM_INT);
+$pre_prevenda_info->execute();
+
+if ($pre_prevenda_info->rowCount() > 0) {
+    $row_prevendainfo = $pre_prevenda_info->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $row_prevendainfo = [];
+}
+
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -254,11 +267,11 @@ input:checked + .slider:before {
                                 <p>O pagamento será realizado excluisivamente no caixa, no momento do ingresso ao brinquedo. Para sua comodidade, informe abaixo o meio de pagamento que pretende utilizar.</p>
                                 <!-- crie um select com os tipos de pagamento -->
                                 <select name="meio_pagamento" class="form-control show-tick p-0" id="meiopgto">
-                                    <option value="">Selecione o meio de pagamento</option>
-                                    <option value="dinheiro">Dinheiro</option>
-                                    <option value="pix">Pix</option>
-                                    <option value="cartao_credito">Cartão de Crédito</option>
-                                    <option value="cartao_debito">Cartão de Débito</option>
+                                    <option value="" <?= (!isset($row_prevendainfo[0]['meiopgto'])) ? 'selected' : '' ?>>Selecione o meio de pagamento</option>
+                                    <option value="1" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '1') ? 'selected' : '' ?>>Dinheiro</option>
+                                    <option value="2" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '2') ? 'selected' : '' ?>>Pix</option>
+                                    <option value="3" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '3') ? 'selected' : '' ?>>Cartão de Crédito</option>
+                                    <option value="4" <?= (isset($row_prevendainfo[0]['meiopgto']) && $row_prevendainfo[0]['meiopgto'] == '4') ? 'selected' : '' ?>>Cartão de Débito</option>
                                 </select>
                             </div>
                         </div>
