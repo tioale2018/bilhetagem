@@ -31,9 +31,6 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
-echo var_dump($_SESSION['dadosSecundario']);
-
-
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -205,7 +202,7 @@ input:checked + .slider:before {
                                     </tr>
                                     <tr>
                                         <td>Telefone:</td>
-                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['telefone1'])?$_SESSION['dadosSecundario'][0]['telefone1']:'<span style="color: red">Não informado</span>') ?></td>
+                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['telefone'])?$_SESSION['dadosSecundario'][0]['telefone']:'<span style="color: red">Não informado</span>') ?></td>
                                     </tr>
                                     <!-- <tr>
                                         <td>Participante</td>
