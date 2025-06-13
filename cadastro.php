@@ -312,7 +312,7 @@ input:checked + .slider:before {
 <script>
     $(document).ready(function(){
 
-        $('.btAcao-finaliza').data('meiopgto', $('#meiopgto').val());
+        // $('.btAcao-finaliza').data('meiopgto', $('#meiopgto').val());
 
         //crie uma funcao em jquery onde ao alterar o select de meio de pagamento, ele armazena o valor selecionado em um atributo data-meiopgto do botao de finalizar
         $('#meiopgto').on('change', function() {
