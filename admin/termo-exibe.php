@@ -155,6 +155,8 @@ include_once('../inc/variaveis-termo.php');
     }
 body {
     width: 100vw;
+    margin: 0 5px;
+    padding: 0;
 }
 </style>
 </head>
