@@ -1,4 +1,22 @@
-<?php include_once('./inc/head.php') ?>
+<?php //include_once('./inc/head.php') ?>
+<?php
+// Inclui o arquivo de configuração de sessão
+require_once './inc/config_session.php';
+require_once './inc/functions.php';
+
+verificarSessao();
+
+?>
+<!doctype html>
+<html class="no-js " lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Sistema de Bilhetagem</title>
 <?php
 @session_start();
 
