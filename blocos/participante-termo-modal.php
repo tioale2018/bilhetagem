@@ -102,7 +102,7 @@ $nomeResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_S
 $cpfResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_SESSION['dadosSecundario'][0]['cpf'] : '';
 $telefoneResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['telefone']) ? $_SESSION['dadosSecundario'][0]['telefone'] : '';
 
-
+/*
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
     'responsavelcpf' => $row_dados_participante[0]['cpf'],
@@ -113,13 +113,10 @@ $variables = [
     'datahoje' => formatDate($dataAgora),
     'cidadetermo' => ($row_busca_termo[0]['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo[0]['cidadetermo']),
     'empresa' => $row_busca_termo[0]['empresa'],
-    'cnpj' => $row_busca_termo[0]['cnpj'],
-    'nomeResponsavelSecundario' => $nomeResponsavelSecundario,
-    'cpfResponsavelSecundario' => $cpfResponsavelSecundario,
-    'telefoneResponsavelSecundario' => $telefoneResponsavelSecundario
+    'cnpj' => $row_busca_termo[0]['cnpj']
 ];
-
-// include_once('../inc/variaveis-termo.php');
+*/
+include_once('../inc/variaveis-termo.php');
 ?>
 <form action="" id="formAceitaTermo" method="post"  data-id-prevenda="<?= $row_dados_participante[0]['id_prevenda'] ?>">
     <div class="modal-header">
@@ -128,8 +125,7 @@ $variables = [
     <div class="modal-body"> 
         <div class="row clearfix">
             <div class="col-md-12">
-                <?php // replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
-                <?= $row_busca_termo[0]['textotermo']; ?>
+                <?= replaceVariables($row_busca_termo[0]['textotermo'], $variables); ?>
                 <div class="">
                     <label for="assinatermo"><input data-identrada="<?= htmlspecialchars($identrada) ?>" id="assinatermo" name="assinatermo" type="checkbox" value="1" required> Declaro, sob minha inteira responsabilidade, que li integralmente o presente termo, compreendi seu conteúdo e estou de pleno acordo com todas as suas disposições, assumindo os efeitos legais decorrentes de sua aceitação.</label>
                 </div>
