@@ -29,13 +29,6 @@ if ($pre_secundario->rowCount() > 0) {
 
 $_SESSION['dadosSecundario'] = $dados_secundario;
 
-//verifica se array é vazio
-if (empty($_SESSION['dadosSecundario'])) {
-    
-}
-
-echo var_dump($_SESSION['dadosSecundario']);
-
 ?>
 <!doctype html>
 <html class="no-js " lang="pt-br">
@@ -268,7 +261,7 @@ input:checked + .slider:before {
 
                             <div class="col-md-3">
                                 <?php if (empty($_SESSION['dadosSecundario'])) { ?>
-                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Verifique pendndências</button>
+                                    <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="" class="btn btn-raised btn-primary waves-effect btn-round" style="background-color: #27ae60!important" disabled>Cadastre o responsável secundário</button>
                                 <?php } else { ?>
                                     <button type="button" data-id="<?= $idPrevendaAtual ?>" data-acao="2" name="btnFinaliza" class="btn btn-raised btn-primary waves-effect btn-round btAcao-finaliza" style="background-color: #27ae60!important">Finalizar pré-Cadastro</button>
                                 <?php } ?>
