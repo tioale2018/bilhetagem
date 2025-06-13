@@ -24,8 +24,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="" class="form-label">Telefone 1</label>                            
-                                    <input name="telefone1" type="text" class="form-control" placeholder="Telefone 1" value="<?= (isset($_SESSION['dadosSecundario'][0]['telefone1'])?$_SESSION['dadosSecundario'][0]['telefone1']:'') ?>" required />
+                                    <label for="" class="form-label">Telefone</label>                            
+                                    <input name="telefone" type="text" class="form-control" placeholder="Telefone" value="<?= (isset($_SESSION['dadosSecundario'][0]['telefone'])?$_SESSION['dadosSecundario'][0]['telefone']:'') ?>" required />
                                 </div>
                             </div>
                             
