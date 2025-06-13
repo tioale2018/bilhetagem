@@ -28,6 +28,13 @@ if (isset($_POST['telefone2_seguro']) && !empty($_POST['telefone2_seguro'])) {
 
 $encrypted_telefone2 = base64_decode($_POST['telefone2_seguro'] ?? '');
 $encrypted_email     = base64_decode($_POST['email_seguro'] ?? '');
+//endereco bairro e cidade
+$encrypted_endereco  = base64_decode($_POST['endereco_seguro'] ?? '');
+$encrypted_bairro    = base64_decode($_POST['bairro_seguro'] ?? '');
+$encrypted_cidade    = base64_decode($_POST['cidade_seguro'] ?? '');
+
+
+
 
 try {
     $nome  = $privateKey->decrypt($encrypted_nome);
@@ -40,6 +47,9 @@ try {
     }
     
     $email = $privateKey->decrypt($encrypted_email);
+    $endereco = $privateKey->decrypt($encrypted_endereco);
+    $bairro = $privateKey->decrypt($encrypted_bairro);
+    $cidade = $privateKey->decrypt($encrypted_cidade);
 } catch (Exception $e) {
     die ("Erro ao descriptografar: " . $e->getMessage());
 }
@@ -54,13 +64,16 @@ include('../inc/funcoes.php');
 // var_dump($_SESSION['dadosResponsavel']);
 
 // $sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, cpf=:cpf, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
-$sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, email=:email, telefone1=:telefone1, telefone2=:telefone2 where id_responsavel=:id";
+$sql_atualiza_responsavel = "update tbresponsavel set nome=:nome, email=:email, telefone1=:telefone1, telefone2=:telefone2, endereco=:endereco, bairro=:bairro, cidade=:cidade where id_responsavel=:id";
 $pre_atualiza_responsavel = $connPDO->prepare($sql_atualiza_responsavel);
 $pre_atualiza_responsavel->bindParam(':nome', $nome, PDO::PARAM_STR);
 // $pre_atualiza_responsavel->bindParam(':cpf', $cpf, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':email', $email, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':telefone1', $telefone1, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':telefone2', $telefone2, PDO::PARAM_STR);
+$pre_atualiza_responsavel->bindParam(':endereco', $endereco, PDO::PARAM_STR);
+$pre_atualiza_responsavel->bindParam(':bairro', $bairro, PDO::PARAM_STR);
+$pre_atualiza_responsavel->bindParam(':cidade', $cidade, PDO::PARAM_STR);
 $pre_atualiza_responsavel->bindParam(':id', $idresponsavel, PDO::PARAM_INT);
 $pre_atualiza_responsavel->execute();
 
