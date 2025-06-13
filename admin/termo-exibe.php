@@ -118,7 +118,24 @@ $variables = [
 */
 include_once('../inc/variaveis-termo.php');
 ?>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+        font-family: "Roboto", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+        font-variation-settings:
+            "wdth" 100;
+    }
+</style>
+</head>
+<body>
 <?= "<h2>Termo de autorização</h2>"; ?>
 <?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
@@ -170,7 +187,8 @@ include_once('../inc/variaveis-termo.php');
 </table>
 </div>
 
-
+</body>
+</html>
 <!-- <p>Responsável: {{responsavelnome}}<br>
 CPF: {{responsavelcpf}} - Tel.: {{responsaveltel1}}</p>
 <p>Participante: {{participantenome}}<br>
