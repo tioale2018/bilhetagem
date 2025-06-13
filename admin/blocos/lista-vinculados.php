@@ -158,6 +158,7 @@ $textoBtErro = 'Verifique pacotes pendentes'
 $(document).ready(function(){
     document.querySelector('#btnpagamento').dataset.numrow = '<?= $rowNum ?>';
     $('#btnpagamento').prop('disabled', <?= $travaBtEnvia ?>).text('<?= $textoBtEnvia ?>');
+    $('#btimprimetermo').prop('disabled', <?= $travaBtEnvia ?>);
 
         $('.btnModalEditaParticipante').on('click', function(){
             let i = $(this).data('idparticipante');

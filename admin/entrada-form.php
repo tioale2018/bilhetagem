@@ -305,7 +305,7 @@ input:checked + .slider:before {
 
                             <div class="col-md-3">
                                 <div class="form-group js-sweetalert">
-                                    <a target="_blank" href="termo-exibe?t=<?= 127885 ?>" class="btn btn-primary btn-xs waves-effect" title="Imprimir"><i class="material-icons">print</i></a>
+                                    <a target="_blank" href="termo-exibe?t=<?= $idprevenda ?>" class="btn btn-primary btn-xs waves-effect" title="Imprimir" id="btimprimetermo"><i class="material-icons">print</i></a>
                                     <!-- <a class="btn btn-raised btn-primary waves-effect btn-round" href="#">Imprimir Termo</a>                                -->
                                 </div>
                             </div>
@@ -564,7 +564,6 @@ if (typeof arrayBufferToBase64 === 'undefined') {
         }
     });
 
-
         
         $('body').on('click','#btnpagamento', function(event){
             let botao = $(this);
@@ -693,21 +692,6 @@ if (typeof arrayBufferToBase64 === 'undefined') {
             }
         });
 
-
-/*
-        $('input[name="telefone1"]').mask('(00) 0000-00000', {
-            onKeyPress: function(val, e, field, options) {
-                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
-                $('input[name=telefone1]').mask(mask, options);
-            }
-        });
-        $('input[name="telefone2"]').mask('(00) 0000-00000', {
-            onKeyPress: function(val, e, field, options) {
-                var mask = (val.length > 14) ? '(00) 00000-0000' : '(00) 0000-00000';
-                $('input[name=telefone2]').mask(mask, options);
-            }
-        });
-        */
     });
 </script>
 
