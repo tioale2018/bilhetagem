@@ -102,6 +102,7 @@ $nomeResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_S
 $cpfResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['cpf']) ? $_SESSION['dadosSecundario'][0]['cpf'] : '';
 $telefoneResponsavelSecundario = isset($_SESSION['dadosSecundario'][0]['telefone']) ? $_SESSION['dadosSecundario'][0]['telefone'] : '';
 
+$row_participante = $row_dados_participante[0];
 /*
 $variables = [
     'responsavelnome' => $row_dados_participante[0]['responsavelnome'],
