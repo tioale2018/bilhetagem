@@ -201,11 +201,11 @@ input:checked + .slider:before {
                                     </tr>
                                     <tr>
                                         <td>Nome:</td>
-                                        <td>{{nome}}</td>
+                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['nome'])?$_SESSION['dadosSecundario'][0]['nome']:'<span style="color: red">Não informado</span>') ?></td>
                                     </tr>
                                     <tr>
                                         <td>Telefone:</td>
-                                        <td>{{telefone1}}</td>
+                                        <td><?= (isset($_SESSION['dadosSecundario'][0]['telefone1'])?$_SESSION['dadosSecundario'][0]['telefone1']:'<span style="color: red">Não informado</span>') ?></td>
                                     </tr>
                                     <!-- <tr>
                                         <td>Participante</td>
