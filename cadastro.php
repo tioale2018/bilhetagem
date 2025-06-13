@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once("./inc/conexao.php");
+include_once("./inc/funcoes.php");
 
 if ((!isset($_SESSION['dadosResponsavel'])) || (!$_SESSION['dadosResponsavel']) ) {
     header('Location: /'.$_SESSION['hash_evento']);
