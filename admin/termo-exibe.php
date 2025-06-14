@@ -115,7 +115,7 @@ $row_prevenda = $pre_prevenda->fetch(PDO::FETCH_ASSOC);
 
 // die(var_dump($row_prevenda));
 
-    $ievento = $row_prevenda['idevento'];
+    $ievento = $row_prevenda['id_evento'];
     $sql_busca_termo = "SELECT * from tbtermo where ativo=1 and idevento=:evento";
     $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
     $pre_busca_termo->bindParam(':evento', $ievento, PDO::PARAM_INT);
