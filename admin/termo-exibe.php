@@ -246,6 +246,10 @@ body {
 </table>
 <?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
+<div style="border-top: 1px solid #000; margin-top: 20px; padding: 0 10px;">
+    <p style="text-align: center;">Assinatura do responsável principal</p>
+
+</div>
 <div >
     <?php /*
 <table style="font-size: 0.8em">
