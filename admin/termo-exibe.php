@@ -208,31 +208,31 @@ body {
     </tr>
     <tr>
         <th>CPF do responsável principal</th>
-        <td>{{cpfresponsavel}}</td>
+        <td><?= $row_buscaReponsavel['cpfresponsavel'] ?></td>
     </tr>
     <tr>
         <th>Telefone do responsável principal</th>
-        <td>{{telefoneresponsavel}}</td>
+        <td><?= $row_buscaReponsavel['telefoneresponsavel'] ?></td>
     </tr>
     <tr>
         <th>Email do responsável principal</th>
-        <td>{{emailresponsavel}}</td>
+        <td><?= $row_buscaReponsavel['emailresponsavel'] ?></td>
     </tr>
     <tr>
         <th>Endereço do responsável principal</th>
-        <td>{{enderecoresponsavel}}</td>
+        <td><?= $row_buscaReponsavel['enderecoresponsavel'] ?></td>
     </tr>
     <tr>
         <th>Nome do responsável secundário</th>
-        <td>{{nomeresponsavelsecundario}}</td>
+        <td><?= $row_buscaReponsavel['nomeresecundario'] ?></td>
     </tr>
     <tr>
         <th>CPF do responsável secundário</th>
-        <td>{{cpfresponsavelsecundario}}</td>
+        <td><?= $row_buscaReponsavel['cpfsecundario'] ?></td>
     </tr>
     <tr>
         <th>Telefone do responsável secundário</th>
-        <td>{{telefoneresponsavelsecundario}}</td>
+        <td><?= $row_buscaReponsavel['telefonesecundario'] ?></td>
     </tr>
 </table>
 <p>Participantes:</p>
