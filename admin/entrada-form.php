@@ -592,7 +592,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
 
 
         /* ****************************** */
-
+/*
         $(document).on('click', '#btimprimetermo', function(e) {
             e.preventDefault();
             var url = $(this).attr('href');
@@ -609,7 +609,7 @@ if (typeof arrayBufferToBase64 === 'undefined') {
                 setTimeout(() => { iframe.remove(); }, 1000); // Remove o iframe após imprimir
             });
         });
-
+*/
 
         /* ****************************** */
 
