@@ -224,7 +224,7 @@ body {
     </tr>
     <tr>
         <th>Nome do responsável secundário</th>
-        <td><?= $row_buscaReponsavel['nomeresecundario'] ?></td>
+        <td><?= $row_buscaReponsavel['nomesecundario'] ?></td>
     </tr>
     <tr>
         <th>CPF do responsável secundário</th>
