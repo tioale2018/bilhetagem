@@ -131,20 +131,21 @@ $row_prevenda = $pre_prevenda->fetch(PDO::FETCH_ASSOC);
 $pre_busca_termo->execute();
 $row_busca_termo = $pre_busca_termo->fetch(PDO::FETCH_ASSOC);
 
-/*
+
 $variables = [
-    'responsavelnome' => $row_participante['responsavelnome'],
-    'responsavelcpf' => $row_participante['cpf'],
-    'responsaveltel1' => $row_participante['telefone1'],
-    'participantenome' => $row_participante['participantenome'],
-    'participantenascimento' => date('d/m/Y', strtotime($row_participante['nascimento'])), 
-    'participanteidade' => calculateAge($row_participante['nascimento']),
-    'datahoje' => $row_participante['datahora_autoriza']==''?'':formatDate($row_participante['datahora_autoriza']),
+    // 'responsavelnome' => $row_participante['responsavelnome'],
+    // 'responsavelcpf' => $row_participante['cpf'],
+    // 'responsaveltel1' => $row_participante['telefone1'],
+    // 'participantenome' => $row_participante['participantenome'],
+    // 'participantenascimento' => date('d/m/Y', strtotime($row_participante['nascimento'])), 
+    // 'participanteidade' => calculateAge($row_participante['nascimento']),
+    // 'datahoje' => $row_participante['datahora_autoriza']==''?'':formatDate($row_participante['datahora_autoriza']),
+    'datahoje' => formatDate(time()),
     'cidadetermo' => ($row_busca_termo['cidadetermo']==''?'Rio de Janeiro':$row_busca_termo['cidadetermo']),
-    'empresa' => $row_busca_termo['empresa'],
-    'cnpj' => $row_busca_termo['cnpj']
+    'empresatermo' => $row_busca_termo['empresa'],
+    'cnpjtermo' => $row_busca_termo['cnpj']
 ];
-*/
+
 // include_once('../inc/variaveis-termo.php');
 ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,9 +238,13 @@ body {
         <th>Idade do participante</th>
         <td>{{idade}} Anos</td>
     </tr>
-    
+    <tr>
+        <th>Pacote</th>
+        <td>{{pacote}}</td>
+    </tr>
+
 </table>
-<?= $row_busca_termo['textotermo']; ?>
+<?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
 <div >
     <?php /*
