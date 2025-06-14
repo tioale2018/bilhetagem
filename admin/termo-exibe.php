@@ -168,6 +168,13 @@ $variables = [
        margin: 0;
        padding: 0;
    }
+   ul {
+         margin-top: 0;
+         padding-top: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+         list-style-type: none;
+   }
 body {
     margin: 0;
     padding: 0 10px;
