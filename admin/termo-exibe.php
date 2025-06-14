@@ -220,7 +220,7 @@ body {
     </tr>
     <tr>
         <th>Endereço do responsável principal</th>
-        <td><?= $row_buscaReponsavel['enderecoresponsavel'] ?></td>
+        <td><?= $row_buscaReponsavel['endereco'] . ', ' . $row_buscaReponsavel['bairro'] . ', ' . $row_buscaReponsavel['cidade'] ?></td>
     </tr>
     <tr>
         <th>Nome do responsável secundário</th>
