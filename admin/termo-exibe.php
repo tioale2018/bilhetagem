@@ -173,7 +173,7 @@ $variables = [
          padding-top: 0;
             margin-bottom: 0;
             padding-bottom: 0;
-         list-style-type: none;
+         /* list-style-type: none; */
    }
 body {
     margin: 0;
