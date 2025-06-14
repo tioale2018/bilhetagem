@@ -135,7 +135,7 @@ $row_buscaParticipantes = $pre_buscaParticipantes->fetchAll(PDO::FETCH_ASSOC);
 <style>
     * {
         /* line-height: 0.8em; */
-        font-size: 10px;
+        font-size: 9px;
         font-family: "Roboto", sans-serif;
         font-optical-sizing: auto;
         /* font-weight: normal; */
@@ -162,7 +162,7 @@ $row_buscaParticipantes = $pre_buscaParticipantes->fetchAll(PDO::FETCH_ASSOC);
    }
 body {
     margin: 0;
-    padding: 0 5px;
+    padding: 0 3px;
 }
 </style>
 </head>
