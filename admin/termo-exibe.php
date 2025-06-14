@@ -161,6 +161,15 @@ $row_buscaReponsavel = $pre_buscaReponsavel->fetch(PDO::FETCH_ASSOC);
 // die(var_dump($row_buscaReponsavel));"
 
 
+$sql_buscaParticipantes = "SELECT tbentrada.*, tbvinculados.nome, tbvinculados.nascimento
+FROM tbentrada
+inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado
+WHERE tbentrada.id_prevenda = :idprevenda";
+$pre_buscaParticipantes = $connPDO->prepare($sql_buscaParticipantes);
+$pre_buscaParticipantes->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+$pre_buscaParticipantes->execute();
+$row_buscaParticipantes = $pre_buscaParticipantes->fetchAll(PDO::FETCH_ASSOC);
+
 // include_once('../inc/variaveis-termo.php');
 ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,19 +246,20 @@ body {
 </table>
 <p>Participantes:</p>
 <table style="width: 100%">
+    <?php foreach ($row_buscaParticipantes as $row_participante) { ?>
     <tr>
         <th>Nome do participante</th>
-        <td>{{nomeparticipante}}</td>
+        <td><?= $row_participante['nome'] ?></td>
     </tr>
     <tr>
         <th>Idade do participante</th>
-        <td>{{idade}} Anos</td>
+        <td><?= $row_participante['nascimento'] ?></td>
     </tr>
     <tr>
         <th>Pacote</th>
-        <td>{{pacote}}</td>
+        <td><?= $row_participante['pct_nome'] ?></td>
     </tr>
-
+<?php } ?>
 </table>
 <?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
