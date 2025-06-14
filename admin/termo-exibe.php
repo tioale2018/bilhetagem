@@ -153,8 +153,6 @@ $variables = [
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <style>
     * {
-        margin: 0;
-        padding: 0;
         font-size: 12px;
         font-family: "Roboto", sans-serif;
         font-optical-sizing: auto;
@@ -164,6 +162,10 @@ $variables = [
             "wdth" 100;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+    }
+    p, ul {
+        margin: 0;
+        padding: 0;
     }
 body {
     margin: 0;
