@@ -118,9 +118,10 @@ $row_buscaReponsavel = $pre_buscaReponsavel->fetch(PDO::FETCH_ASSOC);
 // die(var_dump($row_buscaReponsavel));"
 
 
-$sql_buscaParticipantes = "SELECT tbentrada.*, tbvinculados.nome, tbvinculados.nascimento
+$sql_buscaParticipantes = "SELECT tbentrada.*, tbvinculados.nome, tbvinculados.nascimento, tbvinculo.descricao as descricaovinculo
 FROM tbentrada
 inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado
+inner join tbvinculo on tbvinculados.tipo=tbvinculo.id_vinculo
 WHERE tbentrada.id_prevenda = :idprevenda";
 $pre_buscaParticipantes = $connPDO->prepare($sql_buscaParticipantes);
 $pre_buscaParticipantes->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
@@ -212,6 +213,10 @@ body {
     <tr>
         <th>Idade do participante</th>
         <td><?= calculateAge($row_participante['nascimento']) . ' anos'  ?></td>
+    </tr>
+    <tr>
+        <th>Vínculo com o responsável principal</th>
+        <td><?= $row_participante['descricaovinculo'] ?></td>
     </tr>
     <tr>
         <th>Pacote</th>
