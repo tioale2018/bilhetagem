@@ -166,7 +166,6 @@ $variables = [
         -webkit-font-smoothing: antialiased;
     }
 body {
-    width: 100vw;
     margin: 0;
     padding: 0;
 }
