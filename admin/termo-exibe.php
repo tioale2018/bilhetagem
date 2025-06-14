@@ -253,7 +253,7 @@ body {
     </tr>
     <tr>
         <th>Idade do participante</th>
-        <td><?= $row_participante['nascimento'] ?></td>
+        <td><?= calculateAge($row_participante['nascimento']) . ' anos'  ?></td>
     </tr>
     <tr>
         <th>Pacote</th>
