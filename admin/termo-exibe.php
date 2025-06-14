@@ -204,7 +204,7 @@ $row_buscaParticipantes = $pre_buscaParticipantes->fetchAll(PDO::FETCH_ASSOC);
    }
 body {
     margin: 0;
-    padding: 0 10px;
+    padding: 0 5px;
 }
 </style>
 </head>
