@@ -163,6 +163,10 @@ $variables = [
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
     }
+    th, td, tr {
+        text-align: left;
+        vertical-align: top;
+    }
    p,h4 {
        margin: 0;
        padding: 0;
