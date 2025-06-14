@@ -197,6 +197,7 @@ $row_buscaParticipantes = $pre_buscaParticipantes->fetchAll(PDO::FETCH_ASSOC);
    }
    ul {
          margin-top: 0;
+            padding-left: 10px;
          padding-top: 0;
             margin-bottom: 0;
             padding-bottom: 0;
