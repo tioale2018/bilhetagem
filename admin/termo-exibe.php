@@ -146,6 +146,21 @@ $variables = [
     'cnpjtermo' => $row_busca_termo['cnpj']
 ];
 
+
+
+
+$sql_buscaReponsavel = "SELECT tbprevenda.id_prevenda, tbprevenda.data_acesso, tbprevenda.datahora_solicita, tbresponsavel.nome as nomeresponsavel, tbresponsavel.cpf as cpfresponsavel, tbresponsavel.email as emailresponsavel, tbresponsavel.telefone1 as telefoneresponsavel, tbresponsavel.endereco, tbresponsavel.bairro, tbresponsavel.cidade, tbsecundario.cpf as cpfsecundario, tbsecundario.nome as nomesecundario, tbsecundario.telefone as telefonesecundario
+FROM tbprevenda
+inner join tbresponsavel on tbresponsavel.id_responsavel=tbprevenda.id_responsavel
+inner join tbsecundario on tbsecundario.idprevenda=tbprevenda.id_prevenda
+WHERE tbsecundario.ativo=1 and tbprevenda.id_prevenda = :idprevenda";
+$pre_buscaReponsavel = $connPDO->prepare($sql_buscaReponsavel);
+$pre_buscaReponsavel->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
+$pre_buscaReponsavel->execute();
+$row_buscaReponsavel = $pre_buscaReponsavel->fetch(PDO::FETCH_ASSOC);
+// die(var_dump($row_buscaReponsavel));"
+
+
 // include_once('../inc/variaveis-termo.php');
 ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -189,7 +204,7 @@ body {
 <table style="width: 100%">
     <tr>
         <th>Nome do responsável principal</th>
-        <td>{{nomeresponsavel}}</td>
+        <td><?= $row_buscaReponsavel['nomeresponsavel'] ?></td>
     </tr>
     <tr>
         <th>CPF do responsável principal</th>
@@ -225,26 +240,6 @@ body {
     <tr>
         <th>Nome do participante</th>
         <td>{{nomeparticipante}}</td>
-    </tr>
-    <tr>
-        <th>Data de nascimento do participante</th>
-        <td>{{datanascimento}}</td>
-    </tr>
-    <tr>
-        <th>Idade do participante</th>
-        <td>{{idade}} Anos</td>
-    </tr>
-    <tr>
-        <th>Pacote</th>
-        <td>{{idade}} Anos</td>
-    </tr>
-    <tr>
-        <th>Nome do participante</th>
-        <td>{{nomeparticipante}}</td>
-    </tr>
-    <tr>
-        <th>Data de nascimento do participante</th>
-        <td>{{datanascimento}}</td>
     </tr>
     <tr>
         <th>Idade do participante</th>
