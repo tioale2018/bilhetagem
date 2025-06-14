@@ -80,15 +80,13 @@ function formatDate($timestamp) {
 include_once('./inc/conexao.php');
 include_once('./inc/funcoes-gerais.php');
 include_once('./inc/funcoes.php');
-$idprevenda  = htmlspecialchars($_GET['t'], ENT_QUOTES, 'UTF-8'); //$_GET['t'];
+$entrada  = htmlspecialchars($_GET['t'], ENT_QUOTES, 'UTF-8'); //$_GET['t'];
 /*
 $sql_buscaevento = "select * from tbevento where id_evento=".$_SESSION['evento_selecionado'];
 $pre_buscaevento = $connPDO->prepare($sql_buscaevento);
 $pre_buscaevento->execute();
 $row_buscaevento = $pre_buscaevento->fetch(PDO::FETCH_ASSOC);
 */
-
-/*
 
 $sql_participante = "SELECT tbvinculados.nome as participantenome, tbvinculados.nascimento, tbresponsavel.nome as responsavelnome, tbresponsavel.cpf, tbresponsavel.telefone1, tbentrada.datahora_autoriza FROM tbentrada
 inner join tbvinculados on tbvinculados.id_vinculado=tbentrada.id_vinculado
@@ -99,33 +97,24 @@ $pre_participante->bindParam(':entrada', $entrada, PDO::PARAM_INT);
 $pre_participante->execute();
 $row_participante = $pre_participante->fetch(PDO::FETCH_ASSOC);
 
-*/
-// $sql_deviceinfo = "SELECT * FROM device_info where id_entrada=:entrada";
-// $pre_deviceinfo = $connPDO->prepare($sql_deviceinfo);
-// $pre_deviceinfo->bindParam(':entrada', $entrada, PDO::PARAM_INT);
-// $pre_deviceinfo->execute();
 
-// if ($pre_deviceinfo->rowCount() < 1) {
+$sql_deviceinfo = "SELECT * FROM device_info where id_entrada=:entrada";
+$pre_deviceinfo = $connPDO->prepare($sql_deviceinfo);
+$pre_deviceinfo->bindParam(':entrada', $entrada, PDO::PARAM_INT);
+$pre_deviceinfo->execute();
 
-$sql_buscaPrevenda ="SELECT * FROM tbprevenda WHERE id_prevenda =:idprevenda";
-$pre_prevenda = $connPDO->prepare($sql_buscaPrevenda);
-$pre_prevenda->bindParam(':idprevenda', $idprevenda, PDO::PARAM_INT);
-$pre_prevenda->execute();
-$row_prevenda = $pre_prevenda->fetch(PDO::FETCH_ASSOC);
-
-die(var_dump($row_prevenda));
-
-    $ievento = $row_prevenda['idevento'];
+if ($pre_deviceinfo->rowCount() < 1) {
+    $ievento = $_SESSION['evento_selecionado'];
     $sql_busca_termo = "SELECT * from tbtermo where ativo=1 and idevento=:evento";
     $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
     $pre_busca_termo->bindParam(':evento', $ievento, PDO::PARAM_INT);
-// } else {
-//     $row_deviceinfo = $pre_deviceinfo->fetch(PDO::FETCH_ASSOC);
-//     $iativo = $row_deviceinfo['termoativo'];
-//     $sql_busca_termo = "SELECT * from tbtermo where idtermo=:termo";
-//     $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
-//     $pre_busca_termo->bindParam(':termo', $iativo, PDO::PARAM_INT);   
-// }
+} else {
+    $row_deviceinfo = $pre_deviceinfo->fetch(PDO::FETCH_ASSOC);
+    $iativo = $row_deviceinfo['termoativo'];
+    $sql_busca_termo = "SELECT * from tbtermo where idtermo=:termo";
+    $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
+    $pre_busca_termo->bindParam(':termo', $iativo, PDO::PARAM_INT);   
+}
 
 // $pre_busca_termo = $connPDO->prepare($sql_busca_termo);
 $pre_busca_termo->execute();
@@ -145,7 +134,7 @@ $variables = [
     'cnpj' => $row_busca_termo['cnpj']
 ];
 */
-// include_once('../inc/variaveis-termo.php');
+include_once('../inc/variaveis-termo.php');
 ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -239,10 +228,9 @@ body {
     </tr>
     
 </table>
-<?= $row_busca_termo['textotermo']; ?>
+<?= replaceVariables($row_busca_termo['textotermo'], $variables); ?>
 
 <div >
-    <?php /*
 <table style="font-size: 0.8em">
     <tr>
         <td>Data hora da autorização: </td>
@@ -288,8 +276,6 @@ body {
 
     <?php } ?>   
 </table>
-
- */ ?>
 </div>
 
 </body>
