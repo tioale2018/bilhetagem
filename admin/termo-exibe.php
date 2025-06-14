@@ -157,10 +157,9 @@ $variables = [
         font-size: 12px;
         font-family: "Roboto", sans-serif;
         font-optical-sizing: auto;
-        font-weight: normal;
+        /* font-weight: normal; */
         font-style: normal;
-        font-variation-settings:
-            "wdth" 100;
+        
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
     }
